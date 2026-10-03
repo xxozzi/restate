@@ -1,0 +1,23 @@
+# Local secrets; a deliberately sanitized example may be tracked.
+.env
+.env.*
+!.env.example
+
+# Reproducible outputs and disposable work have different lifecycles.
+/runs/
+/.scratch/
+
+# Dependencies, build products, interpreter caches, and OS metadata.
+node_modules/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.next/
+dist/
+build/
+coverage/
+.DS_Store

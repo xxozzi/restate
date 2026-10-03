@@ -1,0 +1,173 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>Relevance in Blawx with s(CASP) | Jason Morris</title><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=description content="This post describes a method that I have implemented in v1.3.15-alpha of Blawx for using abductive reasoning features of the s(CASP) programming langauge to power relevance decisions in expert systems. I&rsquo;ll try to give you a brief introduction to what problem we&rsquo;re trying to solve, how it has been solved before, how I have solved it in Blawx, and how those solutions differ.
+The Problem An expert system is a sort of application that takes a knowledge representation, in most cases a declarative logic description of a set of rules, and a question that it has been asked to answer, and then attempts to answer the question."><meta name=generator content="Hugo 0.108.0"><meta name=ROBOTS content="INDEX, FOLLOW"><link rel=stylesheet href=/ananke/css/main.min.caeb302f490e7ed845afc2606535ed8b81f64f781a4004515de2e9cd6c52cd3f.css><meta property="og:title" content="Relevance in Blawx with s(CASP)"><meta property="og:description" content="This post describes a method that I have implemented in v1.3.15-alpha of Blawx for using abductive reasoning features of the s(CASP) programming langauge to power relevance decisions in expert systems. I&rsquo;ll try to give you a brief introduction to what problem we&rsquo;re trying to solve, how it has been solved before, how I have solved it in Blawx, and how those solutions differ.
+The Problem An expert system is a sort of application that takes a knowledge representation, in most cases a declarative logic description of a set of rules, and a question that it has been asked to answer, and then attempts to answer the question."><meta property="og:type" content="article"><meta property="og:url" content="https://gauntlet173.github.io/post/2022-06-23_relevance/"><meta property="article:section" content="post"><meta property="article:published_time" content="2022-06-23T15:42:18-06:00"><meta property="article:modified_time" content="2022-06-23T15:42:18-06:00"><meta itemprop=name content="Relevance in Blawx with s(CASP)"><meta itemprop=description content="This post describes a method that I have implemented in v1.3.15-alpha of Blawx for using abductive reasoning features of the s(CASP) programming langauge to power relevance decisions in expert systems. I&rsquo;ll try to give you a brief introduction to what problem we&rsquo;re trying to solve, how it has been solved before, how I have solved it in Blawx, and how those solutions differ.
+The Problem An expert system is a sort of application that takes a knowledge representation, in most cases a declarative logic description of a set of rules, and a question that it has been asked to answer, and then attempts to answer the question."><meta itemprop=datePublished content="2022-06-23T15:42:18-06:00"><meta itemprop=dateModified content="2022-06-23T15:42:18-06:00"><meta itemprop=wordCount content="2922"><meta itemprop=keywords content><meta name=twitter:card content="summary"><meta name=twitter:title content="Relevance in Blawx with s(CASP)"><meta name=twitter:description content="This post describes a method that I have implemented in v1.3.15-alpha of Blawx for using abductive reasoning features of the s(CASP) programming langauge to power relevance decisions in expert systems. I&rsquo;ll try to give you a brief introduction to what problem we&rsquo;re trying to solve, how it has been solved before, how I have solved it in Blawx, and how those solutions differ.
+The Problem An expert system is a sort of application that takes a knowledge representation, in most cases a declarative logic description of a set of rules, and a question that it has been asked to answer, and then attempts to answer the question."></head><body class="ma0 avenir bg-near-white production"><header><div class=bg-black><nav class="pv3 ph3 ph4-ns" role=navigation><div class="flex-l justify-between items-center center"><a href=/ class="f3 fw2 hover-white no-underline white-90 dib">Jason Morris</a><div class="flex-l items-center"><ul class="pl0 mr3"><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white no-underline white-90" href=/about/ title="About Jason page">About Jason</a></li><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white no-underline white-90" href=/project/ title="Projects page">Projects</a></li><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white no-underline white-90" href=/post/ title="Rules as Code Diary page">Rules as Code Diary</a></li></ul><div class=ananke-socials><a href=https://twitter.com/RoundTableLaw target=_blank class="twitter ananke-social-link link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel=noopener aria-label="follow on Twitter——Opens in a new window"><span class=icon><svg style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:{{ .fill }}"/></svg></span><span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></span></a></div></div></div></nav></div></header><main class=pb7 role=main><article class="flex-l flex-wrap justify-between mw8 center ph3"><header class="mt4 w-100"><aside class="instapaper_ignoref b helvetica tracked">RULES AS CODE DIARY</aside><div id=sharing class="mt3 ananke-socials"><a href="https://twitter.com/share?url=https://gauntlet173.github.io/post/2022-06-23_relevance/&text=Relevance%20in%20Blawx%20with%20s%28CASP%29" class="ananke-social-link twitter no-underline" aria-label="share on Twitter"><span class=icon><svg style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:{{ .fill }}"/></svg></span></a></div><h1 class="f1 athelas mt3 mb1">Relevance in Blawx with s(CASP)</h1><time class="f6 mv4 dib tracked" datetime=2022-06-23T15:42:18-06:00>June 23, 2022</time></header><div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>This post describes a method that I have implemented in v1.3.15-alpha of Blawx for
+using abductive reasoning features of the s(CASP) programming langauge to power
+relevance decisions in expert systems. I&rsquo;ll try to give you a brief introduction
+to what problem we&rsquo;re trying to solve, how it has been solved before, how I have
+solved it in Blawx, and how those solutions differ.</p><h2 id=the-problem>The Problem</h2><p>An expert system is a sort of application that takes a knowledge representation,
+in most cases a declarative logic description of a set of rules, and a question that
+it has been asked to answer, and then attempts to answer the question. When it requires
+additional information it poses that information to the user, and continues.</p><p>&ldquo;Relevance&rdquo; in the context of an expert system is the question of drawing a distinction
+between questions worth asking, and questions not worth asking, because they cannot help
+you find an answer to a question.</p><p>For example, let&rsquo;s say there is a rule that you must be over the age of 18 and a citizen to vote.
+Let&rsquo;s also say that we know you are 16. It is not relevant whether or not you are a citizen,
+anymore. Collecting that information and adding it to what the system knows about you cannot
+possibly have any effect on what the answer is.</p><p>Note that for this discussion, I&rsquo;m presuming that what we want is at least one definitive
+answer, and we do not care how many explanations we can provide for that answer. If we want
+all the possible answers, and all the possible justifications for all of those answers, and we
+want to be able to explain both positive and negative results with all possible justifications,
+relevance can be defined with the rules alone, in the absence of any facts.</p><p>Here, what we are interested in is how can an expert system know not to ask about citizenship
+if the age is already disqualifying, for example, and just answer &ldquo;no&rdquo;.</p><h2 id=how-it-has-been-solved-before>How It Has Been Solved Before</h2><p>The earliest expert systems used an approach to relevance that was very straightforward.
+A logical encoding had a conclusion, and a list of conditions that needed to be true for
+that conclusion to hold. The software kept track of questions it had asked the user, and
+answers it had received. The conditions for the rules are checked in whatever search order
+the software uses, and if the software comes across an input that has not yet been collected
+from the user, and cannot be derived on the basis of any inputs already collected, the
+software pauses, poses that question to the user, adds the information the user provides,
+and continues.</p><p>Other, more sophisticated approaches also exist. For example, if you build an expert system
+using Oracle Policy Modelling, and you run that expert system in the debugger, the debugger
+will display a list of questions that it knows are currently relevant to the interview,
+on the basis of the information already provided. If those questions can be posed to the
+user in a screen provided by the developer, that screen is scheduled to be displayed to the user
+where it appears in the sequence of screens specified by the developer.
+If it cannot, the system automatically generates a generic interview screen that will collect that
+information, and that screen is scheduled to be displayed at the end of
+the interview.</p><p>Here, the issue of how and when the question is posed to the user is an interface detail.
+The &ldquo;relevance&rdquo; question in OPM is how does it know which questions should be displayed
+and scheduled? In OPM, the rules are set out in a declarative way, but in a unified way.
+Unlike in logic languages, where you can have two different rules for concluding the same
+thing, in OPM there can be only one rule for a given conclusion. As a result, OPM can analyse
+the tree of code, knowing that all of the relevant factors are present in that tree,
+and consider all of the factors that can be determinative of the result given the current
+information, and consider which of those factors have not yet been collected from the user.</p><p>The old-school expert system method uses a logical encoding, and sort of follows the reasoner
+as it traverses its search, stopping whenever it needs some additional information. It learns
+about the relevance of questions one at a time, and the order in which it learns them is
+dependent on the search strategy. This backward chaining method is also very similar to
+the approach used in Docassemble, which is a popular tool for building legal expert systems
+for generating legal documents.</p><p>The code analysis approach used by Oracle Policy Modelling uses a more functional style of
+encoding, and finds all the relevant inputs at the same time. This has the advantage that
+you can choose how to schedule those questions on the basis of human interface factors.</p><p>Some time ago I built a similar system in OpenFisca, a rules as code tool for microsimulations.
+However, unlike the meta-programming methods used in old expert systems and OPM, that
+method required a significant amount of additional code to make the original encoding
+capable of reporting relevant inputs, and dealing with unknown values before they are
+provided by the user.</p><h2 id=how-i-solved-it-in-blawx>How I Solved It In Blawx</h2><p>Blawx uses s(CASP), a stable-model goal directed answer set programming language with
+constraints. The way that we calculate relevance in Blawx works like this:</p><h3 id=the-interview-loop>The Interview Loop</h3><p>Much like the approach taken in tools like OPM, the relevance of additional questions is
+constantly being recalculated on the basis of additional information from the user. The
+basic loop of the interview implemented in BlawxBot is this:</p><ol><li>Contact the reasoner with the information currently known to get answers and relevant inputs.</li><li>If there is an answer, display it. Otherwise, collect a relevant input.</li><li>Repeat.</li></ol><p>Note that a relevant input includes &ldquo;there are no more answers for this type of question&rdquo;.</p><p>The specific way that BlawxBot chooses which of the relevant inputs to collect is not
+significant for our purposes, here. What is useful to understand is how BlawxBot describes
+the known information, and how Blawx describes the relevant information.</p><h3 id=the-blawx-ontology>The Blawx Ontology</h3><p>While Blawx is based on s(CASP), which allows for a generic FOL method of describing real
+world objects and their relationships to one another, Blawx places quite strict limitations
+on how the user can describe data. Users are restricted to creating &ldquo;Categories&rdquo;, which
+are represented as a unary predicate, and &ldquo;Attributes&rdquo; which are associated with categories,
+and a data type for the second parameter. The permitted data types are currently boolean,
+number, date, duration, and objects in a particular category. Attributes are represented
+in the resulting s(CASP) code as a binary predicate. &ldquo;Objects&rdquo; are then placed into categories,
+and represented as an atom applied to a unary category predicate. &ldquo;Values&rdquo; are added to an
+object&rsquo;s attributes, which is represented by a binary attribute predicate where the first
+parameter is the atom representing the object, and the second parameter is the value.</p><p>The information about what categories and attributes have been declared in the code is
+available to the expert system by contacting the <code>/onto</code> endpoint for the relevant test.
+This information is then re-used throughout the interview to generate descriptions of what
+facts are known, and to interpret the information about what inputs are relevant.</p><h3 id=how-you-describe-what-you-know-to-blawx>How You Describe What you Know To Blawx</h3><p>When the interview sends information to Blawx about what information has already been collected,
+it does so by describing the objects that have been created in each category, and the values that
+have been applied to those objects&rsquo; attributes, as might be expected.</p><p>Additionally, the interview advises the <code>/interview</code> endpoint whether the user has indicated
+that there are no additional objects in a given category, and whether for a given attribute and
+object, the user has indicated that there are no more values.</p><h3 id=how-blawx-describes-what-is-relevant>How Blawx Describes What Is Relevant</h3><p>The feedback from the <code>/interview</code> endpoint includes the answers that are already known for
+the question, if any, and also information about what categories and attributes are relevant.</p><p>The simplest way that BlawxBot uses for determining whether any questions are relevant is
+by asking whether any answers have been found. If the answer is yes, we have at least one
+good answer with at least one good explanation, and nothing else is relevant. However, this
+is an implementation detail of BlawxBot. The interview will also provide information on what
+additional questions might be relevant to find additional positive answers to the query, and
+additional explanations for those answers.</p><p>The list of relevant categories is a simple list of category names.
+If a category is included, it means that creating another object
+in that category could lead to a positive answer for the question.</p><p>If an attribute in a category is relevant, but the object&rsquo;s membership in that category
+is not logically relevant to the conclusion, the category will not be included. The list
+of relevant categories is a list of categories that are logically relevant, not relevant
+in the context of how the interview chooses to collect the information. This is designed
+to separate the interface from the reasoning to the greatest degree possible.</p><p>The list of relevant attributes is a list of binary terms that may be unground, partially ground,
+or fully ground. If an unground term is included, that indicates that the attribute is
+relevant with regard to objects in that category that have not yet been created. A fully-ground
+term indicates that whether that object has that value for that attribute is relevant. A number
+of fully-ground terms, and the absence of any partially-ground terms for the same attribute
+and object suggest that there are a limited number of values that can possibly be relevant.
+A partially-grounded term with the first parameter grounded indicates that the attribute&rsquo;s
+value is relevant for the provided object. A partially-grounded term with the second parameter
+grounded indicates that it is relevant whether any new objects have that particular value.
+Again, the presence of partially-grounded terms with the second parameter grounded, and
+the absence of an unground version of the same predicate, suggests that there are a limited
+number of potentially valid values for new objects.</p><h3 id=how-the-interview-endpoint-calculates-relevance>How the Interview Endpoint Calculates Relevance</h3><p>Now that we understand what information is sent to the <code>/interview</code> endpoint, and what
+information is returned, we can look at how, exactly, Blawx is using s(CASP)&rsquo;s advanced
+reasoning features to obtain that output.</p><h4 id=step-1-the-answer-query>Step 1: The Answer Query</h4><p>First, the interview endpoint accepts the information provided by the interview, and converts
+it into a series of s(CASP) statements about known objects and values. Then the query is
+executed for the test question, and any answers are obtained.</p><h4 id=step-2-the-relevance-query>Step 2: The Relevance Query</h4><p>Second, the interview accepts the information provided by the interview, and converts it into
+a series of s(CASP) statements about known objects and values, as well as a set of s(CASP)
+statements about unknown values. Here, we use the abducible reasoning features available in
+s(CASP), essentially telling the reasoner to impose the rule of the excluded middle on
+certain categories of statements, only considering models in which those statements are
+either known false or known true.</p><p>For example, if the interview specifies that there are two people, adam and bernice, but that
+the user has not indicated that the list of users is known to be closed, Blawx&rsquo;s interview
+endpoint will generate the following code:</p><pre tabindex=0><code>person(adam).
+person(bernice).
+#abducible person(X).
+</code></pre><p>Likewise, the interview endpoint generates abducibility statements for attributes where
+all the values have not been provided. For example, if we know bob&rsquo;s age is 40, and there
+are no other values for bob, and we do not know bernice&rsquo;s age, the interview endpoint
+will generate the following code:</p><pre tabindex=0><code>age(bob,40).
+#abducible age(bernice,X).
+-age(X,Y) :- not age(X,Y), X \= bob.
+age(X,Y) :- not -age(X,Y), X \= bob.
+</code></pre><p>Here, the first line states that bob is 40. No other possible ages will be considered.
+The second line indicates that ages will be presumed for bernice, as required.
+The third and fourth lines indicate that ages will be presumed for objects other than
+bob as required. The interview endpoint generates the list of objects to exclude
+by finding the category for the attribute, finding all of the objects in that category,
+and adding a disunity for each of those objects for which that attribute is closed.</p><p>You will note that in this scenario, the third instruction is redundant to the second.
+This is by design, as in the future we anticipate allowing the user to specify that the
+list of persons is closed, making the third instruction unnecessary, but that Bernice&rsquo;s
+age is unknown, necessitating the second instruction.</p><p>The same query is then run against the code with these additional abducibility statements
+included.</p><h4 id=step-3-analysing-results-of-the-relevance-query>Step 3: Analysing Results of the Relevance Query</h4><p>s(CASP) will return a number of models, each of which is a minimal answer set for
+a different wa of reaching the target conclusion based on the known information.</p><p>These answer sets are searched for the existence of statements that have been justified
+by s(CASP)&rsquo;s abduciblity system. That is to say, statements that s(CASP) has presumed
+in order to obtain that model. Because s(CASP)&rsquo;s answer sets are minimal, which is possible
+because of the goal-directed execution used in s(CASP), while the truth or falsehood of
+all the possible combinations of values will have been considered, the answer sets will
+contain only those statements that were material to the conclusion in that answer set.</p><p>The collection of assumed statements are then used to generate the list of relevant
+conclusions (using only the functor of the assumed term), and the list of relevant
+attributes (including the entire assumed term).</p><h2 id=how-the-solution-is-different>How the Solution Is Different</h2><p>Unlike old-school expert systems,
+which rely on asking question in the order that the inputs become relevant to the
+search, Blawx&rsquo;s relevance method will never include a question as relevant merely
+because it is relevant to the current point in the search tree, despite the fact
+that elsewhere in the search tree the known information would be sufficient.</p><p>Unlike old-school expert systems, and similar to the approach in OPM, Blawx provides
+information about all the currently relevant inputs, not just one, and allows the
+interface to do with that information as they like.</p><p>Unlike Oracle Policy Modelling, it does not
+require the user to write their code in a functional style. Blawx&rsquo;s code is
+written in a way that is structurally isomorphic to the law, which simplifies coding,
+review, and maintenance, even when the rules are defeasible. The style used in OPM requires that multiple rules
+which overrule one another be reformulated into a single function.</p><p>Unlike many systems for building expert systems, by default the method used in Blawx
+will include the goal question as one of the statements that can be presumed, and are relevant
+to pose to the user. Old-school expert systems sometimes behaved in this way, asking the goal
+question first and seeking sub-goals only if the user reported that the answer to the goal
+question was unknown. Here, because Blawx includes the goal question as relevant, but does
+not impose an order, the goal question might appear at an arbitrary place in the interface
+unless it is handled differently.</p><p>Unlike OPM, which deems the existence of an object relevant, but does not schedule questions
+about that objects properties and relationships until after the object exists, Blawx will provide,
+even at the start of the interview, information about which parts of the ontology will
+ever be relevant.</p><p>Unlike the approach that was previously used in OpenFisca, and similar to the metaprogramming
+approaches in OPM and expert systems, Blawx&rsquo;s method does not require any
+additional code from the user to calculate relevance than was provided to calculate answers.</p><p>Because s(CASP) uses goal-directed answer set programming, there are also queries that it is
+possible to calculate relevance for in Blawx that it is not possible to calculate relevance for
+in other logic-based programming languages.</p><h2 id=future-work>Future Work</h2><p>The current implementation does not have a method of distinguishing between abducibility that
+was created by the interview endpoint, and abducibility that was inherent to the code or the test
+that is being implemented. There is also a risk that for sufficiently complicated rulesets, these relevance
+queries are going to be prohibitively slow. I haven&rsquo;t stress-tested it, yet. Mitigating those
+problems is left for future work.</p><p>There are also issues remaining with the BlawxBot demonstration expert system. For instance, it does not yet use the relevance information provided
+to the fullest possible extent, because it does not yet detect when the valid values
+of an attribute for a specific object are enumerated by the reasoner, and use that information
+to customize the user interface.</p><h2 id=conclusion>Conclusion</h2><p>The method of determining the relevance of additional inputs in Blawx is probably a world&rsquo;s first.
+I don&rsquo;t think anyone has tried using goal-directed answer set programming to solve this problem
+before. This is also the only solution that I&rsquo;m aware of that provides all relevant questions
+simultaneously, and does not require the knowledge engineer to violate structural isomorphism
+between the law and its encoding.</p><p>Blawx is also the only expert system tool of which I am aware that is capable of calculating
+the relevance of all inputs at the same time, and is open source. All other tools with these
+sorts of capabilities are commercial, and tend to be extremely expensive to license.</p><ul class=pa0></ul><div class="mt6 instapaper_ignoref"></div></div><aside class="w-30-l mt6-l"><div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links"><p class="f5 b mb3">What's in this post</p><nav id=TableOfContents><ul><li><ul><li><a href=#the-problem>The Problem</a></li><li><a href=#how-it-has-been-solved-before>How It Has Been Solved Before</a></li><li><a href=#how-i-solved-it-in-blawx>How I Solved It In Blawx</a><ul><li><a href=#the-interview-loop>The Interview Loop</a></li><li><a href=#the-blawx-ontology>The Blawx Ontology</a></li><li><a href=#how-you-describe-what-you-know-to-blawx>How You Describe What you Know To Blawx</a></li><li><a href=#how-blawx-describes-what-is-relevant>How Blawx Describes What Is Relevant</a></li><li><a href=#how-the-interview-endpoint-calculates-relevance>How the Interview Endpoint Calculates Relevance</a><ul><li><a href=#step-1-the-answer-query>Step 1: The Answer Query</a></li><li><a href=#step-2-the-relevance-query>Step 2: The Relevance Query</a></li><li><a href=#step-3-analysing-results-of-the-relevance-query>Step 3: Analysing Results of the Relevance Query</a></li></ul></li></ul></li><li><a href=#how-the-solution-is-different>How the Solution Is Different</a></li><li><a href=#future-work>Future Work</a></li><li><a href=#conclusion>Conclusion</a></li></ul></li></ul></nav></div><div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links"><p class="f5 b mb3">Related</p><ul class="pa0 list"><li class=mb2><a href=/post/2022-06-16_updates/>Rules as Code, ?, Profit</a></li><li class=mb2><a href=/post/2022-03-29_blawx_v1.3/>Blawx Development Update and Other News</a></li><li class=mb2><a href=/post/2022-03-11_blawx_1.2a/>New Blawx, Rules as Code 2.0 Plenary, SMU Conference Vids Available</a></li><li class=mb2><a href=/post/2022-03-07_clean/>Introducing CLEAN - Markdown for Akoma Ntoso</a></li><li class=mb2><a href=/post/2022-02-24_blawx_progress/>Progress on Blawx, SMU Conference, Beeck Centre Rules as Code Paper</a></li><li class=mb2><a href=/post/2022-03-08_legal_docs_take_2/>Legal Documents in Blawx, Take 2</a></li><li class=mb2><a href=/post/blawx_v1/>Announcing Blawx v1.0.0-alpha</a></li><li class=mb2><a href=/post/2022-01-23_legal_docs_in_blawx/>Encoding Legal Documents in Blawx</a></li><li class=mb2><a href=/post/roundtablelaw/blawx-dev-notes-ca2bdf03cf3b/>Blawx Dev Notes</a></li><li class=mb2><a href=/post/roundtablelaw/world-logic-day-2021-bob-knows-my-name-844e99013548/>World Logic Day 2021 (Bob knows my name!)</a></li><li class=mb2><a href=/post/roundtablelaw/computational-law-diary-adding-explanations-to-blawx-bdbd3e27e366/>Adding Explanations to Blawx</a></li><li class=mb2><a href=/post/roundtablelaw/computational-law-diary-blawx-runner-up-at-atla-and-visual-interfaces-rock-904809dfbd26/>Blawx Runner Up at ATLA, and Visual Interfaces Rock</a></li><li class=mb2><a href=/post/roundtablelaw/demo-of-blawx-integration-with-docassemble-over-api-for-rules-as-code-1c631a3c24fc/>Demo of Blawx Integration with Docassemble over API for Rules as Code</a></li><li class=mb2><a href=/post/roundtablelaw/blawx-prototype-redux-29e6d7b26786/>Blawx Prototype Redux</a></li><li class=mb2><a href=/post/roundtablelaw/blawx-seeking-feedback-on-a-prototype-tool-for-encoding-law-4b167ae4e634/>Blawx: Seeking Feedback on a Prototype Tool for Encoding Law</a></li></ul></div></aside></article></main><footer class="bg-black bottom-0 w-100 pa3" role=contentinfo><div class="flex justify-between"><a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href=https://gauntlet173.github.io/>&copy; Jason Morris 2023</a><div><div class=ananke-socials><a href=https://twitter.com/RoundTableLaw target=_blank class="twitter ananke-social-link link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel=noopener aria-label="follow on Twitter——Opens in a new window"><span class=icon><svg style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:{{ .fill }}"/></svg></span><span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></span></a></div></div></div></footer></body></html>
