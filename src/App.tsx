@@ -1,180 +1,1889 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { ArrowDownToLine, ArrowRight, ArrowUpRight, BookOpen, Check, CheckCheck, ChevronDown, ChevronRight, CircleHelp, Clock3, FileText, House, Layers3, LoaderCircle, MapPin, Menu, Plus, Search, ShieldCheck, SlidersHorizontal, Sparkles, Upload, X } from 'lucide-react';
-import type { Bootstrap, ChangeReport, EvidenceQuestion, ExtractionReport, Facts, FactValue, LookupReport, Outcome, PropertyRecord, Rule, RuleResult, SourceDocument } from './contracts';
+import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  ArrowDownToLine,
+  ArrowRight,
+  ArrowUpRight,
+  BookOpen,
+  Check,
+  CheckCheck,
+  ChevronDown,
+  ChevronRight,
+  CircleHelp,
+  Clock3,
+  FileText,
+  House,
+  Layers3,
+  LoaderCircle,
+  MapPin,
+  Menu,
+  Plus,
+  Search,
+  ShieldCheck,
+  SlidersHorizontal,
+  Sparkles,
+  Upload,
+  X,
+} from "lucide-react";
+import type {
+  Bootstrap,
+  ChangeReport,
+  EvidenceQuestion,
+  ExtractionReport,
+  Facts,
+  FactValue,
+  LookupReport,
+  Outcome,
+  PropertyRecord,
+  Rule,
+  RuleResult,
+  SourceDocument,
+} from "./contracts";
 
-type View = 'property' | 'changes' | 'sources';
-const categoryNames: Record<string, string> = { rent_increase_limits: 'Rent increases', just_cause_eviction: 'Just-cause eviction', security_deposits: 'Security deposits', application_screening_fees: 'Application fees', screening_restrictions: 'Screening protections', algorithmic_rent_setting: 'Algorithmic pricing' };
-const statusNames: Record<Outcome, string> = { applies: 'Applies', unknown: 'Needs evidence', superseded: 'Superseded', not_yet_effective: 'Upcoming', pending: 'Pending', does_not_apply: 'Does not apply' };
-const pretty = (value: string) => value.replaceAll('_', ' ').replace(/^./, c => c.toUpperCase());
-const dateLabel = (date: string) => new Date(`${date.slice(0, 10)}T12:00:00`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+type View = "property" | "changes" | "sources";
+const categoryNames: Record<string, string> = {
+  rent_increase_limits: "Rent increases",
+  just_cause_eviction: "Just-cause eviction",
+  security_deposits: "Security deposits",
+  application_screening_fees: "Application fees",
+  screening_restrictions: "Screening protections",
+  algorithmic_rent_setting: "Algorithmic pricing",
+};
+const statusNames: Record<Outcome, string> = {
+  applies: "Applies",
+  unknown: "Needs evidence",
+  superseded: "Superseded",
+  not_yet_effective: "Upcoming",
+  pending: "Pending",
+  does_not_apply: "Does not apply",
+};
+const pretty = (value: string) =>
+  value.replaceAll("_", " ").replace(/^./, (c) => c.toUpperCase());
+const dateLabel = (date: string) =>
+  new Date(`${date.slice(0, 10)}T12:00:00`).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
 
 async function api<T>(path: string, options?: RequestInit): Promise<T> {
-  const response = await fetch(path, { ...options, headers: { 'Content-Type': 'application/json', ...options?.headers } });
+  const response = await fetch(path, {
+    ...options,
+    headers: { "Content-Type": "application/json", ...options?.headers },
+  });
   if (!response.ok) {
     let message = `Request failed (${response.status}). Please try again.`;
-    try { const body = await response.json(); message = body.error || body.message || message; } catch { /* The status remains useful when the response isn't JSON. */ }
+    try {
+      const body = await response.json();
+      message = body.error || body.message || message;
+    } catch {
+      /* The status remains useful when the response isn't JSON. */
+    }
     throw new Error(message);
   }
   return response.json() as Promise<T>;
 }
 
-function Status({ status }: { status: Outcome }) { return <span className={`status status-${status}`}><span />{statusNames[status]}</span>; }
-
-function BuildingSketch() {
-  return <svg className="building-sketch" viewBox="0 0 292 140" fill="none" aria-hidden="true">
-    <path d="M9 126h274M46 123V62l42-24 43 24v61M48 64h81M61 77h15v19H61zM100 77h15v19h-15zM80 104h17v20M86 36V24h12v20M137 124V22h90v102M129 22h106M144 12h76v10M150 36h16v17h-16zM180 36h16v17h-16zM210 36h9v17h-9M150 68h16v17h-16zM180 68h16v17h-16zM210 68h9v17h-9M151 102h15v21M180 102h16v21M210 102h9v21M238 124V75l21-15 21 15v49M249 87h17v17h-17z" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M27 123v-13m0 7c-22-9-14-27-1-24 14-7 23 14 1 24M243 55h30M250 47h25" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
-    <circle cx="44" cy="22" r="9" stroke="currentColor" strokeWidth="1.3" />
-  </svg>;
+function Status({ status }: { status: Outcome }) {
+  return (
+    <span className={`status status-${status}`}>
+      <span />
+      {statusNames[status]}
+    </span>
+  );
 }
 
-function PropertySearch({ properties, selected, onSelect }: { properties: PropertyRecord[]; selected?: PropertyRecord; onSelect: (id: string) => void }) {
+function BuildingSketch() {
+  return (
+    <svg
+      className="building-sketch"
+      viewBox="0 0 292 140"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M9 126h274M46 123V62l42-24 43 24v61M48 64h81M61 77h15v19H61zM100 77h15v19h-15zM80 104h17v20M86 36V24h12v20M137 124V22h90v102M129 22h106M144 12h76v10M150 36h16v17h-16zM180 36h16v17h-16zM210 36h9v17h-9M150 68h16v17h-16zM180 68h16v17h-16zM210 68h9v17h-9M151 102h15v21M180 102h16v21M210 102h9v21M238 124V75l21-15 21 15v49M249 87h17v17h-17z"
+        stroke="currentColor"
+        strokeWidth="1.3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M27 123v-13m0 7c-22-9-14-27-1-24 14-7 23 14 1 24M243 55h30M250 47h25"
+        stroke="currentColor"
+        strokeWidth="1.3"
+        strokeLinecap="round"
+      />
+      <circle cx="44" cy="22" r="9" stroke="currentColor" strokeWidth="1.3" />
+    </svg>
+  );
+}
+
+function PropertySearch({
+  properties,
+  selected,
+  onSelect,
+}: {
+  properties: PropertyRecord[];
+  selected?: PropertyRecord;
+  onSelect: (id: string) => void;
+}) {
   const [open, setOpen] = useState(false);
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [cursor, setCursor] = useState(0);
   const root = useRef<HTMLDivElement>(null);
-  const matches = useMemo(() => properties.filter(p => `${p.address} ${p.city || ''} ${p.postalCity} ${p.state} ${p.zip}`.toLowerCase().includes(query.toLowerCase())), [properties, query]);
+  const matches = useMemo(
+    () =>
+      properties.filter((p) =>
+        `${p.address} ${p.city || ""} ${p.postalCity} ${p.state} ${p.zip}`
+          .toLowerCase()
+          .includes(query.toLowerCase()),
+      ),
+    [properties, query],
+  );
   const options = matches.slice(0, 50);
-  useEffect(() => { const close = (event: MouseEvent) => { if (!root.current?.contains(event.target as Node)) setOpen(false); }; document.addEventListener('mousedown', close); return () => document.removeEventListener('mousedown', close); }, []);
-  const pick = (property: PropertyRecord) => { onSelect(property.id); setOpen(false); setQuery(''); setCursor(0); };
-  return <div className="property-search" ref={root}>
-    <MapPin size={19} className="field-icon" />
-    <div className="search-input-wrap"><label htmlFor="property-search">PROPERTY ADDRESS</label><input id="property-search" role="combobox" aria-autocomplete="list" aria-expanded={open} aria-controls="address-options" aria-activedescendant={open && options[cursor] ? `address-${options[cursor].id}` : undefined} placeholder="Search an address or city…" value={open ? query : selected ? `${selected.address}, ${selected.city || selected.postalCity}, ${selected.state}` : ''} onFocus={() => { setOpen(true); setQuery(''); }} onChange={e => { setQuery(e.target.value); setCursor(0); }} onKeyDown={e => { if (e.key === 'ArrowDown') { e.preventDefault(); setOpen(true); setCursor(i => Math.min(i + 1, options.length - 1)); } if (e.key === 'ArrowUp') { e.preventDefault(); setCursor(i => Math.max(i - 1, 0)); } if (e.key === 'Escape') setOpen(false); if (e.key === 'Enter' && open && options[cursor]) { e.preventDefault(); pick(options[cursor]); } }} /></div>
-    <ChevronDown size={17} aria-hidden="true" />
-    {open && <div className="address-menu"><div className="menu-caption">{matches.length} matching {matches.length === 1 ? 'property' : 'properties'}{matches.length > 50 ? ' · Showing first 50' : ''}</div><ul id="address-options" role="listbox">{options.map((p, i) => <li key={p.id} id={`address-${p.id}`} role="option" aria-selected={selected?.id === p.id}><button type="button" className={i === cursor ? 'focused' : ''} onMouseEnter={() => setCursor(i)} onClick={() => pick(p)}><span><strong>{p.address}</strong><small>{p.city || p.postalCity}, {p.state} {p.zip}</small></span>{selected?.id === p.id ? <Check size={17} /> : <ArrowUpRight size={16} />}</button></li>)}</ul>{options.length === 0 && <p className="menu-empty">No matching address. Try a city or ZIP code.</p>}</div>}
-  </div>;
+  useEffect(() => {
+    const close = (event: MouseEvent) => {
+      if (!root.current?.contains(event.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", close);
+    return () => document.removeEventListener("mousedown", close);
+  }, []);
+  const pick = (property: PropertyRecord) => {
+    onSelect(property.id);
+    setOpen(false);
+    setQuery("");
+    setCursor(0);
+  };
+  return (
+    <div className="property-search" ref={root}>
+      <MapPin size={19} className="field-icon" />
+      <div className="search-input-wrap">
+        <label htmlFor="property-search">PROPERTY ADDRESS</label>
+        <input
+          id="property-search"
+          role="combobox"
+          aria-autocomplete="list"
+          aria-expanded={open}
+          aria-controls="address-options"
+          aria-activedescendant={
+            open && options[cursor]
+              ? `address-${options[cursor].id}`
+              : undefined
+          }
+          placeholder="Search an address or city…"
+          value={
+            open
+              ? query
+              : selected
+                ? `${selected.address}, ${selected.city || selected.postalCity}, ${selected.state}`
+                : ""
+          }
+          onFocus={() => {
+            setOpen(true);
+            setQuery("");
+          }}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            setCursor(0);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "ArrowDown") {
+              e.preventDefault();
+              setOpen(true);
+              setCursor((i) => Math.min(i + 1, options.length - 1));
+            }
+            if (e.key === "ArrowUp") {
+              e.preventDefault();
+              setCursor((i) => Math.max(i - 1, 0));
+            }
+            if (e.key === "Escape") setOpen(false);
+            if (e.key === "Enter" && open && options[cursor]) {
+              e.preventDefault();
+              pick(options[cursor]);
+            }
+          }}
+        />
+      </div>
+      <ChevronDown size={17} aria-hidden="true" />
+      {open && (
+        <div className="address-menu">
+          <div className="menu-caption">
+            {matches.length} matching{" "}
+            {matches.length === 1 ? "property" : "properties"}
+            {matches.length > 50 ? " · Showing first 50" : ""}
+          </div>
+          <ul id="address-options" role="listbox">
+            {options.map((p, i) => (
+              <li
+                key={p.id}
+                id={`address-${p.id}`}
+                role="option"
+                aria-selected={selected?.id === p.id}
+              >
+                <button
+                  type="button"
+                  className={i === cursor ? "focused" : ""}
+                  onMouseEnter={() => setCursor(i)}
+                  onClick={() => pick(p)}
+                >
+                  <span>
+                    <strong>{p.address}</strong>
+                    <small>
+                      {p.city || p.postalCity}, {p.state} {p.zip}
+                    </small>
+                  </span>
+                  {selected?.id === p.id ? (
+                    <Check size={17} />
+                  ) : (
+                    <ArrowUpRight size={16} />
+                  )}
+                </button>
+              </li>
+            ))}
+          </ul>
+          {options.length === 0 && (
+            <p className="menu-empty">
+              No matching address. Try a city or ZIP code.
+            </p>
+          )}
+        </div>
+      )}
+    </div>
+  );
 }
 
 function App() {
   const [bootstrap, setBootstrap] = useState<Bootstrap | null>(null);
-  const [bootError, setBootError] = useState('');
-  const [view, setView] = useState<View>('property');
+  const [bootError, setBootError] = useState("");
+  const [view, setView] = useState<View>("property");
   const [mobileNav, setMobileNav] = useState(false);
-  const [addressId, setAddressId] = useState('');
-  const [asOf, setAsOf] = useState('');
+  const [addressId, setAddressId] = useState("");
+  const [asOf, setAsOf] = useState("");
   const [facts, setFacts] = useState<Facts>({});
   const [report, setReport] = useState<LookupReport | null>(null);
   const [baseline, setBaseline] = useState<LookupReport | null>(null);
   const [lookupLoading, setLookupLoading] = useState(false);
-  const [lookupError, setLookupError] = useState('');
-  const [selectedRule, setSelectedRule] = useState('');
-  const [resultFilter, setResultFilter] = useState('all');
+  const [lookupError, setLookupError] = useState("");
+  const [selectedRule, setSelectedRule] = useState("");
+  const [resultFilter, setResultFilter] = useState("all");
   const [sourceId, setSourceId] = useState<string | null>(null);
   const [exportOpen, setExportOpen] = useState(false);
   const [refresh, setRefresh] = useState(0);
-  const reload = () => api<Bootstrap>('/api/bootstrap').then(data => { setBootstrap(data); setAddressId(old => old || data.defaultAddressId); setAsOf(old => old || data.defaultAsOf); setBootError(''); }).catch(error => setBootError(error.message));
-  useEffect(() => { void reload(); }, []);
+  const reload = () =>
+    api<Bootstrap>("/api/bootstrap")
+      .then((data) => {
+        setBootstrap(data);
+        setAddressId((old) => old || data.defaultAddressId);
+        setAsOf((old) => old || data.defaultAsOf);
+        setBootError("");
+      })
+      .catch((error) => setBootError(error.message));
+  useEffect(() => {
+    void reload();
+  }, []);
   useEffect(() => {
     if (!addressId || !asOf) return;
     let live = true;
-    setLookupLoading(true); setLookupError('');
-    api<LookupReport>('/api/lookup', { method: 'POST', body: JSON.stringify({ addressId, asOf, facts }) }).then(data => { if (!live) return; setReport(data); if (!Object.keys(facts).length) setBaseline(data); setSelectedRule(previous => data.results.some(r => r.ruleId === previous) ? previous : data.results.find(r => r.result === 'unknown')?.ruleId || data.results[0]?.ruleId || ''); }).catch(error => { if (live) setLookupError(error.message); }).finally(() => { if (live) setLookupLoading(false); });
-    return () => { live = false; };
+    setLookupLoading(true);
+    setLookupError("");
+    api<LookupReport>("/api/lookup", {
+      method: "POST",
+      body: JSON.stringify({ addressId, asOf, facts }),
+    })
+      .then((data) => {
+        if (!live) return;
+        setReport(data);
+        if (!Object.keys(facts).length) setBaseline(data);
+        setSelectedRule((previous) =>
+          data.results.some((r) => r.ruleId === previous)
+            ? previous
+            : data.results.find(
+                (r) =>
+                  r.result === "unknown" &&
+                  bootstrap?.rules.find((rule) => rule.id === r.ruleId)
+                    ?.extractionMethod === "model",
+              )?.ruleId ||
+              data.results.find((r) => r.result === "unknown")?.ruleId ||
+              data.results[0]?.ruleId ||
+              "",
+        );
+      })
+      .catch((error) => {
+        if (live) setLookupError(error.message);
+      })
+      .finally(() => {
+        if (live) setLookupLoading(false);
+      });
+    return () => {
+      live = false;
+    };
   }, [addressId, asOf, facts, refresh]);
-  const currentProperty = bootstrap?.properties.find(p => p.id === addressId);
-  const navigate = (next: View) => { setView(next); setMobileNav(false); };
-  const rulesById = useMemo(() => new Map(bootstrap?.rules.map(rule => [rule.id, rule]) || []), [bootstrap]);
-  const resultRows = report?.results.filter(r => resultFilter === 'all' ? r.result !== 'does_not_apply' : resultFilter === 'horizon' ? ['pending', 'not_yet_effective'].includes(r.result) : r.result === resultFilter) || [];
-  const currentResult = report?.results.find(r => r.ruleId === selectedRule);
-  const currentRule = currentResult ? rulesById.get(currentResult.ruleId) : undefined;
-  const unknownCount = report?.results.filter(r => r.result === 'unknown').length || 0;
-  const appliesCount = report?.results.filter(r => r.result === 'applies').length || 0;
-  const upcomingCount = report?.results.filter(r => ['pending', 'not_yet_effective'].includes(r.result)).length || 0;
+  async function saveFixtures() {
+    try {
+      const fixture = await api<unknown>("/api/fixtures", {
+        method: "POST",
+        body: JSON.stringify({ addressId, asOf, facts }),
+      });
+      const objectUrl = URL.createObjectURL(
+        new Blob([JSON.stringify(fixture, null, 2)], {
+          type: "application/json",
+        }),
+      );
+      const link = document.createElement("a");
+      link.href = objectUrl;
+      link.download = `fixtures-${addressId}.json`;
+      link.click();
+      setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
+    } catch (error) {
+      setLookupError(
+        error instanceof Error ? error.message : "Could not save fixtures.",
+      );
+    }
+  }
+  const currentProperty = bootstrap?.properties.find((p) => p.id === addressId);
+  const navigate = (next: View) => {
+    setView(next);
+    setMobileNav(false);
+  };
+  const rulesById = useMemo(
+    () => new Map(bootstrap?.rules.map((rule) => [rule.id, rule]) || []),
+    [bootstrap],
+  );
+  const resultRows =
+    report?.results.filter((r) =>
+      resultFilter === "all"
+        ? r.result !== "does_not_apply"
+        : resultFilter === "horizon"
+          ? ["pending", "not_yet_effective"].includes(r.result)
+          : r.result === resultFilter,
+    ) || [];
+  resultRows.sort(
+    (a, b) =>
+      Number(rulesById.get(b.ruleId)?.extractionMethod === "model") -
+      Number(rulesById.get(a.ruleId)?.extractionMethod === "model"),
+  );
+  const currentResult = report?.results.find((r) => r.ruleId === selectedRule);
+  const currentRule = currentResult
+    ? rulesById.get(currentResult.ruleId)
+    : undefined;
+  const unknownCount =
+    report?.results.filter((r) => r.result === "unknown").length || 0;
+  const appliesCount =
+    report?.results.filter((r) => r.result === "applies").length || 0;
+  const upcomingCount =
+    report?.results.filter((r) =>
+      ["pending", "not_yet_effective"].includes(r.result),
+    ).length || 0;
 
-  return <div className="app-shell">
-    <aside className={`sidebar ${mobileNav ? 'is-open' : ''}`}>
-      <a className="wordmark" href="#" onClick={e => { e.preventDefault(); navigate('property'); }} aria-label="Restate home"><span>(R)</span>estate<span className="brand-dot">.</span></a>
-      <div className="sidebar-caption">A clearer view of housing law.</div>
-      <div className="nav-heading">YOUR WORKSPACE</div>
-      <nav aria-label="Main navigation"><button className={view === 'property' ? 'nav-item active' : 'nav-item'} onClick={() => navigate('property')}><House size={18} /><span>Property report</span><span className="nav-number">01</span></button><button className={view === 'changes' ? 'nav-item active' : 'nav-item'} onClick={() => navigate('changes')}><Layers3 size={18} /><span>What changed</span><span className="nav-number">02</span></button><button className={view === 'sources' ? 'nav-item active' : 'nav-item'} onClick={() => navigate('sources')}><BookOpen size={18} /><span>Source library</span><span className="nav-number">03</span></button></nav>
-      <div className="sidebar-bottom"><div className="sidebar-note"><span className="asterisk">✳</span><p>Good answers begin<br />with better questions.</p></div><div className="corpus-indicator"><span />{bootstrap ? `${bootstrap.stats.sources} sources in the collection` : 'Loading source collection'}</div><div className="sidebar-meta">BUILT ON EVIDENCE. OPEN TO SCRUTINY.</div></div>
-    </aside>
-    {mobileNav && <button className="nav-backdrop" aria-label="Close navigation" onClick={() => setMobileNav(false)} />}
-    <main className="main-shell">
-      <header className="topbar"><button className="icon-button mobile-menu" aria-label="Open navigation" onClick={() => setMobileNav(true)}><Menu size={20} /></button><div className="breadcrumb">WORKSPACE <ChevronRight size={12} /><span>{view === 'property' ? 'PROPERTY REPORT' : view === 'changes' ? 'WHAT CHANGED' : 'SOURCE LIBRARY'}</span></div><div className="topbar-actions"><span className="preview-label"><span />Research preview</span><div className="export-wrap"><button className="button button-quiet" disabled={!bootstrap} aria-expanded={exportOpen} onClick={() => setExportOpen(!exportOpen)}><ArrowDownToLine size={15} />Export<ChevronDown size={13} /></button>{exportOpen && <div className="export-menu">{['rules', 'lookups', 'changes'].map(kind => <a key={kind} href={`/api/export/${kind}?asOf=${encodeURIComponent(asOf)}`} download onClick={() => setExportOpen(false)}><FileText size={15} />{pretty(kind)} JSON<ArrowUpRight size={13} /></a>)}</div>}</div></div></header>
-      {!bootstrap ? <div className="initial-state">{bootError ? <><CircleHelp size={32} /><h1>The workspace couldn’t load.</h1><p>{bootError}</p><button className="button button-primary" onClick={() => void reload()}>Try again</button></> : <><LoaderCircle className="spin" size={28} /><p>Opening the evidence collection…</p></>}</div> : <>
-        {view === 'property' && <div className="page-content">
-          <section className="page-intro"><div><div className="eyebrow"><span className="little-line" />THE PROPERTY REPORT</div><h1>Know where you stand.</h1><p>Understand the rules. Find the missing facts. See the grounds.</p></div><BuildingSketch /></section>
-          <section className="property-toolbar" aria-label="Property and date selection"><PropertySearch properties={bootstrap.properties} selected={currentProperty} onSelect={id => { setAddressId(id); setFacts({}); setBaseline(null); }} /><div className="date-field"><Clock3 size={17} /><div><label htmlFor="as-of">AS OF DATE</label><input id="as-of" type="date" value={asOf} onChange={e => { if (e.target.value) { setAsOf(e.target.value); setFacts({}); setBaseline(null); } }} /></div></div></section>
-          <div className="property-context"><span><span className="context-dot" />{currentProperty?.city || 'Municipal boundary unconfirmed'}{currentProperty?.state ? `, ${currentProperty.state}` : ''}</span><span>{currentProperty?.jurisdictionMethod || 'Jurisdiction from supplied records'}</span><span className="context-record">{bootstrap.stats.addresses} records in collection</span></div>
-          {lookupError && <div className="error-banner" role="alert"><CircleHelp size={18} /><span>{lookupError}</span><button onClick={() => setRefresh(i => i + 1)}>Retry</button></div>}
-          {report?.scenario && <div className="scenario-banner"><Sparkles size={17} /><span><strong>Hypothetical scenario.</strong> You’re exploring changed facts. The original property record is untouched.</span><button onClick={() => setFacts({})}>Reset to original <X size={13} /></button></div>}
-          <div className={`report-content ${lookupLoading ? 'is-loading' : ''}`} aria-busy={lookupLoading}>
-            <section className="summary-strip" aria-label="Report summary"><button onClick={() => setResultFilter('applies')} className={resultFilter === 'applies' ? 'selected' : ''}><span className="summary-number">{appliesCount.toString().padStart(2, '0')}</span><span className="summary-text"><span><span className="summary-dot green" />Rules apply</span><small>Supported by available facts</small></span><ArrowUpRight size={17} /></button><button onClick={() => setResultFilter('unknown')} className={resultFilter === 'unknown' ? 'selected' : ''}><span className="summary-number coral">{unknownCount.toString().padStart(2, '0')}</span><span className="summary-text"><span><span className="summary-dot coral-bg" />Need more evidence</span><small>A missing fact could change things</small></span><ArrowUpRight size={17} /></button><button onClick={() => setResultFilter('horizon')}><span className="summary-number">{upcomingCount.toString().padStart(2, '0')}</span><span className="summary-text"><span><span className="summary-dot muted" />On the horizon</span><small>Upcoming or pending rules</small></span><ArrowUpRight size={17} /></button></section>
-            {(baseline?.questions.length || report?.questions.length) ? <EvidencePanel questions={baseline?.questions || report?.questions || []} facts={facts} onApply={(field, value) => setFacts(old => ({ ...old, [field]: value }))} onReset={() => setFacts({})} onSource={id => { const rule = rulesById.get(id); if (rule) setSourceId(rule.sourceId); }} loading={lookupLoading} /> : <div className="evidence-clear"><ShieldCheck size={19} /><span>{report ? 'No targeted evidence questions were generated for these evaluated rules.' : 'Checking which facts matter for this address…'}</span></div>}
-            <div className="report-grid"><section className="rules-section"><div className="section-heading"><div><span className="eyebrow">THE LEGAL PICTURE</span><h2>Rules at this address<span className="count-tag">{resultRows.length}</span></h2></div><label className="filter-select"><SlidersHorizontal size={14} /><select aria-label="Filter rules by outcome" value={resultFilter} onChange={e => setResultFilter(e.target.value)}><option value="all">Relevant rules</option><option value="applies">Applies</option><option value="unknown">Needs evidence</option><option value="horizon">Upcoming or pending</option><option value="not_yet_effective">Upcoming</option><option value="pending">Pending</option><option value="superseded">Superseded</option><option value="does_not_apply">Does not apply</option></select></label></div>
-              <div className="rule-list">{resultRows.map((result, i) => { const rule = rulesById.get(result.ruleId); return rule && <RuleCard key={rule.id} rule={rule} result={result} index={i} selected={selectedRule === rule.id} onSelect={() => setSelectedRule(rule.id)} />; })}{resultRows.length === 0 && <div className="empty-state"><FileText size={25} /><h3>{lookupLoading ? 'Reading this address…' : 'No rules in this view'}</h3><p>{resultFilter === 'all' ? 'The captured collection may not cover this property. An empty result does not establish that no laws apply.' : 'Try another outcome filter to explore the report.'}</p>{resultFilter !== 'all' && <button className="text-button" onClick={() => setResultFilter('all')}>Show relevant rules <ArrowRight size={14} /></button>}</div>}</div>
-              <p className="coverage-note"><CircleHelp size={14} />{report?.coverageNote || 'Results are limited to the captured sources and supplied property facts.'}</p>
-            </section><aside className="reasoning-panel">{currentRule && currentResult ? <RuleInspector rule={currentRule} result={currentResult} onSource={() => setSourceId(currentRule.sourceId)} /> : <div className="inspector-empty"><BookOpen size={24} /><h3>A result with its reasons.</h3><p>Select a rule to inspect its source passage and the facts behind the answer.</p></div>}</aside></div>
-            {report && <details className="property-facts"><summary><span><House size={16} />Property facts <span className="muted-text">Original supplied record</span></span><Plus size={16} /></summary><dl>{Object.entries(report.property.facts).map(([key, value]) => <div key={key}><dt>{pretty(key)}</dt><dd>{value === null ? <span className="missing-value">Not supplied</span> : String(value)}</dd></div>)}</dl><p>Property record: {report.property.source}. Postal city and municipal jurisdiction may differ.</p></details>}
+  return (
+    <div className="app-shell">
+      <aside className={`sidebar ${mobileNav ? "is-open" : ""}`}>
+        <a
+          className="wordmark"
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            navigate("property");
+          }}
+          aria-label="Restate home"
+        >
+          <span>(R)</span>estate<span className="brand-dot">.</span>
+        </a>
+        <div className="sidebar-caption">A clearer view of housing law.</div>
+        <div className="nav-heading">YOUR WORKSPACE</div>
+        <nav aria-label="Main navigation">
+          <button
+            className={view === "property" ? "nav-item active" : "nav-item"}
+            onClick={() => navigate("property")}
+          >
+            <House size={18} />
+            <span>Property report</span>
+            <span className="nav-number">01</span>
+          </button>
+          <button
+            className={view === "changes" ? "nav-item active" : "nav-item"}
+            onClick={() => navigate("changes")}
+          >
+            <Layers3 size={18} />
+            <span>What changed</span>
+            <span className="nav-number">02</span>
+          </button>
+          <button
+            className={view === "sources" ? "nav-item active" : "nav-item"}
+            onClick={() => navigate("sources")}
+          >
+            <BookOpen size={18} />
+            <span>Source library</span>
+            <span className="nav-number">03</span>
+          </button>
+        </nav>
+        <div className="sidebar-bottom">
+          <div className="sidebar-note">
+            <span className="asterisk">✳</span>
+            <p>
+              Good answers begin
+              <br />
+              with better questions.
+            </p>
           </div>
-          {lookupLoading && <div className="loading-toast" role="status"><LoaderCircle size={15} className="spin" />Evaluating source-backed rules…</div>}
-        </div>}
-        {view === 'changes' && <ChangesView bootstrap={bootstrap} onProperty={id => { setAddressId(id); setFacts({}); setBaseline(null); navigate('property'); }} onSource={ruleId => { const rule = rulesById.get(ruleId); if (rule) setSourceId(rule.sourceId); }} />}
-        {view === 'sources' && <SourcesView bootstrap={bootstrap} onSource={setSourceId} onRefresh={async () => { await reload(); setRefresh(i => i + 1); }} />}
-      </>}
-      <footer className="page-footer"><span><ShieldCheck size={13} />SOURCE-GROUNDED. BUILT FOR HUMAN REVIEW.</span><span>Research prototype · Not legal advice.</span></footer>
-    </main>
-    {sourceId && <SourceDrawer id={sourceId} onClose={() => setSourceId(null)} />}
-  </div>;
+          <div className="corpus-indicator">
+            <span />
+            {bootstrap
+              ? `${bootstrap.stats.sources} sources in the collection`
+              : "Loading source collection"}
+          </div>
+          <div className="sidebar-meta">
+            BUILT ON EVIDENCE. OPEN TO SCRUTINY.
+          </div>
+        </div>
+      </aside>
+      {mobileNav && (
+        <button
+          className="nav-backdrop"
+          aria-label="Close navigation"
+          onClick={() => setMobileNav(false)}
+        />
+      )}
+      <main className="main-shell">
+        <header className="topbar">
+          <button
+            className="icon-button mobile-menu"
+            aria-label="Open navigation"
+            onClick={() => setMobileNav(true)}
+          >
+            <Menu size={20} />
+          </button>
+          <div className="breadcrumb">
+            WORKSPACE <ChevronRight size={12} />
+            <span>
+              {view === "property"
+                ? "PROPERTY REPORT"
+                : view === "changes"
+                  ? "WHAT CHANGED"
+                  : "SOURCE LIBRARY"}
+            </span>
+          </div>
+          <div className="topbar-actions">
+            <span className="preview-label">
+              <span />
+              Research preview
+            </span>
+            <div className="export-wrap">
+              <button
+                className="button button-quiet"
+                disabled={!bootstrap}
+                aria-expanded={exportOpen}
+                onClick={() => setExportOpen(!exportOpen)}
+              >
+                <ArrowDownToLine size={15} />
+                Export
+                <ChevronDown size={13} />
+              </button>
+              {exportOpen && (
+                <div className="export-menu">
+                  {["rules", "lookups", "changes"].map((kind) => (
+                    <a
+                      key={kind}
+                      href={`/api/export/${kind}?asOf=${encodeURIComponent(asOf)}`}
+                      download
+                      onClick={() => setExportOpen(false)}
+                    >
+                      <FileText size={15} />
+                      {pretty(kind)} JSON
+                      <ArrowUpRight size={13} />
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </header>
+        {!bootstrap ? (
+          <div className="initial-state">
+            {bootError ? (
+              <>
+                <CircleHelp size={32} />
+                <h1>The workspace couldn’t load.</h1>
+                <p>{bootError}</p>
+                <button
+                  className="button button-primary"
+                  onClick={() => void reload()}
+                >
+                  Try again
+                </button>
+              </>
+            ) : (
+              <>
+                <LoaderCircle className="spin" size={28} />
+                <p>Opening the evidence collection…</p>
+              </>
+            )}
+          </div>
+        ) : (
+          <>
+            {view === "property" && (
+              <div className="page-content">
+                <section className="page-intro">
+                  <div>
+                    <div className="eyebrow">
+                      <span className="little-line" />
+                      THE PROPERTY REPORT
+                    </div>
+                    <h1>Know where you stand.</h1>
+                    <p>
+                      Understand the rules. Find the missing facts. See the
+                      grounds.
+                    </p>
+                  </div>
+                  <BuildingSketch />
+                </section>
+                <section
+                  className="property-toolbar"
+                  aria-label="Property and date selection"
+                >
+                  <PropertySearch
+                    properties={bootstrap.properties}
+                    selected={currentProperty}
+                    onSelect={(id) => {
+                      setAddressId(id);
+                      setFacts({});
+                      setBaseline(null);
+                    }}
+                  />
+                  <div className="date-field">
+                    <Clock3 size={17} />
+                    <div>
+                      <label htmlFor="as-of">AS OF DATE</label>
+                      <input
+                        id="as-of"
+                        type="date"
+                        value={asOf}
+                        onChange={(e) => {
+                          if (e.target.value) {
+                            setAsOf(e.target.value);
+                            setFacts({});
+                            setBaseline(null);
+                          }
+                        }}
+                      />
+                    </div>
+                  </div>
+                </section>
+                <div className="property-context">
+                  <span>
+                    <span className="context-dot" />
+                    {currentProperty?.city || "Municipal boundary unconfirmed"}
+                    {currentProperty?.state ? `, ${currentProperty.state}` : ""}
+                  </span>
+                  <span>
+                    {currentProperty?.jurisdictionMethod ||
+                      "Jurisdiction from supplied records"}
+                  </span>
+                  <span className="context-record">
+                    {bootstrap.stats.addresses} records in collection
+                  </span>
+                </div>
+                {lookupError && (
+                  <div className="error-banner" role="alert">
+                    <CircleHelp size={18} />
+                    <span>{lookupError}</span>
+                    <button onClick={() => setRefresh((i) => i + 1)}>
+                      Retry
+                    </button>
+                  </div>
+                )}
+                {report?.scenario && (
+                  <div className="scenario-banner">
+                    <Sparkles size={17} />
+                    <span>
+                      <strong>Hypothetical scenario.</strong> You’re exploring
+                      changed facts. The original property record is untouched.
+                    </span>
+                    <button onClick={() => setFacts({})}>
+                      Reset to original <X size={13} />
+                    </button>
+                  </div>
+                )}
+                <div
+                  className={`report-content ${lookupLoading ? "is-loading" : ""}`}
+                  aria-busy={lookupLoading}
+                >
+                  <section
+                    className="summary-strip"
+                    aria-label="Report summary"
+                  >
+                    <button
+                      onClick={() => setResultFilter("applies")}
+                      className={resultFilter === "applies" ? "selected" : ""}
+                    >
+                      <span className="summary-number">
+                        {appliesCount.toString().padStart(2, "0")}
+                      </span>
+                      <span className="summary-text">
+                        <span>
+                          <span className="summary-dot green" />
+                          Rules apply
+                        </span>
+                        <small>Supported by available facts</small>
+                      </span>
+                      <ArrowUpRight size={17} />
+                    </button>
+                    <button
+                      onClick={() => setResultFilter("unknown")}
+                      className={resultFilter === "unknown" ? "selected" : ""}
+                    >
+                      <span className="summary-number coral">
+                        {unknownCount.toString().padStart(2, "0")}
+                      </span>
+                      <span className="summary-text">
+                        <span>
+                          <span className="summary-dot coral-bg" />
+                          Need more evidence
+                        </span>
+                        <small>A missing fact could change things</small>
+                      </span>
+                      <ArrowUpRight size={17} />
+                    </button>
+                    <button onClick={() => setResultFilter("horizon")}>
+                      <span className="summary-number">
+                        {upcomingCount.toString().padStart(2, "0")}
+                      </span>
+                      <span className="summary-text">
+                        <span>
+                          <span className="summary-dot muted" />
+                          On the horizon
+                        </span>
+                        <small>Upcoming or pending rules</small>
+                      </span>
+                      <ArrowUpRight size={17} />
+                    </button>
+                  </section>
+                  {baseline?.questions.length || report?.questions.length ? (
+                    <EvidencePanel
+                      onSave={() => void saveFixtures()}
+                      questions={report?.questions || baseline?.questions || []}
+                      facts={facts}
+                      onApply={(field, value) =>
+                        setFacts((old) => ({ ...old, [field]: value }))
+                      }
+                      onReset={() => setFacts({})}
+                      onSource={(id) => {
+                        const rule = rulesById.get(id);
+                        if (rule) setSourceId(rule.sourceId);
+                      }}
+                      loading={lookupLoading}
+                    />
+                  ) : (
+                    <div className="evidence-clear">
+                      <ShieldCheck size={19} />
+                      <span>
+                        {report
+                          ? "No targeted evidence questions were generated for these evaluated rules."
+                          : "Checking which facts matter for this address…"}
+                      </span>
+                    </div>
+                  )}
+                  <div className="report-grid">
+                    <section className="rules-section">
+                      <div className="section-heading">
+                        <div>
+                          <span className="eyebrow">THE LEGAL PICTURE</span>
+                          <h2>
+                            Rules at this address
+                            <span className="count-tag">
+                              {resultRows.length}
+                            </span>
+                          </h2>
+                        </div>
+                        <label className="filter-select">
+                          <SlidersHorizontal size={14} />
+                          <select
+                            aria-label="Filter rules by outcome"
+                            value={resultFilter}
+                            onChange={(e) => setResultFilter(e.target.value)}
+                          >
+                            <option value="all">Relevant rules</option>
+                            <option value="applies">Applies</option>
+                            <option value="unknown">Needs evidence</option>
+                            <option value="horizon">Upcoming or pending</option>
+                            <option value="not_yet_effective">Upcoming</option>
+                            <option value="pending">Pending</option>
+                            <option value="superseded">Superseded</option>
+                            <option value="does_not_apply">
+                              Does not apply
+                            </option>
+                          </select>
+                        </label>
+                      </div>
+                      <div className="rule-list">
+                        {resultRows.map((result, i) => {
+                          const rule = rulesById.get(result.ruleId);
+                          return (
+                            rule && (
+                              <RuleCard
+                                key={rule.id}
+                                rule={rule}
+                                result={result}
+                                index={i}
+                                selected={selectedRule === rule.id}
+                                onSelect={() => setSelectedRule(rule.id)}
+                              />
+                            )
+                          );
+                        })}
+                        {resultRows.length === 0 && (
+                          <div className="empty-state">
+                            <FileText size={25} />
+                            <h3>
+                              {lookupLoading
+                                ? "Reading this address…"
+                                : "No rules in this view"}
+                            </h3>
+                            <p>
+                              {resultFilter === "all"
+                                ? "The captured collection may not cover this property. An empty result does not establish that no laws apply."
+                                : "Try another outcome filter to explore the report."}
+                            </p>
+                            {resultFilter !== "all" && (
+                              <button
+                                className="text-button"
+                                onClick={() => setResultFilter("all")}
+                              >
+                                Show relevant rules <ArrowRight size={14} />
+                              </button>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                      <p className="coverage-note">
+                        <CircleHelp size={14} />
+                        {report?.coverageNote ||
+                          "Results are limited to the captured sources and supplied property facts."}
+                      </p>
+                    </section>
+                    <aside className="reasoning-panel">
+                      {currentRule && currentResult ? (
+                        <RuleInspector
+                          rule={currentRule}
+                          result={currentResult}
+                          onSource={() => setSourceId(currentRule.sourceId)}
+                        />
+                      ) : (
+                        <div className="inspector-empty">
+                          <BookOpen size={24} />
+                          <h3>A result with its reasons.</h3>
+                          <p>
+                            Select a rule to inspect its source passage and the
+                            facts behind the answer.
+                          </p>
+                        </div>
+                      )}
+                    </aside>
+                  </div>
+                  {report && (
+                    <details className="property-facts">
+                      <summary>
+                        <span>
+                          <House size={16} />
+                          Property facts{" "}
+                          <span className="muted-text">
+                            Original supplied record
+                          </span>
+                        </span>
+                        <Plus size={16} />
+                      </summary>
+                      <dl>
+                        {Object.entries(report.property.facts).map(
+                          ([key, value]) => (
+                            <div key={key}>
+                              <dt>{pretty(key)}</dt>
+                              <dd>
+                                {value === null ? (
+                                  <span className="missing-value">
+                                    Not supplied
+                                  </span>
+                                ) : (
+                                  String(value)
+                                )}
+                              </dd>
+                            </div>
+                          ),
+                        )}
+                      </dl>
+                      <p>
+                        Property record: {report.property.source}. Postal city
+                        and municipal jurisdiction may differ.
+                      </p>
+                    </details>
+                  )}
+                </div>
+                {lookupLoading && (
+                  <div className="loading-toast" role="status">
+                    <LoaderCircle size={15} className="spin" />
+                    Evaluating source-backed rules…
+                  </div>
+                )}
+              </div>
+            )}
+            {view === "changes" && (
+              <ChangesView
+                bootstrap={bootstrap}
+                onProperty={(id) => {
+                  setAddressId(id);
+                  setFacts({});
+                  setBaseline(null);
+                  navigate("property");
+                }}
+                onSource={(ruleId) => {
+                  const rule = rulesById.get(ruleId);
+                  if (rule) setSourceId(rule.sourceId);
+                }}
+              />
+            )}
+            {view === "sources" && (
+              <SourcesView
+                bootstrap={bootstrap}
+                onSource={setSourceId}
+                onRefresh={async () => {
+                  await reload();
+                  setRefresh((i) => i + 1);
+                }}
+              />
+            )}
+          </>
+        )}
+        <footer className="page-footer">
+          <span>
+            <ShieldCheck size={13} />
+            SOURCE-GROUNDED. BUILT FOR HUMAN REVIEW.
+          </span>
+          <span>Research prototype · Not legal advice.</span>
+        </footer>
+      </main>
+      {sourceId && (
+        <SourceDrawer
+          id={sourceId}
+          onClose={() => setSourceId(null)}
+          liveModel={bootstrap?.capabilities.liveModel || false}
+          onRefresh={async () => {
+            await reload();
+            setRefresh((i) => i + 1);
+          }}
+        />
+      )}
+    </div>
+  );
 }
 
-function EvidencePanel({ questions, facts, onApply, onReset, onSource, loading }: { questions: EvidenceQuestion[]; facts: Facts; onApply: (field: string, value: FactValue) => void; onReset: () => void; onSource: (ruleId: string) => void; loading: boolean }) {
+function EvidencePanel({
+  onSave,
+  questions,
+  facts,
+  onApply,
+  onReset,
+  onSource,
+  loading,
+}: {
+  onSave: () => void;
+  questions: EvidenceQuestion[];
+  facts: Facts;
+  onApply: (field: string, value: FactValue) => void;
+  onReset: () => void;
+  onSource: (ruleId: string) => void;
+  loading: boolean;
+}) {
   const [index, setIndex] = useState(0);
-  const [custom, setCustom] = useState('');
+  const [custom, setCustom] = useState("");
   const question = questions[Math.min(index, questions.length - 1)];
-  useEffect(() => { setCustom(''); }, [question?.id]);
+  useEffect(() => {
+    setCustom("");
+  }, [question?.id]);
   if (!question) return null;
-  const valueType = typeof question.branches.find(branch => branch.value !== null)?.value;
-  const customValue: FactValue = valueType === 'number' ? Number(custom) : valueType === 'boolean' ? custom === 'true' : custom;
-  return <section className="evidence-panel" aria-label="Missing evidence exploration"><div className="evidence-intro"><div className="eyebrow"><span className="spark-icon">✳</span>THE QUESTION THAT MATTERS</div><h2>{question.question}</h2><p>{question.why}</p><div className="evidence-source-line"><span>{question.ruleIds.length} {question.ruleIds.length === 1 ? 'rule depends' : 'rules depend'} on this fact</span><button onClick={() => onSource(question.ruleIds[0])}>See the source <ArrowUpRight size={13} /></button></div><div className="evidence-tip"><FileText size={16} /><span>{question.suggestedEvidence}</span></div></div><div className="evidence-possibilities"><div className="possibilities-heading"><span>ONE FACT. DIFFERENT POSSIBILITIES.</span><span className="hypothetical-tag">Hypothetical</span></div><div className="branch-grid">{question.branches.map((branch, i) => <button key={`${i}-${String(branch.value)}`} className={`branch-card ${facts[question.field] === branch.value ? 'branch-selected' : ''}`} disabled={loading} onClick={() => onApply(question.field, branch.value)}><span className="branch-label">{branch.label}<span className="branch-arrow">{facts[question.field] === branch.value ? <Check size={16} /> : <ArrowUpRight size={16} />}</span></span><Status status={branch.result} /><span className="branch-explanation">{branch.explanation}</span><span className="branch-action">{facts[question.field] === branch.value ? 'Scenario selected' : 'Explore this scenario'} <ArrowRight size={13} /></span></button>)}</div><form className="custom-fact" onSubmit={e => { e.preventDefault(); if (custom !== '' && (valueType !== 'number' || Number.isFinite(customValue))) onApply(question.field, customValue); }}><label htmlFor="custom-fact">Or explore another value</label><div>{valueType === 'boolean' ? <select id="custom-fact" value={custom} onChange={e => setCustom(e.target.value)}><option value="">Select…</option><option value="true">Yes</option><option value="false">No</option></select> : <input id="custom-fact" type={valueType === 'number' ? 'number' : 'text'} value={custom} onChange={e => setCustom(e.target.value)} placeholder={question.label} step="any" />}<button type="submit" disabled={!custom || loading} aria-label="Explore custom fact"><ArrowRight size={17} /></button></div></form><div className="evidence-pagination"><span>Suggested question {Math.min(index + 1, questions.length)} of {questions.length} · Not a verified property fact</span><div>{Object.keys(facts).length > 0 && <button onClick={onReset}>Reset</button>}{questions.length > 1 && <button onClick={() => setIndex(i => (i + 1) % questions.length)}>Next question <ArrowRight size={12} /></button>}</div></div></div></section>;
+  const valueType = typeof question.branches.find(
+    (branch) => branch.value !== null,
+  )?.value;
+  const customValue: FactValue =
+    valueType === "number"
+      ? Number(custom)
+      : valueType === "boolean"
+        ? custom === "true"
+        : custom;
+  return (
+    <section
+      className="evidence-panel"
+      aria-label="Missing evidence exploration"
+    >
+      <div className="evidence-intro">
+        <div className="eyebrow">
+          <span className="spark-icon">✳</span>THE QUESTION THAT MATTERS
+        </div>
+        <h2>{question.question}</h2>
+        <p>{question.why}</p>
+        <div className="evidence-source-line">
+          <span>
+            {question.ruleIds.length}{" "}
+            {question.ruleIds.length === 1 ? "rule depends" : "rules depend"} on
+            this fact
+          </span>
+          <button onClick={() => onSource(question.ruleIds[0])}>
+            See the source <ArrowUpRight size={13} />
+          </button>
+        </div>
+        <button className="text-button fixture-button" onClick={onSave}>
+          <ArrowDownToLine size={14} />
+          Save these contrasts as regression fixtures
+        </button>
+        <div className="evidence-tip">
+          <FileText size={16} />
+          <span>{question.suggestedEvidence}</span>
+        </div>
+      </div>
+      <div className="evidence-possibilities">
+        <div className="possibilities-heading">
+          <span>ONE FACT. DIFFERENT POSSIBILITIES.</span>
+          <span className="hypothetical-tag">Hypothetical</span>
+        </div>
+        <div className="branch-grid">
+          {question.branches.map((branch, i) => (
+            <button
+              key={`${i}-${String(branch.value)}`}
+              className={`branch-card ${facts[question.field] === branch.value ? "branch-selected" : ""}`}
+              disabled={loading}
+              onClick={() => onApply(question.field, branch.value)}
+            >
+              <span className="branch-label">
+                {branch.label}
+                <span className="branch-arrow">
+                  {facts[question.field] === branch.value ? (
+                    <Check size={16} />
+                  ) : (
+                    <ArrowUpRight size={16} />
+                  )}
+                </span>
+              </span>
+              <Status status={branch.result} />
+              <span className="branch-explanation">{branch.explanation}</span>
+              <span className="branch-action">
+                {facts[question.field] === branch.value
+                  ? "Scenario selected"
+                  : "Explore this scenario"}{" "}
+                <ArrowRight size={13} />
+              </span>
+            </button>
+          ))}
+        </div>
+        <form
+          className="custom-fact"
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (
+              custom !== "" &&
+              (valueType !== "number" || Number.isFinite(customValue))
+            )
+              onApply(question.field, customValue);
+          }}
+        >
+          <label htmlFor="custom-fact">Or explore another value</label>
+          <div>
+            {valueType === "boolean" ? (
+              <select
+                id="custom-fact"
+                value={custom}
+                onChange={(e) => setCustom(e.target.value)}
+              >
+                <option value="">Select…</option>
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+              </select>
+            ) : (
+              <input
+                id="custom-fact"
+                type={valueType === "number" ? "number" : "text"}
+                value={custom}
+                onChange={(e) => setCustom(e.target.value)}
+                placeholder={question.label}
+                step="any"
+              />
+            )}
+            <button
+              type="submit"
+              disabled={!custom || loading}
+              aria-label="Explore custom fact"
+            >
+              <ArrowRight size={17} />
+            </button>
+          </div>
+        </form>
+        <div className="evidence-pagination">
+          <span>
+            Suggested question {Math.min(index + 1, questions.length)} of{" "}
+            {questions.length} · Not a verified property fact
+          </span>
+          <div>
+            {Object.keys(facts).length > 0 && (
+              <button onClick={onReset}>Reset</button>
+            )}
+            {questions.length > 1 && (
+              <button
+                onClick={() => setIndex((i) => (i + 1) % questions.length)}
+              >
+                Next question <ArrowRight size={12} />
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }
 
-function RuleCard({ rule, result, index, selected, onSelect }: { rule: Rule; result: RuleResult; index: number; selected: boolean; onSelect: () => void }) {
-  return <button className={`rule-card ${selected ? 'rule-selected' : ''}`} onClick={onSelect} aria-pressed={selected}><div className="rule-number">{String(index + 1).padStart(2, '0')}</div><div className="rule-card-content"><div className="rule-card-meta"><span>{categoryNames[rule.category] || pretty(rule.category)}</span><span className="meta-separator">/</span><span>{rule.jurisdiction}</span></div><div className="rule-title-line"><h3>{rule.title}</h3><ChevronRight size={16} /></div><p>{result.explanation}</p><div className="rule-card-footer"><Status status={result.result} /><span>{result.conflictFlag ? <><CircleHelp size={12} />Conflict requires review</> : <><FileText size={12} />{rule.citation || 'Source passage available'}</>}</span></div></div></button>;
+function RuleCard({
+  rule,
+  result,
+  index,
+  selected,
+  onSelect,
+}: {
+  rule: Rule;
+  result: RuleResult;
+  index: number;
+  selected: boolean;
+  onSelect: () => void;
+}) {
+  return (
+    <button
+      className={`rule-card ${selected ? "rule-selected" : ""}`}
+      onClick={onSelect}
+      aria-pressed={selected}
+    >
+      <div className="rule-number">{String(index + 1).padStart(2, "0")}</div>
+      <div className="rule-card-content">
+        <div className="rule-card-meta">
+          <span>{categoryNames[rule.category] || pretty(rule.category)}</span>
+          <span className="meta-separator">/</span>
+          <span>{rule.jurisdiction}</span>
+        </div>
+        <div className="rule-title-line">
+          <h3>{rule.title}</h3>
+          <ChevronRight size={16} />
+        </div>
+        <p>{result.explanation}</p>
+        <div className="rule-card-footer">
+          <Status status={result.result} />
+          <span>
+            {result.conflictFlag ? (
+              <>
+                <CircleHelp size={12} />
+                Conflict requires review
+              </>
+            ) : (
+              <>
+                <FileText size={12} />
+                {rule.citation || "Source passage available"}
+              </>
+            )}
+          </span>
+        </div>
+      </div>
+    </button>
+  );
 }
 
-function RuleInspector({ rule, result, onSource }: { rule: Rule; result: RuleResult; onSource: () => void }) {
-  return <><div className="inspector-heading"><span className="eyebrow">FOLLOW THE REASONING</span><BookOpen size={17} /></div><h3>{rule.title}</h3><div className="inspector-status"><Status status={result.result} /></div><div className="trace-list">{result.trace.map((step, i) => <div key={i} className={`trace-step trace-${step.outcome}`}><span className="trace-icon">{step.outcome === 'pass' ? <Check size={12} /> : step.outcome === 'unknown' ? <CircleHelp size={12} /> : <X size={12} />}</span><div><strong>{step.label}</strong><p>{step.detail}</p></div></div>)}</div><div className="source-quote"><span className="eyebrow">IN THE SOURCE’S WORDS</span><blockquote>“{rule.quotedSpan}”</blockquote><button onClick={onSource}><span>{rule.citation || rule.jurisdiction}</span><ArrowUpRight size={15} /></button></div><div className="extraction-note"><span className="review-dot" /><span>{rule.extractionMethod === 'model' ? 'AI-extracted' : 'Pattern-extracted'} · Awaiting human review</span></div>{rule.warnings.length > 0 && <details className="rule-warnings"><summary>{rule.warnings.length} extraction {rule.warnings.length === 1 ? 'note' : 'notes'}</summary><ul>{rule.warnings.map((warning, i) => <li key={i}>{warning}</li>)}</ul></details>}</>;
+function RuleInspector({
+  rule,
+  result,
+  onSource,
+}: {
+  rule: Rule;
+  result: RuleResult;
+  onSource: () => void;
+}) {
+  return (
+    <>
+      <div className="inspector-heading">
+        <span className="eyebrow">FOLLOW THE REASONING</span>
+        <BookOpen size={17} />
+      </div>
+      <h3>{rule.title}</h3>
+      <p className="rule-requirement">{rule.requirement}</p>
+      <div className="inspector-status">
+        <Status status={result.result} />
+      </div>
+      <div className="trace-list">
+        {result.trace.map((step, i) => (
+          <div key={i} className={`trace-step trace-${step.outcome}`}>
+            <span className="trace-icon">
+              {step.outcome === "pass" ? (
+                <Check size={12} />
+              ) : step.outcome === "unknown" ? (
+                <CircleHelp size={12} />
+              ) : (
+                <X size={12} />
+              )}
+            </span>
+            <div>
+              <strong>{step.label}</strong>
+              <p>{step.detail}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="source-quote">
+        <span className="eyebrow">IN THE SOURCE’S WORDS</span>
+        <blockquote>“{rule.quotedSpan}”</blockquote>
+        <button onClick={onSource}>
+          <span>{rule.citation || rule.jurisdiction}</span>
+          <ArrowUpRight size={15} />
+        </button>
+      </div>
+      <div className="extraction-note">
+        <span className="review-dot" />
+        <span>
+          {rule.extractionMethod === "model"
+            ? "AI-extracted"
+            : "Pattern-extracted"}{" "}
+          · Awaiting human review
+        </span>
+      </div>
+      {rule.warnings.length > 0 && (
+        <details className="rule-warnings">
+          <summary>
+            {rule.warnings.length} extraction{" "}
+            {rule.warnings.length === 1 ? "note" : "notes"}
+          </summary>
+          <ul>
+            {rule.warnings.map((warning, i) => (
+              <li key={i}>{warning}</li>
+            ))}
+          </ul>
+        </details>
+      )}
+    </>
+  );
 }
 
-function ChangesView({ bootstrap, onProperty, onSource }: { bootstrap: Bootstrap; onProperty: (id: string) => void; onSource: (id: string) => void }) {
-  const [selected, setSelected] = useState(bootstrap.changes[0]?.id || '');
+function ChangesView({
+  bootstrap,
+  onProperty,
+  onSource,
+}: {
+  bootstrap: Bootstrap;
+  onProperty: (id: string) => void;
+  onSource: (id: string) => void;
+}) {
+  const [selected, setSelected] = useState(bootstrap.changes[0]?.id || "");
   const [change, setChange] = useState<ChangeReport | null>(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  useEffect(() => { if (!selected) return; let live = true; setLoading(true); setError(''); api<ChangeReport>(`/api/changes/${encodeURIComponent(selected)}`).then(data => { if (live) setChange(data); }).catch(e => { if (live) setError(e.message); }).finally(() => { if (live) setLoading(false); }); return () => { live = false; }; }, [selected]);
-  return <div className="page-content"><section className="page-intro"><div><div className="eyebrow"><span className="little-line" />THE CHANGE LOG</div><h1>A new rule. A different picture.</h1><p>Trace a legal change from its source to the addresses it affects.</p></div><div className="intro-symbol"><Layers3 size={60} strokeWidth={1} /></div></section><div className="change-layout"><div className="change-options"><span className="eyebrow">CHOOSE A CHANGE CASE</span>{bootstrap.changes.map(item => <button className={`change-option ${selected === item.id ? 'active' : ''}`} key={item.id} onClick={() => setSelected(item.id)}><span className="change-id">{item.id}<ArrowUpRight size={15} /></span><strong>{item.title}</strong><span>{item.description}</span><small>{dateLabel(item.beforeDate)} <ArrowRight size={12} />{dateLabel(item.afterDate)}</small></button>)}{!bootstrap.changes.length && <p>No change cases are available in this collection.</p>}</div><div className="change-detail" aria-busy={loading}>{error && <div className="error-banner" role="alert">{error}</div>}{loading ? <div className="empty-state"><LoaderCircle className="spin" size={24} /><p>Comparing address outcomes…</p></div> : change ? <><div className="change-detail-heading"><span className="eyebrow">IMPACT REPORT / {change.id}</span><h2>{change.title}</h2><p>{change.notes}</p></div><div className="impact-stats"><div><strong>{change.affectedAddressIds.length}</strong><span>Addresses affected</span></div><div><strong>{change.conflictAddressIds.length}</strong><span>Conflicts to review</span></div></div><div className="date-comparison"><div><span>BEFORE</span><strong>{dateLabel(change.beforeDate)}</strong><small>{change.beforeCount} addresses with an applicable rule</small></div><ArrowRight size={21} /><div><span>AFTER</span><strong>{dateLabel(change.afterDate)}</strong><small>{change.afterCount} addresses with an applicable rule</small></div></div>{change.ruleIds.length > 0 && <div className="changed-sources"><span>Inspect the source</span>{change.ruleIds.map(id => <button key={id} onClick={() => onSource(id)}>{bootstrap.rules.find(rule => rule.id === id)?.title || id}<ArrowUpRight size={13} /></button>)}</div>}<div className="section-heading"><h3>Affected properties</h3><span className="count-tag">{change.affectedAddressIds.length}</span></div><div className="affected-list">{change.properties.filter(p => change.affectedAddressIds.includes(p.id)).map(property => <button key={property.id} onClick={() => onProperty(property.id)}><MapPin size={16} /><span><strong>{property.address}</strong><small>{property.city || property.postalCity}, {property.state} {property.zip}</small></span>{change.conflictAddressIds.includes(property.id) && <span className="small-conflict">Review conflict</span>}<ArrowUpRight size={16} /></button>)}{!change.affectedAddressIds.length && <p className="muted-text">No address outcomes changed for this case in the available collection.</p>}</div></> : <div className="empty-state"><Layers3 size={28} /><p>Select a change case to inspect its impact.</p></div>}</div></div></div>;
+  const [error, setError] = useState("");
+  useEffect(() => {
+    if (!selected) return;
+    let live = true;
+    setLoading(true);
+    setError("");
+    api<ChangeReport>(`/api/changes/${encodeURIComponent(selected)}`)
+      .then((data) => {
+        if (live) setChange(data);
+      })
+      .catch((e) => {
+        if (live) setError(e.message);
+      })
+      .finally(() => {
+        if (live) setLoading(false);
+      });
+    return () => {
+      live = false;
+    };
+  }, [selected]);
+  return (
+    <div className="page-content">
+      <section className="page-intro">
+        <div>
+          <div className="eyebrow">
+            <span className="little-line" />
+            THE CHANGE LOG
+          </div>
+          <h1>A new rule. A different picture.</h1>
+          <p>
+            Trace a legal change from its source to the addresses it affects.
+          </p>
+        </div>
+        <div className="intro-symbol">
+          <Layers3 size={60} strokeWidth={1} />
+        </div>
+      </section>
+      <div className="change-layout">
+        <div className="change-options">
+          <span className="eyebrow">CHOOSE A CHANGE CASE</span>
+          {bootstrap.changes.map((item) => (
+            <button
+              className={`change-option ${selected === item.id ? "active" : ""}`}
+              key={item.id}
+              onClick={() => setSelected(item.id)}
+            >
+              <span className="change-id">
+                {item.id}
+                <ArrowUpRight size={15} />
+              </span>
+              <strong>{item.title}</strong>
+              <span>{item.description}</span>
+              <small>
+                {dateLabel(item.beforeDate)} <ArrowRight size={12} />
+                {dateLabel(item.afterDate)}
+              </small>
+            </button>
+          ))}
+          {!bootstrap.changes.length && (
+            <p>No change cases are available in this collection.</p>
+          )}
+        </div>
+        <div className="change-detail" aria-busy={loading}>
+          {error && (
+            <div className="error-banner" role="alert">
+              {error}
+            </div>
+          )}
+          {loading ? (
+            <div className="empty-state">
+              <LoaderCircle className="spin" size={24} />
+              <p>Comparing address outcomes…</p>
+            </div>
+          ) : change ? (
+            <>
+              <div className="change-detail-heading">
+                <span className="eyebrow">IMPACT REPORT / {change.id}</span>
+                <h2>{change.title}</h2>
+                <p>{change.notes}</p>
+              </div>
+              <div className="impact-stats">
+                <div>
+                  <strong>{change.affectedAddressIds.length}</strong>
+                  <span>Addresses affected</span>
+                </div>
+                <div>
+                  <strong>{change.conflictAddressIds.length}</strong>
+                  <span>Conflicts to review</span>
+                </div>
+              </div>
+              <div className="date-comparison">
+                <div>
+                  <span>BEFORE</span>
+                  <strong>{dateLabel(change.beforeDate)}</strong>
+                  <small>
+                    {change.beforeCount} addresses with an applicable rule
+                  </small>
+                </div>
+                <ArrowRight size={21} />
+                <div>
+                  <span>AFTER</span>
+                  <strong>{dateLabel(change.afterDate)}</strong>
+                  <small>
+                    {change.afterCount} addresses with an applicable rule
+                  </small>
+                </div>
+              </div>
+              {change.ruleIds.length > 0 && (
+                <div className="changed-sources">
+                  <span>Inspect the source</span>
+                  {change.ruleIds.map((id) => (
+                    <button key={id} onClick={() => onSource(id)}>
+                      {bootstrap.rules.find((rule) => rule.id === id)?.title ||
+                        id}
+                      <ArrowUpRight size={13} />
+                    </button>
+                  ))}
+                </div>
+              )}
+              <div className="section-heading">
+                <h3>Affected properties</h3>
+                <span className="count-tag">
+                  {change.affectedAddressIds.length}
+                </span>
+              </div>
+              <div className="affected-list">
+                {change.properties
+                  .filter((p) => change.affectedAddressIds.includes(p.id))
+                  .map((property) => (
+                    <button
+                      key={property.id}
+                      onClick={() => onProperty(property.id)}
+                    >
+                      <MapPin size={16} />
+                      <span>
+                        <strong>{property.address}</strong>
+                        <small>
+                          {property.city || property.postalCity},{" "}
+                          {property.state} {property.zip}
+                        </small>
+                      </span>
+                      {change.conflictAddressIds.includes(property.id) && (
+                        <span className="small-conflict">Review conflict</span>
+                      )}
+                      <ArrowUpRight size={16} />
+                    </button>
+                  ))}
+                {!change.affectedAddressIds.length && (
+                  <p className="muted-text">
+                    No address outcomes changed for this case in the available
+                    collection.
+                  </p>
+                )}
+              </div>
+            </>
+          ) : (
+            <div className="empty-state">
+              <Layers3 size={28} />
+              <p>Select a change case to inspect its impact.</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 }
 
-function SourcesView({ bootstrap, onSource, onRefresh }: { bootstrap: Bootstrap; onSource: (id: string) => void; onRefresh: () => Promise<void> }) {
-  const [query, setQuery] = useState('');
-  const [state, setState] = useState('all');
+function SourcesView({
+  bootstrap,
+  onSource,
+  onRefresh,
+}: {
+  bootstrap: Bootstrap;
+  onSource: (id: string) => void;
+  onRefresh: () => Promise<void>;
+}) {
+  const [query, setQuery] = useState("");
+  const [state, setState] = useState("all");
   const [formOpen, setFormOpen] = useState(false);
-  const [title, setTitle] = useState('');
-  const [text, setText] = useState('');
-  const [url, setUrl] = useState('');
-  const [jurisdiction, setJurisdiction] = useState('');
-  const [sourceState, setSourceState] = useState('');
-  const [level, setLevel] = useState('city');
+  const [title, setTitle] = useState("");
+  const [text, setText] = useState("");
+  const [url, setUrl] = useState("");
+  const [jurisdiction, setJurisdiction] = useState("");
+  const [sourceState, setSourceState] = useState("");
+  const [level, setLevel] = useState("city");
   const [extracting, setExtracting] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [result, setResult] = useState<ExtractionReport | null>(null);
   const fileInput = useRef<HTMLInputElement>(null);
-  const jurisdictions = [...new Set(bootstrap.documents.map(d => d.jurisdiction))].sort();
-  const documents = bootstrap.documents.filter(d => (state === 'all' || d.jurisdiction === state) && `${d.title} ${d.jurisdiction}`.toLowerCase().includes(query.toLowerCase()));
-  const extract = async (event: React.FormEvent) => { event.preventDefault(); setExtracting(true); setError(''); setResult(null); try { const data = await api<{ rules: Rule[]; report: ExtractionReport }>('/api/extract', { method: 'POST', body: JSON.stringify({ title, text, url: url || undefined, jurisdiction: jurisdiction || undefined, state: sourceState || undefined, level }) }); setResult(data.report); await onRefresh(); } catch (e) { setError(e instanceof Error ? e.message : 'Extraction failed.'); } finally { setExtracting(false); } };
-  return <div className="page-content"><section className="page-intro"><div><div className="eyebrow"><span className="little-line" />THE SOURCE COLLECTION</div><h1>Every answer has a source.</h1><p>Every result begins here. Inspect the text, the capture, and the provenance.</p></div><button className="button button-primary" onClick={() => setFormOpen(!formOpen)}><Plus size={16} />Add a source</button></section><div className="library-summary"><div><strong>{bootstrap.stats.sources}</strong><span>Source documents</span></div><div><strong>{bootstrap.stats.capturedSources}</strong><span>Captured texts</span></div><div><strong>{bootstrap.stats.rules}</strong><span>Extracted rules</span></div><div className="extraction-mode"><span className="eyebrow">EXTRACTION MODE</span><strong>{bootstrap.extraction.mode === 'model' ? 'AI-assisted' : 'Pattern baseline'}</strong><small>{bootstrap.extraction.model || 'No model calls on page load'}</small></div></div>
-    {formOpen && <form className="source-form" onSubmit={extract}><div className="section-heading"><div><span className="eyebrow">ADD TO THE COLLECTION</span><h2>Bring your own source.</h2></div><button type="button" className="icon-button" onClick={() => setFormOpen(false)} aria-label="Close source form"><X size={20} /></button></div><p>Paste source text or upload a text file. Extracted rules remain unreviewed; check the quotation and coverage before relying on a result.</p><div className="form-grid"><label>Document title<input required value={title} onChange={e => setTitle(e.target.value)} placeholder="A descriptive source title" /></label><label>Source URL <span>(optional)</span><input type="url" value={url} onChange={e => setUrl(e.target.value)} placeholder="https://…" /></label><label>Jurisdiction<input required value={jurisdiction} onChange={e => setJurisdiction(e.target.value)} placeholder="e.g. Berkeley" /></label><label>State<input required maxLength={2} value={sourceState} onChange={e => setSourceState(e.target.value.toUpperCase())} placeholder="e.g. CA" /></label><label>Jurisdiction level<select value={level} onChange={e => setLevel(e.target.value)}><option value="city">City</option><option value="state">State</option></select></label></div><div className="source-text-heading"><label htmlFor="source-text">Source text</label><button type="button" className="text-button" onClick={() => fileInput.current?.click()}><Upload size={14} />Upload text</button><input type="file" accept=".txt,text/plain" ref={fileInput} hidden onChange={async e => { const file = e.target.files?.[0]; if (file) { if (file.size > 180_000) { setError('Please use a text file smaller than 180 KB.'); return; } setText(await file.text()); if (!title) setTitle(file.name.replace(/\.txt$/i, '')); } }} /></div><textarea id="source-text" required value={text} onChange={e => setText(e.target.value)} rows={8} placeholder="Paste the original source text, including its coverage conditions and effective dates…" /><div className="form-bottom"><p>{bootstrap.capabilities.liveModel ? 'An explicit extraction request may use the configured AI provider, subject to the server’s spending cap.' : 'Pattern extraction is available. No AI provider is currently configured.'}</p><button className="button button-primary" type="submit" disabled={extracting || !text.trim()}>{extracting ? <LoaderCircle size={15} className="spin" /> : <Sparkles size={15} />}{extracting ? 'Extracting…' : 'Extract rules'}</button></div>{error && <div className="error-banner" role="alert">{error}</div>}{result && <div className="extraction-result" role="status"><CheckCheck size={20} /><div><strong>{result.rulesExtracted} rules extracted · {result.mode === 'model' ? 'AI-assisted' : 'Pattern baseline'}</strong><p>{result.quotedRules} rules include quoted evidence. All require human review.</p>{result.warnings.map((warning, i) => <p key={i}>{warning}</p>)}</div></div>}</form>}
-    <div className="library-controls"><label className="library-search"><Search size={17} /><input aria-label="Search source documents" placeholder="Search documents or jurisdictions…" value={query} onChange={e => setQuery(e.target.value)} /></label><label className="filter-select"><SlidersHorizontal size={14} /><select aria-label="Filter sources by jurisdiction" value={state} onChange={e => setState(e.target.value)}><option value="all">All jurisdictions</option>{jurisdictions.map(item => <option key={item}>{item}</option>)}</select></label><span className="muted-text">{documents.length} documents</span></div><div className="source-table"><div className="source-table-head"><span>DOCUMENT / JURISDICTION</span><span>CAPTURE STATUS</span><span>RETRIEVED</span><span /></div>{documents.map(document => <button className="source-row" key={document.id} onClick={() => onSource(document.id)}><span className="source-title"><span className="source-file-icon"><FileText size={20} /></span><span><strong>{document.title}</strong><small>{document.jurisdiction}</small></span></span><span className="capture-status"><span />{pretty(document.captureStatus)}</span><span className="source-date">{document.retrievedAt ? dateLabel(document.retrievedAt) : 'Not recorded'}</span><ArrowUpRight size={16} /></button>)}{documents.length === 0 && <div className="empty-state"><Search size={26} /><h3>No matching documents</h3><p>Try a different keyword or jurisdiction.</p></div>}</div><p className="coverage-note"><CircleHelp size={14} />The collection is bounded. Capturing a document establishes its provenance, not the legal correctness of an extracted rule.</p></div>;
+  const jurisdictions = [
+    ...new Set(bootstrap.documents.map((d) => d.jurisdiction)),
+  ].sort();
+  const documents = bootstrap.documents.filter(
+    (d) =>
+      (state === "all" || d.jurisdiction === state) &&
+      `${d.title} ${d.jurisdiction}`
+        .toLowerCase()
+        .includes(query.toLowerCase()),
+  );
+  const extract = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setExtracting(true);
+    setError("");
+    setResult(null);
+    try {
+      const data = await api<{ rules: Rule[]; report: ExtractionReport }>(
+        "/api/extract",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            title,
+            text,
+            url: url || undefined,
+            jurisdiction: jurisdiction || undefined,
+            state: sourceState || undefined,
+            level,
+          }),
+        },
+      );
+      setResult(data.report);
+      await onRefresh();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Extraction failed.");
+    } finally {
+      setExtracting(false);
+    }
+  };
+  return (
+    <div className="page-content">
+      <section className="page-intro">
+        <div>
+          <div className="eyebrow">
+            <span className="little-line" />
+            THE SOURCE COLLECTION
+          </div>
+          <h1>Every answer has a source.</h1>
+          <p>
+            Every result begins here. Inspect the text, the capture, and the
+            provenance.
+          </p>
+        </div>
+        <button
+          className="button button-primary"
+          onClick={() => setFormOpen(!formOpen)}
+        >
+          <Plus size={16} />
+          Add a source
+        </button>
+      </section>
+      <div className="library-summary">
+        <div>
+          <strong>{bootstrap.stats.sources}</strong>
+          <span>Source documents</span>
+        </div>
+        <div>
+          <strong>{bootstrap.stats.capturedSources}</strong>
+          <span>Captured texts</span>
+        </div>
+        <div>
+          <strong>{bootstrap.stats.rules}</strong>
+          <span>Extracted rules</span>
+        </div>
+        <div className="extraction-mode">
+          <span className="eyebrow">EXTRACTION MODE</span>
+          <strong>
+            {bootstrap.extraction.mode === "model"
+              ? "AI-assisted"
+              : "Pattern baseline"}
+          </strong>
+          <small>
+            {bootstrap.extraction.model || "No model calls on page load"}
+          </small>
+        </div>
+      </div>
+      {bootstrap.budget && (
+        <p className="budget-note">
+          <ShieldCheck size={14} />
+          AI usage estimate ${bootstrap.budget.usageEstimate.toFixed(3)} · $
+          {bootstrap.budget.uncertain.toFixed(3)} retained for uncertain
+          requests · ${bootstrap.budget.remaining.toFixed(2)} remaining under
+          the ${bootstrap.budget.limit.toFixed(2)} app cap. Browsing and
+          evaluation use no paid calls.
+        </p>
+      )}
+      {formOpen && (
+        <form className="source-form" onSubmit={extract}>
+          <div className="section-heading">
+            <div>
+              <span className="eyebrow">ADD TO THE COLLECTION</span>
+              <h2>Bring your own source.</h2>
+            </div>
+            <button
+              type="button"
+              className="icon-button"
+              onClick={() => setFormOpen(false)}
+              aria-label="Close source form"
+            >
+              <X size={20} />
+            </button>
+          </div>
+          <p>
+            Paste source text or upload a text file. Extracted rules remain
+            unreviewed; check the quotation and coverage before relying on a
+            result.
+          </p>
+          <div className="form-grid">
+            <label>
+              Document title
+              <input
+                required
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="A descriptive source title"
+              />
+            </label>
+            <label>
+              Source URL <span>(optional)</span>
+              <input
+                type="url"
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
+                placeholder="https://…"
+              />
+            </label>
+            <label>
+              Jurisdiction
+              <input
+                required
+                value={jurisdiction}
+                onChange={(e) => setJurisdiction(e.target.value)}
+                placeholder="e.g. Berkeley"
+              />
+            </label>
+            <label>
+              State
+              <input
+                required
+                maxLength={2}
+                value={sourceState}
+                onChange={(e) => setSourceState(e.target.value.toUpperCase())}
+                placeholder="e.g. CA"
+              />
+            </label>
+            <label>
+              Jurisdiction level
+              <select value={level} onChange={(e) => setLevel(e.target.value)}>
+                <option value="city">City</option>
+                <option value="state">State</option>
+              </select>
+            </label>
+          </div>
+          <div className="source-text-heading">
+            <label htmlFor="source-text">Source text</label>
+            <button
+              type="button"
+              className="text-button"
+              onClick={() => fileInput.current?.click()}
+            >
+              <Upload size={14} />
+              Upload text
+            </button>
+            <input
+              type="file"
+              accept=".txt,text/plain"
+              ref={fileInput}
+              hidden
+              onChange={async (e) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  if (file.size > 180_000) {
+                    setError("Please use a text file smaller than 180 KB.");
+                    return;
+                  }
+                  setText(await file.text());
+                  if (!title) setTitle(file.name.replace(/\.txt$/i, ""));
+                }
+              }}
+            />
+          </div>
+          <textarea
+            id="source-text"
+            required
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            rows={8}
+            placeholder="Paste the original source text, including its coverage conditions and effective dates…"
+          />
+          <div className="form-bottom">
+            <p>
+              {bootstrap.capabilities.liveModel
+                ? "An explicit extraction request may use the configured AI provider, subject to the server’s spending cap."
+                : "Pattern extraction is available. No AI provider is currently configured."}
+            </p>
+            <button
+              className="button button-primary"
+              type="submit"
+              disabled={extracting || !text.trim()}
+            >
+              {extracting ? (
+                <LoaderCircle size={15} className="spin" />
+              ) : (
+                <Sparkles size={15} />
+              )}
+              {extracting ? "Extracting…" : "Extract rules"}
+            </button>
+          </div>
+          {error && (
+            <div className="error-banner" role="alert">
+              {error}
+            </div>
+          )}
+          {result && (
+            <div className="extraction-result" role="status">
+              <CheckCheck size={20} />
+              <div>
+                <strong>
+                  {result.rulesExtracted} rules extracted ·{" "}
+                  {result.mode === "model" ? "AI-assisted" : "Pattern baseline"}
+                </strong>
+                <p>
+                  {result.quotedRules} rules include quoted evidence. All
+                  require human review.
+                </p>
+                {result.warnings.map((warning, i) => (
+                  <p key={i}>{warning}</p>
+                ))}
+              </div>
+            </div>
+          )}
+        </form>
+      )}
+      <div className="library-controls">
+        <label className="library-search">
+          <Search size={17} />
+          <input
+            aria-label="Search source documents"
+            placeholder="Search documents or jurisdictions…"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        </label>
+        <label className="filter-select">
+          <SlidersHorizontal size={14} />
+          <select
+            aria-label="Filter sources by jurisdiction"
+            value={state}
+            onChange={(e) => setState(e.target.value)}
+          >
+            <option value="all">All jurisdictions</option>
+            {jurisdictions.map((item) => (
+              <option key={item}>{item}</option>
+            ))}
+          </select>
+        </label>
+        <span className="muted-text">{documents.length} documents</span>
+      </div>
+      <div className="source-table">
+        <div className="source-table-head">
+          <span>DOCUMENT / JURISDICTION</span>
+          <span>CAPTURE STATUS</span>
+          <span>RETRIEVED</span>
+          <span />
+        </div>
+        {documents.map((document) => (
+          <button
+            className="source-row"
+            key={document.id}
+            onClick={() => onSource(document.id)}
+          >
+            <span className="source-title">
+              <span className="source-file-icon">
+                <FileText size={20} />
+              </span>
+              <span>
+                <strong>{document.title}</strong>
+                <small>{document.jurisdiction}</small>
+              </span>
+            </span>
+            <span className="capture-status">
+              <span />
+              {pretty(document.captureStatus)}
+            </span>
+            <span className="source-date">
+              {document.retrievedAt
+                ? dateLabel(document.retrievedAt)
+                : "Not recorded"}
+            </span>
+            <ArrowUpRight size={16} />
+          </button>
+        ))}
+        {documents.length === 0 && (
+          <div className="empty-state">
+            <Search size={26} />
+            <h3>No matching documents</h3>
+            <p>Try a different keyword or jurisdiction.</p>
+          </div>
+        )}
+      </div>
+      <p className="coverage-note">
+        <CircleHelp size={14} />
+        The collection is bounded. Capturing a document establishes its
+        provenance, not the legal correctness of an extracted rule.
+      </p>
+    </div>
+  );
 }
 
-function SourceDrawer({ id, onClose }: { id: string; onClose: () => void }) {
+function SourceDrawer({
+  id,
+  onClose,
+  liveModel,
+  onRefresh,
+}: {
+  id: string;
+  onClose: () => void;
+  liveModel: boolean;
+  onRefresh: () => Promise<void>;
+}) {
+  const [extracting, setExtracting] = useState(false);
+  const [extractionResult, setExtractionResult] =
+    useState<ExtractionReport | null>(null);
+  async function extractSource() {
+    setExtracting(true);
+    setError("");
+    setExtractionResult(null);
+    try {
+      const response = await api<{ report: ExtractionReport }>("/api/extract", {
+        method: "POST",
+        body: JSON.stringify({ sourceId: id, useModel: liveModel }),
+      });
+      setExtractionResult(response.report);
+      await onRefresh();
+    } catch (error) {
+      setError(error instanceof Error ? error.message : "Extraction failed.");
+    } finally {
+      setExtracting(false);
+    }
+  }
   const [source, setSource] = useState<SourceDocument | null>(null);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const closeRef = useRef<HTMLButtonElement>(null);
-  useEffect(() => { let live = true; const previous = document.activeElement as HTMLElement | null; setSource(null); setError(''); api<SourceDocument>(`/api/sources/${encodeURIComponent(id)}`).then(data => { if (live) setSource(data); }).catch(e => { if (live) setError(e.message); }); closeRef.current?.focus(); const previousOverflow = document.body.style.overflow; document.body.style.overflow = 'hidden'; return () => { live = false; document.body.style.overflow = previousOverflow; previous?.focus(); }; }, [id]);
-  return <div className="drawer-backdrop" onMouseDown={e => { if (e.target === e.currentTarget) onClose(); }}><section className="source-drawer" role="dialog" aria-modal="true" aria-labelledby="source-drawer-title" onKeyDown={e => { if (e.key === 'Escape') onClose(); if (e.key === 'Tab') { const items = e.currentTarget.querySelectorAll<HTMLElement>('a[href],button:not([disabled]),input,textarea,select,[tabindex="0"]'); const first = items[0]; const last = items[items.length - 1]; if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last?.focus(); } else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first?.focus(); } } }}><div className="drawer-top"><span className="eyebrow"><BookOpen size={15} />THE ORIGINAL SOURCE</span><button ref={closeRef} className="icon-button" onClick={onClose} aria-label="Close source"><X size={21} /></button></div>{source ? <><h2 id="source-drawer-title">{source.title}</h2><p className="drawer-jurisdiction">{source.jurisdiction}</p><div className="drawer-metadata"><div><span>CAPTURE STATUS</span><strong>{pretty(source.captureStatus)}</strong></div><div><span>RETRIEVED</span><strong>{source.retrievedAt ? dateLabel(source.retrievedAt) : 'Not recorded'}</strong></div></div>{source.url && <a className="button button-outline original-source-link" href={source.url} target="_blank" rel="noopener noreferrer">Open original source<ArrowUpRight size={15} /></a>}<div className="source-text"><div className="eyebrow">CAPTURED TEXT</div>{source.text ? <pre>{source.text}</pre> : <p>No source text has been captured for this document. Open the original source to inspect it.</p>}</div><details className="source-fingerprint"><summary>Provenance & file fingerprint</summary><dl><dt>Source ID</dt><dd>{source.id}</dd><dt>File</dt><dd>{source.filename}</dd><dt>SHA-256</dt><dd>{source.sha256 || 'Not recorded'}</dd></dl></details></> : error ? <div className="empty-state" role="alert"><h2 id="source-drawer-title">Source unavailable</h2><p>{error}</p></div> : <div className="empty-state"><h2 id="source-drawer-title" className="sr-only">Loading source</h2><LoaderCircle size={24} className="spin" /><p>Opening the captured document…</p></div>}</section></div>;
+  useEffect(() => {
+    let live = true;
+    const previous = document.activeElement as HTMLElement | null;
+    setSource(null);
+    setError("");
+    api<SourceDocument>(`/api/sources/${encodeURIComponent(id)}`)
+      .then((data) => {
+        if (live) setSource(data);
+      })
+      .catch((e) => {
+        if (live) setError(e.message);
+      });
+    closeRef.current?.focus();
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      live = false;
+      document.body.style.overflow = previousOverflow;
+      previous?.focus();
+    };
+  }, [id]);
+  return (
+    <div
+      className="drawer-backdrop"
+      onMouseDown={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <section
+        className="source-drawer"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="source-drawer-title"
+        onKeyDown={(e) => {
+          if (e.key === "Escape") onClose();
+          if (e.key === "Tab") {
+            const items = e.currentTarget.querySelectorAll<HTMLElement>(
+              'a[href],button:not([disabled]),input,textarea,select,[tabindex="0"]',
+            );
+            const first = items[0];
+            const last = items[items.length - 1];
+            if (e.shiftKey && document.activeElement === first) {
+              e.preventDefault();
+              last?.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+              e.preventDefault();
+              first?.focus();
+            }
+          }
+        }}
+      >
+        <div className="drawer-top">
+          <span className="eyebrow">
+            <BookOpen size={15} />
+            THE ORIGINAL SOURCE
+          </span>
+          <button
+            ref={closeRef}
+            className="icon-button"
+            onClick={onClose}
+            aria-label="Close source"
+          >
+            <X size={21} />
+          </button>
+        </div>
+        {source ? (
+          <>
+            <h2 id="source-drawer-title">{source.title}</h2>
+            <p className="drawer-jurisdiction">{source.jurisdiction}</p>
+            <div className="drawer-metadata">
+              <div>
+                <span>CAPTURE STATUS</span>
+                <strong>{pretty(source.captureStatus)}</strong>
+              </div>
+              <div>
+                <span>RETRIEVED</span>
+                <strong>
+                  {source.retrievedAt
+                    ? dateLabel(source.retrievedAt)
+                    : "Not recorded"}
+                </strong>
+              </div>
+            </div>
+            {source.url && (
+              <a
+                className="button button-outline original-source-link"
+                href={source.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Open original source
+                <ArrowUpRight size={15} />
+              </a>
+            )}
+            {source.text && (
+              <div className="source-extraction">
+                <button
+                  className="button button-primary"
+                  disabled={extracting}
+                  onClick={() => void extractSource()}
+                >
+                  {extracting ? (
+                    <LoaderCircle size={15} className="spin" />
+                  ) : (
+                    <Sparkles size={15} />
+                  )}
+                  {extracting
+                    ? "Extracting…"
+                    : liveModel
+                      ? "Extract with AI"
+                      : "Extract candidate rules"}
+                </button>
+                <p>
+                  {liveModel
+                    ? "Uses the source cache when available; otherwise one request within the $2 application cap."
+                    : "Free pattern extraction. Results require review."}
+                </p>
+                {error && <p role="alert">{error}</p>}
+                {extractionResult && (
+                  <p role="status">
+                    {extractionResult.rulesExtracted} rules accepted ·{" "}
+                    {extractionResult.mode === "model"
+                      ? "AI-assisted"
+                      : "Pattern baseline"}
+                    . All require review.
+                  </p>
+                )}
+              </div>
+            )}
+            <div className="source-text">
+              <div className="eyebrow">CAPTURED TEXT</div>
+              {source.text ? (
+                <pre>{source.text}</pre>
+              ) : (
+                <p>
+                  No source text has been captured for this document. Open the
+                  original source to inspect it.
+                </p>
+              )}
+            </div>
+            <details className="source-fingerprint">
+              <summary>Provenance & file fingerprint</summary>
+              <dl>
+                <dt>Source ID</dt>
+                <dd>{source.id}</dd>
+                <dt>File</dt>
+                <dd>{source.filename}</dd>
+                <dt>SHA-256</dt>
+                <dd>{source.sha256 || "Not recorded"}</dd>
+              </dl>
+            </details>
+          </>
+        ) : error ? (
+          <div className="empty-state" role="alert">
+            <h2 id="source-drawer-title">Source unavailable</h2>
+            <p>{error}</p>
+          </div>
+        ) : (
+          <div className="empty-state">
+            <h2 id="source-drawer-title" className="sr-only">
+              Loading source
+            </h2>
+            <LoaderCircle size={24} className="spin" />
+            <p>Opening the captured document…</p>
+          </div>
+        )}
+      </section>
+    </div>
+  );
 }
 
 export default App;

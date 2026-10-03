@@ -1,16 +1,33 @@
 export type FactValue = string | number | boolean | null;
 export type Facts = Record<string, FactValue>;
-export type Category = 'rent_increase_limits' | 'just_cause_eviction' | 'security_deposits' | 'application_screening_fees' | 'screening_restrictions' | 'algorithmic_rent_setting';
-export type RuleStatus = 'in_force' | 'not_yet_effective' | 'pending' | 'failed';
-export type Outcome = 'applies' | 'unknown' | 'superseded' | 'not_yet_effective' | 'pending' | 'does_not_apply';
+export type Category =
+  | "rent_increase_limits"
+  | "just_cause_eviction"
+  | "security_deposits"
+  | "application_screening_fees"
+  | "screening_restrictions"
+  | "algorithmic_rent_setting";
+export type RuleStatus =
+  "in_force" | "not_yet_effective" | "pending" | "failed";
+export type Outcome =
+  | "applies"
+  | "unknown"
+  | "superseded"
+  | "not_yet_effective"
+  | "pending"
+  | "does_not_apply";
 
 export type Predicate =
-  | { op: 'all' | 'any'; args: Predicate[] }
-  | { op: 'not'; arg: Predicate }
-  | { op: 'eq' | 'neq' | 'gte' | 'gt' | 'lte' | 'lt'; field: string; value: string | number | boolean }
-  | { op: 'in'; field: string; value: (string | number)[] }
-  | { op: 'unknown'; reason: string }
-  | { op: 'always' };
+  | { op: "all" | "any"; args: Predicate[] }
+  | { op: "not"; arg: Predicate }
+  | {
+      op: "eq" | "neq" | "gte" | "gt" | "lte" | "lt";
+      field: string;
+      value: string | number | boolean;
+    }
+  | { op: "in"; field: string; value: (string | number)[] }
+  | { op: "unknown"; reason: string }
+  | { op: "always" };
 
 export interface SourceDocument {
   id: string;
@@ -43,7 +60,7 @@ export interface Rule {
   category: Category;
   jurisdiction: string;
   state: string;
-  level: 'state' | 'city';
+  level: "state" | "city";
   status: RuleStatus;
   effectiveDate: string | null;
   endDate?: string | null;
@@ -56,14 +73,18 @@ export interface Rule {
   sourceUrl: string;
   quotedSpan: string;
   quoteStart: number;
-  extractionMethod: 'model' | 'pattern';
-  reviewStatus: 'unreviewed' | 'needs_review';
+  extractionMethod: "model" | "pattern";
+  reviewStatus: "unreviewed" | "needs_review";
   supersedes?: string[];
   conflictsWith?: string[];
   warnings: string[];
 }
 
-export interface TraceStep { label: string; detail: string; outcome: 'pass' | 'fail' | 'unknown' }
+export interface TraceStep {
+  label: string;
+  detail: string;
+  outcome: "pass" | "fail" | "unknown";
+}
 export interface RuleResult {
   ruleId: string;
   result: Outcome;
@@ -80,9 +101,14 @@ export interface EvidenceQuestion {
   why: string;
   ruleIds: string[];
   suggestedEvidence: string;
-  branches: { label: string; value: FactValue; result: Outcome; explanation: string }[];
+  branches: {
+    label: string;
+    value: FactValue;
+    result: Outcome;
+    explanation: string;
+  }[];
   hypothetical: true;
-  minimality: 'suggested';
+  minimality: "suggested";
 }
 export interface LookupReport {
   property: PropertyRecord;
@@ -111,7 +137,7 @@ export interface ChangeReport extends ChangeCase {
   ruleIds: string[];
 }
 export interface ExtractionReport {
-  mode: 'model' | 'pattern';
+  mode: "model" | "pattern";
   provider: string | null;
   model: string | null;
   createdAt: string;
@@ -121,12 +147,27 @@ export interface ExtractionReport {
   warnings: string[];
 }
 export interface Bootstrap {
+  budget?: {
+    limit: number;
+    spent: number;
+    reserved: number;
+    remaining: number;
+    usageEstimate: number;
+    uncertain: number;
+  };
   properties: PropertyRecord[];
   rules: Rule[];
-  documents: Omit<SourceDocument, 'text'>[];
+  documents: Omit<SourceDocument, "text">[];
   changes: ChangeCase[];
   extraction: ExtractionReport;
-  stats: { addresses: number; cities: number; states: number; sources: number; capturedSources: number; rules: number };
+  stats: {
+    addresses: number;
+    cities: number;
+    states: number;
+    sources: number;
+    capturedSources: number;
+    rules: number;
+  };
   defaultAddressId: string;
   defaultAsOf: string;
   capabilities: { liveModel: boolean; provider: string | null };

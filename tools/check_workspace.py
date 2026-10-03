@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read-only audit of Grounds' documentation, evidence, and lean directory layout."""
+"""Read-only audit of (R)estate's documentation, evidence, and lean directory layout."""
 import argparse
 import hashlib
 import json

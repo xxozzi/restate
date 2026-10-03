@@ -1,19 +1,19 @@
-# Grounds — project guide
+# (R)estate — project guide
 
 > **Read this file first. It is the project's only authored Markdown document and its living development handoff.** Keep current decisions here, original evidence in `sources/`, executable behavior in code, and measured outcomes in run artifacts. Do not create parallel planning documents.
 
 | Current state | Value |
 |---|---|
-| Last edited | 2026-10-03 18:33 EDT / America/New_York |
-| Latest contribution | Initialized local Git on `main` and prepared the existing workspace as the initial version-control baseline. |
-| Implemented | Workspace organization, `tools/check_workspace.py`, and local Git version control. |
-| Not implemented | Application, ingestion pipeline, rule evaluator, UI, exports, deployment, and application benchmarks. No framework or model provider has been selected. |
-| Active stage | Stage 0 complete; ready for starter-package inspection. |
-| Latest validation | Workspace audit: 0 errors, 0 warnings, 16 cataloged sources. Verified ignore rules for secrets, generated runs, scratch files, and dependencies. |
-| Next development action | Obtain the complete organizer starter package, inspect its actual schemas/templates/tests, and resolve the conflicting challenge specifications described in §2. |
+| Last edited | 2026-10-03 19:49 EDT / America/New_York |
+| Latest contribution | Completed responsive app integration, validated cached live extraction, added scenario-aware regression fixture downloads, and recorded measured validation artifacts. |
+| Implemented | React/TypeScript UI, Express API, source extraction, deterministic evaluator, evidence scenarios, T1–T5 views, JSON exports, citation/schema checks, and local cost ledger. |
+| Not established | Complete legal interpretation, independent legal accuracy, official score, public deployment, and completed hackathon submission. |
+| Active stage | Working application and evidence-fixture workflow validated; source-interpretation and submission preparation remain. |
+| Latest validation | Production build passed; 36 tests passed; schema and exact-span checks 101/101; exports cover 500 addresses and T1–T5; workspace audit 0 errors/0 warnings, 97 source files. |
+| Next development action | Review and expand source interpretation, resolve California/local effective dates and missing jurisdictions, then rehearse the demo and prepare the video/method note. |
 | Deadline | **October 4, 2026, 9:00 a.m. Eastern**, supplied by the team; target completed upload by 8:30 a.m. Confirm submission mechanics with the event. |
 | Team and working style | Two humans; strong design, technical research, and MLOps; coding agents may implement substantial portions. Humans own interpretation review, integration, visual quality, and the demo. |
-| Repository status | Local Git repository initialized on `main`; no remote configured. |
+| Repository status | Git `main`, remote `origin` configured by the user as `https://github.com/xxozzi/restate.git`. Preserve existing history and user changes. No automatic push or deployment. |
 | Primary unresolved risk | The original attached challenge and linked organizer materials disagree about scoring, a surprise test, and submission materials. |
 
 **Freshness rule:** This table describes observed state, not promises. Before working, compare it with the files and current clock. Before handing off a coherent change, update the relevant body, this table, and the bottom changelog. Do not mistake a planned feature for completed work.
@@ -22,7 +22,7 @@
 
 ## 1. Goal, product, and deliberately open decisions
 
-**Build Grounds for the RealPage Rental Housing Law Navigator challenge.** For a supplied apartment address and query date, show which housing rules appear to apply, the source passage and property facts supporting each conclusion, what remains unresolved, and what changes when a law or a fact changes.
+**Build (R)estate for the RealPage Rental Housing Law Navigator challenge.** For a supplied apartment address and query date, show which housing rules appear to apply, the source passage and property facts supporting each conclusion, what remains unresolved, and what changes when a law or a fact changes.
 
 The distinctive interaction is an **evidence question**. When the answer depends on a missing property fact, explain why that fact matters through two clearly hypothetical versions of the same record. The same pair can become a regression fixture. This connects explanation, evidence collection, and testing in one inspectable object.
 
@@ -32,7 +32,7 @@ Example for interface rehearsal only: a fictional rule covers buildings with at 
 
 The selection of RealPage is a team-specific execution judgment, not a measured probability of winning. Its supplied prize sheet lists three placing opportunities. Competitor counts and quality are unknown. The previous survey of other tracks is closed unless a material blocker changes feasibility; retained source briefs permit reconsideration without maintaining competing plans.
 
-### 1.1 Three planned views
+### 1.1 Implemented interaction
 
 1. **Address report:** address selector, explicit as-of date, concise rule ledger, and an evidence drawer containing source text, retrieval date, facts used, exceptions, and reasoning.
 2. **Evidence question:** a relevant missing fact or fact set, the conclusions it influences, and contrasting hypothetical records. Label new evidence by origin; a user assertion is not an assessor-verified fact.
@@ -45,12 +45,12 @@ A sortable table is sufficient initially. Maps, voice, translation, accounts, ex
 | Decision | Current position | Resolve when |
 |---|---|---|
 | Governing challenge version | Unresolved; retain both versions and build their common requirements. | Organizer clarification becomes available. |
-| Exact input/output contracts | README-level description known; full JSON files not yet inspected. | Before parallel implementation. |
-| Framework and deployment | Prefer a familiar, small stack compatible with the starter; no selection yet. | After inspecting the package and available runtime. |
-| LLM/provider and extraction strategy | Automated, source-grounded extraction is required; provider, batching, and prompts remain open. | One real source can be tested end to end. |
-| Predicate representation | A constrained, allowlisted representation is proposed; supported operators remain to be specified. | Actual rule/schema complexity is known. |
-| Evidence-question algorithm | Bounded analysis over supported predicates first; no general solver commitment. | Core applicability evaluation works. |
-| Name and positioning | “Grounds” is the working name; availability has not been checked. | Before public branding requires it. |
+| Exact input/output contracts | Actual schema, templates, 500-address CSV, and five test definitions are local and consumed by the app. | Revisit only if organizers supply a successor. |
+| Framework and deployment | React 19, TypeScript, Vite 7, Express 5; one local process, port 5173. Deployment remains open. | User requests hosting. |
+| LLM/provider and extraction strategy | Haiku 4.5 targeted extraction; free pattern fallback, exact-quote validation and versioned cache. Default total application cap $2. | Review source fidelity before broadening model use. |
+| Predicate representation | Allowlisted JSON AST: all/any/not, comparisons, in, always, unknown; strict three-valued evaluation. | Extend only with source-supported cases and behavioral tests. |
+| Evidence-question algorithm | Bounded threshold/boolean/date alternatives and limited pairs; never claims globally minimal evidence. | Review proposed contrasts before demo. |
+| Name and positioning | User selected **(R)estate**. Trademark/domain availability has not been checked. | Before any separate commercial launch. |
 
 ## 2. Requirements and source authority
 
@@ -78,17 +78,17 @@ Do not silently choose which version supersedes the other. Keep an organizer-con
 - [Online participant guide](https://drive.google.com/file/d/1jNXi85n1CDiDRyOYwvAKEtnd_gg7lwWG/view)
 - [Online alternative brief](https://drive.google.com/file/d/1zAdVH9BBDj_FjAubZ7PnmXiGc0yUGTkd/view)
 
-**Access is incomplete:** the guide and supplement were read, but locating a file is not reading its contents. The actual schema, worked example, sample CSV, corpus manifest/text, test JSON, and submission templates must be obtained and inspected before claiming contract compliance. Do not fabricate their contents from filenames.
+**Downloaded and inspected:** all 65 files in the participant package are preserved under `sources/starter/`. The manifest contains 87 source entries: 54 supplied text captures, one capture-marked manual/403 entry without text, 23 link-only entries, and nine terms-check entries. The app accounts for all 500 sample addresses. Seven supplemental source texts supply city ordinance and Massachusetts bill/court context that was missing from the captured corpus.
 
-According to the guide, the package describes 87 source entries, a 500-address sample, three states, and ten corpus cities, with nine cities represented in the address sample. These are organizer-described counts, not an ingestion result. Captured text and links-only entries must be distinguished. See [guide §§4–5][organizer-guide] and [supplement pp. 3–4][organizer-supplement].
+**Hash discrepancy:** the 54 manifest SHA values do not match the supplied `.txt` bytes. Their original hashing scope is unknown. Preserve the manifest unchanged and use hashes computed from the actual local files in our catalog; do not report that the organizer hashes passed. The free Census batch and TIGER municipal polygons resolve 374 addresses; 126 remain unresolved. Postal city is never silently promoted to legal city.
 
-### 2.3 Provisional contract and behavior
+### 2.3 Verified file contracts and behavior
 
-The participant guide describes these exports; **replace this provisional summary with verified contracts after reading the supplied files**:
+The actual schema and submission templates are read by the application. `src/export.ts` is the sole export adapter:
 
 | Export | Described shape |
 |---|---|
-| `rules.json` | Array of rule records conforming to the supplied schema. |
+| `rules.json` | Array of records checked against the actual Draft 2020-12 schema. The template instead wraps it as `{rules: [...]}`; `?envelope=template` supports that variant explicitly. |
 | `lookups.json` | An `as_of` value and a `lookups` object mapping each address ID to rule outcomes, explanations, and conflict flags. |
 | `changes.json` | Test IDs mapped to affected-address IDs, conflict-address IDs, and notes. |
 
@@ -126,7 +126,7 @@ The organizer supplies the data/behavior constraints in [guide §§3–9][organi
 
 If time contracts, protect extraction, jurisdiction, citations, dates, unknown handling, and valid exports. The participant guide explicitly prioritizes Modules A/B before Module C when necessary ([§2][organizer-guide]); document any resulting shortfall instead of implying completion. Cut optional breadth before cutting correctness.
 
-### 3.1 Proposed technical boundaries
+### 3.1 Implemented technical boundaries
 
 The intended flow is **source bytes → candidate rules → deterministic evaluation → presentation and official exports**.
 
@@ -135,13 +135,13 @@ The intended flow is **source bytes → candidate rules → deterministic evalua
 - **Presentation/export** consumes the evaluator's result and trace. It must not independently recreate applicability logic.
 - **Validation** owns independently reviewed expected outcomes and integration checks. Generated contrast pairs have a separate role: regression consistency.
 
-These are ownership boundaries, not a demand to create four services or empty folders. Start with a few cohesive modules inside one application. Add subfolders only when multiple real files need them. JSON or SQLite may suffice; choose only after the first slice. A vector database, fine-tuning pipeline, general theorem prover, and account system are not initial requirements.
+These are ownership boundaries, not a demand to create four services or empty folders. Start with a few cohesive modules inside one application. Add subfolders only when multiple real files need them. This implementation uses JSON files for local cache, budgeting, persisted overrides and export artifacts. A vector database, fine-tuning pipeline, general theorem prover, and account system are not initial requirements.
 
 Preserve document IDs/hashes, source spans, retrieval dates, model and prompt versions, extraction run IDs, and provenance of property facts. A run must identify exactly which inputs produced it. Secrets remain outside tracked files.
 
 ### 3.2 Human and agent coordination
 
-One coordinating agent owns contracts, integration, and edits to this guide. Independent workers may own ingestion, evaluation/geography, frontend, or source-based validation after interfaces are agreed. Give each worker an explicit file boundary and acceptance check; avoid concurrent changes to shared contracts.
+One coordinating agent owns contracts, integration, and edits to this guide. Use additional agents only when current user/developer instructions authorize delegation; otherwise work in the existing thread. Authorized independent workers may own ingestion, evaluation/geography, frontend, or source-based validation after interfaces are agreed. Give each worker an explicit file boundary and acceptance check; avoid concurrent changes to shared contracts.
 
 One human should prioritize source review and integration; the other can prioritize visual hierarchy, user journey, and video. Reallocate to match availability. Inspect the first real vertical slice before leaving a long implementation run unattended.
 
@@ -157,22 +157,33 @@ The user's prize sheet also lists creativity, quote, and social-reaction awards,
 
 ```text
 hacknation/
-├── PROJECT_GUIDE.md                 decisions, plan, findings, handoff, changelog
-├── .gitignore                      secrets, dependencies, caches, generated outputs
-├── sources/
-│   ├── catalog.json                source identity, provenance, hashes, MD exceptions
-│   ├── briefs/                     the seven original user-provided PDFs
-│   ├── organizer/                  preserved retrieved organizer text snapshots
-│   └── papers/                     six research PDFs and one primary-author article
-└── tools/
-    └── check_workspace.py           read-only workspace integrity and clutter audit
+├── PROJECT_GUIDE.md       sole authored documentation and live handoff
+├── package*.json          commands and reproducible dependencies
+├── index.html             browser entry and brand metadata
+├── tsconfig.json          shared type-checking contract
+├── vite.config.ts         browser build/development integration
+├── .env.example           credential variable names; no secrets
+├── .gitignore             secret and generated-artifact boundaries
+├── src/                   cohesive application modules, no feature scaffolds
+├── tests/                 executable behavior and corpus integration checks
+├── sources/               immutable original evidence plus consumed text
+│   ├── catalog.json       source paths, hashes, provenance
+│   ├── briefs/            seven supplied challenge PDFs
+│   ├── organizer/         retrieved organizer snapshots
+│   ├── papers/            research references
+│   ├── starter/           original participant package, structure preserved
+│   ├── geography/         Census response and municipal polygons
+│   └── supplemental/      necessary ordinance/bill/court originals and text
+├── tools/                 read-only audit and repeatable starter downloader
+├── runs/                  ignored extraction cache, budget ledger, exports
+└── .scratch/              ignored disposable browser QA and investigation
 ```
 
 The source catalog is the authority for source paths, editions, origins, hashes, and intentional duplicates. This guide explains what the sources mean for the project. Do not maintain a second inventory in prose or a spreadsheet.
 
 Brief filenames remain `1.pdf`, `2.pdf`, `3.pdf`, `4a.pdf`, `4b.pdf`, `4c.pdf`, and `5.pdf`; their titles are in the catalog. The three World Bank uploads are byte-identical. They are deliberately retained as original attachments and registered as duplicates, rather than silently deleting user evidence.
 
-### 4.2 Reserved homes — create only when populated
+### 4.2 Module ownership and growth rules
 
 | Path | Exclusive purpose | Creation trigger |
 |---|---|---|
@@ -182,6 +193,8 @@ Brief filenames remain `1.pdf`, `2.pdf`, `3.pdf`, `4a.pdf`, `4b.pdf`, `4c.pdf`, 
 | `runs/<run-id>/` | Generated extraction records, provenance, exports, measurements, and selected submission artifacts from one reproducible run. | First actual pipeline execution. |
 | `.scratch/` | Disposable renders, text extraction, temporary experiments, and debugging output. | A current task needs temporary files. |
 | Root manifests/configuration | Actual framework, dependency, build, or deployment contracts. | A selected tool requires them. |
+
+Production module ownership is explicit: `contracts.ts` defines shared types; `data.ts` loads input records; `geography.ts` establishes municipal membership; `extract.ts` owns candidate extraction, prompt, quote checks, cache, and spending; `evaluate.ts` owns applicability and evidence questions; `changes.ts` owns organizer change scenarios; `export.ts` owns output shapes/schema validation; `server.ts` connects HTTP and persistence; `App.tsx` and `styles.css` own presentation; `main.tsx` mounts React. Add a module only when it has a distinct consumer and responsibility. Avoid one-file subfolders, repeated utility layers, or separate frontend/backend copies of the rule logic.
 
 Use one `runs/` tree rather than parallel `output/`, `results/`, `exports/`, and `artifacts/` trees. A selected submission can live at `runs/<run-id>/submission/`. Its method-note PDF should be rendered from the relevant guide content and observed run data, not maintained as another planning Markdown file.
 
@@ -194,11 +207,11 @@ Do not create `docs/`, `notes/`, `archive/`, `old/`, per-agent folders, empty fe
 1. Register every durable upstream file in `sources/catalog.json` with a stable ID, repository-relative path, SHA-256, title, origin URL when available, source kind, and the retrieval date/time actually known. Do not manufacture exact retrieval times.
 2. Original user attachments may have no URL or known upload time; record that explicitly. A text snapshot is not an original PDF binary.
 3. Treat source files as immutable. For a new upstream edition, preserve the edition needed to reproduce referenced results and register the successor. Do not silently refresh a file beneath an old hash.
-4. Store extraction caches and rendered research pages in `.scratch/`. Do not keep both a PDF and a permanent text copy unless a consumer requires the text as a durable input.
+4. Store disposable research conversions in `.scratch/`; reusable model extraction caches belong to `runs/extraction-cache/` because reusing them prevents unnecessary spending. Do not keep both a PDF and a permanent text copy unless a consumer requires the text as a durable input.
 5. Do not catalog application-owned prompts or validation expectations as upstream evidence. They belong to code or tests.
 6. Keep quotations short and accurate, with section/page locators. A bibliographic citation must support the claim made beside it.
 
-The catalog currently uses `version: 1`, `sources: [...]`, and `markdown_exceptions: []`. The checker requires each source's `id`, `path`, and `sha256`; descriptive provenance fields are maintained by the contributor. Approved Markdown exception entries are repository-relative path strings; their rationale and lifecycle belong in §4.4.
+The catalog currently uses `version: 1`, `sources: [...]`, and `markdown_exceptions: []` (upstream `sources/starter/README.md` is cataloged as source evidence, not a second authored guide). The checker requires each source's `id`, `path`, and `sha256`; descriptive provenance fields are maintained by the contributor. Approved Markdown exception entries are repository-relative path strings; their rationale and lifecycle belong in §4.4.
 
 ### 4.4 One authored Markdown file
 
@@ -237,13 +250,13 @@ Delete or merge superseded authored notes after preserving their useful decision
 
 ## 5. Research, findings, and evidence discipline
 
-**Research snapshot: October 3, 2026.** The collection below supports implementation decisions; it is not an exhaustive literature review, a legal opinion, or a current model leaderboard. The newest inspected local paper edition is from February 2026. No evidence establishes Grounds as unpublished or globally unique. Its proposed distinction is the integrated user experience and careful execution.
+**Research snapshot: October 3, 2026.** The collection below supports implementation decisions; it is not an exhaustive literature review, a legal opinion, or a current model leaderboard. The newest inspected local paper edition is from February 2026. No evidence establishes (R)estate as unpublished or globally unique. Its proposed distinction is the integrated user experience and careful execution.
 
 Labels used below:
 
 - **Published finding:** what an identified source reports, limited to that source's setting.
 - **Project observation:** something directly inspected in our files or session, with the evidence identified.
-- **Design inference:** an engineering choice motivated by evidence, not a result demonstrated in Grounds.
+- **Design inference:** an engineering choice motivated by evidence, not a result demonstrated in (R)estate.
 - **Hypothesis:** a testable proposal with no project result yet.
 
 ### 5.1 Primary references and what they change
@@ -254,7 +267,7 @@ Labels used below:
 
 **R3 — CUTECat: generating legal-program tests is established.** The January 2025 revision applies concolic execution to Catala programs, including French housing benefits and a US tax provision. Its abstract, PDF p. 1, reports test generation “covering all branches of these bodies of law.” **Design inference:** preserve contrasting inputs as regression evidence, while limiting the coverage claim to the implemented predicate forms and inspected cases. The paper's reported branch coverage concerns selected formalized programs, not arbitrary natural-language law or our application. [Local paper][paper-cutecat] · [primary publication record](https://arxiv.org/abs/2410.18212).
 
-**R4 — NLLP 2025: law-to-code translation and measured limitations.** Lorenzo, Pietromatera, and Holzenberger evaluate legal-text translation into Catala. Section 3 describes 416 training, 86 validation, and 89 test examples; §§4–6 distinguish syntax/structure metrics and qualitative failures. Table 3, PDF p. 8 / printed p. 38, reports fine-tuned Qwen2.5-Coder-32B-Instruct CodeBLEU of \(61.2 \pm 5.1\) and valid syntax of \(93.3 \pm 4.4\), on percentage scales with 90% confidence intervals. **These are published results, not Grounds scores or legal-accuracy percentages.** The same page's qualitative analysis includes an invented end date and a missed exception. **Design inference:** test dates, exceptions, and source support independently of JSON/schema validity. The local table was visually inspected. [Local paper][paper-tax-code] · [NLLP proceedings](https://aclanthology.org/2025.nllp-1.4/).
+**R4 — NLLP 2025: law-to-code translation and measured limitations.** Lorenzo, Pietromatera, and Holzenberger evaluate legal-text translation into Catala. Section 3 describes 416 training, 86 validation, and 89 test examples; §§4–6 distinguish syntax/structure metrics and qualitative failures. Table 3, PDF p. 8 / printed p. 38, reports fine-tuned Qwen2.5-Coder-32B-Instruct CodeBLEU of \(61.2 \pm 5.1\) and valid syntax of \(93.3 \pm 4.4\), on percentage scales with 90% confidence intervals. **These are published results, not (R)estate scores or legal-accuracy percentages.** The same page's qualitative analysis includes an invented end date and a missed exception. **Design inference:** test dates, exceptions, and source support independently of JSON/schema validity. The local table was visually inspected. [Local paper][paper-tax-code] · [NLLP proceedings](https://aclanthology.org/2025.nllp-1.4/).
 
 **R5 — SARA: statutory application needs dedicated evaluation.** Holzenberger, Blair-Stanek, and Van Durme introduce tax-law entailment and question-answering tasks, contrasting machine-reading models with a hand-built Prolog system. Abstract, PDF p. 1, describes the latter as “designed to fully solve the task.” **Design inference:** test application of explicit rules to facts, rather than measuring only fluent explanations. The 2020 model results are historical and do not establish present model rankings. Tax reasoning also does not measure municipal geography or source coverage. [Local paper][paper-sara] · [primary publication record](https://arxiv.org/abs/2005.05257).
 
@@ -281,6 +294,12 @@ The current implementation proposal combines these ideas in a bounded challenge 
 
 These are observations about inspected sources and this workspace. **None is represented as an unpublished scientific discovery.**
 
+**Observed extraction failures and repairs (October 3 build):** Haiku initially classified a fair-chance ordinance outside the allowed screening category; explicit category definitions corrected that failure. Some returned quotations omitted text or changed formatting. `recoverSourceQuote` permits only whitespace and typographic-quotation alignment, recovers the exact original contiguous substring, and still rejects omitted words/ellipses. The model also supplied an incorrect commencement date for the New Jersey Fair Chance Act. The parser independently applies the source's first-day/seventh-month clause to its approval date, deriving January 1, 2022. Three D065 model candidates currently survive validation; no semantic accuracy percentage is inferred from that count. Evidence: `sources/starter/corpus/text/D065.txt`, §§3–14; cached raw model results in `runs/extraction-cache/`; executable checks in `tests/extract.test.ts`.
+
+**Current demonstration:** start at the default resolved New Jersey property with missing unit count and owner occupancy. The evidence question explains why owner occupancy matters. “Owner lives elsewhere” resolves the extracted owner-occupied exception; “Owner lives here” leaves unit count relevant. Move to the unit-count question to see the threshold. Each choice is a clearly marked hypothetical overlay; the source CSV remains unchanged. “Save these contrasts as regression fixtures” exports complete original records, branch inputs, observed outcomes, rule records and source hashes. These generated expectations test reproducibility, not independent legal truth. The sample's residential classification derives from the organizer README §4, not a new assessor verification.
+
+**Known coverage gaps:** the free pattern baseline is deliberately limited and can over-detect category mentions. T1's California commencement date and T2's local publication/effective dates remain unresolved in the loaded single-document interpretations. T3 evaluates 140 New Jersey addresses across the independently derived July 1, 2027 boundary, but city/state conflicts remain incomplete while the local dates are unresolved. T4 is explicitly hypothetical; T5 uses the court's ballot-exclusion language. Do not present these observed results as five passed official tests.
+
 ### 5.4 Promising hypotheses — untested
 
 | ID | Proposed idea | Motivation, not proof | Smallest useful test |
@@ -300,17 +319,17 @@ H1 and H3 are closest to the planned demonstration. H2 and H4 should expand only
 | Predicate | A supported executable condition over facts, such as a threshold or jurisdiction match; our internal representation. |
 | Partial evaluation | Evaluating with incomplete inputs while preserving unresolved conditions; motivated by R2. |
 | Provenance | The recorded origin and version of a source, fact, or generated result. |
-| Contrast pair | Two explicitly hypothetical records differing in a relevant fact or bounded fact set; a Grounds design object motivated by R2/R3. |
-| Concolic testing | Combining concrete execution and symbolic exploration to generate paths/inputs; R3. Grounds does not yet implement a concolic engine. |
+| Contrast pair | Two explicitly hypothetical records differing in a relevant fact or bounded fact set; a (R)estate design object motivated by R2/R3. |
+| Concolic testing | Combining concrete execution and symbolic exploration to generate paths/inputs; R3. (R)estate does not yet implement a concolic engine. |
 | Held-out case | An independently reviewed example whose expected outcome is withheld from extraction prompts and tuning. |
 | Citation presence / support | Whether a quote exists in the source / whether it actually supports the claimed condition. Distinct validation questions. |
 | Corpus gap / negative finding | Missing supporting material / a conclusion that available, reviewed rules do not apply within the stated scope. |
 
 ## 6. Validation and honest reporting
 
-**Application benchmark status: not run.** There is no official score, accuracy estimate, latency result, cost estimate, user-study result, or completeness claim for Grounds.
+**Validation is structural and behavioral, not an official legal-accuracy score.** Latest measured run: `runs/current/validation.json`; production build passed, 36 tests passed, 101/101 exported candidates satisfy the schema and exact quotation check, all 500 address IDs appear in lookups, and five change records export. Desktop and narrow-screen layouts have no horizontal overflow; navigation, source inspection, cached extraction and scenario changes were exercised in the browser. Four generated scenario cases replayed successfully. Dependency audit reports no production vulnerabilities at this run. Browser download-event detection timed out; a direct browser click subsequently generated the fixture artifact successfully, and the fixture API and replay were independently verified. Unit tests cover null semantics, dates/status, jurisdiction, interactions, bounded evidence questions, exact quotations and API budget behavior. Corpus integration and browser results are recorded below when observed. Model output remains unreviewed; a supported quote does not prove that every condition was translated correctly.
 
-Use the actual supplied change cases as the challenge checks after retrieving them. Use SARA, LegalBench, and R4's translation metrics as background benchmarks, not interchangeable substitutes for this task. A homemade check must be labeled team-created. If an organizer scorer becomes available, record its version and command separately.
+Use the actual supplied change cases as the challenge checks from `sources/starter/dev/change_tests.json`. Use SARA, LegalBench, and R4's translation metrics as background benchmarks, not interchangeable substitutes for this task. A homemade check must be labeled team-created. If an organizer scorer becomes available, record its version and command separately.
 
 ### 6.1 Required validation layers
 
@@ -340,7 +359,7 @@ Declare that case definition and the denominator. Report unknown/abstention cove
 
 ### 6.2 Result storage
 
-Each retained run should carry a small machine-readable manifest identifying its run ID, UTC start/end times, input hashes, code revision or explicit uncommitted state, model/prompt configuration, commands, result paths, and errors. Add exact fields when the pipeline exists; do not create a speculative manifest now.
+Each retained run should carry a small machine-readable manifest identifying its run ID, UTC start/end times, input hashes, code revision or explicit uncommitted state, model/prompt configuration, commands, result paths, and errors. The generated `runs/current/validation.json` records these details for the final local check. The budget ledger and model cache live one level higher so ordinary export refreshes never reset spending.
 
 Put detailed measurements in `runs/<run-id>/`; put the decisive finding and link here. Never hand-maintain identical metrics in several documents. Large raw logs belong to the run and must exclude secrets or disallowed personal data.
 
@@ -353,18 +372,26 @@ Put detailed measurements in `runs/<run-id>/`; put the decisive finding and link
 5. Identify the smallest task that advances the current gate. Separate a blocked dependency from work that can continue. If required input is missing, report the exact file/access gap while progressing independent work.
 6. Before delegating, agree shared contracts and file ownership. Workers report changed paths, observed validation, unresolved issues, and proposed guide amendments to the coordinator. **They do not create personal Markdown reports or concurrently rewrite this guide.**
 7. Keep model execution, secrets, and deterministic rule evaluation separated. Never run arbitrary source/model text as executable instructions.
-8. Implement only authorized scope. This setup request authorizes workspace organization and this guide; it does not itself request application implementation, public deployment, organizer messaging, social posting, or submission.
+8. Implement only authorized scope. The user explicitly authorized renaming and building the application. Local implementation and validation are authorized; public deployment, organizer messaging, social posting, and final submission have not been requested.
 9. Validate the changed behavior with meaningful checks. State failures honestly. Do not add tests that simply repeat low-impact implementation details, or repeatedly rerun broad tests without a reason.
 10. Close the change using §8, leave the next action explicit, and provide a self-contained handoff. If stopped mid-task, record partial work and the blocking condition instead of marking the gate complete.
 
-**Working commands currently available**
+**Working commands** (from the root; Node 20.19+ or 22.12+):
 
 ```bash
-python3 tools/check_workspace.py
-python3 tools/check_workspace.py --root /absolute/path/to/a/workspace
+npm ci
+npm run dev
+npm run build
+npm test
+npm run check:workspace
+npm start
 ```
 
-The audit has no third-party dependencies. There are no application install, development-server, test-suite, or deployment commands yet. Add those here when the chosen stack actually provides them; do not invent runnable instructions.
+`npm run dev` serves the app and API at `http://127.0.0.1:5173`. `npm start` serves an already-built production bundle. Copy `.env.example` to `.env` only if no `.env` exists; never overwrite credentials. Restart the server after environment changes. The Python workspace audit uses only the standard library.
+
+**Budget and credentials:** the user has $25 total Anthropic credit and asked for sparse usage. The application defaults to **$2** total and refuses any individual request with a calculated reserve above $0.25. `ANTHROPIC_WORKSPACE_ID` is necessary for the user's unscoped key; it is configured locally. Only explicit extraction actions invoke Haiku; startup, browsing, lookups, scenario changes, and exports are local/free. Cache keys contain source hash, jurisdiction, model and prompt version. Do not erase the cache or budget ledger to unblock requests. Failures with uncertain billing retain their full reserve. The UI/application ledger is not the provider account balance. Model rates are implemented only for verified Haiku 4.5 pricing; changing the model requires updating the metering logic.
+
+Official references: [Anthropic model pricing](https://platform.claude.com/docs/en/about-claude/pricing), [structured outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs), and [workspace authentication](https://platform.claude.com/docs/en/manage-claude/authentication). All source text is untrusted model input; instructions inside a law capture must never change application behavior.
 
 ## 8. Updating this guide and recording contributions
 
@@ -402,7 +429,7 @@ The links below resolve citations used above; [the catalog][catalog] remains the
 
 ## 10. Plain explanation
 
-This workspace keeps the plan in one place, original evidence in another, and creates code or output folders only when there is something real to put in them. Grounds is still a proposal: the next practical step is to read the complete starter package and build one real example from source text to an address answer. The distinguishing idea is to turn an uncertain answer into a useful, explainable request for evidence.
+This workspace keeps the plan in one place, original evidence in another, and creates code or output folders only when there is something real to put in them. (R)estate is now a local working application: choose a supplied property, inspect the source-backed candidates, and try explicitly hypothetical facts. Source interpretation still needs review before presenting an answer as legally complete. The distinguishing idea is to turn an uncertain answer into a useful, explainable request for evidence.
 
 ## 11. Changelog
 
@@ -411,3 +438,7 @@ This workspace keeps the plan in one place, original evidence in another, and cr
 | 2026-10-03, earlier session; exact time not reconstructed | User and research agents | Chose Grounds/RealPage, documented the evidence-question concept, reviewed organizer materials, and identified conflicting specifications. | Planning/research only; no application or benchmark result. This entry preserves earlier context without inventing a precise timestamp. |
 | 2026-10-03 18:13 EDT | Coordinating agent; workspace-review agent | Created the sole project guide, source catalog, lean layout, six-paper reference collection and primary-author article, ignore policy, and read-only audit. Preserved all seven uploaded PDFs and two organizer snapshots; consolidated the earlier build brief; removed 23 known superseded planning/scratch files. | Workspace audit: 0 errors, 0 warnings, 16 sources. Verified one Markdown file, local references, and original-source hashes. Five isolated checks passed: clean fixture, extra Markdown, broken link, changed checksum, and preserved upstream Markdown; each verified read-only behavior. No application benchmarks run. Next: obtain and inspect the complete starter package. |
 | 2026-10-03 18:33 EDT | Coordinating agent | Initialized Git on `main`, retained the existing ignore policy, and prepared the workspace baseline for its initial commit. | Workspace audit: 0 errors, 0 warnings, 16 sources. Confirmed secrets, generated outputs, scratch files, and dependencies are ignored; no remote configured. Next development action remains starter-package inspection. |
+
+| 2026-10-03 19:40 EDT | Coordinating agent; earlier implementation contributors | Renamed to (R)estate; built React/Express application, full starter ingestion, Census/TIGER geography, deterministic evaluation, source/evidence/change views, official-shape exports, and generated regression fixture downloads. Added Haiku extraction, exact-span alignment, independent commencement-date checks, persistent overrides, cache and $2 cap. User configured workspace ID; live API requests now succeed. | Initial tests/build passed; final expanded tests and responsive-browser checks ongoing. Three AI rules accepted from D065; provider-usage estimate $0.053874 plus $0.132754 retained for two earlier uncertain HTTP failures. No official accuracy score. Next: final QA, export validation and demo rehearsal. |
+
+| 2026-10-03 19:49 EDT | Coordinating agent | Finished responsive layout fixes, source-drawer extraction, truthful budget display, source-hash/version-checked persistence, independent date checks, dynamic evidence branches, and scenario-preserving regression exports. Refreshed the sole guide and module ownership. | Build passed; 36 tests passed; 101/101 schema and quote checks; 500 lookup IDs; five change records; audit 0 errors/0 warnings, 97 sources; production dependency audit clean. Browser verified desktop/mobile layouts, navigation, cached extraction and the 0-to-3 hypothetical applicability transition. Fixture button generated its artifact and API/replay passed; browser download-event observation itself timed out. Legal completeness and T1/T2 remain unresolved, explicitly documented above. Next: source review and demo preparation. |
