@@ -1,0 +1,77 @@
+
+
+
+    
+        ×
+    
+    
+Bill H.5222
+
+
+
+
+    
+
+
+ The General Laws are hereby amended by inserting after chapter 40Y the following chapter:- 
+
+  CHAPTER 40Z  
+
+ PREVENTING ALGORITHMIC RENT FIXING IN THE RENTAL HOUSING MARKET 
+
+  Section 1. As used in this chapter, the following words shall, unless the context clearly requires otherwise, have the following meanings: 
+
+  “Coordinate”, with respect to a service provider, the: 
+
+  (i) collecting of historical or contemporaneous actual rent prices, price changes, supply levels, occupancy rates or lease or rental contract termination and renewal dates of residential dwelling units; 
+
+  (ii) analyzing or processing of the information described in clause (i), including with the use of a system, software or process that uses computation; and 
+
+  (iii) recommending of rental prices, lease terms, occupancy levels, or other commercial term to a real estate lessor, provided that publication of a fair market rent calculated using publicly available data shall not constitute a recommendation.  
+
+  “Person”, any natural person, corporation, partnership, limited liability company, firm or association. 
+
+  “Predispute arbitration agreement”, an agreement to arbitrate a dispute that has not yet arisen at the time of the making of the agreement. 
+
+  “Predispute joint-action waiver”, an agreement, whether or not part of a predispute arbitration agreement, that would prohibit or waive the right of one of the parties to participate in a joint, class or collective action in a judicial, arbitral, administrative or other forum, concerning a dispute that has not yet arisen at the time of the making of the agreement. 
+
+  “Real estate lessor”, any individual, corporation, partnership, association, joint-stock company, trust or unincorporated organization that owns real property and leases such property or any portion thereof in the form of a residential dwelling unit. 
+
+  “Residential dwelling unit”, any house, apartment, accessory unit or other unit intended to be used as a person’s primary residence; provided, that “residential dwelling unit” shall not include inpatient medical care, licensed long-term care and detention or correctional facilities. 
+
+  “Service provider”, any person that performs a coordination function for any real estate lessor or rentor. 
+
+  Section 2. (a) No real estate lessor, or any agent or subcontractor thereof, shall subscribe to, contract with or otherwise exchange anything of value in return for the services of a service provider. 
+
+  (b) No service provider shall facilitate an agreement to not compete among real estate lessors with respect to residential dwelling units. 
+
+  Section 3. (a) A violation of this section shall also constitute an unfair method of competition, and a violation of the provisions of chapter 93 and chapter 93A. Nothing in this section shall impair or limit the applicability of either chapter or the antitrust laws, generally. 
+
+  (b) Pursuant to a motion by the plaintiff promptly made, the court may award simple interest on actual damages sustained by the plaintiff for the period beginning on the date of service of the pleading of the plaintiff setting forth a claim under this chapter and ending on the date of judgment, or for any shorter period therein. 
+
+  (c) At the election of the person alleging conduct constituting a violation of this section, or the named representative of a class or in a collective action alleging such conduct, no predispute arbitration agreement or predispute joint-action waiver shall be valid or enforceable with respect to a case which is filed under federal, tribal or state or local law and relates to a violation of this chapter. 
+
+  (d) In the case of any successful action to enforce liability pursuant to this chapter, the costs of the action together with reasonable attorney fees, expert fees and the costs of investigation as determined by the court shall be awarded to plaintiffs. Costs and attorney fees, expert fees and the costs of investigation shall be awarded to the attorney general or municipality where the attorney general or municipality successfully enforces this chapter. 
+
+  Section 4. In a civil action filed pursuant to the provisions of chapter 93, a complaint: 
+
+  (i) plausibly pleads a violation of chapter 93A if the complaint contains factual allegations demonstrating that the existence of a contract, combination in the form of trust or otherwise, or conspiracy in restraint of trade or commerce is among the realm of plausible possibilities; and 
+
+  (ii) need not allege facts tending to exclude the possibility of independent action. 
+
+
+
+        
+
+            The information contained in this website is for general information purposes only. The General Court provides this information as a public service and while we endeavor to keep the data accurate and current to the best of our ability, we make no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability or availability with respect to the website or the information contained on the website for any purpose. Any reliance you place on such information is therefore strictly at your own risk.
+            
+        
+
+
+
+
+
+    Close
+
+
+
