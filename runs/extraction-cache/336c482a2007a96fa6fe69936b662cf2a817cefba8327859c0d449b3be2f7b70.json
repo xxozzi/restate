@@ -1,0 +1,40 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "Housing Stability Notification Act—Notice of Tenant's Rights and Resources",
+    "category": "just_cause_eviction",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "When a landlord ends a tenancy agreement by Notice to Quit or non-renewal of lease, the landlord must provide the tenant with a Notice of Tenants' Rights and Resources at the same time as the eviction notice.",
+    "keyValue": null,
+    "citation": "Boston City Code § 10-11.7",
+    "quotedSpan": "The Housing Stability Notification Act requires ANY LANDLORDS planning to end a tenancy agreement to provide the tenant with a Notice of Tenants' Rights and Resources.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental buildings in Boston.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The statute's effective date is not stated in this page; no date has been independently verified.",
+     "Violation does not halt eviction; enforcement is by City warning or $300/day fine (2nd+ offenses).",
+     "Landlord must also submit Notice to City via online portal or face fines up to $300/day."
+    ]
+   }
+  ],
+  "warnings": [
+   "This page describes a 2024 Boston ordinance requiring notice documents, not substantive eviction standards; it does not establish just-cause requirements but only a disclosure obligation.",
+   "The actual ordinance text (Sec. 10-11.7) was not provided; this summary is based on the city's informational page."
+  ]
+ },
+ "promptHash": "0727a2616b08e130e31a4569973e766a81018a99bb37cbcd49ff0ded37b18b97",
+ "docId": "D013",
+ "chunk": 0,
+ "chunkHash": "49b8ad77c47ac7a12afc5a1451cc38e8d908b45f83c922cbd2ee2eb320b715f0",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:16:06.336Z"
+}

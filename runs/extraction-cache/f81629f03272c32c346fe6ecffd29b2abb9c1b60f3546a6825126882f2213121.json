@@ -1,0 +1,162 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "Annual General Adjustment (AGA) Cap at 5%",
+    "category": "rent_increase_limits",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": "2024-11-05",
+    "effectiveDateQuote": "Measure BB, a ballot measure passed by Berkeley voters in the November 2024 election",
+    "endDate": null,
+    "requirement": "Landlords of fully-covered rental units may raise rent each year by the Annual General Adjustment (AGA), which is capped at a maximum of 5%, even if the formula results in a higher amount. Landlords may still implement banked (unused) AGAs from previous years to raise rent to the rent ceiling.",
+    "keyValue": "5%",
+    "citation": "Berkeley Measure BB (2024), codified in Berkeley Rent Ordinance",
+    "quotedSpan": "The maximum AGA is 5%. This means that, if the formula in the Rent Ordinance results in an AGA that is greater than 5%, the AGA approved by the Board for that year can be no more than 5%.",
+    "coverageJson": "{\"op\":\"all\",\"args\":[{\"op\":\"not\",\"arg\":{\"op\":\"in\",\"field\":\"certificate_of_occupancy_date\",\"value\":null}}]}",
+    "coverageDescription": "Fully-covered rental units in Berkeley, including most multifamily buildings built before 1980 and certain government-subsidized units.",
+    "exemptions": [
+     "Partially covered units",
+     "Units exempt from the Rent Ordinance"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "This is a local ordinance that applies within Berkeley city limits only; it does not preempt or yield to state law based on the source text"
+    ]
+   },
+   {
+    "title": "Nonpayment of Rent Eviction Threshold",
+    "category": "just_cause_eviction",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": "2024-11-05",
+    "effectiveDateQuote": "Measure BB, a ballot measure passed by Berkeley voters in the November 2024 election",
+    "endDate": null,
+    "requirement": "A landlord may no longer evict a tenant for nonpayment of rent unless the tenant owes an amount equal to or greater than one month of the Fair Market Rent (FMR) for a unit of equivalent size in the Oakland-Fremont, CA HUD Metro FMR area as determined by the US Department of Housing and Urban Development.",
+    "keyValue": "1 month FMR",
+    "citation": "Berkeley Measure BB (2024), codified in Berkeley Rent Ordinance",
+    "quotedSpan": "Eviction for nonpayment of rent is no longer allowed for rental debt less than one month of the Fair Market Rent (FMR) value for a unit of equivalent size in the metro area Oakland-Fremont, CA HUD Metro FMR as determined by the US Department of Housing and Urban Development for the fiscal year in which the rent is demanded.",
+    "coverageJson": "{\"op\":\"all\",\"args\":[]}",
+    "coverageDescription": "Fully and partially covered rental units in Berkeley.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": []
+   },
+   {
+    "title": "Prohibition on Eviction for Failure to Sign New Lease",
+    "category": "just_cause_eviction",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": "2024-11-05",
+    "effectiveDateQuote": "Measure BB, a ballot measure passed by Berkeley voters in the November 2024 election",
+    "endDate": null,
+    "requirement": "A landlord cannot evict a tenant for failing to sign a substantially similar lease upon expiration of a fixed-term lease.",
+    "keyValue": null,
+    "citation": "Berkeley Measure BB (2024), codified in Berkeley Rent Ordinance",
+    "quotedSpan": "A landlord cannot evict a tenant for failing to sign a substantially similar lease upon expiration of a fixed-term lease.",
+    "coverageJson": "{\"op\":\"all\",\"args\":[]}",
+    "coverageDescription": "Fully and partially covered rental units in Berkeley.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": []
+   },
+   {
+    "title": "Enhanced Requirements for Lease Breach Evictions",
+    "category": "just_cause_eviction",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": "2024-11-05",
+    "effectiveDateQuote": "Measure BB, a ballot measure passed by Berkeley voters in the November 2024 election",
+    "endDate": null,
+    "requirement": "To evict for a material lease term violation, the alleged violation must cause substantial, actual damage to the landlord; the landlord must demonstrate that the tenant's behavior was unreasonable; and the landlord's notice must specify the lease term and describe the violation and resulting harm in enough detail for a reasonable person to understand. Material lease terms are limited to mutually agreed upon terms only.",
+    "keyValue": null,
+    "citation": "Berkeley Measure BB (2024), codified in Berkeley Rent Ordinance",
+    "quotedSpan": "Material lease terms only include mutually agreed upon lease terms. The alleged violation must cause substantial, actual damage to the landlord. The landlord must demonstrate that the tenant's behavior was unreasonable. The landlord's notice to the tenant to stop the violation (which is required before the landlord can serve an eviction notice) must specify the lease term, and describe the violation and resulting harm in enough detail for a reasonable person to understand.",
+    "coverageJson": "{\"op\":\"all\",\"args\":[]}",
+    "coverageDescription": "Fully and partially covered rental units in Berkeley.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The source notes that the Rent Board cannot review whether the description meets the standard or whether the tenant's behavior is unreasonable; these are legal issues for a court to decide."
+    ]
+   },
+   {
+    "title": "Eviction Notice Content and Filing Requirements",
+    "category": "just_cause_eviction",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": "2024-11-05",
+    "effectiveDateQuote": "Measure BB, a ballot measure passed by Berkeley voters in the November 2024 election",
+    "endDate": null,
+    "requirement": "Any notice terminating a tenancy must contain a statement that advice is available from the Rent Board, the current phone number for the Rent Board's Housing counseling services, and the current address of the Rent Board's website. The landlord must file with the Rent Board a copy of any notice to terminate a tenancy, notice to quit, and summons and complaint no later than three business days after the tenant was served with the document.",
+    "keyValue": null,
+    "citation": "Berkeley Measure BB (2024), codified in Berkeley Rent Ordinance",
+    "quotedSpan": "Any notice terminating a tenancy must contain a statement that advice about the notice is available from the Rent Board, the current phone number for the Rent Board's Housing counseling services, and the current address of the Rent Board's website. The landlord must file with the Rent Board a copy of any notice to terminate a tenancy, notice to quit, and summons and complaint no later than three business days after the tenant was served with the document.",
+    "coverageJson": "{\"op\":\"all\",\"args\":[]}",
+    "coverageDescription": "Fully and partially covered rental units in Berkeley.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": []
+   },
+   {
+    "title": "Notice of Tenant Rights at Start of Tenancy",
+    "category": "just_cause_eviction",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": "2024-12-20",
+    "effectiveDateQuote": "For tenancies started on or after December 20, 2024, landlords must, within fifteen days of the start of the tenancy, give the tenant written notice",
+    "endDate": null,
+    "requirement": "For tenancies started on or after December 20, 2024, landlords must, within fifteen days of the start of the tenancy, provide written notice containing: the existence and scope of the Rent Ordinance; the tenant's right to petition against certain rent increases, if applicable; whether the unit is exempt from rent control; and any other partial exemptions. If the property has an interior common area, the landlord must post the notice there.",
+    "keyValue": null,
+    "citation": "Berkeley Measure BB (2024), codified in Berkeley Rent Ordinance",
+    "quotedSpan": "For tenancies started on or after December 20, 2024, landlords must, within fifteen days of the start of the tenancy, give the tenant written notice containing the following information: The existence of and scope of the Rent Ordinance; the tenant's right to petition against certain rent increases, if applicable; whether the unit is exempt from rent control; and any other partial exemptions which may exist.",
+    "coverageJson": "{\"op\":\"all\",\"args\":[]}",
+    "coverageDescription": "Fully and partially covered rental units in Berkeley.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": []
+   },
+   {
+    "title": "Utility Charges Incorporated into Base Rent or Separately Metered",
+    "category": "security_deposits",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": "2024-02-06",
+    "effectiveDateQuote": "For tenancies starting on or after February 6, 2024, a landlord may charge a tenant in a fully covered unit for utilities only if either",
+    "endDate": null,
+    "requirement": "For tenancies starting on or after February 6, 2024, a landlord may charge a tenant in a fully-covered unit for utilities only if the cost is part of the base rent or if the utility service is separately-metered and the lease requires the tenant to place the utility in the tenant's name. Landlords may petition the Rent Board to add average utility costs to the rent ceiling.",
+    "keyValue": null,
+    "citation": "Berkeley Measure BB (2024), codified in Berkeley Rent Ordinance",
+    "quotedSpan": "For tenancies starting on or after February 6, 2024, a landlord may charge a tenant in a fully covered unit for utilities only if either: the cost of the utilities are part of the base rent, or the utility service is separately-metered and the lease requires the tenant to place the utility in the tenant's name.",
+    "coverageJson": "{\"op\":\"all\",\"args\":[]}",
+    "coverageDescription": "Fully-covered rental units in Berkeley.",
+    "exemptions": [
+     "Partially covered units",
+     "Tenancies started before February 6, 2024"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": []
+   }
+  ],
+  "warnings": [
+   "The source describes Measure BB but does not provide the full text of the Berkeley Rent Ordinance ordinance code citation (e.g., Berkeley Mun. Code § X.XX); the underlying ordinance sections are not explicitly cited in the source document.",
+   "The source does not specify the exact effective date for most Measure BB provisions other than some tenancy-related rules; they are assumed to be in effect as of the ballot passage date of November 5, 2024, but the official ordinance enactment date should be verified.",
+   "Government-owned or -subsidized rental units coverage is complex and depends on unit type and federal/state law exemptions; the specific coverage rules for fully vs. partially covered subsidized units are described in the source but coverage determination requires detailed case-by-case analysis.",
+   "The source describes the Annual General Adjustment (AGA) formula being tied to the Consumer Price Index but does not provide the complete formula text; the 5% cap is clear but the underlying formula should be reviewed in the full ordinance.",
+   "The Tenant Right to Organize provision is mentioned but details are not fully provided in this source; users should consult the Rent Board's dedicated webpage for complete information."
+  ]
+ },
+ "docId": "D006",
+ "chunk": 0,
+ "chunkHash": "f1960db522de7f63158e64334835b37e52ae1d8fa8b510eeb314658aef4173fa",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:10:39.148Z"
+}

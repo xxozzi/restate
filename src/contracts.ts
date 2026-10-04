@@ -1,5 +1,14 @@
 export type FactValue = string | number | boolean | null;
 export type Facts = Record<string, FactValue>;
+
+/** A fact known only within bounds, e.g. "5 or more units" from an assessor use code. */
+export interface FactRange {
+  min: number | string | null;
+  max: number | string | null;
+  basis: string;
+}
+export type FactRanges = Record<string, FactRange>;
+
 export type Category =
   | "rent_increase_limits"
   | "just_cause_eviction"
@@ -7,8 +16,7 @@ export type Category =
   | "application_screening_fees"
   | "screening_restrictions"
   | "algorithmic_rent_setting";
-export type RuleStatus =
-  "in_force" | "not_yet_effective" | "pending" | "failed";
+export type RuleStatus = "in_force" | "not_yet_effective" | "pending" | "failed";
 export type Outcome =
   | "applies"
   | "unknown"
@@ -49,6 +57,9 @@ export interface PropertyRecord {
   state: string;
   zip: string;
   facts: Facts;
+  /** Bounds derived from public assessor codes when the exact value is missing. */
+  ranges: FactRanges;
+  useDescription: string;
   source: string;
   retrievedAt: string;
   jurisdictionMethod: string;
@@ -65,16 +76,22 @@ export interface Rule {
   effectiveDate: string | null;
   endDate?: string | null;
   requirement: string;
+  keyValue: string | null;
   coverage: Predicate;
   coverageDescription: string;
   exemptions: string[];
   sourceId: string;
+  /** Other documents whose extraction produced the same rule (same citation). */
+  alsoIn: string[];
   citation: string;
   sourceUrl: string;
   quotedSpan: string;
   quoteStart: number;
-  extractionMethod: "model" | "pattern";
-  reviewStatus: "unreviewed" | "needs_review";
+  extractionMethod: "model";
+  /** State rule that the source says yields where a stricter local rule covers the unit. */
+  yieldsToLocal: boolean;
+  /** State rule whose source signals possible preemption of local rules in this category. */
+  preemptsLocal: boolean;
   supersedes?: string[];
   conflictsWith?: string[];
   warnings: string[];
@@ -93,6 +110,12 @@ export interface RuleResult {
   missingFacts: string[];
   trace: TraceStep[];
 }
+export interface EvidenceBranch {
+  label: string;
+  value: FactValue;
+  result: Outcome;
+  changes: { ruleId: string; result: Outcome }[];
+}
 export interface EvidenceQuestion {
   id: string;
   field: string;
@@ -101,14 +124,8 @@ export interface EvidenceQuestion {
   why: string;
   ruleIds: string[];
   suggestedEvidence: string;
-  branches: {
-    label: string;
-    value: FactValue;
-    result: Outcome;
-    explanation: string;
-  }[];
+  branches: EvidenceBranch[];
   hypothetical: true;
-  minimality: "suggested";
 }
 export interface LookupReport {
   property: PropertyRecord;
@@ -117,7 +134,6 @@ export interface LookupReport {
   questions: EvidenceQuestion[];
   scenarioFacts: Facts;
   scenario: boolean;
-  coverageNote: string;
 }
 export interface ChangeCase {
   id: string;
@@ -132,36 +148,37 @@ export interface ChangeReport extends ChangeCase {
   conflictAddressIds: string[];
   beforeCount: number;
   afterCount: number;
+  unresolvedCount: number;
   notes: string;
   properties: PropertyRecord[];
   ruleIds: string[];
 }
 export interface ExtractionReport {
-  mode: "model" | "pattern";
-  provider: string | null;
   model: string | null;
   createdAt: string;
   documentsProcessed: number;
+  documentsWithText: number;
   rulesExtracted: number;
   quotedRules: number;
+  pendingDocuments: string[];
   warnings: string[];
 }
+export interface BudgetStatus {
+  limit: number;
+  spent: number;
+  reserved: number;
+  remaining: number;
+}
 export interface Bootstrap {
-  budget?: {
-    limit: number;
-    spent: number;
-    reserved: number;
-    remaining: number;
-    usageEstimate: number;
-    uncertain: number;
-  };
+  budget: BudgetStatus;
   properties: PropertyRecord[];
   rules: Rule[];
-  documents: Omit<SourceDocument, "text">[];
+  documents: (Omit<SourceDocument, "text"> & { ruleCount: number })[];
   changes: ChangeCase[];
   extraction: ExtractionReport;
   stats: {
     addresses: number;
+    resolvedAddresses: number;
     cities: number;
     states: number;
     sources: number;
@@ -170,5 +187,5 @@ export interface Bootstrap {
   };
   defaultAddressId: string;
   defaultAsOf: string;
-  capabilities: { liveModel: boolean; provider: string | null };
+  liveModel: boolean;
 }

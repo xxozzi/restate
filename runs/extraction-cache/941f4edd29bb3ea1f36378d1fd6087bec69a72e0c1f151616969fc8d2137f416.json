@@ -1,0 +1,49 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "Just cause requirement for residential tenancy termination after 12 months of occupancy",
+    "category": "just_cause_eviction",
+    "level": "state",
+    "status": "in_force",
+    "effectiveDate": "2024-04-01",
+    "effectiveDateQuote": "This section shall become operative on April 1, 2024.",
+    "endDate": "2030-01-01",
+    "requirement": "After a tenant has continuously and lawfully occupied a residential property for 12 months, the owner must not terminate the tenancy without just cause, which must be stated in the written notice. Just cause includes at-fault causes (default in rent, lease violations, nuisance, waste, criminal activity, illegal subletting, refusal of entry, unlawful use) and no-fault causes (owner or family intent to occupy for 12+ months, withdrawal from rental market, compliance with government habitability orders, intent to demolish or substantially remodel).",
+    "keyValue": null,
+    "citation": "Cal. Civ. Code § 1946.2",
+    "quotedSpan": "after a tenant has continuously and lawfully occupied a residential real property for 12 months, the owner of the residential real property shall not terminate a tenancy without just cause, which shall be stated in the written notice to terminate tenancy.",
+    "coverageJson": "{\"op\":\"not\",\"arg\":{\"op\":\"any\",\"args\":[{\"op\":\"eq\",\"field\":\"single_family_or_condo\",\"value\":true},{\"op\":\"lt\",\"field\":\"building_age_years\",\"value\":15},{\"op\":\"all\",\"args\":[{\"op\":\"eq\",\"field\":\"units\",\"value\":2},{\"op\":\"eq\",\"field\":\"owner_occupied\",\"value\":true}]}]}}",
+    "coverageDescription": "Applies to all residential rental properties except: transient/tourist hotels, nonprofit hospital/religious facility housing, dormitories, housing where tenant shares kitchen/bathroom with owner, single-family owner-occupied residences renting no more than 2 units, 2-unit buildings where owner occupies one unit, housing issued a certificate of occupancy within the previous 15 years (unless a mobilehome), certain individually-owned properties meeting ownership and notice requirements, and affordable housing restricted by deed or regulatory agreement.",
+    "exemptions": [
+     "Transient and tourist hotel occupancy",
+     "Housing in nonprofit hospitals, religious facilities, extended care facilities, licensed residential care facilities for the elderly, or adult residential facilities",
+     "Dormitories owned and operated by institutions of higher education or K-12 schools",
+     "Housing where tenant shares bathroom or kitchen facilities with owner who maintains principal residence there",
+     "Single-family owner-occupied residences, including accessory dwelling units, renting no more than 2 units or bedrooms, or mobilehomes",
+     "2-unit buildings where owner occupied one unit as principal residence at tenancy start",
+     "Housing issued a certificate of occupancy within the previous 15 years (except mobilehomes)",
+     "Individually-owned residential property not owned by a REIT, corporation, or certain LLCs, where tenants have received written notice of exemption",
+     "Affordable housing restricted by deed, regulatory agreement, or other recorded document, or subject to housing subsidy agreements"
+    ],
+    "yieldsToLocal": true,
+    "preemptsLocal": false,
+    "warnings": [
+     "Section repeals on January 1, 2030; only in effect through 2029-12-31",
+     "Complex family trust definitions for 'owner' in owner-occupancy no-fault cause; verify applicability for specific ownership structures",
+     "Relocation assistance requirement (1 month's rent) and waiver rules stated in subdivision (d) not fully summarized here",
+     "Additional procedural requirements for notice content, cure periods, and remedies stated in subdivisions (c), (d), (f), (g), (h) not fully detailed"
+    ]
+   }
+  ],
+  "warnings": [
+   "This statute repeals as of January 1, 2030 and will no longer be in effect after that date"
+  ]
+ },
+ "docId": "D023",
+ "chunk": 0,
+ "chunkHash": "fdd8d7fca42103cf630c3a9a4ed217150eb17a6e180edd80c1d845ca5e8aa1fe",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:10:53.726Z"
+}

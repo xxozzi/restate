@@ -1,0 +1,14 @@
+{
+ "raw": {
+  "rules": [],
+  "warnings": [
+   "The source is a general informational page from the San Francisco Human Rights Commission website. While it mentions 'Fair Chance Ordinance' and 'Affordable housing protections for people with criminal history' in the navigation/resource sections, the actual text of the Fair Chance Ordinance itself is not provided in the document. The page contains no operative legal language, effective dates, citations to specific ordinances, coverage descriptions, or other details needed to record structured rules. To create rule records, the full text of San Francisco Administrative Code section(s) establishing the Fair Chance Ordinance would be needed."
+  ]
+ },
+ "docId": "D078",
+ "chunk": 0,
+ "chunkHash": "448b85d4e40d5f17d12acf18db20aab4b9337b2e196099fee46c65f46dae91cc",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:12:50.105Z"
+}

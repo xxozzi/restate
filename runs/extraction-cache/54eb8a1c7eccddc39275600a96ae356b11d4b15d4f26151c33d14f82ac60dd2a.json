@@ -1,0 +1,44 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "Prohibition on Sale or Use of Coordinated Pricing Algorithms to Set Rents or Manage Occupancy Levels",
+    "category": "algorithmic_rent_setting",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": "2025-11-18",
+    "effectiveDateQuote": "At a regular meeting of the Council of the City of Berkeley held on November 18, 2025, this Ordinance was passed to print",
+    "endDate": null,
+    "requirement": "Landlords and vendors are prohibited from selling, licensing, or using coordinated pricing algorithms that use competitor data to set or recommend rent prices, occupancy rates, or other rental terms for residential dwelling units in Berkeley. Each month of violation and each unit affected constitutes a separate violation.",
+    "keyValue": null,
+    "citation": "Berkeley Mun. Code ch. 13.63",
+    "quotedSpan": "It shall be unlawful to sell, license, or otherwise provide to City of Berkeley landlords any coordinated pricing algorithm that sets or recommends rents or occupancy levels that may be achieved for residential dwelling units in the City of Berkeley. It shall be unlawful for a landlord to use a coordinated pricing algorithm described in subsection A when setting rents or occupancy levels for residential dwelling units in the City of Berkeley.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential dwelling units in the City of Berkeley",
+    "exemptions": [
+     "Products that publish aggregated and anonymous rental data without recommending specific rents or occupancy rates",
+     "Products used to establish rent or income limits per affordable housing guidelines of government entities",
+     "Products used solely for market research, appraisals, or software development and testing that do not use competitor data as input in real-time recommendations"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "Ordinance passed on 2025-11-18; effective date is the passage date unless implementation delayed by Section 2 posting and publication requirements",
+     "Definition of 'Competitor Data' includes temporal specificity (less than 90 days old) that may affect enforcement",
+     "The ordinance explicitly states it does not regulate the amount of rent landlords may charge, only the use of coordinated pricing algorithms"
+    ]
+   }
+  ],
+  "warnings": [
+   "Ordinance No. 7,992-N.S. was passed on November 18, 2025, which is after the reference date of 2026-10-01, so the status is marked as in_force as of the retrieval date (2026-10-01)",
+   "Section 2 requires posting and publication within 15 days of adoption; the exact date when the ordinance becomes operative may depend on completion of these administrative steps",
+   "No explicit end date is stated in the ordinance"
+  ]
+ },
+ "docId": "D001",
+ "chunk": 0,
+ "chunkHash": "7f24d692c68f42ed2ab11a2d1f8e060a951f8cf6a3974b4e8090e63081ad6f17",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:10:14.744Z"
+}

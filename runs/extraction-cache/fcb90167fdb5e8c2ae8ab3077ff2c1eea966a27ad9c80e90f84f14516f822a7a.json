@@ -1,0 +1,20 @@
+{
+ "raw": {
+  "updates": [
+   {
+    "id": "BOS-SCREEN-01",
+    "coverageJson": "{\"op\":\"all\",\"args\":[{\"op\":\"any\",\"args\":[{\"op\":\"eq\",\"field\":\"owner_type\",\"value\":\"public_entity\"},{\"op\":\"eq\",\"field\":\"owner_type\",\"value\":\"nonprofit\"},{\"op\":\"eq\",\"field\":\"affordable_housing_restricted\",\"value\":true}]},{\"op\":\"eq\",\"field\":\"residential\",\"value\":true}]}",
+    "coverageDescription": "This policy applies to multifamily residential buildings where the housing provider receives DND funding/land or has income-restricted units created under BPDA's Inclusionary Development Policy. The screening restrictions cover all units in qualifying buildings.",
+    "coverageQuote": "Housing providers receiving Department of Neighborhood Development (DND) funding and/or land, or that have income restricted units created under the Boston Planning and Development Agency (BPDA) Inclusionary Development Policy will not impose a blanket policy",
+    "sourceId": "D010"
+   }
+  ]
+ },
+ "promptHash": "0727a2616b08e130e31a4569973e766a81018a99bb37cbcd49ff0ded37b18b97",
+ "docId": "COVERAGE:Boston, MA",
+ "chunk": 0,
+ "chunkHash": "46cc159d28d632fb783293fbd24774b389247f3a31013d0a0fead72f248e32d0",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:33:41.248Z"
+}

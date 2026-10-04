@@ -1,0 +1,17 @@
+{
+ "raw": {
+  "rules": [],
+  "warnings": [
+   "This source describes Cambridge's Tenants Rights and Resources Notification Ordinance (Chapter 8.71 CMC), which requires landlords to provide informational materials about tenant rights at lease inception and termination. It does not establish substantive rental housing rules in the six tracked categories (rent increases, just cause, deposits, fees, screening, algorithms).",
+   "The ordinance addresses only the procedural requirement to distribute information, not the underlying rights themselves. No operative rent control, eviction standards, deposit limits, screening rules, or fee caps are stated in this text.",
+   "To extract substantive rules about Cambridge's actual tenant protections, the full ordinance text or the referenced 'Tenants Rights and Resources PDF' would need to be reviewed."
+  ]
+ },
+ "promptHash": "0727a2616b08e130e31a4569973e766a81018a99bb37cbcd49ff0ded37b18b97",
+ "docId": "D031",
+ "chunk": 0,
+ "chunkHash": "65ffa9dca5815b925debf63d1ff0974f710aed6614723f28d722209094a36b20",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:16:07.919Z"
+}

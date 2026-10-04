@@ -1,6 +1,8 @@
 {
   "version": 1,
-  "markdown_exceptions": [],
+  "markdown_exceptions": [
+    "README.md"
+  ],
   "sources": [
     {
       "id": "brief-1",
@@ -1163,6 +1165,17 @@
       "derived_from": "sources/supplemental/ma-cella-sjc-13893.pdf",
       "extraction_method": "pypdf; page text joined with blank lines",
       "sha256": "d30f8b2b90b7c24f06f293acd3f660bdd613bc33d6cafaa3c84ac4ff56b40b2d"
+    },
+    {
+      "id": "geography-census-retry",
+      "path": "sources/geography/census-retry.json",
+      "title": "Census Geocoder retries for 16 unmatched sample addresses",
+      "kind": "official-geographic-data",
+      "source_url": "https://geocoding.geo.census.gov/geocoder/geographies/onelineaddress?benchmark=Public_AR_Current&vintage=Current_Current&layers=28&format=json",
+      "retrieved_on": "2026-10-03",
+      "registered_at": "2026-10-04T03:10:00+00:00",
+      "sha256": "c9399bc44d97dcaeed83a270d83e21e7626e20d27c9a39821ce8ed847fe8ce12",
+      "provenance": "Census one-line geocoder queried from the browser for 16 addresses the batch run missed; normalized query strings are recorded with each result."
     }
   ]
 }

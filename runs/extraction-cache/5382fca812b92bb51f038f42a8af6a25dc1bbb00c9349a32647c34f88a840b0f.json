@@ -1,0 +1,17 @@
+{
+ "raw": {
+  "rules": [],
+  "warnings": [
+   "This excerpt discusses procedural and non-covered topics (domestic violence lease termination, service members relief, disability modifications, right of entry, abandoned property) that fall outside the six rental-housing-law categories tracked by this tool",
+   "The security deposit provisions in this excerpt are procedural (interest calculation, notice, return timelines) and do not establish caps or limits on deposit amounts beyond what appears in other New Jersey statutes already recorded",
+   "The discrimination section describes fair housing protections and prohibited basis but does not address the six specific regulatory categories (rent limits, just-cause eviction, deposits, application fees, screening restrictions, algorithmic pricing)"
+  ]
+ },
+ "promptHash": "0727a2616b08e130e31a4569973e766a81018a99bb37cbcd49ff0ded37b18b97",
+ "docId": "D067",
+ "chunk": 1,
+ "chunkHash": "42e998e9d7f5f410940a96f98de130c7aaccfb6bc9acfc648c11e0779e4e1a58",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:16:15.573Z"
+}

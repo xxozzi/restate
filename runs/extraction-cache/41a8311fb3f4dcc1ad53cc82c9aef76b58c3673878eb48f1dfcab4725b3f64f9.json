@@ -1,0 +1,41 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "Housing Stability Notification Act – Notice requirement when ending tenancy",
+    "category": "just_cause_eviction",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": "2020-11-06",
+    "effectiveDateQuote": "The HSNA becomes effective on November 6, 2020.",
+    "endDate": null,
+    "requirement": "When a landlord ends a tenancy or decides not to renew a lease, the landlord must provide the tenant with a Notice of Tenants' Rights and Resources at the same time as the Notice to Quit or Notice of Non-renewal. The landlord must also send a copy of the notice and a Certificate of Compliance/Service to the City of Boston's Office of Housing Stability.",
+    "keyValue": null,
+    "citation": "Boston City Ordinance, Housing Stability Notification Act (Sec. 10-11.7)",
+    "quotedSpan": "The HSNA requires that landlords give this Notice of Tenants' Rights and Resources to tenants when the landlord starts the eviction process, or when the landlord decides to not offer the tenant a renewal of their lease agreement. The Notice of Tenants' Rights and Resources must be delivered at the same time as the Notice to Quit.",
+    "coverageJson": "{\"op\":\"not\",\"arg\":{\"op\":\"any\",\"args\":[{\"op\":\"unknown\",\"reason\":\"hospital, skilled nursing facility or health facility\"},{\"op\":\"unknown\",\"reason\":\"non-profit facility whose primary purpose is providing short-term treatment, assistance or therapy for alcohol, drug, or other substance abuse\"}]}}",
+    "coverageDescription": "Applies to all residential units in the City of Boston, except those in hospitals, skilled nursing facilities, health facilities, or non-profit facilities providing short-term treatment for substance abuse.",
+    "exemptions": [
+     "Hospital, skilled nursing facility or health facility residences",
+     "Non-profit facility residences whose primary purpose is providing short-term treatment, assistance or therapy for alcohol, drug, or other substance abuse"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The ordinance requires notice delivery and filing with the city but does not itself set eviction grounds or notice periods. It is an informational/procedural requirement, not a substantive just-cause eviction protection. Grouped under just_cause_eviction because it applies when a tenancy is terminated."
+    ]
+   }
+  ],
+  "warnings": [
+   "Source is a FAQ document explaining an ordinance, not the ordinance text itself. The full operative language of Boston Ordinance Sec. 10-11.7 is not provided.",
+   "The document does not state what the 'Notice of Tenants' Rights and Resources' must contain or what substantive rights it describes.",
+   "No rule found in rent_increase_limits, security_deposits, application_screening_fees, screening_restrictions, or algorithmic_rent_setting categories in this source."
+  ]
+ },
+ "docId": "D014",
+ "chunk": 0,
+ "chunkHash": "70574b2f50c363398d635ef9cc92eed83ba4eca0e404a04ec04bfba004ff9606",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:10:44.912Z"
+}

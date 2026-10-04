@@ -1,0 +1,37 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "Notice to quit for nonpayment of rent must include required form and information",
+    "category": "just_cause_eviction",
+    "level": "state",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "When a landlord gives a notice to quit for nonpayment of rent to a residential tenant, it must be accompanied by a form that includes documentation of any repayment agreements and information about rental assistance programs, trial court rules, and legal restrictions on evictions. The form must prominently display a statement that the notice is not an eviction and that the tenant is entitled to a legal proceeding.",
+    "keyValue": null,
+    "citation": "M.G.L. c. 186 § 31",
+    "quotedSpan": "A notice to quit for nonpayment of rent given in writing by a landlord to a residential tenant pursuant to this chapter shall be accompanied by a form that shall include, but not be limited to: (i) documentation of any agreements between the tenant and landlord for the tenant to repay the landlord for nonpayment of rent; and (ii) information on: (1) rental assistance programs including, but not limited to, the residential assistance for families in transition program; (2) applicable trial court rules, standing orders or emergency administrative orders pertaining to actions for summary process; and (3) any relevant federal or state legal restrictions on residential evictions.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental housing in Massachusetts",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The statute requires a form to accompany notice to quit for nonpayment, but does not specify an effective date. The retrieval date is 2026-10-01, so the rule is assumed to be in force as of that date.",
+     "The statute does not define exemptions based on building characteristics; coverage is assumed to be all residential rental units."
+    ]
+   }
+  ],
+  "warnings": [
+   "M.G.L. c. 186 § 31 addresses procedural requirements for eviction notices (notice to quit for nonpayment) and does not establish substantive rules in the six tracked categories (rent increase limits, just-cause eviction grounds, security deposits, application/screening fees, screening restrictions, or algorithmic rent setting). The rule recorded here relates to just-cause eviction only in the narrow sense that it requires certain notices and information when a landlord issues a notice to quit, but it does not define the grounds or reasons for which eviction is permissible or prohibited."
+  ]
+ },
+ "docId": "D058",
+ "chunk": 0,
+ "chunkHash": "80dcf6692b891859e2601c0732252ba30ec010b5034749c4693ef68ce1fd4281",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:12:05.644Z"
+}

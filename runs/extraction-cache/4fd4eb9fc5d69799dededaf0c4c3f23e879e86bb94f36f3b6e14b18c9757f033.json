@@ -1,0 +1,43 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "Fair Chance in Housing Act: Criminal record screening restrictions",
+    "category": "screening_restrictions",
+    "level": "state",
+    "status": "in_force",
+    "effectiveDate": "2022-01-01",
+    "effectiveDateQuote": "This act shall take effect on the first day of the seventh month next following the date of enactment",
+    "endDate": null,
+    "requirement": "Housing providers cannot inquire about an applicant's criminal record before making a conditional offer. After a conditional offer, they may only consider certain convictions (murder, aggravated sexual assault, kidnapping, arson, human trafficking, sex offenses with lifetime registration, or indictable offenses issued or with prison sentence concluded within specified timeframes: 6 years for 1st degree, 4 years for 2nd/3rd degree, 1 year for 4th degree). They must conduct an individualized assessment considering offense nature/severity, applicant age, time elapsed, rehabilitation evidence, impact on tenant safety, and whether offense occurred on rented property. They cannot consider arrests without conviction, expunged convictions, sealed records, juvenile adjudications, or vacated convictions.",
+    "keyValue": null,
+    "citation": "N.J.S.A. 46:8-55, 46:8-56, 46:8-58",
+    "quotedSpan": "A housing provider shall not require an applicant to complete any housing application that includes any inquiries regarding an applicant's criminal record prior to the provision of a conditional offer... A housing provider shall not make any oral or written inquiry regarding an applicant's criminal record prior to making a conditional offer.",
+    "coverageJson": "{\"op\":\"not\",\"arg\":{\"op\":\"all\",\"args\":[{\"op\":\"eq\",\"field\":\"owner_occupied\",\"value\":true},{\"op\":\"lte\",\"field\":\"units\",\"value\":4}]}}",
+    "coverageDescription": "All rental dwelling units except owner-occupied premises of not more than four dwelling units.",
+    "exemptions": [
+     "Drug-related criminal activity for the manufacture or production of methamphetamine on the premises of federally assisted housing",
+     "Whether the applicant is subject to a lifetime registration requirement under a State sex offender registration program"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The law applies to criminal records only; does not address source of income, credit, or other screening criteria",
+     "The law requires a conditional offer to be made before criminal history can be reviewed, but does not define what a conditional offer entails regarding other eligibility criteria",
+     "Section 46:8-59 provides immunity to landlords who rent to individuals with criminal records, which may affect enforcement"
+    ]
+   }
+  ],
+  "warnings": [
+   "This law addresses criminal record screening restrictions only and does not contain rules in other categories (rent_increase_limits, just_cause_eviction, security_deposits, application_screening_fees, algorithmic_rent_setting)",
+   "The enactment date is stated as June 18, 2021; the effective date is computed as seven months later (January 1, 2022)",
+   "The law exempts owner-occupied properties with four or fewer units from its application"
+  ]
+ },
+ "docId": "D065",
+ "chunk": 0,
+ "chunkHash": "c7d281ddae183438fd360bfa0b4824d6541c532efe6ae8123dad37e0f4d53e1e",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:12:11.009Z"
+}

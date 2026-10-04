@@ -1,0 +1,17 @@
+{
+ "raw": {
+  "rules": [],
+  "warnings": [
+   "This source is an informational guide to NJ landlord-tenant law, not a law itself; operative rules must be extracted from cited statutes (e.g., N.J.S.A. 46:8-43 to 51, N.J.S.A. 46:8C-2 to -21)",
+   "Part 1 of 6 covers The Lease, Mobile Home Leases, Public Housing Leases, Lease Renewal, Cable Installation, Pets, and begins Termination of Lease; security deposits, rent control, and eviction details appear on later pages (parts 2-6 not provided)",
+   "The text references many statutes and their provisions but does not quote operative rent control, security deposit, eviction, screening, or algorithmic pricing rules with sufficient detail to extract coverage, effective dates, or key values"
+  ]
+ },
+ "promptHash": "0727a2616b08e130e31a4569973e766a81018a99bb37cbcd49ff0ded37b18b97",
+ "docId": "D067",
+ "chunk": 0,
+ "chunkHash": "a3b87a995b53c2ca87dc540ea2dfea3218142bac6dcbf49d5477a11d0c212598",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:16:15.340Z"
+}

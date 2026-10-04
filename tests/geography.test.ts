@@ -89,3 +89,11 @@ test("missing geocoder data never silently promotes postal city into legal city"
     null,
   );
 });
+
+test("an approximate Census match counts only when it is clearly the same street", async () => {
+  const { sameStreet } = await import("../src/geography");
+  assert.equal(sameStreet("130-132 2ND AVE, Newark, NJ", "132 2ND AVE, NEWARK, NJ, 07104"), true);
+  assert.equal(sameStreet("233-235 SECOND ST., Jersey City", "235 2ND ST, JERSEY CITY, NJ"), true);
+  assert.equal(sameStreet("65-71 NORFLOK ST, Newark", "71 NORFOLK ST, NEWARK, NJ"), true);
+  assert.equal(sameStreet("10 MAPLE ST, Boston", "10 HARVARD ST, BOSTON, MA"), false);
+});

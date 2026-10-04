@@ -1,0 +1,17 @@
+{
+ "raw": {
+  "rules": [],
+  "warnings": [
+   "This source is an informational webpage about California's Fair Employment and Housing Act (FEHA) and fair housing discrimination. It explains protected characteristics, remedies, and the complaint process but does not establish new operative rules in the six tracked categories: rent increase limits, just cause eviction, security deposits, application/screening fees, screening restrictions, or algorithmic rent setting.",
+   "The source does mention 'source of income' discrimination protections (including Section 8 vouchers) and criminal history screening limits, which relate to screening_restrictions, but these are general fair housing principles that apply statewide and are not specific rent-regulation provisions for address-level enforcement.",
+   "The webpage does not cite specific statutes, ordinances, or operative requirements with effective dates, coverage definitions, or exemptions that would populate the required rule fields for this dataset."
+  ]
+ },
+ "promptHash": "0727a2616b08e130e31a4569973e766a81018a99bb37cbcd49ff0ded37b18b97",
+ "docId": "D016",
+ "chunk": 0,
+ "chunkHash": "21d92128daede668d6f1a824528ead345982ddf043a32e4fb5d80dd8adbcdce9",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:16:04.354Z"
+}

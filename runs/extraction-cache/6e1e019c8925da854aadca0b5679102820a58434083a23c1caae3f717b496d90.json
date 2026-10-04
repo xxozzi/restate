@@ -1,0 +1,66 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "Jersey City Rent Control Ordinance",
+    "category": "rent_increase_limits",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Jersey City enforces a rent control ordinance that regulates rent increases for residential rental properties. The Office of Landlord/Tenant Relations administers and enforces Chapter 260 of the Jersey City Municipal Code, which provides a rent control framework with certain exemptions and allows for capital improvement increases, vacancy increases, and hardship increases through formal applications.",
+    "keyValue": null,
+    "citation": "Jersey City Municipal Code ch. 260",
+    "quotedSpan": "The Office of Landlord Tenant Relations administers and enforces the Rent Control Ordinance, Chapter 260 of the Jersey City Municipal Code",
+    "coverageJson": "{\"op\":\"not\",\"arg\":{\"op\":\"lte\",\"field\":\"units\",\"value\":4}}",
+    "coverageDescription": "Applies to residential rental buildings with five or more units. Exempt: 1-4 unit properties.",
+    "exemptions": [
+     "Single-family and small multifamily buildings (1-4 units)"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "Source document does not provide specific rent increase caps, formulas, or limits—only that a rent control ordinance exists and is administered. The actual percentage limits and detailed requirements are in Chapter 260 of the Jersey City Municipal Code, which is not fully quoted here.",
+     "Effective date is not stated; assumed to be in force as of retrieval date 2026-10-01.",
+     "The document mentions capital improvement, vacancy, and hardship rent increase applications but does not detail the allowable increases for each category."
+    ]
+   },
+   {
+    "title": "Jersey City Rent Control Exemptions",
+    "category": "rent_increase_limits",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Residential rental properties with 1-4 units are exempt from Jersey City rent control. The Rent Control Ordinance provides certain exemptions, which can be formally requested through a 'Rent Control Exemption Request' submitted to the Office of Landlord/Tenant Relations.",
+    "keyValue": null,
+    "citation": "Jersey City Municipal Code ch. 260",
+    "quotedSpan": "Please Note: All 1-4 Unit Properties are exempt from rent control",
+    "coverageJson": "{\"op\":\"lte\",\"field\":\"units\",\"value\":4}",
+    "coverageDescription": "Applies only to 1-4 unit residential rental properties.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The document indicates other exemptions exist (e.g., superintendent exemption, owner-occupied units) but does not fully enumerate or define them.",
+     "The statement 'All 1-4 Unit Properties are exempt from rent control' does not clarify whether this applies only to buildings with 1-4 units or whether individual 1-4 unit properties within larger buildings are exempt."
+    ]
+   }
+  ],
+  "warnings": [
+   "This document is a city website directory and administrative guidance page, not a detailed ordinance. It references Jersey City Municipal Code Chapter 260 (Rent Control Ordinance) and describes the Office of Landlord/Tenant Relations' role, but does not reproduce the substantive rules on rent caps, increase procedures, or detailed coverage.",
+   "The document mentions rent leveling board procedures, capital improvement and hardship increase applications, and various exemptions but does not provide the specific rent increase percentages, formulas, or effective dates needed to fully encode the rules.",
+   "The document was retrieved on 2026-10-01 and references a Rent Leveling Board meeting adjourned in 2026, confirming the ordinance is in force; however, only high-level information is available.",
+   "Effective dates for the ordinance itself are not stated in this source.",
+   "Information on just_cause_eviction, security_deposits, application_screening_fees, screening_restrictions, and algorithmic_rent_setting is absent from this document."
+  ]
+ },
+ "docId": "D036",
+ "chunk": 0,
+ "chunkHash": "f444bed30ede0905ce671ac4b9addf27feaa31c9a74ba6ba537b7f8d77e81dce",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:11:13.228Z"
+}

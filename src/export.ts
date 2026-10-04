@@ -4,96 +4,74 @@ import type { OfficialChange } from "./data";
 import { evaluateProperty } from "./evaluate";
 import { computeChange } from "./changes";
 
+const exportStatus = (rule: Rule, asOf: string) =>
+  rule.status === "pending" || rule.status === "failed"
+    ? rule.status
+    : rule.effectiveDate && rule.effectiveDate.length === 10
+      ? rule.effectiveDate > asOf
+        ? "not_yet_effective"
+        : "in_force"
+      : rule.status;
+
 export function exportRules(rules: Rule[], asOf: string) {
   return rules.map((rule) => ({
     team_rule_id: rule.id,
-    jurisdiction:
-      rule.level === "state"
-        ? rule.state
-        : rule.jurisdiction.includes(",")
-          ? rule.jurisdiction
-          : `${rule.jurisdiction}, ${rule.state}`,
+    jurisdiction: rule.jurisdiction,
     level: rule.level,
     category: rule.category,
-    status:
-      rule.status === "pending" || rule.status === "failed"
-        ? rule.status
-        : rule.effectiveDate && rule.effectiveDate.length === 10
-          ? rule.effectiveDate > asOf
-            ? "not_yet_effective"
-            : "in_force"
-          : rule.status,
+    status: exportStatus(rule, asOf),
     title: rule.title,
     requirement: rule.requirement,
-    coverage_conditions: {
-      description: rule.coverageDescription,
-      predicate: rule.coverage,
-    },
+    key_value: rule.keyValue,
+    coverage_conditions: { description: rule.coverageDescription, predicate: rule.coverage },
     exemptions: rule.exemptions.length ? rule.exemptions.join("; ") : null,
-    overrides: rule.supersedes || [],
-    interaction: rule.supersedes?.length
-      ? "Source-supported supersession; see cited rule."
-      : null,
+    overrides: [] as string[],
+    interaction: rule.yieldsToLocal
+      ? "Yields to a stricter local ordinance that covers the unit (stated in the source)."
+      : rule.preemptsLocal
+        ? "May preempt local ordinances on the same subject; flagged for review."
+        : null,
     effective_date: rule.effectiveDate,
     citation: rule.citation,
     source_doc_id: rule.sourceId,
     source_url: rule.sourceUrl,
     quoted_span: rule.quotedSpan,
     confidence: null,
-    conflict_flag: Boolean(rule.conflictsWith?.length),
-    conflict_note: rule.conflictsWith?.length
-      ? "Possible interaction requires human review."
-      : null,
+    conflict_flag: rule.preemptsLocal,
+    conflict_note: rule.preemptsLocal ? "Possible preemption of local ordinances; needs human review." : null,
   }));
 }
 
-export function validateRules(
-  rules: Rule[],
-  asOf: string,
-  schema: Record<string, unknown>,
-) {
+export function validateRules(rules: Rule[], asOf: string, schema: Record<string, unknown>) {
   const ajv = new Ajv2020({ allErrors: true, strict: false });
   const validate = ajv.compile(schema);
-  const records = exportRules(rules, asOf);
-  const errors = records.flatMap((record) => {
+  const errors = exportRules(rules, asOf).flatMap((record) => {
     const ruleId = record.team_rule_id;
-    return validate(record)
-      ? []
-      : [{ ruleId, errors: structuredClone(validate.errors) }];
+    return validate(record) ? [] : [{ ruleId, errors: structuredClone(validate.errors) }];
   });
+  return { checked: rules.length, passed: rules.length - errors.length, errors };
+}
+
+export function exportLookups(properties: PropertyRecord[], rules: Rule[], asOf: string) {
   return {
-    checked: records.length,
-    passed: records.length - errors.length,
-    errors,
+    as_of: asOf,
+    lookups: Object.fromEntries(
+      properties.map((property) => [
+        property.id,
+        evaluateProperty(property, rules, asOf)
+          .results.filter((result) => result.result !== "does_not_apply")
+          .map((result) => ({
+            team_rule_id: result.ruleId,
+            result: result.result,
+            explanation: result.explanation,
+            conflict_flag: result.conflictFlag,
+          })),
+      ]),
+    ),
   };
 }
 
-export function exportLookups(
-  properties: PropertyRecord[],
-  rules: Rule[],
-  asOf: string,
-) {
-  const lookups = Object.fromEntries(
-    properties.map((property) => [
-      property.id,
-      evaluateProperty(property, rules, asOf)
-        .results.filter((result) => result.result !== "does_not_apply")
-        .map((result) => ({
-          team_rule_id: result.ruleId,
-          result: result.result,
-          explanation: result.explanation,
-          conflict_flag: result.conflictFlag,
-        })),
-    ]),
-  );
-  return { as_of: asOf, lookups };
-}
-
-export function exportChanges(
-  tests: OfficialChange[],
-  properties: PropertyRecord[],
-  rules: Rule[],
-) {
+export function exportChanges(tests: OfficialChange[], properties: PropertyRecord[], rules: Rule[]) {
   return Object.fromEntries(
     tests.map((test) => {
       const report = computeChange(test, properties, rules);
@@ -109,31 +87,20 @@ export function exportChanges(
   );
 }
 
-/** Generated regression expectations are observations, never independent legal truth. */
-export function exportEvidenceFixtures(
-  property: PropertyRecord,
-  rules: Rule[],
-  asOf: string,
-  scenarioFacts: Facts = {},
-) {
-  const baseline = evaluateProperty(property, rules, asOf, scenarioFacts);
+/** The contrast examples behind an evidence question, saved as replayable regression cases. */
+export function exportEvidenceFixtures(property: PropertyRecord, rules: Rule[], asOf: string, scenario: Facts = {}) {
+  const baseline = evaluateProperty(property, rules, asOf, scenario);
   return {
-    version: 1,
-    kind: "generated-regression-fixtures",
-    independentlyReviewed: false,
-    hypothetical: true,
-    property: structuredClone(property),
+    kind: "restate-regression-fixtures",
+    note: "Generated from the current rules. They catch regressions; they are not independent legal review.",
+    propertyId: property.id,
     asOf,
-    scenarioFacts: structuredClone(scenarioFacts),
-    baseline: baseline.results,
+    scenario,
     cases: baseline.questions.flatMap((question) =>
       question.branches.map((branch) => ({
         question: question.question,
-        facts: { ...scenarioFacts, [question.field]: branch.value },
-        results: evaluateProperty(property, rules, asOf, {
-          ...scenarioFacts,
-          [question.field]: branch.value,
-        }).results,
+        facts: { ...scenario, [question.field]: branch.value },
+        expected: Object.fromEntries(branch.changes.map((change) => [change.ruleId, change.result])),
       })),
     ),
   };

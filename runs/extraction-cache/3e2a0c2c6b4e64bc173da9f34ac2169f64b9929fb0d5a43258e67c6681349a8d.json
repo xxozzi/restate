@@ -1,0 +1,80 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "Los Angeles Relocation Assistance Payment Timing and Method",
+    "category": "just_cause_eviction",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Landlords must make relocation assistance payments available within 15 days of serving an eviction notice. Payments may be made directly to the tenant or, at the landlord's discretion and cost, deposited into an escrow account where tenants can request reimbursement for specific relocation expenses within 3 working days; remaining escrow funds are released upon certification of vacation.",
+    "keyValue": "15 days",
+    "citation": "L.A.M.C. § 151.09.G, 165.06.J",
+    "quotedSpan": "Payments shall be made available within fifteen (15) days of service of the written notice of eviction; however, the landlord may, at the landlord's sole discretion and at the landlord's cost, elect to pay the monetary relocation benefits through an escrow account.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental units in Los Angeles subject to relocation assistance requirements.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The source text is part 2 of 2 of a bulletin; part 1 may contain additional operative rules about relocation assistance amounts and eligibility that are not included here.",
+     "The source mentions 'RSO' and 'JCO' (Rent Stabilization Ordinance and Just Cause Ordinance) but does not provide the underlying payment amounts; those amounts are stated elsewhere.",
+     "The text states 'Option 3 under the RPO will follow State law relocation rules on timing of payment' but the source does not define what Option 3 or RPO are or provide those state rules."
+    ]
+   },
+   {
+    "title": "Los Angeles Relocation Assistance Payment Distribution Among Tenants",
+    "category": "just_cause_eviction",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "If one tenant occupies a unit, the entire relocation assistance payment is made to that tenant. If two or more tenants occupy the unit, each tenant receives an equal pro rata share. If more than one payment amount applies, the landlord pays the higher amount.",
+    "keyValue": null,
+    "citation": "L.A.M.C. § 151.09.G, 165.06.J",
+    "quotedSpan": "The entire payment shall be made to a tenant who is the only tenant in a rental unit. If two or more tenants occupy a rental unit, then each tenant shall be paid an equal pro rata share of the payment. If more than one payment amount applies to a unit, the landlord pays the higher amount for the unit.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental units in Los Angeles subject to relocation assistance requirements.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": []
+   },
+   {
+    "title": "Los Angeles Relocation Assistance Offset for Accumulated Rent",
+    "category": "just_cause_eviction",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "A landlord may offset the tenant's accumulated rent debt against relocation assistance payments, except when the termination is required by a governmental agency order to vacate an unpermitted dwelling.",
+    "keyValue": null,
+    "citation": "L.A.M.C. § 151.09.G.5, 165.06.J",
+    "quotedSpan": "A landlord may offset the tenant's accumulated rent against any relocation assistance, unless the relocation assistance is owed because a termination of tenancy is required by a governmental agency order to vacate or comply issued for an unpermitted dwelling.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental units in Los Angeles subject to relocation assistance requirements.",
+    "exemptions": [
+     "Termination of tenancy required by governmental agency order to vacate or comply for an unpermitted dwelling."
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": []
+   }
+  ],
+  "warnings": [
+   "This is part 2 of 2 of a Relocation Assistance Bulletin. The full operative rules on relocation assistance amounts, eligibility categories (Eligible vs. Qualified tenants), and circumstances triggering the requirement are not contained in this excerpt.",
+   "The source discusses administrative fees charged to landlords (e.g., Relocation Service Fee of $623–$1002 per unit as of July 1, 2025) but these are not operative substantive rules for tenant housing rights; they are landlord compliance costs and are not recorded as rules.",
+   "The source references 'RAC Regulations, Section 960.00' and 'Section 967.00' but does not reproduce their text."
+  ]
+ },
+ "docId": "D043",
+ "chunk": 1,
+ "chunkHash": "a7536fe079b47c5e21f42ce78b50be5a0bc80207e37431bd6dba4788d2aeaf54",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:11:43.066Z"
+}

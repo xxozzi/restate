@@ -2,7 +2,12 @@ import { readFile, access } from "node:fs/promises";
 import { resolve, basename } from "node:path";
 import { createHash } from "node:crypto";
 import { parse } from "csv-parse/sync";
-import type { ChangeCase, PropertyRecord, SourceDocument } from "./contracts";
+import type {
+  ChangeCase,
+  FactRanges,
+  PropertyRecord,
+  SourceDocument,
+} from "./contracts";
 import { loadGeography, resolveJurisdiction } from "./geography";
 
 export interface OfficialChange {
@@ -30,6 +35,47 @@ function numeric(value: string | undefined): number | null {
   return Number.isFinite(number) ? number : null;
 }
 
+/**
+ * Bounds implied by the assessor's own use code when the exact value is missing.
+ * Each bound cites the code it came from, so the UI can show why it is known.
+ */
+export function deriveRanges(row: Record<string, string>): FactRanges {
+  const ranges: FactRanges = {};
+  const code = (row.use_code || "").trim();
+  const description = (row.use_description || "").trim();
+  const label = `${code}${description ? ` “${description}”` : ""}`;
+  if (numeric(row.units) === null) {
+    let min: number | null = null;
+    let max: number | null = null;
+    let between = description.match(/(\d+)\s*(?:to|-)\s*(\d+)[\s-]*units?/i);
+    if (between) [min, max] = [Number(between[1]), Number(between[2])];
+    else if (/(?:fifteen|15)\s+units?\s+or\s+more/i.test(description)) min = 15;
+    else if (/five or more|5\+\s*units|\(5\+/i.test(description)) min = 5;
+    else if (/>\s*8[\s-]*unit/i.test(description)) min = 9;
+    else if (/4 units or less/i.test(description)) max = 4;
+    if (row.state === "NJ" && code === "4C") {
+      // N.J.A.C. 18:12-2.2: class 2 is residential with four families or less;
+      // class 4C (apartment) therefore covers five or more dwelling units.
+      min = Math.max(min ?? 0, 5);
+      const tokens = [...description.matchAll(/(?:^|[-\s])(\d{1,3})U(?=$|[-\s(])/g)];
+      if (tokens.length === 1 && !description.includes("/")) {
+        const units = Number(tokens[0][1]);
+        if (units >= 5) [min, max] = [units, units];
+      }
+    }
+    if (min !== null || max !== null)
+      ranges.units = {
+        min,
+        max,
+        basis:
+          min !== null && min === max
+            ? `Assessor description ${label}`
+            : `Assessor use code ${label}`,
+      };
+  }
+  return ranges;
+}
+
 export async function loadDataset(root = process.cwd()): Promise<Dataset> {
   const starter = resolve(root, "sources/starter");
   await access(resolve(starter, "data/sample_addresses.csv"));
@@ -48,20 +94,18 @@ export async function loadDataset(root = process.cwd()): Promise<Dataset> {
       state: row.state,
       zip: row.zip,
       facts: {
-        // Organizer README §4 identifies the bounded sample as multifamily apartment properties.
+        // Organizer README §4: the sample is multifamily residential property.
         residential: true,
         units: numeric(row.units),
         year_built: numeric(row.year_built),
         use_code: row.use_code || null,
-        use_description: row.use_description || null,
         owner_occupied: null,
         owner_type: null,
-        certificate_of_occupancy: null,
-        tenancy_months: null,
-        original_lease_expired: null,
-        affordable_housing: null,
-        state: row.state,
+        certificate_of_occupancy_date: null,
+        affordable_housing_restricted: null,
       },
+      ranges: deriveRanges(row),
+      useDescription: row.use_description || "",
       source: row.source_dataset,
       retrievedAt: row.retrieved_at,
       jurisdictionMethod: geography.method,
@@ -81,38 +125,18 @@ export async function loadDataset(root = process.cwd()): Promise<Dataset> {
         try {
           text = await readFile(path, "utf8");
         } catch {
-          /* Missing captured sources remain explicit. */
+          /* A missing capture stays explicit. */
         }
-      }
-      const titleLine = text
-        .split("\n")
-        .map((line) => line.trim())
-        .find(
-          (line) =>
-            line && !/^(SOURCE:|RETRIEVED:|Skip to|Quick Links:)/i.test(line),
-        );
-      let fallbackTitle = row.doc_id;
-      try {
-        fallbackTitle = decodeURIComponent(
-          new URL(row.url).pathname.split("/").filter(Boolean).pop() ||
-            row.doc_id,
-        ).replace(/[-_]/g, " ");
-      } catch {
-        /* Keep source ID if upstream URL is malformed. */
       }
       return {
         id: row.doc_id,
-        title: (titleLine || fallbackTitle).slice(0, 180),
+        title: documentTitle(text, row.url, row.doc_id),
         jurisdiction: row.jurisdictions,
         url: row.url,
         retrievedAt: row.retrieved_at || "",
         text,
         sha256: text ? createHash("sha256").update(text).digest("hex") : "",
-        captureStatus: text
-          ? "captured"
-          : row.capture === "yes"
-            ? "capture_missing"
-            : row.capture,
+        captureStatus: text ? "captured" : row.capture === "yes" ? "capture_missing" : "link_only",
         filename: row.text_file ? basename(row.text_file) : "",
       } satisfies SourceDocument;
     }),
@@ -142,7 +166,7 @@ export async function loadDataset(root = process.cwd()): Promise<Dataset> {
       retrievedAt: entry.retrieved_at || "",
       text,
       sha256: createHash("sha256").update(text).digest("hex"),
-      captureStatus: "supplemental public source",
+      captureStatus: "supplemental",
       filename: basename(entry.path),
     });
   }
@@ -153,12 +177,31 @@ export async function loadDataset(root = process.cwd()): Promise<Dataset> {
       await readFile(resolve(starter, "dev/change_tests.json"), "utf8"),
     ),
     schema: JSON.parse(
-      await readFile(
-        resolve(starter, "schema/rule_record.schema.json"),
-        "utf8",
-      ),
+      await readFile(resolve(starter, "schema/rule_record.schema.json"), "utf8"),
     ),
   };
+}
+
+function documentTitle(text: string, url: string, id: string): string {
+  const lines = text
+    .split("\n")
+    .map((value) => value.replace(/\s+/g, " ").trim())
+    .filter(
+      (value) =>
+        value.length > 3 &&
+        !/^(SOURCE:|RETRIEVED:|Skip to|Quick Links|Menu|Search|skip to content|home|accessibility)/i.test(value) &&
+        !/TEL:|FAX:|EMAIL:|WEB:|@|www\.|\(\d{3}\)|\d{3}-\d{4}|Suite \d+|[\u0000-\u0008\uFFFD\uF000-\uF8FF]/i.test(value),
+    );
+  // Page titles like "Security Deposits | Berkeley Rent Board" are the most descriptive line when present.
+  const line = lines.slice(0, 40).find((value) => / \| /.test(value) && value.length < 140) ?? lines[0];
+  if (line) return line.slice(0, 140);
+  try {
+    return decodeURIComponent(new URL(url).pathname.split("/").filter(Boolean).pop() || id)
+      .replace(/[-_]/g, " ")
+      .slice(0, 140);
+  } catch {
+    return id;
+  }
 }
 
 export function describeChange(test: OfficialChange): ChangeCase {
@@ -170,11 +213,11 @@ export function describeChange(test: OfficialChange): ChangeCase {
     afterDate: test.as_of_after || test.as_of || "2026-10-01",
     status:
       test.type === "pending"
-        ? "Hypothetical enactment"
+        ? "If enacted"
         : test.type === "negative"
           ? "Failed proposal"
           : test.type === "boundary"
-            ? "Jurisdiction boundary"
-            : "Effective-date change",
+            ? "City boundary"
+            : "Effective date",
   };
 }

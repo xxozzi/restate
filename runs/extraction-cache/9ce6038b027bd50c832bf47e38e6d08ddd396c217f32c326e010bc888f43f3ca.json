@@ -1,0 +1,41 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "Ban on algorithmic rent-setting and coordinating functions",
+    "category": "algorithmic_rent_setting",
+    "level": "state",
+    "status": "pending",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "No landlord may use an algorithmic device or coordinator to set, determine or increase rent, or to determine occupancy levels of residential dwelling units. An algorithmic device means any computational process derived from machine learning or artificial intelligence that processes nonpublic competitor data to advise on rent amounts; a coordinator means any person or service that collects, analyzes or processes rent data from multiple landlords and recommends rental prices.",
+    "keyValue": null,
+    "citation": "M.G.L. c. 186 § 15G",
+    "quotedSpan": "no lessor or landlord shall employ, use or rely upon an algorithmic device or coordinator. (c) A violation of this section shall constitute a violation of section 2 of Chapter 93A. The civil penalty for each violation of this section shall not exceed $5,000 per violation.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential dwelling units in Massachusetts.",
+    "exemptions": [
+     "Reports published monthly or less frequently by trade associations in aggregated and anonymous form",
+     "Products used to establish rent or income limits under affordable housing program guidelines"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "This bill (S.2983) appears to be pending legislation and the effective date is not stated in the source; status is marked pending",
+     "The source states this amends Chapter 186 but does not specify when it becomes law or when the amendment takes effect"
+    ]
+   }
+  ],
+  "warnings": [
+   "No effective date is provided in the legislative text; this is a bill (S.2983) of the 194th General Court and its current enactment status is unknown from the source alone",
+   "The source does not indicate whether this bill has been enacted or remains pending as of 2026-10-01"
+  ]
+ },
+ "docId": "SUP-MA-S2983",
+ "chunk": 0,
+ "chunkHash": "5b2e1763ed0fee171f2f26e8866d5b15af457246695a9c582b1abe00dc913526",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:13:26.179Z"
+}

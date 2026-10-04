@@ -1,0 +1,80 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "San Diego Just-Cause Eviction: Relocation Assistance for No-Fault Terminations",
+    "category": "just_cause_eviction",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": "2023-06-24",
+    "effectiveDateQuote": "effective 6-24-2023",
+    "endDate": null,
+    "requirement": "When a landlord terminates a tenancy for no-fault just cause (owner move-in, demolition, or other qualifying reasons), the landlord must provide relocation assistance to the tenant at the landlord's option: either a direct payment equal to two months of actual rent (or three months if the tenant is a senior or disabled person), or waiver of rent through the end of the tenancy in that same amount.",
+    "keyValue": "2 months' rent (or 3 months if senior/disabled)",
+    "citation": "S.D.M.C. § 98.0706(c)",
+    "quotedSpan": "The landlord shall provide a direct payment to the tenant. Unless section 98.0706(c)(1)(A)(ii) applies, the direct payment to the tenant shall be in an amount equal to two months of actual rent under the tenant's lease in effect at the date of the notice. If the tenant is a senior or disabled, the direct payment to the tenant shall be in an amount equal to three months of actual rent under the tenant's lease in effect at the date of the notice.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental properties in San Diego covered by the just-cause eviction provisions of Division 7.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The rule applies only when a landlord terminates for no-fault just cause under sections 98.0704(b)(1), (3), or (4); other termination reasons may have different or no relocation-assistance requirements."
+    ]
+   },
+   {
+    "title": "San Diego Just-Cause Eviction: Right of First Refusal After No-Fault Termination",
+    "category": "just_cause_eviction",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": "2023-06-24",
+    "effectiveDateQuote": "effective 6-24-2023",
+    "endDate": null,
+    "requirement": "If a unit is re-rented within five years of a no-fault just-cause eviction, the landlord must first offer in writing to lease the unit to the displaced tenant (if the tenant requested such an offer and provided contact information), giving the tenant 30 days to accept. The landlord may screen the tenant using industry-accepted methods.",
+    "keyValue": null,
+    "citation": "S.D.M.C. § 98.0706(d)",
+    "quotedSpan": "If a residential rental property is offered for rent or lease for residential purposes within five years of the date the tenant was evicted under sections 98.0704(b)(1), (3), or (4), landlord shall first offer to lease the residential rental property in writing to the tenant displaced from that unit by the no-fault just cause termination if the tenant: advised the landlord in writing within 30 days of the termination notice of the tenant's desire to receive an offer to renew the tenancy.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental properties in San Diego that were subject to a no-fault just-cause termination under sections 98.0704(b)(1), (3), or (4).",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "Rule applies only if the unit is re-rented within five years and only to tenants who elected to receive an offer and provided contact information."
+    ]
+   },
+   {
+    "title": "San Diego Buyout Agreements: Void if Less Than Relocation Assistance",
+    "category": "just_cause_eviction",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": "2023-06-24",
+    "effectiveDateQuote": "effective 6-24-2023",
+    "endDate": null,
+    "requirement": "Any buyout agreement between a landlord and tenant must be for an amount greater than the relocation assistance available to the tenant. A buyout agreement for less than the required relocation assistance amount is void and unenforceable.",
+    "keyValue": null,
+    "citation": "S.D.M.C. § 98.0707(d)",
+    "quotedSpan": "Buyout agreements must be for an amount that is greater than the amount of relocation assistance available to the tenant in section 98.0706(c). A buyout agreement for less than the amount of relocation assistance owed to the tenant violates this Division and is void.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental properties in San Diego where buyout agreements are offered in connection with no-fault terminations.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "Buyout agreements are void only if they fail to comply with all requirements in section 98.0707(c)(1)–(4) or if they are less than the relocation-assistance amount."
+    ]
+   }
+  ],
+  "warnings": [
+   "The source document is part 2 of a longer ordinance. Earlier sections (98.0704(b)(1), (3), (4)) define the qualifying 'no-fault just cause' reasons for termination; this extract does not include their full text, so the exact scope of which terminations trigger relocation-assistance requirements cannot be fully verified from this excerpt.",
+   "Section 98.0707 imposes extensive disclosure and procedural requirements for buyout agreements that are extracted as procedural safeguards but do not themselves create new substantive rent or fee limits beyond the relocation-assistance floor.",
+   "The extract does not include sections 98.0701–98.0703, which likely define the initial just-cause framework and permitted grounds for eviction; therefore, the full scope of the just-cause rule cannot be assessed from this excerpt alone."
+  ]
+ },
+ "docId": "D073",
+ "chunk": 1,
+ "chunkHash": "3a587aff47ddb759a5c8328d0d2d8b8e226ba6ce65a5db9fde8187a559148c9d",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:12:46.920Z"
+}

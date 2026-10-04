@@ -1,0 +1,41 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "An Act prohibiting algorithmic rent setting",
+    "category": "algorithmic_rent_setting",
+    "level": "state",
+    "status": "pending",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "This bill proposes to prohibit the use of algorithmic rent setting in the rental housing market.",
+    "keyValue": null,
+    "citation": "MA S.2983 (194th Gen. Court)",
+    "quotedSpan": "An Act prohibiting algorithmic rent setting",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental housing in Massachusetts.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "Bill text not yet available; this summary is based on the bill title and history",
+     "Referred to Senate Ways and Means Committee on 3/12/2026; not yet enacted",
+     "Full requirement details cannot be confirmed without access to the bill's substantive provisions"
+    ]
+   }
+  ],
+  "warnings": [
+   "The source page shows only bill history and metadata, not the full bill text",
+   "The bill has been reported favorably from the Housing Committee but referred to Ways and Means; as of 2026-10-01 it has not been enacted into law",
+   "To determine exact coverage and specific requirements, the full bill text must be reviewed"
+  ]
+ },
+ "promptHash": "0727a2616b08e130e31a4569973e766a81018a99bb37cbcd49ff0ded37b18b97",
+ "docId": "D047",
+ "chunk": 0,
+ "chunkHash": "9af3e5eba834b37a5115fef298f5e2a1c1fc0b93c1d69500aea9d6bc7ee24b93",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:16:12.730Z"
+}

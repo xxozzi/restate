@@ -1,0 +1,17 @@
+{
+ "raw": {
+  "rules": [],
+  "warnings": [
+   "This section covers landlord registration, abandoned property, distraint, rent increases, habitability, and administrative procedures—not the six categories requested (rent increase limits, just cause eviction, security deposits, application/screening fees, screening restrictions, algorithmic rent setting).",
+   "The rent increase discussion states state law permits increases if they are not 'unconscionable' and comply with municipal ordinances, but does not establish a state-level rent control limit or formula. Most rules here are procedural or relate to landlord/tenant obligations outside the six categories.",
+   "No operative rules in the six specified categories are stated in this excerpt."
+  ]
+ },
+ "promptHash": "0727a2616b08e130e31a4569973e766a81018a99bb37cbcd49ff0ded37b18b97",
+ "docId": "D067",
+ "chunk": 2,
+ "chunkHash": "f21a449a3667b941a437fb111f80de173de675f748745acb97ae28bda9b9be06",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:16:15.815Z"
+}

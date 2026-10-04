@@ -1,0 +1,14 @@
+{
+ "raw": {
+  "rules": [],
+  "warnings": [
+   "The Housing Stability Notification Act (Boston) does not establish rules in the six target categories (rent_increase_limits, just_cause_eviction, security_deposits, application_screening_fees, screening_restrictions, algorithmic_rent_setting). It is a notice and disclosure requirement that landlords provide tenants with a Notice of Tenants' Rights and Resources when ending a tenancy. This is a procedural/administrative requirement, not a substantive housing regulation. The source mentions that violations do not halt the eviction process, confirming this law does not regulate eviction rights themselves."
+  ]
+ },
+ "docId": "D013",
+ "chunk": 0,
+ "chunkHash": "49b8ad77c47ac7a12afc5a1451cc38e8d908b45f83c922cbd2ee2eb320b715f0",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:10:40.216Z"
+}

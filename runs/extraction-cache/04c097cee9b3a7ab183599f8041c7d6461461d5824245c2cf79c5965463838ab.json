@@ -1,0 +1,44 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "Prohibition on Algorithmic Rent-Setting and Coordination",
+    "category": "algorithmic_rent_setting",
+    "level": "state",
+    "status": "in_force",
+    "effectiveDate": "2027-07-20",
+    "effectiveDateQuote": "This act shall take effect on the first day of the twelfth month next following the date of enactment.",
+    "endDate": null,
+    "requirement": "Landlords and property management companies cannot use algorithmic devices or software to set, recommend, or coordinate rental prices among multiple properties. It is unlawful for landlords to use coordinating functions, for coordinators to facilitate parallel pricing coordination, or for any person to perform a coordinating function that collects competitively sensitive information (such as rental prices or lease terms) from multiple property owners to set or recommend rents.",
+    "keyValue": null,
+    "citation": "N.J.S.A. 56:9-20 to 56:9-26; P.L. 2026, c. 43 (A3497 1R ACS)",
+    "quotedSpan": "It shall be unlawful and a violation of the \"New Jersey Antitrust Act,\" P.L.1970, c.73 (C.56:9-1 et seq.) for: a. a rental property owner, or any agent, representative, or subcontractor thereof, to receive, subscribe to, contract for, or otherwise exchange any form of consideration in return for the use of, the services of a coordinator; b. a coordinator to facilitate a tacit or express agreement among rental property owners that restricts competition with respect to residential dwelling units, including by performing a coordinating function; c. two or more persons to engage in or otherwise facilitate parallel pricing coordination",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental dwellings in New Jersey, except those subject to affordability controls or exempt coordinating functions (such as real estate brokerages, research databases, or public rent-setting programs).",
+    "exemptions": [
+     "Properties subject to affordability controls (federal Section 8, state housing programs, rent control or rent leveling ordinances, or other government housing programs)",
+     "Coordinating functions involving only research, statistical analysis, or testing where competitively sensitive information is not used in setting rents",
+     "Public rent estimates available at no cost",
+     "Real estate brokerage databases available on equal terms that do not collect competitively sensitive information to set rents",
+     "Government entities setting rents through affordability controls"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": true,
+    "warnings": [
+     "The law preempts municipal ordinances that conflict with it (subsection 6.b); municipalities may not enact contradictory ordinances. The effective date is computed as 12 months after the enactment date of July 20, 2026, which is July 20, 2027."
+    ]
+   }
+  ],
+  "warnings": [
+   "This is a new antitrust law focused specifically on algorithmic rent-setting and coordination, not a traditional rent-control statute. It does not establish rent increase limits or caps, but rather prohibits the use of algorithmic tools to coordinate pricing across properties. The law takes effect July 20, 2027, making it not yet in force as of the query date of 2026-10-01, so status should be 'not_yet_effective' rather than 'in_force'. Please verify the status correction.",
+   "The law defines 'algorithmic device' to exclude simple spreadsheets and databases, and defines 'coordinating function' narrowly to cover only arrangements that collect or use competitively sensitive information from multiple properties to set or recommend rents. Ordinary independent pricing decisions by individual landlords are not prohibited.",
+   "Section 6.b states that municipalities are prohibited from enacting ordinances that conflict with this act, indicating state preemption of local rental housing laws on this subject."
+  ]
+ },
+ "docId": "D069",
+ "chunk": 0,
+ "chunkHash": "1fdbfb48743a46429c3f47dbd8d08c665739202361661e1a2f19b94bb0ec43a6",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:12:27.345Z"
+}

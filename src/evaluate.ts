@@ -1,4 +1,5 @@
 import type {
+  EvidenceBranch,
   EvidenceQuestion,
   FactValue,
   Facts,
@@ -9,707 +10,459 @@ import type {
   Rule,
   RuleResult,
   TraceStep,
-} from "./contracts.js";
+} from "./contracts";
+import { FIELDS, describeFact, isField, labelFor, resolveFact } from "./facts";
 
-type PredicateResult = {
-  value: true | false | null;
-  missingFacts: string[];
-  trace: TraceStep[];
-};
+type Truth = true | false | null;
+type PredicateResult = { value: Truth; missingFacts: string[]; trace: TraceStep[] };
+
 const unique = <T>(values: T[]): T[] => [...new Set(values)];
-const text = (value: unknown): string => String(value ?? "").trim();
-const normalized = (value: unknown): string =>
-  text(value).toLocaleLowerCase("en-US");
-const labelFor = (field: string): string =>
-  ({
-    units: "Unit count",
-    year_built: "Construction year",
-    legal_city: "Legal municipality",
-    owner_type: "Owner type",
-    owner_occupied: "Owner occupancy",
-    certificate_of_occupancy_date: "Certificate of occupancy date",
-    certificate_date: "Certificate of occupancy date",
-  })[field] ?? field.replace(/_/g, " ").replace(/^./, (c) => c.toUpperCase());
-const step = (
-  label: string,
-  detail: string,
-  value: boolean | null,
-): TraceStep => ({
+const step = (label: string, detail: string, value: Truth): TraceStep => ({
   label,
   detail,
   outcome: value === null ? "unknown" : value ? "pass" : "fail",
 });
-const same = (left: FactValue, right: FactValue): boolean =>
-  typeof left === "string" && typeof right === "string"
-    ? normalized(left) === normalized(right)
-    : left === right;
-const has = (object: object, key: string): boolean =>
-  Object.prototype.hasOwnProperty.call(object, key);
+const OPS: Record<string, string> = {
+  eq: "=",
+  neq: "≠",
+  gte: "≥",
+  gt: ">",
+  lte: "≤",
+  lt: "<",
+  in: "one of",
+};
+const show = (value: unknown) =>
+  typeof value === "boolean" ? (value ? "yes" : "no") : Array.isArray(value) ? value.join(", ") : String(value);
 
-/** Three-valued logic: a decisive false AND / true OR removes irrelevant missing facts. */
+function compareExact(
+  actual: string | number | boolean,
+  op: string,
+  expected: string | number | boolean,
+): Truth {
+  if (op === "eq" || op === "neq") {
+    const same =
+      typeof actual === "string" && typeof expected === "string"
+        ? actual.toLowerCase() === expected.toLowerCase()
+        : actual === expected;
+    return op === "eq" ? same : !same;
+  }
+  if (typeof actual !== typeof expected || typeof actual === "boolean") return null;
+  if (op === "gte") return actual >= expected;
+  if (op === "gt") return actual > expected;
+  if (op === "lte") return actual <= expected;
+  return actual < expected;
+}
+
+/** Three-valued comparison of a bounded value: true or false only when every value in the range agrees. */
+function compareRange(
+  min: string | number | null,
+  max: string | number | null,
+  op: string,
+  expected: string | number | boolean,
+): Truth {
+  if (typeof expected === "boolean") return null;
+  const lo = min, hi = max;
+  if (op === "gte") return lo !== null && lo >= expected ? true : hi !== null && hi < expected ? false : null;
+  if (op === "gt") return lo !== null && lo > expected ? true : hi !== null && hi <= expected ? false : null;
+  if (op === "lte") return hi !== null && hi <= expected ? true : lo !== null && lo > expected ? false : null;
+  if (op === "lt") return hi !== null && hi < expected ? true : lo !== null && lo >= expected ? false : null;
+  const excluded = (lo !== null && lo > expected) || (hi !== null && hi < expected);
+  const pinned = lo !== null && lo === hi && lo === expected;
+  if (op === "eq") return pinned ? true : excluded ? false : null;
+  if (op === "neq") return pinned ? false : excluded ? true : null;
+  return null;
+}
+
+/** Kleene logic: a false AND or a true OR settles the result regardless of missing facts. */
 export function evaluatePredicate(
   predicate: Predicate,
+  property: PropertyRecord,
   facts: Facts,
+  asOf: string,
 ): PredicateResult {
   if (predicate.op === "always")
-    return {
-      value: true,
-      missingFacts: [],
-      trace: [
-        step(
-          "Coverage",
-          "No additional property condition was extracted.",
-          true,
-        ),
-      ],
-    };
+    return { value: true, missingFacts: [], trace: [] };
   if (predicate.op === "unknown")
     return {
       value: null,
       missingFacts: [],
-      trace: [step("Unresolved interpretation", predicate.reason, null)],
+      trace: [step("Needs review", predicate.reason, null)],
     };
   if (predicate.op === "not") {
-    const inner = evaluatePredicate(predicate.arg, facts);
+    const inner = evaluatePredicate(predicate.arg, property, facts, asOf);
+    if (inner.value === null && inner.missingFacts.length === 0)
+      // An exemption the fields can't express (e.g. hospitals, dormitories) is presumed not to apply
+      // to these apartment buildings unless someone shows it does; the note keeps it visible.
+      return {
+        value: true,
+        missingFacts: [],
+        trace: inner.trace.map((item) => ({
+          ...item,
+          label: "Exemption not checked",
+          detail: `${item.detail} Presumed not to apply to an apartment building unless shown.`,
+        })),
+      };
     const value = inner.value === null ? null : !inner.value;
     return {
-      ...inner,
       value,
-      trace: [
-        ...inner.trace,
-        step(
-          "Negated condition",
-          value === null
-            ? "The underlying condition remains unresolved."
-            : `The underlying condition is ${inner.value}; its negation is ${value}.`,
-          value,
-        ),
-      ],
+      missingFacts: inner.missingFacts,
+      trace: inner.trace.map((item) =>
+        item.outcome === "unknown"
+          ? item
+          : {
+              ...item,
+              label: `${item.label} (exemption)`,
+              detail: item.detail.replace("Rule asks for", "Exempt if"),
+              outcome: item.outcome === "pass" ? "fail" : "pass",
+            },
+      ),
     };
   }
   if (predicate.op === "all" || predicate.op === "any") {
-    const results: PredicateResult[] = [];
-    const decisive = predicate.op === "all" ? false : true;
-    for (const argument of predicate.args) {
-      const result = evaluatePredicate(argument, facts);
-      results.push(result);
-      if (result.value === decisive)
-        return {
-          value: decisive,
-          missingFacts: [],
-          trace: [
-            ...results.flatMap((item) => item.trace),
-            step(
-              "Combined coverage",
-              predicate.op === "all"
-                ? "One required condition is false; other missing facts cannot change this conclusion."
-                : "One sufficient condition is true; other missing facts cannot change this conclusion.",
-              decisive,
-            ),
-          ],
-        };
-    }
-    const unresolved = results.some((item) => item.value === null);
+    const decisive = predicate.op !== "all";
+    const results = predicate.args.map((arg) => evaluatePredicate(arg, property, facts, asOf));
+    const settled = results.find((result) => result.value === decisive);
+    if (settled) return { value: decisive, missingFacts: [], trace: settled.trace };
+    const open = results.some((result) => result.value === null);
     return {
-      value: unresolved ? null : !decisive,
-      missingFacts: unresolved
-        ? unique(results.flatMap((item) => item.missingFacts))
-        : [],
-      trace: results.flatMap((item) => item.trace),
+      value: open ? null : !decisive,
+      missingFacts: open ? unique(results.flatMap((result) => result.missingFacts)) : [],
+      trace: results.flatMap((result) => result.trace),
     };
   }
-  if (!("field" in predicate))
+  if (!("field" in predicate) || !isField(predicate.field))
     return {
       value: null,
       missingFacts: [],
-      trace: [
-        step(
-          "Unsupported condition",
-          "This condition needs interpretation review.",
-          null,
-        ),
-      ],
+      trace: [step("Needs review", "Uses a condition the evaluator does not support.", null)],
     };
-  const actual = facts[predicate.field];
   const label = labelFor(predicate.field);
-  if (
-    actual === null ||
-    actual === undefined ||
-    (typeof actual === "string" && !actual.trim())
-  )
+  const wanted = `${labelFor(predicate.field).toLowerCase()} ${OPS[predicate.op]} ${show(predicate.value)}`;
+  const resolved = resolveFact(predicate.field, facts, property.ranges, asOf);
+  if (resolved.kind === "missing")
     return {
       value: null,
-      missingFacts: [predicate.field],
-      trace: [
-        step(
-          label,
-          `${label} is missing; it has not been treated as zero, false, or an exemption.`,
-          null,
-        ),
-      ],
+      missingFacts: [resolved.ask],
+      trace: [step(label, `Rule asks for ${wanted}; not in the record.`, null)],
     };
-  let value: boolean;
+  let value: Truth;
   if (predicate.op === "in") {
-    if (!predicate.value.some((option) => typeof option === typeof actual))
-      return {
-        value: null,
-        missingFacts: [predicate.field],
-        trace: [
-          step(
-            label,
-            `Recorded value ${JSON.stringify(actual)} has the wrong type for this condition.`,
-            null,
-          ),
-        ],
-      };
-    value = predicate.value.some((option) => same(actual, option));
-  } else {
-    if (
-      typeof actual !== typeof predicate.value ||
-      (typeof actual === "number" && !Number.isFinite(actual))
-    )
-      return {
-        value: null,
-        missingFacts: [predicate.field],
-        trace: [
-          step(
-            label,
-            `Recorded value ${JSON.stringify(actual)} has the wrong type for this condition.`,
-            null,
-          ),
-        ],
-      };
-    if (predicate.op === "eq" || predicate.op === "neq")
-      value =
-        predicate.op === "eq"
-          ? same(actual, predicate.value)
-          : !same(actual, predicate.value);
-    else if (typeof actual === "number" && typeof predicate.value === "number")
-      value = compare(actual, predicate.op, predicate.value);
-    else if (
-      typeof actual === "string" &&
-      typeof predicate.value === "string" &&
-      exactDate(actual) &&
-      exactDate(predicate.value)
-    )
-      value = compare(actual, predicate.op, predicate.value);
-    else
-      return {
-        value: null,
-        missingFacts: [],
-        trace: [
-          step(
-            label,
-            "Ordered comparisons require finite numbers or complete ISO calendar dates. This condition needs interpretation review.",
-            null,
-          ),
-        ],
-      };
-  }
+    const options = predicate.value;
+    value =
+      resolved.kind === "exact"
+        ? options.some((option) => compareExact(resolved.value, "eq", option) === true)
+        : options.every((option) => compareRange(resolved.min, resolved.max, "neq", option) === true)
+          ? false
+          : null;
+  } else
+    value =
+      resolved.kind === "exact"
+        ? compareExact(resolved.value, predicate.op, predicate.value)
+        : compareRange(resolved.min, resolved.max, predicate.op, predicate.value);
+  const known = describeFact(resolved);
+  const basis = resolved.kind === "range" || resolved.basis !== "record" ? ` (${resolved.basis})` : "";
   return {
     value,
-    missingFacts: [],
+    missingFacts:
+      value === null
+        ? [predicate.field === "building_age_years" || predicate.field === "certificate_of_occupancy_date"
+            ? resolved.kind === "range" ? "certificate_of_occupancy_date" : "year_built"
+            : predicate.field]
+        : [],
     trace: [
       step(
         label,
-        `${JSON.stringify(actual)} ${predicate.op} ${JSON.stringify(predicate.value)} → ${value ? "satisfied" : "not satisfied"}.`,
+        `Rule asks for ${wanted}; this building: ${known}${basis}.${value === null ? " That range doesn't settle it." : ""}`,
         value,
       ),
     ],
   };
 }
 
-function compare(
-  left: number | string,
-  op: "gte" | "gt" | "lte" | "lt",
-  right: number | string,
-): boolean {
-  if (op === "gte") return left >= right;
-  if (op === "gt") return left > right;
-  if (op === "lte") return left <= right;
-  return left < right;
-}
-
-function exactDate(value: string): boolean {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
-  const parsed = new Date(`${value}T00:00:00.000Z`);
-  return (
-    !Number.isNaN(parsed.valueOf()) &&
-    parsed.toISOString().slice(0, 10) === value
-  );
-}
-
 function dateBounds(value: string | null | undefined): [string, string] | null {
   if (!value) return null;
-  if (exactDate(value)) return [value, value];
+  if (/^\d{4}-\d{2}-\d{2}$/.test(value)) return [value, value];
   if (/^\d{4}$/.test(value)) return [`${value}-01-01`, `${value}-12-31`];
-  if (/^\d{4}-(0[1-9]|1[0-2])$/.test(value)) {
+  if (/^\d{4}-\d{2}$/.test(value)) {
     const [year, month] = value.split("-").map(Number);
-    const last = new Date(Date.UTC(year, month, 0)).toISOString().slice(0, 10);
-    return [`${value}-01`, last];
+    return [`${value}-01`, new Date(Date.UTC(year, month, 0)).toISOString().slice(0, 10)];
   }
   return null;
 }
+const sameCity = (a: string, b: string) =>
+  a.toLowerCase().replace(/,.*$/, "").replace(/^city of\s+/, "").trim() ===
+  b.toLowerCase().replace(/,.*$/, "").replace(/^city of\s+/, "").trim();
 
-function stateCode(value: string): string {
-  return (
-    { california: "ca", "new jersey": "nj", massachusetts: "ma" }[
-      normalized(value)
-    ] ?? normalized(value)
-  );
-}
-
-function cityName(value: string): string {
-  return normalized(value)
-    .replace(/^city of\s+/, "")
-    .replace(/,\s*(ca|nj|ma|california|new jersey|massachusetts)$/, "");
-}
-
-function sourceTrace(rule: Rule): TraceStep[] {
-  return [
-    step(
-      "Source record",
-      rule.quotedSpan.trim()
-        ? `A quotation is recorded at offset ${rule.quoteStart}. Presence of a quotation does not establish that it supports the interpretation. ${rule.extractionMethod === "pattern" ? "Extracted with limited pattern matching." : "Extracted by a language model."} Interpretation requires review.`
-        : "No supporting quotation was recorded; source support is unresolved.",
-      rule.quotedSpan.trim() ? true : null,
-    ),
-    ...rule.warnings.map((warning) =>
-      step("Extraction limitation", warning, null),
-    ),
-  ];
-}
-
-/** Evaluate one extracted rule; scope and status are separate from source interpretation. */
+/** Evaluate one rule for one property on one date. Jurisdiction, time, and coverage are checked separately. */
 export function evaluateRule(
   rule: Rule,
   property: PropertyRecord,
   asOf: string,
-  facts?: Facts,
+  scenario: Facts = {},
 ): RuleResult {
-  const values = { ...property.facts, ...(facts ?? {}) };
+  const facts = { ...property.facts, ...scenario };
   const trace: TraceStep[] = [];
-  const finish = (
-    result: Outcome,
-    explanation: string,
-    missingFacts: string[] = [],
-  ): RuleResult => ({
+  const done = (result: Outcome, explanation: string, missingFacts: string[] = []): RuleResult => ({
     ruleId: rule.id,
     result,
     explanation,
     conflictFlag: false,
     missingFacts: unique(missingFacts),
-    trace: [...trace, ...sourceTrace(rule)],
+    trace,
   });
-  if (stateCode(rule.state) !== stateCode(property.state))
-    return finish(
-      "does_not_apply",
-      "The property is outside this rule’s state jurisdiction.",
-    );
-  trace.push(
-    step(
-      "State jurisdiction",
-      `${property.state} matches ${rule.state}.`,
-      true,
-    ),
-  );
+  if (rule.state !== property.state)
+    return done("does_not_apply", `Only applies in ${rule.state}.`);
   if (rule.status === "failed")
-    return finish(
-      "does_not_apply",
-      "This proposal failed; it creates no operative requirement.",
-    );
+    return done("does_not_apply", "This proposal failed and never became law.");
 
-  const city = has(values, "legal_city")
-    ? typeof values.legal_city === "string" && values.legal_city.trim()
-      ? values.legal_city
-      : null
-    : property.city;
-  let missingCity = false;
+  const city =
+    "legal_city" in scenario ? (scenario.legal_city ? String(scenario.legal_city) : null) : property.city;
+  let cityOpen = false;
   if (rule.level === "city") {
     if (!city) {
-      missingCity = true;
-      trace.push(
-        step(
-          "Legal municipality",
-          "The legal municipality is unresolved. Mailing city has not been substituted.",
-          null,
-        ),
-      );
-    } else if (cityName(city) !== cityName(rule.jurisdiction))
-      return finish(
-        "does_not_apply",
-        `The resolved legal municipality (${city}) is outside ${rule.jurisdiction}.`,
-      );
-    else
-      trace.push(
-        step(
-          "Legal municipality",
-          `${city} matches ${rule.jurisdiction}${has(values, "legal_city") ? " in this hypothetical scenario" : ""}.`,
-          true,
-        ),
-      );
-  }
+      cityOpen = true;
+      trace.push(step("City", `Only applies inside ${rule.jurisdiction}; the city for this address isn't confirmed.`, null));
+    } else if (!sameCity(city, rule.jurisdiction))
+      return done("does_not_apply", `Only applies inside ${rule.jurisdiction}.`);
+    else trace.push(step("City", `The address is inside ${rule.jurisdiction}.`, true));
+  } else trace.push(step("State", `The address is in ${rule.state}.`, true));
 
-  const coverage = evaluatePredicate(rule.coverage, values);
+  const coverage = evaluatePredicate(rule.coverage, property, facts, asOf);
   trace.push(...coverage.trace);
   if (coverage.value === false)
-    return finish(
-      "does_not_apply",
-      "A required coverage condition is not satisfied.",
-    );
-  if (missingCity)
-    return finish(
-      "unknown",
-      "Confirm the legal municipality before applying this city rule; the mailing address alone does not establish jurisdiction.",
-      ["legal_city", ...coverage.missingFacts],
-    );
+    return done("does_not_apply", "The building is outside this rule's coverage.");
+  if (rule.coverage.op === "always")
+    trace.push(step("Coverage", "Covers every rental property in the jurisdiction.", true));
+
   if (rule.status === "pending") {
-    trace.push(
-      step(
-        "Legislative status",
-        "Pending proposal. Advancing the query date does not enact legislation.",
-        null,
-      ),
-    );
-    return finish(
-      "pending",
-      `This proposal remains pending and is not treated as an enacted obligation.${coverage.value === null ? " Property coverage is also unresolved." : ""}`,
-      coverage.missingFacts,
-    );
+    trace.push(step("Status", "Still a proposal. It is not law, whatever the date.", null));
+    return done("pending", "Proposed, not law.", coverage.missingFacts);
   }
-  if (!exactDate(asOf))
-    return finish(
-      "unknown",
-      "A valid complete as-of date (YYYY-MM-DD) is required.",
-      coverage.missingFacts,
-    );
   const start = dateBounds(rule.effectiveDate);
   const end = dateBounds(rule.endDate);
-  if (rule.endDate && !end)
-    return finish(
-      "unknown",
-      "The recorded end date cannot be interpreted reliably.",
-      coverage.missingFacts,
-    );
-  if (end && asOf > end[1])
-    return finish(
-      "does_not_apply",
-      `The recorded rule period ended by ${end[1]}.`,
-    );
-  if (end && asOf >= end[0] && end[0] !== end[1])
-    return finish(
-      "unknown",
-      `The partial end date (${rule.endDate}) does not establish whether the rule was still in effect on ${asOf}.`,
-      coverage.missingFacts,
-    );
-  if (!start)
-    return finish(
-      "unknown",
-      "The effective date is missing or unsupported; temporal applicability needs source review.",
-      coverage.missingFacts,
-    );
-  if (asOf < start[0]) {
-    trace.push(
-      step(
-        "Effective date",
-        `The earliest supported effective date is ${start[0]}; the query date is ${asOf}.`,
-        false,
-      ),
-    );
-    return finish(
-      "not_yet_effective",
-      `The enacted rule is not yet effective on ${asOf}.${coverage.value === null ? " Property coverage is also unresolved." : ""}`,
-      coverage.missingFacts,
-    );
+  if (end && asOf > end[1]) return done("does_not_apply", `Expired ${end[1]}.`);
+  if (start && asOf < start[0]) {
+    trace.push(step("Effective date", `Takes effect ${start[0]}.`, false));
+    return done("not_yet_effective", `Takes effect ${start[0]}.`, coverage.missingFacts);
   }
-  if (asOf < start[1])
-    return finish(
-      "unknown",
-      `The partial effective date (${rule.effectiveDate}) does not resolve applicability on ${asOf}.`,
-      coverage.missingFacts,
-    );
+  if (!start && rule.status === "not_yet_effective") {
+    trace.push(step("Effective date", "Enacted, but its start date isn't stated.", null));
+    return done("not_yet_effective", "Enacted; start date not stated.", coverage.missingFacts);
+  }
+  if (start && asOf < start[1]) {
+    trace.push(step("Effective date", `Takes effect sometime in ${rule.effectiveDate}.`, null));
+    return done("unknown", `Takes effect sometime in ${rule.effectiveDate}.`, coverage.missingFacts);
+  }
   trace.push(
     step(
       "Effective date",
-      `The effective-date condition is satisfied on ${asOf}.`,
+      start ? `In effect since ${start[0]}.` : "In force; the source gives no start date.",
       true,
     ),
   );
-  if (!rule.quotedSpan.trim() || rule.quoteStart < 0)
-    return finish(
-      "unknown",
-      "No located supporting quotation is available; this interpretation needs source review.",
-      coverage.missingFacts,
-    );
+  if (cityOpen)
+    return done("unknown", `Applies only if the address is inside ${rule.jurisdiction}.`, [
+      "legal_city",
+      ...coverage.missingFacts,
+    ]);
   if (coverage.value === null)
-    return finish(
+    return done(
       "unknown",
       coverage.missingFacts.length
-        ? `Coverage depends on missing or unusable evidence: ${coverage.missingFacts.map(labelFor).join(", ")}.`
-        : "The extracted coverage condition requires interpretation review.",
+        ? `Depends on ${coverage.missingFacts.map((field) => labelFor(field).toLowerCase()).join(" and ")}.`
+        : "Coverage needs a human read of the source.",
       coverage.missingFacts,
     );
-  return finish(
-    "applies",
-    "The extracted coverage, legal-jurisdiction, and effective-date conditions are satisfied. Source interpretation remains subject to review.",
-  );
+  return done("applies", "Covers this building.");
 }
 
+/** Interactions the sources themselves state: state rules that yield to stricter local rules, and possible preemption. */
 function applyInteractions(rules: Rule[], results: RuleResult[]): RuleResult[] {
   const byId = new Map(results.map((result) => [result.ruleId, result]));
-  const applicable = new Map(
-    rules
-      .filter((rule) => byId.get(rule.id)?.result === "applies")
-      .map((rule) => [rule.id, rule]),
-  );
-  const reaches = (
-    from: string,
-    target: string,
-    visited = new Set<string>(),
-  ): boolean => {
-    if (visited.has(from)) return false;
-    visited.add(from);
-    return (applicable.get(from)?.supersedes ?? []).some(
-      (id) => id === target || reaches(id, target, visited),
+  const local = (rule: Rule) =>
+    rules.filter(
+      (other) => other.level === "city" && other.state === rule.state && other.category === rule.category,
     );
-  };
-  for (const rule of applicable.values()) {
-    for (const id of rule.supersedes ?? []) {
-      if (!applicable.has(id) || id === rule.id) continue;
-      const previous = byId.get(id)!;
-      if (reaches(id, rule.id)) {
-        previous.conflictFlag = true;
-        byId.get(rule.id)!.conflictFlag = true;
-        previous.trace.push(
-          step(
-            "Declared precedence conflict",
-            "The extracted supersession declarations form a cycle and need review.",
-            null,
-          ),
-        );
-      } else {
-        previous.result = "superseded";
-        previous.explanation = `An explicit extracted declaration says ${rule.title} (${rule.id}) supersedes this rule within the evaluated scope. The declaration requires source review.`;
-        previous.trace.push(
-          step(
-            "Declared supersession",
-            `${rule.id} is applicable and explicitly names ${id}.`,
-            true,
-          ),
-        );
+  for (const rule of rules) {
+    const result = byId.get(rule.id)!;
+    if (rule.level !== "state") continue;
+    if (rule.yieldsToLocal && (result.result === "applies" || result.result === "unknown")) {
+      const locals = local(rule).map((other) => ({ other, outcome: byId.get(other.id)! }));
+      const governing = locals.find(({ outcome }) => outcome.result === "applies");
+      const open = locals.filter(({ outcome }) => outcome.result === "unknown");
+      if (governing) {
+        result.result = "superseded";
+        result.explanation = `A stricter local rule governs here: ${governing.other.title}.`;
+        result.missingFacts = [];
+        result.trace.push(step("Local rule", `${governing.other.citation} covers this building, and this state rule yields to it.`, true));
+      } else if (open.length && result.result === "applies") {
+        result.result = "unknown";
+        result.explanation = "Applies unless the local ordinance covers this building, which isn't settled.";
+        result.missingFacts = unique(open.flatMap(({ outcome }) => outcome.missingFacts));
+        result.trace.push(step("Local rule", "This state rule yields to a stricter local rule if one covers the building.", null));
       }
     }
-  }
-  for (const rule of applicable.values()) {
-    if (byId.get(rule.id)?.result !== "applies") continue;
-    for (const id of rule.conflictsWith ?? []) {
-      if (id === rule.id || byId.get(id)?.result !== "applies") continue;
-      for (const result of [byId.get(rule.id)!, byId.get(id)!]) {
-        result.conflictFlag = true;
-        result.trace.push(
-          step(
-            "Declared conflict",
-            `The extracted rules ${rule.id} and ${id} explicitly conflict and both apply to this scenario; no general local-over-state precedence is assumed.`,
-            null,
-          ),
-        );
+    if (rule.preemptsLocal && ["applies", "not_yet_effective", "unknown"].includes(result.result)) {
+      for (const other of local(rule)) {
+        const outcome = byId.get(other.id)!;
+        if (!["applies", "not_yet_effective"].includes(outcome.result)) continue;
+        result.conflictFlag = outcome.conflictFlag = true;
+        result.trace.push(step("Possible conflict", `May preempt ${other.citation}. Flagged for human review.`, null));
+        outcome.trace.push(step("Possible conflict", `${rule.citation} may preempt this local rule. Flagged for human review.`, null));
       }
     }
   }
   return results;
 }
 
-const evidenceFor = (field: string): string => {
-  if (field === "legal_city")
-    return "Confirm the parcel against an authoritative municipal boundary or assessor record; a mailing city is insufficient.";
-  if (field === "units")
-    return "Check the assessor’s property record, approved unit schedule, or permit record for the relevant building.";
-  if (field === "year_built")
-    return "Check the construction record. If the law uses occupancy dates, a construction year alone does not establish the exact date.";
-  if (/occupancy|certificate/.test(field))
-    return "Obtain the dated certificate of occupancy or the relevant official occupancy record.";
-  if (/owner/.test(field))
-    return "Check ownership/entity records and evidence of the particular ownership or occupancy condition; the sample does not establish these facts.";
-  return "Obtain a dated authoritative record supporting this fact; record its source separately from the original sample.";
-};
-
-function nextDate(value: string, days: number): string {
-  const date = new Date(`${value}T00:00:00.000Z`);
-  date.setUTCDate(date.getUTCDate() + days);
-  return date.toISOString().slice(0, 10);
+export function evaluateAll(property: PropertyRecord, rules: Rule[], asOf: string, scenario: Facts = {}): RuleResult[] {
+  return applyInteractions(rules, rules.map((rule) => evaluateRule(rule, property, asOf, scenario)));
 }
 
-function candidates(predicate: Predicate, field: string): FactValue[] {
-  if (predicate.op === "all" || predicate.op === "any")
-    return predicate.args.flatMap((argument) => candidates(argument, field));
-  if (predicate.op === "not") return candidates(predicate.arg, field);
-  if (!("field" in predicate) || predicate.field !== field) return [];
-  if (predicate.op === "in") return predicate.value.slice(0, 4);
-  const value = predicate.value;
-  if (typeof value === "boolean") return [value, !value];
-  if (typeof value === "number") {
-    const increment = Number.isInteger(value)
-      ? 1
-      : Math.pow(10, -Math.min(6, (String(value).split(".")[1] ?? "").length));
-    return [value - increment, value, value + increment].filter(
-      (number) =>
-        Number.isFinite(number) &&
-        (!(field === "units" || field === "year_built") || number >= 0),
-    );
+function addYears(date: string, years: number): string {
+  const value = new Date(`${date}T00:00:00Z`);
+  value.setUTCFullYear(value.getUTCFullYear() + years);
+  return value.toISOString().slice(0, 10);
+}
+function shiftDay(date: string, days: number): string {
+  return new Date(Date.parse(`${date}T00:00:00Z`) + days * 86_400_000).toISOString().slice(0, 10);
+}
+
+/** Values just either side of every threshold the relevant rules test, expressed in the asked-about fact. */
+function candidates(predicate: Predicate, field: string, asOf: string, out: FactValue[] = []): FactValue[] {
+  if (predicate.op === "all" || predicate.op === "any") {
+    predicate.args.forEach((arg) => candidates(arg, field, asOf, out));
+    return out;
   }
-  if (exactDate(value)) return [nextDate(value, -1), value, nextDate(value, 1)];
-  return [value];
+  if (predicate.op === "not") return candidates(predicate.arg, field, asOf, out);
+  if (!("field" in predicate)) return out;
+  const target = predicate.field;
+  const values = Array.isArray(predicate.value) ? predicate.value : [predicate.value];
+  for (const value of values) {
+    if (target === field) {
+      if (typeof value === "boolean") out.push(true, false);
+      else if (typeof value === "number") out.push(value - 1, value, value + 1);
+      else if (/^\d{4}-\d{2}-\d{2}$/.test(value)) out.push(shiftDay(value, -1), value, shiftDay(value, 1));
+      else out.push(value, "other");
+    } else if (field === "year_built") {
+      if (target === "certificate_of_occupancy_date" && typeof value === "string") {
+        const year = Number(value.slice(0, 4));
+        out.push(year - 1, year + 1);
+      } else if (target === "building_age_years" && typeof value === "number") {
+        const year = Number(asOf.slice(0, 4)) - value;
+        out.push(Math.floor(year) - 1, Math.ceil(year) + 1);
+      }
+    } else if (field === "certificate_of_occupancy_date" && target === "building_age_years" && typeof value === "number") {
+      const date = addYears(asOf, -Math.round(value));
+      out.push(shiftDay(date, -1), shiftDay(date, 1));
+    } else if (field === "units" && target === "single_family_or_condo") out.push(1, 2);
+  }
+  return out;
 }
 
-function evaluateAll(
-  property: PropertyRecord,
-  rules: Rule[],
-  asOf: string,
-  facts: Facts,
-): RuleResult[] {
-  return applyInteractions(
-    rules,
-    rules.map((rule) => evaluateRule(rule, property, asOf, facts)),
-  );
+function branchLabel(field: string, value: FactValue): string {
+  if (field === "owner_occupied") return value ? "Owner lives there" : "Owner lives elsewhere";
+  if (field === "units") return `${value} ${value === 1 ? "unit" : "units"}`;
+  if (field === "year_built") return `Built ${value}`;
+  if (field === "certificate_of_occupancy_date") return `First occupied ${value}`;
+  if (field === "legal_city") return value ? `Inside ${value}` : "Outside the city";
+  if (typeof value === "boolean") return value ? "Yes" : "No";
+  return String(value).replace(/_/g, " ");
 }
 
+function summarize(outcomes: Outcome[]): Outcome {
+  for (const preferred of ["applies", "superseded", "not_yet_effective", "pending", "unknown"] as Outcome[])
+    if (outcomes.length && outcomes.every((item) => item === preferred)) return preferred;
+  return outcomes.includes("applies") ? "applies" : outcomes.includes("unknown") ? "unknown" : outcomes[0] ?? "does_not_apply";
+}
+
+/** For each missing fact that blocks a conclusion, show what each plausible answer would change. */
 function evidenceQuestions(
   property: PropertyRecord,
   rules: Rule[],
   asOf: string,
-  facts: Facts,
+  scenario: Facts,
   results: RuleResult[],
 ): EvidenceQuestion[] {
-  const fields = unique(
-    results
-      .filter((result) => result.result === "unknown")
-      .flatMap((result) => result.missingFacts),
+  const open = results.filter((result) => result.result === "unknown");
+  const fields = unique(open.flatMap((result) => result.missingFacts)).filter(
+    (field) => !(field in scenario),
   );
-  return fields
-    .map<EvidenceQuestion>((field) => {
-      const relevant = rules.filter((rule) =>
-        results.some(
-          (result) =>
-            result.ruleId === rule.id &&
-            result.result === "unknown" &&
-            result.missingFacts.includes(field),
-        ),
-      );
-      const possible = unique(
-        relevant.flatMap((rule) =>
-          field === "legal_city"
-            ? [rule.jurisdiction]
-            : candidates(rule.coverage, field),
-        ),
-      ).slice(0, 12);
-      const examined = possible.map((value) => {
-        const evaluated = evaluateAll(property, rules, asOf, {
-          ...facts,
-          [field]: value,
-        });
-        const affected = relevant.map((rule) =>
-          evaluated.find((result) => result.ruleId === rule.id)!,
-        );
-        return {
-          value,
-          affected,
-          signature: affected.map((result) => result.result).join("|"),
-        };
-      });
-      // Keep a bounded set of distinct outcome patterns, including unresolved completions.
-      const selected = examined
-        .filter(
-          (item, index) =>
-            examined.findIndex(
-              (other) => other.signature === item.signature,
-            ) === index,
-        )
-        .slice(0, 4);
-      if (selected.length === 1 && examined.length > 1)
-        selected.push(
-          examined.find((item) => !same(item.value, selected[0].value))!,
-        );
-      const branches = selected.map((item) => {
-        const outcomes = unique(item.affected.map((result) => result.result));
-        const result: Outcome =
-          outcomes.length === 1
-            ? outcomes[0]
-            : outcomes.includes("unknown")
-              ? "unknown"
-              : outcomes.includes("applies")
-                ? "applies"
-                : outcomes[0];
-        return {
-          label:
-            field === "owner_occupied"
-              ? item.value
-                ? "Owner lives here"
-                : "Owner lives elsewhere"
-              : field === "units"
-                ? `${item.value} homes`
-                : `${labelFor(field)}: ${String(item.value)}`,
-          value: item.value,
-          result,
-          explanation: item.affected
-            .map(
-              (outcome) =>
-                `${relevant.find((rule) => rule.id === outcome.ruleId)!.title}: ${outcome.result.replace(/_/g, " ")}. ${outcome.explanation}`,
-            )
-            .join(" "),
-        };
-      });
-      return {
-        id: `evidence:${property.id}:${field}`,
-        field,
-        label: labelFor(field),
-        question:
-          (
-            {
-              units: "How many homes are in this building?",
-              owner_occupied: "Does an owner live in the building?",
-              year_built: "When was this building constructed?",
-              legal_city: "Which municipality is this property actually in?",
-            } as Record<string, string>
-          )[field] ||
-          `What is the supported ${labelFor(field).toLowerCase()} for this property?`,
-        why: `This fact participates in ${relevant.length} unresolved ${relevant.length === 1 ? "rule" : "rules"}.${branches.some((branch) => branch.result === "unknown") ? " Other missing facts or interpretation gaps may still prevent a conclusion after it is supplied." : ""} These bounded examples are suggestions, not a proven minimal evidence set.`,
-        ruleIds: relevant.map((rule) => rule.id),
-        suggestedEvidence: evidenceFor(field),
-        branches,
-        hypothetical: true,
-        minimality: "suggested",
-      };
-    })
-    .sort(
-      (left, right) =>
-        right.ruleIds.length - left.ruleIds.length ||
-        left.field.localeCompare(right.field),
+  const questions: EvidenceQuestion[] = [];
+  for (const field of fields) {
+    const relevant = rules.filter((rule) =>
+      open.some((result) => result.ruleId === rule.id && result.missingFacts.includes(field)),
     );
+    let values: FactValue[] =
+      field === "legal_city"
+        ? unique(relevant.map((rule) => rule.jurisdiction.replace(/,.*$/, ""))).flatMap((city) => [city, ""])
+        : unique(relevant.flatMap((rule) => candidates(rule.coverage, field, asOf)));
+    const range = property.ranges[field];
+    values = values.filter((value) => {
+      if (typeof value !== "number") return true;
+      if (value < 0) return false;
+      if (range?.min !== null && range?.min !== undefined && value < Number(range.min)) return false;
+      if (range?.max !== null && range?.max !== undefined && value > Number(range.max)) return false;
+      if (field === "year_built" && (value < 1700 || value > Number(asOf.slice(0, 4)))) return false;
+      return true;
+    });
+    const seen = new Map<string, EvidenceBranch>();
+    for (const value of values.slice(0, 16)) {
+      const outcome = evaluateAll(property, rules, asOf, { ...scenario, [field]: value });
+      const changes = relevant.map((rule) => ({
+        ruleId: rule.id,
+        result: outcome.find((item) => item.ruleId === rule.id)!.result,
+      }));
+      const signature = changes.map((item) => item.result).join("|");
+      if (seen.has(signature)) continue;
+      seen.set(signature, {
+        label: branchLabel(field, value),
+        value,
+        result: summarize(changes.map((item) => item.result)),
+        changes,
+      });
+    }
+    const branches = [...seen.values()]
+      .sort((a, b) =>
+        typeof a.value === "number" && typeof b.value === "number"
+          ? a.value - b.value
+          : typeof a.value === "boolean"
+            ? Number(b.value) - Number(a.value)
+            : String(a.value).localeCompare(String(b.value)),
+      )
+      .slice(0, 4);
+    if (branches.length < 2 && field !== "legal_city") continue;
+    questions.push({
+      id: `${property.id}:${field}`,
+      field,
+      label: labelFor(field),
+      question: isField(field) ? FIELDS[field].question : "Is the address inside the city limits?",
+      why: `${relevant.length === 1 ? "One rule" : `${relevant.length} rules`} can't be settled without it.`,
+      ruleIds: relevant.map((rule) => rule.id),
+      suggestedEvidence: isField(field)
+        ? FIELDS[field].evidence
+        : "The county assessor's parcel record or the city's official boundary map.",
+      branches,
+      hypothetical: true,
+    });
+  }
+  return questions.sort((a, b) => b.ruleIds.length - a.ruleIds.length || a.field.localeCompare(b.field));
 }
 
-/** Original property records are never modified; overlays represent explicit scenarios. */
+/** The supplied record is never modified; scenario facts are an explicit, labeled overlay. */
 export function evaluateProperty(
   property: PropertyRecord,
   rules: Rule[],
   asOf: string,
-  scenarioFacts: Facts = {},
+  scenario: Facts = {},
 ): LookupReport {
-  const facts = { ...property.facts, ...scenarioFacts };
-  const results = evaluateAll(property, rules, asOf, facts);
+  const results = evaluateAll(property, rules, asOf, scenario);
   return {
     property,
     asOf,
     results,
-    questions: evidenceQuestions(
-      property,
-      rules,
-      asOf,
-      facts,
-      evaluateAll(property, rules, asOf, {}),
-    ),
-    scenarioFacts: { ...scenarioFacts },
-    scenario: Object.keys(scenarioFacts).length > 0,
-    coverageNote:
-      "Results apply only to the supplied, extracted rule collection and recorded property facts. Missing rules or source captures are not proof that no protection applies. Quotations and automated interpretations require review. Hypothetical evidence changes no original record. Not legal advice.",
+    questions: evidenceQuestions(property, rules, asOf, scenario, results),
+    scenarioFacts: { ...scenario },
+    scenario: Object.keys(scenario).length > 0,
   };
 }

@@ -1,0 +1,47 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "Initiative Petition 25-21: Limit on Annual Rent Increases",
+    "category": "rent_increase_limits",
+    "level": "state",
+    "status": "failed",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "The proposed law would limit annual rent increases for residential dwelling units to the lower of the annual increase in the Consumer Price Index or five percent. The proposal was struck down by the Massachusetts Supreme Judicial Court as violating the state constitution's prohibition on initiative petitions relating to religion, because it exempted facilities operated solely for religious purposes.",
+    "keyValue": "5% or CPI, whichever is lower",
+    "citation": "Initiative Petition 25-21; M.G.L. c. 40P (existing prohibition on rent control)",
+    "quotedSpan": "\"a limit on any annual rent increase\" set at \"the annual increase in Consumer Price Index or [five percent], whichever is lower.\"",
+    "coverageJson": "{\"op\":\"not\",\"arg\":{\"op\":\"any\",\"args\":[{\"op\":\"eq\",\"field\":\"owner_occupied\",\"value\":true},{\"op\":\"lte\",\"field\":\"units\",\"value\":4},{\"op\":\"unknown\",\"reason\":\"dwelling units rented to transient guests for periods under 14 consecutive days\"},{\"op\":\"eq\",\"field\":\"affordable_housing_restricted\",\"value\":true},{\"op\":\"lt\",\"field\":\"building_age_years\",\"value\":10}]}}",
+    "coverageDescription": "All residential dwelling units except: owner-occupied buildings with four or fewer units; units whose rents are subject to regulation by a public authority (excluding mobile housing voucher programs); units rented to transient guests for less than 14 consecutive days; units in facilities operated solely for educational, religious, or non-profit purposes; and units with first residential certificate of occupancy less than 10 years old.",
+    "exemptions": [
+     "Owner-occupied buildings with four or fewer units",
+     "Dwelling units regulated by public authority (excluding mobile housing vouchers)",
+     "Transient rentals under 14 consecutive days",
+     "Facilities operated solely for educational, religious, or non-profit purposes",
+     "Units with certificate of occupancy less than 10 years old"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "Court struck down petition on constitutional grounds (relation to religion) on June 23, 2026, before it could be enacted; this rule documents the failed proposal",
+     "The petition would have repealed M.G.L. c. 40P, which currently prohibits all local and state rent control in Massachusetts",
+     "Effective date was never established because court blocked ballot placement"
+    ]
+   }
+  ],
+  "warnings": [
+   "This is a court decision striking down a ballot initiative, not enacted law. Initiative Petition 25-21 was declared unconstitutional and barred from the November 2026 ballot because its exemption for facilities operated solely for religious purposes violated Massachusetts Constitution art. 48's prohibition on initiative petitions relating to religion.",
+   "The source document does not reveal the text of the actual petition; all details of the proposed rule come from judicial description in the opinion.",
+   "Massachusetts General Law c. 40P currently prohibits all rent control statewide; this failed petition sought to repeal that prohibition."
+  ]
+ },
+ "promptHash": "0727a2616b08e130e31a4569973e766a81018a99bb37cbcd49ff0ded37b18b97",
+ "docId": "SUP-MA-CELLA",
+ "chunk": 0,
+ "chunkHash": "e763a06f6bf01a5e929ffe3f3df61ec98de3e761f3cf8e47add80c846fbd1b87",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:16:37.524Z"
+}

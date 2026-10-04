@@ -1,0 +1,43 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "Prohibition Against Algorithmic Rent-Fixing in the Rental Housing Market",
+    "category": "algorithmic_rent_setting",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": "2025-07-09",
+    "effectiveDateQuote": "This Ordinance shall take effect immediately upon passage and publication as provided by law.",
+    "endDate": null,
+    "requirement": "Landlords in Hoboken are prohibited from using software, algorithms, or data-sharing platforms to collect and analyze nonpublic competitor information from other landlords in order to coordinate, recommend, or implement rental prices, lease terms, or occupancy levels for residential dwelling units.",
+    "keyValue": null,
+    "citation": "Hoboken City Code § 158-2 (Ord. adopted Jul 9, 2025)",
+    "quotedSpan": "Landlords who rent any residential dwelling unit (defined as any primary residence excluding medical/long-term care or detention facilities) in the City of Hoboken are prohibited from price fixing using algorithmic pricing. For purposes of this chapter, \"price fixing using algorithmic pricing\"shall be defined as the use of software, algorithms, or data-sharing platforms to collect and analyze nonpublic competitor information from other real estate lessors in order to coordinate, recommend, or implement rental prices, lease terms, or occupancy levels for residential dwelling units among competing real estate lessors.",
+    "coverageJson": "{\"op\":\"all\",\"args\":[{\"op\":\"eq\",\"field\":\"residential\",\"value\":true},{\"op\":\"not\",\"arg\":{\"op\":\"unknown\",\"reason\":\"Ordinance excludes medical/long-term care or detention facilities, which are not residential rental apartment buildings\"}}]}",
+    "coverageDescription": "All residential dwelling units in Hoboken, excluding medical/long-term care or detention facilities.",
+    "exemptions": [
+     "Medical or long-term care facilities",
+     "Detention facilities"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The ordinance defines 'nonpublic competitor information' as information less than 365 days old and not widely and readily available to the public at no cost; the practical application of this definition to specific pricing data may require further clarification.",
+     "Enforcement is by the Division of Housing or private citizens in Municipal Court; compliance and litigation outcomes are uncertain.",
+     "Section numbering in the ordinance text shows '§ 154-8' but the ordinance title references 'Section 158-2'; the codification may resolve this conflict."
+    ]
+   }
+  ],
+  "warnings": [
+   "The source is a legislative page showing the ordinance was adopted on Jul 9, 2025, which is after the reference date of 2026-10-01 in the instructions, confirming the ordinance is in force.",
+   "The ordinance amends Chapter 158 but the operative section is numbered 154-8 in the body text; the codification instruction suggests the City Clerk will correct numbering conflicts.",
+   "The definition of 'nonpublic competitor information' relies on a 365-day recency threshold and public availability; application to real-time pricing data exchanges may require interpretation."
+  ]
+ },
+ "docId": "SUP-HOB-STATUS",
+ "chunk": 0,
+ "chunkHash": "9b0b975bb1115047d6a8452fc82488d3c55e86fda2641d4af1b5d7cc8948283e",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:13:28.090Z"
+}

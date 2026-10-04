@@ -1,0 +1,44 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "Prohibition on Common Pricing Algorithms in Restraint of Trade",
+    "category": "algorithmic_rent_setting",
+    "level": "state",
+    "status": "in_force",
+    "effectiveDate": "2025-10-06",
+    "effectiveDateQuote": "Approved by Governor October 06, 2025. Filed with Secretary of State October 06, 2025.",
+    "endDate": null,
+    "requirement": "It is unlawful for a person to use or distribute a common pricing algorithm as part of a contract, combination, trust, or conspiracy to restrain trade or commerce. It is also unlawful for a person to use or distribute a common pricing algorithm if they coerce another person to set or adopt a recommended price or commercial term recommended by that algorithm for the same or similar products or services in California.",
+    "keyValue": null,
+    "citation": "Cal. Bus. & Prof. Code § 16729",
+    "quotedSpan": "It shall be unlawful for a person to use or distribute a common pricing algorithm as part of a contract, combination in the form of a trust, or conspiracy to restrain trade or commerce in violation of this chapter. (b) It shall be unlawful for a person to use or distribute a common pricing algorithm if the person coerces another person to set or adopt a recommended price or commercial term recommended by the common pricing algorithm for the same or similar products or services in the jurisdiction of this state.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "Applies to all persons and entities in California that use or distribute common pricing algorithms affecting rental housing prices or commercial terms.",
+    "exemptions": [
+     "End consumers of products or services are excluded from the definition of \"person\" under the statute"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The statute defines 'common pricing algorithm' broadly to include any methodology using competitor data to recommend, align, stabilize, set, or otherwise influence a price or commercial term; application to rental housing algorithms depends on whether they use competitor rental data and whether they are used as part of a restraint of trade or conspiracy",
+     "The term 'coerces' is not defined in the statute and may require judicial interpretation to determine what conduct constitutes unlawful coercion",
+     "Statute applies to 'persons' which includes natural persons, partnerships, corporations, and other business entities, but excludes end consumers; it is unclear whether individual landlords or property managers using algorithms would be subject",
+     "The statute is part of antitrust law (Cartwright Act) and violations may be pursued as crimes; civil applicability to landlord-tenant disputes is not explicitly addressed",
+     "Effective date is the Governor's signature date; no delayed implementation period specified"
+    ]
+   }
+  ],
+  "warnings": [
+   "AB 325 is a broad antitrust law directed at pricing algorithms generally, not specifically at rental housing; its application to rent-setting algorithms and landlord coordination on rental prices depends on fact-specific analysis of whether a particular algorithm or practice violates the statutory prohibitions",
+   "The statute uses terms like 'coerce,' 'recommend,' 'align,' and 'stabilize' that may require judicial interpretation in the rental housing context",
+   "No specific exemptions for landlords, property managers, or rental housing providers are stated in the statute; uncertainty exists about whether routine use of neutral rent-setting tools or market-rate analyses would trigger liability"
+  ]
+ },
+ "docId": "D022",
+ "chunk": 0,
+ "chunkHash": "0699980875e6bf3d797abd8b734db7d449b295173e33668cc655e3b394c084ed",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:10:47.819Z"
+}

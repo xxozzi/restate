@@ -1,0 +1,66 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "Boston Fair Chance Tenant Selection Policy—Criminal History Screening Restrictions",
+    "category": "screening_restrictions",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Housing providers receiving DND funding, land, or having income-restricted units created under BPDA's Inclusionary Development Policy must not impose a blanket policy denying housing based on arrests or convictions. Providers must consider applicants on a case-by-case basis and may not consider arrests without conviction, convictions subject to judicial relief, juvenile records, or convictions over 5 years old—unless there is a direct relationship between the conviction and housing sought or unreasonable risk of substantial harm to others' safety.",
+    "keyValue": null,
+    "citation": "Boston Department of Neighborhood Development, Fair Chance Tenant Selection Policy (Feb. 2017)",
+    "quotedSpan": "Housing providers receiving Department of Neighborhood Development (DND) funding and/or land, or that have income restricted units created under the Boston Planning and Development Agency (BPDA) Inclusionary Development Policy will not impose a blanket policy that denies housing to anyone with arrests and or convictions. Housing providers will consider applicants on a case-by-case basis.",
+    "coverageJson": "{\"op\":\"unknown\",\"reason\":\"Policy applies only to housing providers receiving DND funding, land, or having BPDA-created income-restricted units; building characteristics alone do not determine coverage\"}",
+    "coverageDescription": "Housing providers receiving DND funding/land or having income-restricted units created under BPDA's Inclusionary Development Policy. Coverage cannot be determined from building characteristics alone.",
+    "exemptions": [
+     "Convictions with a direct relationship to the housing sought or unreasonable risk of substantial harm to others' safety may be considered.",
+     "Current criminal behavior is excluded from the policy's protections.",
+     "Federal or state law imposing criminal history requirements preempts this policy."
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "Policy applies conditionally to properties with DND funding or BPDA-created affordable units; not all Boston properties are covered.",
+     "'Direct relationship' and 'unreasonable risk of substantial harm' are not defined in the source and may be subject to interpretation."
+    ]
+   },
+   {
+    "title": "Boston Fair Chance Tenant Selection Policy—Credit Score Restrictions",
+    "category": "screening_restrictions",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Housing agents must not use applicants' credit scores to approve or deny housing applications. Credit history may be considered only in lieu of rental history to assess ability to pay rent when rental history is unavailable. Lack of credit history (as opposed to poor credit history) is not sufficient grounds for rejection. Applicants demonstrating higher historical rent burden or providing mitigating circumstances (such as representative payers, disability-related credit issues, or changed circumstances) must be given consideration.",
+    "keyValue": null,
+    "citation": "Boston Department of Neighborhood Development, Fair Chance Tenant Selection Policy (Feb. 2017)",
+    "quotedSpan": "The agent agrees not to use the applicant credit score to approve or deny housing applications. Property Managers may consider an applicant's credit history, but such information may ONLY be used in lieu of rental history to determine an applicant's ability to pay rent when rental history is not available.",
+    "coverageJson": "{\"op\":\"unknown\",\"reason\":\"Policy applies only to housing providers receiving DND funding, land, or having BPDA-created income-restricted units; building characteristics alone do not determine coverage\"}",
+    "coverageDescription": "Housing providers receiving DND funding/land or having income-restricted units created under BPDA's Inclusionary Development Policy. Coverage cannot be determined from building characteristics alone.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "Policy applies conditionally to properties with DND funding or BPDA-created affordable units; not all Boston properties are covered.",
+     "Definition of 'mitigating circumstances' is somewhat broad and may require interpretation in practice."
+    ]
+   }
+  ],
+  "warnings": [
+   "Document dated February 2017; verify if policy remains current as of 2026-10-01.",
+   "Policy applies only to housing providers receiving DND funding, DND land, or having BPDA-created income-restricted units. Not all Boston rental housing is covered.",
+   "No effective date or enactment citation provided; policy status based on retrieval date of 2026-10-01 and document date.",
+   "Source document does not address rent increases, just-cause eviction, security deposits, application/screening fees, or algorithmic rent-setting."
+  ]
+ },
+ "docId": "D010",
+ "chunk": 0,
+ "chunkHash": "61380f45cb66d87065eb029b6f5ee54dc704a0d059acc6136477337ce5f0cb73",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:10:33.899Z"
+}

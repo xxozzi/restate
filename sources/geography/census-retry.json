@@ -1,0 +1,276 @@
+{
+ "note": "Census Geocoder retries for addresses the batch run did not match. Queries normalize the supplied street (zero-padded ordinals, AV->AVE, MT->MOUNT, last number of a range, first of a slash pair). Addresses with no house number were not retried.",
+ "endpoint": "https://geocoding.geo.census.gov/geocoder/geographies/onelineaddress?benchmark=Public_AR_Current&vintage=Current_Current&layers=28&format=json",
+ "retrieved_at": "2026-10-03T23:10-04:00",
+ "results": [
+  {
+   "id": "A0009",
+   "query": "322 Western Ave, Cambridge, MA",
+   "matches": [
+    {
+     "matched": "322 WESTERN AVE, CAMBRIDGE, MA, 02139",
+     "x": -71.113348085886,
+     "y": 42.364468228676,
+     "place": [
+      "Cambridge"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "A0115",
+   "query": "397 5TH AVE, San Francisco, CA",
+   "matches": [
+    {
+     "matched": "397 5TH AVE, SAN FRANCISCO, CA, 94118",
+     "x": -122.46329611176,
+     "y": 37.78123618708,
+     "place": [
+      "San Francisco"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "A0156",
+   "query": "290 GREEN ST, San Francisco, CA",
+   "matches": [
+    {
+     "matched": "290 GREEN ST, SAN FRANCISCO, CA, 94111",
+     "x": -122.402990211203,
+     "y": 37.80031526334,
+     "place": [
+      "San Francisco"
+     ]
+    },
+    {
+     "matched": "290 GREEN ST, SAN FRANCISCO, CA, 94133",
+     "x": -122.404147947697,
+     "y": 37.800173035609,
+     "place": [
+      "San Francisco"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "A0168",
+   "query": "600 JACKSON ST, Hoboken, NJ 07030",
+   "matches": [
+    {
+     "matched": "600 JACKSON ST, HOBOKEN, NJ, 07030",
+     "x": -74.039281685445,
+     "y": 40.745283626731,
+     "place": [
+      "Hoboken"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "A0229",
+   "query": "5164 3RD ST, San Francisco, CA",
+   "matches": [
+    {
+     "matched": "5164 3RD ST, SAN FRANCISCO, CA, 94124",
+     "x": -122.392090570269,
+     "y": 37.731288264664,
+     "place": [
+      "San Francisco"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "A0279",
+   "query": "90 KENSINGTON AVE, Jersey City, NJ",
+   "matches": [
+    {
+     "matched": "90 KENSINGTON AVE, JERSEY CITY, NJ, 07304",
+     "x": -74.075287274906,
+     "y": 40.723144945194,
+     "place": [
+      "Jersey City"
+     ]
+    },
+    {
+     "matched": "90 KENSINGTON AVE, JERSEY CITY, NJ, 07306",
+     "x": -74.0786679641,
+     "y": 40.724803794028,
+     "place": [
+      "Jersey City"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "A0291",
+   "query": "165 Cambridgepark Dr, Cambridge, MA",
+   "matches": [
+    {
+     "matched": "165 CAMBRIDGEPARK DR, CAMBRIDGE, MA, 02140",
+     "x": -71.146981411789,
+     "y": 42.395099011822,
+     "place": [
+      "Cambridge"
+     ]
+    },
+    {
+     "matched": "165 CAMBRIDGE PARK DR, CAMBRIDGE, MA, 02140",
+     "x": -71.146981411789,
+     "y": 42.395099011822,
+     "place": [
+      "Cambridge"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "A0328",
+   "query": "1845 8TH AVE, San Francisco, CA",
+   "matches": [
+    {
+     "matched": "1845 8TH AVE, SAN FRANCISCO, CA, 94122",
+     "x": -122.464604457855,
+     "y": 37.753910517548,
+     "place": [
+      "San Francisco"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "A0352",
+   "query": "42 MOUNT PROSPECT AVE, Newark, NJ",
+   "matches": [
+    {
+     "matched": "42 MOUNT PROSPECT AVE, NEWARK, NJ, 07102",
+     "x": -74.235929895824,
+     "y": 40.822994846187,
+     "place": []
+    },
+    {
+     "matched": "42 MOUNT PROSPECT AVE, NEWARK, NJ, 07104",
+     "x": -74.177805398305,
+     "y": 40.753191626991,
+     "place": [
+      "Newark"
+     ]
+    },
+    {
+     "matched": "42 MT PROSPECT AVE, NEWARK, NJ, 07104",
+     "x": -74.177805398305,
+     "y": 40.753191626991,
+     "place": [
+      "Newark"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "A0357",
+   "query": "173 7TH ST, San Francisco, CA",
+   "matches": [
+    {
+     "matched": "173 7TH ST, SAN FRANCISCO, CA, 94103",
+     "x": -122.409540179118,
+     "y": 37.778180361844,
+     "place": [
+      "San Francisco"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "A0364",
+   "query": "125 3RD AVE, San Francisco, CA",
+   "matches": [
+    {
+     "matched": "125 3RD AVE, SAN FRANCISCO, CA, 94118",
+     "x": -122.461516266857,
+     "y": 37.786437508473,
+     "place": [
+      "San Francisco"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "A0384",
+   "query": "21 GUERRERO ST, San Francisco, CA",
+   "matches": []
+  },
+  {
+   "id": "A0400",
+   "query": "174 MOUNT PROSPECT AVE, Newark, NJ",
+   "matches": [
+    {
+     "matched": "174 MOUNT PROSPECT AVE, NEWARK, NJ, 07104",
+     "x": -74.17546726324,
+     "y": 40.757731471944,
+     "place": [
+      "Newark"
+     ]
+    },
+    {
+     "matched": "174 MT PROSPECT AVE, NEWARK, NJ, 07104",
+     "x": -74.17546726324,
+     "y": 40.757731471944,
+     "place": [
+      "Newark"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "A0428",
+   "query": "314 MOUNT PROSPECT AVE, Newark, NJ",
+   "matches": [
+    {
+     "matched": "314 MOUNT PROSPECT AVE, NEWARK, NJ, 07104",
+     "x": -74.172382340313,
+     "y": 40.762317125202,
+     "place": [
+      "Newark"
+     ]
+    },
+    {
+     "matched": "314 MT PROSPECT AVE, NEWARK, NJ, 07104",
+     "x": -74.172382340313,
+     "y": 40.762317125202,
+     "place": [
+      "Newark"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "A0484",
+   "query": "1801 8TH AVE, San Francisco, CA",
+   "matches": [
+    {
+     "matched": "1801 8TH AVE, SAN FRANCISCO, CA, 94122",
+     "x": -122.464658373009,
+     "y": 37.754690646826,
+     "place": [
+      "San Francisco"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "A0163",
+   "query": "235 2ND ST, Jersey City, NJ",
+   "matches": [
+    {
+     "matched": "235 2ND ST, JERSEY CITY, NJ, 07302",
+     "x": -74.043552476848,
+     "y": 40.722395074274,
+     "place": [
+      "Jersey City"
+     ]
+    }
+   ]
+  }
+ ]
+}

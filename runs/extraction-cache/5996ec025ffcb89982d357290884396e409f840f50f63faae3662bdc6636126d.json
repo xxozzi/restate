@@ -1,0 +1,83 @@
+{
+ "raw": {
+  "updates": [
+   {
+    "id": "BER-RENT-01",
+    "coverageJson": "{\"op\":\"all\",\"args\":[{\"op\":\"gte\",\"field\":\"units\",\"value\":2},{\"op\":\"any\",\"args\":[{\"op\":\"lt\",\"field\":\"certificate_of_occupancy_date\",\"value\":\"1980-06-02\"},{\"op\":\"all\",\"args\":[{\"op\":\"gte\",\"field\":\"certificate_of_occupancy_date\",\"value\":\"1980-06-02\"},{\"op\":\"eq\",\"field\":\"affordable_housing_restricted\",\"value\":true}]}]}]}",
+    "coverageDescription": "Buildings with 2+ units where either: (1) certificate of occupancy issued before June 2, 1980, or (2) certificate of occupancy on or after June 2, 1980 AND unit is deed-restricted affordable housing. Landlords of fully-covered units may raise rent by the AGA (capped at 5% maximum per year), though banked AGAs from prior years can still be used to reach the rent ceiling.",
+    "coverageQuote": "The maximum AGA is 5%. This means that, if the formula in the Rent Ordinance results in an AGA that is greater than 5%, the AGA approved by the Board for that year can be no more than 5%. This cap does not prevent a landlord who has \"banked\" (unused) AGAs from previous years from implementing a rent increase that is greater than 5% in order to raise the rent to the rent ceiling.",
+    "sourceId": "D006"
+   },
+   {
+    "id": "BER-RENT-02",
+    "coverageJson": "{\"op\":\"all\",\"args\":[{\"op\":\"gte\",\"field\":\"units\",\"value\":2},{\"op\":\"lt\",\"field\":\"certificate_of_occupancy_date\",\"value\":\"1980-06-02\"}]}",
+    "coverageDescription": "Multifamily buildings (2+ units) with certificate of occupancy before June 2, 1980. For tenancies that began before January 1, 2025, eligible landlords may increase 2025 permanent rent ceilings by 1.0% for 2026 under the Annual General Adjustment. Tenancies beginning on or after January 1, 2025 are exempt (covered under Costa-Hawkins).",
+    "coverageQuote": "The 2026 AGA of 1.0% represents 65% of the increase in the Consumer Price Index (CPI) for All Urban Consumers in the Bay Area during the period from July 1, 2024 - June 30, 2025, which was 1.5%",
+    "sourceId": "D008"
+   },
+   {
+    "id": "BER-RENT-03",
+    "coverageJson": "{\"op\":\"all\",\"args\":[{\"op\":\"gte\",\"field\":\"units\",\"value\":2},{\"op\":\"lt\",\"field\":\"certificate_of_occupancy_date\",\"value\":\"1980-06-02\"}]}",
+    "coverageDescription": "Multifamily properties (2+ units) with certificate of occupancy before June 2, 1980. Rent increases are limited under Berkeley's rent stabilization ordinance, and tenants are fully covered by rent control.",
+    "coverageQuote": "Most units in multifamily properties built before 1980** Fully Covered Yes Yes Yes Yes",
+    "sourceId": "D009"
+   },
+   {
+    "id": "BER-EVICT-01",
+    "coverageJson": "{\"op\":\"all\",\"args\":[{\"op\":\"gte\",\"field\":\"units\",\"value\":2},{\"op\":\"any\",\"args\":[{\"op\":\"lt\",\"field\":\"certificate_of_occupancy_date\",\"value\":\"1980-06-02\"},{\"op\":\"all\",\"args\":[{\"op\":\"gte\",\"field\":\"certificate_of_occupancy_date\",\"value\":\"1980-06-02\"},{\"op\":\"eq\",\"field\":\"affordable_housing_restricted\",\"value\":true}]}]}]}",
+    "coverageDescription": "For tenancies started on or after December 20, 2024, in buildings with 2+ units that are fully covered by the Rent Ordinance (built before 1980 or deed-restricted affordable), landlords must provide written notice within 15 days containing: the existence and scope of the Rent Ordinance; tenant's right to petition against certain rent increases; whether the unit is exempt from rent control; and any partial exemptions. If the property has an interior common area, the notice must be posted there.",
+    "coverageQuote": "For tenancies started on or after December 20, 2024, landlords must, within fifteen days of the start of the tenancy, give the tenant written notice containing the following information",
+    "sourceId": "D006"
+   },
+   {
+    "id": "BER-EVICT-02",
+    "coverageJson": "{\"op\":\"all\",\"args\":[{\"op\":\"gte\",\"field\":\"units\",\"value\":2},{\"op\":\"lt\",\"field\":\"certificate_of_occupancy_date\",\"value\":\"1980-06-02\"}]}",
+    "coverageDescription": "Multifamily properties (2+ units) with certificate of occupancy before June 2, 1980. Landlords must show just cause when evicting tenants in these properties.",
+    "coverageQuote": "Most units in multifamily properties built before 1980** Fully Covered Yes Yes Yes Yes",
+    "sourceId": "D009"
+   },
+   {
+    "id": "BER-DEP-01",
+    "coverageJson": "{\"op\":\"all\",\"args\":[{\"op\":\"gte\",\"field\":\"units\",\"value\":2},{\"op\":\"any\",\"args\":[{\"op\":\"lt\",\"field\":\"certificate_of_occupancy_date\",\"value\":\"1980-06-02\"},{\"op\":\"all\",\"args\":[{\"op\":\"gte\",\"field\":\"certificate_of_occupancy_date\",\"value\":\"1980-06-02\"},{\"op\":\"eq\",\"field\":\"affordable_housing_restricted\",\"value\":true}]}]}]}",
+    "coverageDescription": "For tenancies starting on or after February 6, 2024, in fully-covered units (multifamily buildings with 2+ units built before 1980, or deed-restricted affordable), landlords may charge for utilities only if: (1) the cost is part of the base rent, or (2) the utility is separately metered and the lease requires the tenant to place the utility in the tenant's name. Landlords may petition the Rent Board to add average utility costs to the rent ceiling.",
+    "coverageQuote": "For tenancies starting on or after February 6, 2024, a landlord may charge a tenant in a fully covered unit for utilities only if either: the cost of the utilities are part of the base rent, or the utility service is separately-metered and the lease requires the tenant to place the utility in the tenant's name.",
+    "sourceId": "D006"
+   },
+   {
+    "id": "BER-DEP-02",
+    "coverageJson": "{\"op\":\"any\",\"args\":[{\"op\":\"all\",\"args\":[{\"op\":\"gte\",\"field\":\"units\",\"value\":2},{\"op\":\"lt\",\"field\":\"certificate_of_occupancy_date\",\"value\":\"1980-06-02\"}]},{\"op\":\"all\",\"args\":[{\"op\":\"gte\",\"field\":\"units\",\"value\":2},{\"op\":\"gte\",\"field\":\"certificate_of_occupancy_date\",\"value\":\"1980-06-02\"}]},{\"op\":\"all\",\"args\":[{\"op\":\"eq\",\"field\":\"single_family_or_condo\",\"value\":true},{\"op\":\"lt\",\"field\":\"certificate_of_occupancy_date\",\"value\":\"1996-01-01\"}]}]}",
+    "coverageDescription": "Landlords must pay tenants interest on security deposits at the end of each year and a prorated amount if the tenant moves out before year-end. Coverage applies to units fully or partially covered by Berkeley's Rent Ordinance: (1) multifamily buildings (2+ units) with any certificate of occupancy date, (2) single-family homes with tenancies begun before January 1, 1996.",
+    "coverageQuote": "For tenancies in units fully or partially covered by Berkeley's Rent Ordinance, landlords must pay tenants interest on their security deposit at the end of each year and a prorated amount if the tenant moves out before the end of the year.",
+    "sourceId": "D007"
+   },
+   {
+    "id": "BER-DEP-03",
+    "coverageJson": "{\"op\":\"all\",\"args\":[{\"op\":\"gte\",\"field\":\"units\",\"value\":2},{\"op\":\"lt\",\"field\":\"certificate_of_occupancy_date\",\"value\":\"1980-06-02\"}]}",
+    "coverageDescription": "Multifamily properties (2+ units) with certificate of occupancy before June 2, 1980. Security deposits must accrue interest for tenants in these properties.",
+    "coverageQuote": "Most units in multifamily properties built before 1980** Fully Covered Yes Yes Yes Yes",
+    "sourceId": "D009"
+   },
+   {
+    "id": "BER-SCREEN-01",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental properties. Housing providers cannot inquire about, use, or consider criminal history in rental advertising, applications, tenant selection, or decision-making. Providers cannot refuse to rent, terminate tenancy, demand higher deposits or rent, or refuse to add family members based on criminal history. They cannot disqualify tenants from rental assistance based on criminal history (with limited exceptions). If taking any action based on criminal history, written notice and opportunity to respond are required.",
+    "coverageQuote": "The Fair Chance Access to Housing Ordinance prohibits rental housing providers in Berkeley from asking about and using criminal history and/or criminal background checks in their rental housing advertising, applications, tenant selection process, or decision-making.",
+    "sourceId": "D003"
+   },
+   {
+    "id": "BER-SCREEN-02",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental properties. If a prospective tenant provides a reusable screening report, the landlord must accept and use it instead of charging the tenant for a new screening report.",
+    "coverageQuote": "If the tenant provides a reusable screening report, the landlord must use it.",
+    "sourceId": "D005"
+   }
+  ]
+ },
+ "promptHash": "0727a2616b08e130e31a4569973e766a81018a99bb37cbcd49ff0ded37b18b97",
+ "docId": "COVERAGE:Berkeley, CA",
+ "chunk": 0,
+ "chunkHash": "38ee5cfed0f92ab82d875d3cea39ea92b3783d097ff9411218d157111617fba8",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:33:11.445Z"
+}

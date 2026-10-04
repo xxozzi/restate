@@ -1,0 +1,36 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "California application screening fee cap",
+    "category": "application_screening_fees",
+    "level": "state",
+    "status": "in_force",
+    "effectiveDate": "2026-01-01",
+    "effectiveDateQuote": "Effective January 1, 2026.",
+    "endDate": null,
+    "requirement": "A landlord may charge an applicant a nonrefundable screening fee, but only up to $30 per applicant (adjusted annually for inflation starting January 1, 1998), and only to cover actual out-of-pocket costs of obtaining information such as credit reports and reference checks. The fee may be charged only if a rental unit is or will be available within a reasonable time, and only if the landlord uses a screening process that considers completed applications in order received or returns the entire fee to applicants not selected, within 7 days of selection or 30 days of application, whichever is first.",
+    "keyValue": "$30",
+    "citation": "Cal. Civ. Code § 1950.6",
+    "quotedSpan": "The amount of the application screening fee shall not be greater than the actual out-of-pocket costs of gathering information concerning the applicant, including, but not limited to, the cost of using a tenant screening service or a consumer credit reporting service, and the reasonable value of time spent by the landlord or their agent in obtaining information on the applicant. In no case shall the amount of the application screening fee charged by the landlord or their agent be greater than thirty dollars ($30) per applicant.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental properties in California.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The statute is effective January 1, 2026, which is in the future relative to the retrieval date of October 1, 2026 stated in the source header, but the source metadata says 'Effective January 1, 2026' in the amendment note; this should be verified as the actual current date is after this effective date."
+    ]
+   }
+  ],
+  "warnings": [
+   "The source document is a single statute section on application screening fees and does not address rent increase limits, just cause eviction, security deposits (beyond cross-reference to 1950.5), screening restrictions, or algorithmic rent setting in any detail. No rules in those categories can be extracted from this source."
+  ]
+ },
+ "docId": "D026",
+ "chunk": 0,
+ "chunkHash": "35ec54ef926471876977b9cad3f0db7ff5b77393bd0baad03ed30125949f8e7a",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:11:00.579Z"
+}

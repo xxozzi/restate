@@ -1,0 +1,14 @@
+{
+ "raw": {
+  "rules": [],
+  "warnings": [
+   "The source text is from M.G.L. c. 151B § 4, which covers discrimination in housing and employment under Massachusetts fair housing and employment law. The excerpted portion addresses accessibility accommodations, discrimination prohibitions (race, color, religion, sex, gender identity, sexual orientation, national origin, genetic information, ancestry, children, marital status, public assistance, handicap), rental of accessible units, sexual harassment, and employment discrimination. None of these provisions establish rules in the six rental-housing law categories specified (rent_increase_limits, just_cause_eviction, security_deposits, application_screening_fees, screening_restrictions, algorithmic_rent_setting). Section 10 prohibits discrimination based on public assistance status, which relates to tenant screening but does not set a cap on application fees, establish just-cause grounds, limit rent increases, regulate deposits, or address algorithmic pricing. The fair-housing protections here are enforcement mechanisms, not operationalized rent or eviction rules. No operative rules in the target categories were identified in this text."
+  ]
+ },
+ "docId": "D049",
+ "chunk": 1,
+ "chunkHash": "c5b8cd5c39ec201ad64189edb6dc05c9bcfdefac04586c3187127f640e3acf05",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:11:52.739Z"
+}

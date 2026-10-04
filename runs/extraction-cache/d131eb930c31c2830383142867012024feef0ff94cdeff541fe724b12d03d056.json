@@ -1,0 +1,27 @@
+{
+ "raw": {
+  "updates": [
+   {
+    "id": "SD-EVICT-01",
+    "coverageJson": "{\"op\": \"all\", \"args\": [{\"op\": \"neq\", \"field\": \"affordable_housing_restricted\", \"value\": true}, {\"op\": \"neq\", \"field\": \"certificate_of_occupancy_date\", \"value\": null}]}",
+    "coverageDescription": "Applies to residential rental properties in San Diego subject to just-cause eviction requirements, excluding deed-restricted or regulatory-agreement affordable housing (exempted by S.D.M.C. § 98.0703(c)-(d)). The rule applies to all multifamily residential rental buildings not within the exemptions listed in § 98.0703.",
+    "coverageQuote": "The landlord shall give written notice to the tenant at least 30 or 60 days prior to the proposed date of termination as required by California Civil Code section 1946.1",
+    "sourceId": "D073"
+   },
+   {
+    "id": "SD-EVICT-02",
+    "coverageJson": "{\"op\": \"all\", \"args\": [{\"op\": \"neq\", \"field\": \"affordable_housing_restricted\", \"value\": true}, {\"op\": \"neq\", \"field\": \"certificate_of_occupancy_date\", \"value\": null}]}",
+    "coverageDescription": "Applies to residential rental properties in San Diego subject to just-cause eviction requirements for no-fault terminations, excluding deed-restricted or regulatory-agreement affordable housing (exempted by S.D.M.C. § 98.0703(c)-(d)). The relocation assistance requirement applies when a landlord terminates a tenancy for no-fault just cause under § 98.0704(b).",
+    "coverageQuote": "The landlord shall, regardless of the tenant's income or length of tenancy and at the landlord's option, provide relocation assistance to the tenant by one of the following",
+    "sourceId": "D073"
+   }
+  ]
+ },
+ "promptHash": "0727a2616b08e130e31a4569973e766a81018a99bb37cbcd49ff0ded37b18b97",
+ "docId": "COVERAGE:San Diego, CA",
+ "chunk": 0,
+ "chunkHash": "f199fa22ff487df5ab7c1666c88979151f338d9e1d91b6e44329f4cb1157dc73",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:33:27.720Z"
+}

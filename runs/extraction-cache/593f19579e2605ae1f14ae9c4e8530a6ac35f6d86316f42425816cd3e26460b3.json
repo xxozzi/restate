@@ -1,0 +1,14 @@
+{
+ "raw": {
+  "rules": [],
+  "warnings": [
+   "This is a motion requesting a report on algorithm-based rent-setting software, not an enacted ordinance or law. It instructs the LA Housing Department to study the issue and feasibility of a ban, but does not establish any binding requirement. Status is 'pending' at best, as no legislation has been passed. The document does not state any operative rule in the six categories."
+  ]
+ },
+ "docId": "D039",
+ "chunk": 0,
+ "chunkHash": "cf36489eb7db23226ff24eb4a65615b9837c67659221630e0366a4ff4456df00",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:11:06.115Z"
+}

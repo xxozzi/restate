@@ -1,0 +1,14 @@
+{
+ "raw": {
+  "rules": [],
+  "warnings": [
+   "This statute (M.G.L. c. 112 § 87DDD 1/2) regulates real estate broker licensing and fee-splitting rules for finding dwelling accommodations, not rental housing regulations in the six target categories (rent increase limits, just cause eviction, security deposits, application/screening fees, screening restrictions, or algorithmic rent-setting). No operative rule in any of those categories was found in the source text."
+  ]
+ },
+ "docId": "D057",
+ "chunk": 0,
+ "chunkHash": "c678b42f8fc6ecfc7c7a6b1bdf6c68aec877daa80a53d62d5d2ca8176c967d7b",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:11:58.575Z"
+}

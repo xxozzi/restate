@@ -1,0 +1,42 @@
+{
+  "createdAt": "2026-10-04T01:27:15.151Z",
+  "asOf": "2026-10-01",
+  "model": "claude-haiku-4-5-20251001",
+  "rules": 57,
+  "documentsWithRules": 50,
+  "documentsWithText": 61,
+  "documentsNotExtracted": [],
+  "schemaValid": "57/57",
+  "quotesVerbatim": "57/57",
+  "addresses": 500,
+  "addressesWithCity": 492,
+  "lookupResults": {
+    "applies": 3376,
+    "superseded": 243,
+    "pending": 353,
+    "not_yet_effective": 140,
+    "unknown": 755
+  },
+  "changeTests": {
+    "T1": {
+      "affected": 250,
+      "conflicts": 0
+    },
+    "T2": {
+      "affected": 90,
+      "conflicts": 0
+    },
+    "T3": {
+      "affected": 140,
+      "conflicts": 90
+    },
+    "T4": {
+      "affected": 110,
+      "conflicts": 0
+    },
+    "T5": {
+      "affected": 0,
+      "conflicts": 0
+    }
+  }
+}

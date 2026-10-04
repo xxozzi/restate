@@ -1,0 +1,62 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "Owner move-in eviction relocation assistance payment",
+    "category": "just_cause_eviction",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": "2026-01-01",
+    "effectiveDateQuote": "will go into effect on January 1, 2026",
+    "endDate": null,
+    "requirement": "When an owner evicts a tenant for owner move-in, the owner must pay the tenant relocation assistance. As of January 1, 2026, the standard payment is $19,413 and the additional payment for qualifying households is $6,471.",
+    "keyValue": "$19,413 standard; $6,471 additional",
+    "citation": "Berkeley Rent Stabilization and Good Cause for Eviction Ordinance",
+    "quotedSpan": "The Rent Stabilization and Good Cause for Eviction Ordinance requires owners to pay tenants relocation assistance in the event of an owner move-in eviction.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental units in Berkeley subject to the Rent Stabilization and Good Cause for Eviction Ordinance.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The source does not cite the specific ordinance section number; the citation is the ordinance title only.",
+     "The source does not specify which tenants qualify for the additional $6,471 payment.",
+     "The source does not indicate the applicability date of the underlying ordinance requiring relocation assistance, only the 2026 adjustment date."
+    ]
+   },
+   {
+    "title": "Ellis Act eviction relocation assistance payment",
+    "category": "just_cause_eviction",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": "2026-01-01",
+    "effectiveDateQuote": "will go into effect on January 1, 2026",
+    "endDate": null,
+    "requirement": "When an owner evicts a tenant under the Ellis Act to remove a property from the rental housing market, the owner must pay the tenant relocation assistance. As of January 1, 2026, the standard payment is $19,413 and the additional payment for qualifying households is $6,471.",
+    "keyValue": "$19,413 standard; $6,471 additional",
+    "citation": "Berkeley Ellis Implementation Ordinance",
+    "quotedSpan": "The Ellis Implementation Ordinance requires the same relocation assistance payments for tenants evicted so the owner can remove a property from the rental housing market.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental units in Berkeley subject to the Ellis Implementation Ordinance.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The source does not cite the specific ordinance section number; the citation is the ordinance title only.",
+     "The source does not specify which tenants qualify for the additional $6,471 payment.",
+     "The source does not indicate the applicability date of the underlying ordinance requiring relocation assistance, only the 2026 adjustment date."
+    ]
+   }
+  ],
+  "warnings": [
+   "The source is an announcement of 2026 inflationary adjustments to relocation assistance amounts; it does not state the original ordinances' text, coverage, or effective dates beyond the adjustment date.",
+   "Specific ordinance section citations are not provided in the source material."
+  ]
+ },
+ "docId": "D004",
+ "chunk": 0,
+ "chunkHash": "bb1b00d69bd3ead225e5bd758bf642256df1cb89dfa4275a5699266b78df30e1",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:10:13.539Z"
+}

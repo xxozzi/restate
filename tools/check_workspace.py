@@ -12,7 +12,7 @@ IGNORED = {
     ".git", "node_modules", ".venv", "venv", "__pycache__", ".pytest_cache",
     ".mypy_cache", ".ruff_cache", ".next", "dist", "build", "coverage", ".scratch", "runs",
 }
-ROOT_DIRS = {"sources", "tools", "src", "tests", "runs", ".scratch"}
+ROOT_DIRS = {"sources", "tools", "src", "tests", "runs", ".scratch", "submission"}
 ROOT_FILES = {
     "PROJECT_GUIDE.md", ".gitignore", "package.json", "package-lock.json", "pnpm-lock.yaml",
     "yarn.lock", "bun.lock", "bun.lockb", "tsconfig.json", "tsconfig.app.json", "tsconfig.node.json",

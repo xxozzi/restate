@@ -1,0 +1,14 @@
+{
+ "raw": {
+  "rules": [],
+  "warnings": [
+   "This source document describes Cambridge Municipal Code Chapter 8.71, a tenants rights notification ordinance that requires landlords to provide information packets to tenants at lease signing and lease termination. However, the document itself contains no operative substantive rules in the six tracked categories (rent increase limits, just cause eviction, security deposits, application screening fees, screening restrictions, or algorithmic rent setting). It is purely procedural—requiring disclosure of rights and resources, not establishing those rights. The ordinance does not prevent evictions and does not regulate rent, deposits, fees, screening, or algorithms. Therefore, no rules should be recorded from this source."
+  ]
+ },
+ "docId": "D031",
+ "chunk": 0,
+ "chunkHash": "65ffa9dca5815b925debf63d1ff0974f710aed6614723f28d722209094a36b20",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:11:04.094Z"
+}

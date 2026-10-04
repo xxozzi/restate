@@ -1,0 +1,17 @@
+{
+ "raw": {
+  "rules": [],
+  "warnings": [
+   "This source is an informational guide about NJ landlord-tenant law procedures and agency contacts, not a text stating operative rules in the six categories.",
+   "The foreclosure section describes notice requirements and tenant protections during foreclosure, but does not impose rent increase limits, just-cause eviction grounds, security deposit rules, application fee caps, screening restrictions, or algorithmic rent-setting bans.",
+   "Senior citizen/disabled tenant protected tenancy and conversion protections are mentioned but the source does not specify the operative rent, eviction, or deposit rules—it refers readers to separate statutes (N.J.S.A. 2A:18-61.22 et seq.) and forms."
+  ]
+ },
+ "promptHash": "0727a2616b08e130e31a4569973e766a81018a99bb37cbcd49ff0ded37b18b97",
+ "docId": "D067",
+ "chunk": 5,
+ "chunkHash": "9dba6b3e4648251c130c0fb5a58b328ee82ae23ee7dced45677d630b5971088d",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:16:19.449Z"
+}

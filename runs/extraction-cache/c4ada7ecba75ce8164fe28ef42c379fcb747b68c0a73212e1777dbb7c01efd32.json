@@ -1,0 +1,41 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "Residential Rental Property Application Fee Cap",
+    "category": "application_screening_fees",
+    "level": "state",
+    "status": "in_force",
+    "effectiveDate": "2026-05-01",
+    "effectiveDateQuote": "This act shall take effect on the first day of the fourth month next following the date of enactment",
+    "endDate": null,
+    "requirement": "A landlord or agent cannot charge an application or similar fee to apply to lease or sublease residential rental property that exceeds $50. The cap is adjusted annually by the Consumer Price Index.",
+    "keyValue": "$50",
+    "citation": "N.J.S.A. 46:8-18.1",
+    "quotedSpan": "A landlord, or agent thereof, shall not require an application or other similar fee to apply to lease or sublease a residential rental property for dwelling purposes, which exceeds $50.",
+    "coverageJson": "{\"op\":\"not\",\"arg\":{\"op\":\"all\",\"args\":[{\"op\":\"lte\",\"field\":\"units\",\"value\":2},{\"op\":\"eq\",\"field\":\"single_family_or_condo\",\"value\":true}]}}",
+    "coverageDescription": "All residential rental properties except one-family or two-family dwellings offered for rent.",
+    "exemptions": [
+     "One-family or two-family dwelling offered for rent",
+     "Real estate licensees unless the licensee is the landlord"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "Enactment date stated as January 20, 2026; effective date computed as first day of fourth month following (May 1, 2026)",
+     "Statute authorizes annual CPI adjustment beginning January 1 of the year following enactment; the $50 base cap applies until the first adjustment",
+     "Real estate licensee exemption language is ambiguous regarding when a licensee qualifies"
+    ]
+   }
+  ],
+  "warnings": [
+   "The exemption for real estate licensees 'unless the licensee is the landlord' creates potential ambiguity about dual roles"
+  ]
+ },
+ "docId": "D066",
+ "chunk": 0,
+ "chunkHash": "e06aa61acf6ddb50631d5be3c89c4029caccb13c0dcc7be888e0e64f8b182c2e",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:12:08.356Z"
+}

@@ -1,0 +1,543 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "Berkeley Rent Stabilization and Just Cause Eviction Ordinance - Multifamily Buildings Built Before 1980",
+    "category": "rent_increase_limits",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Rent increases are limited under Berkeley's rent stabilization ordinance. Tenants in most multifamily properties built before 1980 are fully covered by rent control.",
+    "keyValue": null,
+    "citation": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance",
+    "quotedSpan": "Most units in multifamily properties built before 1980** Fully Covered Yes Yes Yes Yes",
+    "coverageJson": "{\"op\":\"all\",\"args\":[{\"op\":\"lt\",\"field\":\"certificate_of_occupancy_date\",\"value\":\"1980-06-01\"},{\"op\":\"gte\",\"field\":\"units\",\"value\":2}]}",
+    "coverageDescription": "Multifamily residential buildings (2+ units) with a certificate of occupancy before June 1980, including those with certain government subsidies (Housing Choice Voucher/Section 8, Shelter Plus Care, VASH, LIHTC, California Community Housing Agency, HOME, Berkeley Housing Trust Fund, Mental Health Safety Act, or Rental Supplement Program or Section 8 Loan Management Set Aside without HUD-insured mortgage).",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The ordinance text does not specify the rent increase limit percentage; additional source needed for specific increase caps.",
+     "Golden Duplexes that were owner-occupied as of December 31, 1979 and remain owner-occupied are exempt from rent control."
+    ]
+   },
+   {
+    "title": "Berkeley Rent Stabilization and Just Cause Eviction Ordinance - Multifamily Buildings Built Before 1980",
+    "category": "just_cause_eviction",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Landlords must show just cause when evicting tenants in most multifamily properties built before 1980.",
+    "keyValue": null,
+    "citation": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance",
+    "quotedSpan": "Most units in multifamily properties built before 1980** Fully Covered Yes Yes Yes Yes",
+    "coverageJson": "{\"op\":\"all\",\"args\":[{\"op\":\"lt\",\"field\":\"certificate_of_occupancy_date\",\"value\":\"1980-06-01\"},{\"op\":\"gte\",\"field\":\"units\",\"value\":2}]}",
+    "coverageDescription": "Multifamily residential buildings (2+ units) with a certificate of occupancy before June 1980, including those with certain government subsidies (Housing Choice Voucher/Section 8, Shelter Plus Care, VASH, LIHTC, California Community Housing Agency, HOME, Berkeley Housing Trust Fund, Mental Health Safety Act, or Rental Supplement Program or Section 8 Loan Management Set Aside without HUD-insured mortgage).",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The ordinance text does not specify what constitutes just cause; additional source needed for specific grounds.",
+     "Golden Duplexes that were owner-occupied as of December 31, 1979 and remain owner-occupied are exempt from just cause requirements."
+    ]
+   },
+   {
+    "title": "Berkeley Rent Stabilization and Just Cause Eviction Ordinance - Multifamily Buildings Built Before 1980",
+    "category": "security_deposits",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Security deposits must accrue interest for tenants in most multifamily properties built before 1980.",
+    "keyValue": null,
+    "citation": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance",
+    "quotedSpan": "Most units in multifamily properties built before 1980** Fully Covered Yes Yes Yes Yes",
+    "coverageJson": "{\"op\":\"all\",\"args\":[{\"op\":\"lt\",\"field\":\"certificate_of_occupancy_date\",\"value\":\"1980-06-01\"},{\"op\":\"gte\",\"field\":\"units\",\"value\":2}]}",
+    "coverageDescription": "Multifamily residential buildings (2+ units) with a certificate of occupancy before June 1980, including those with certain government subsidies (Housing Choice Voucher/Section 8, Shelter Plus Care, VASH, LIHTC, California Community Housing Agency, HOME, Berkeley Housing Trust Fund, Mental Health Safety Act, or Rental Supplement Program or Section 8 Loan Management Set Aside without HUD-insured mortgage).",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The ordinance text does not specify the interest rate; additional source needed for specific requirements.",
+     "Golden Duplexes that were owner-occupied as of December 31, 1979 and remain owner-occupied are exempt from security deposit interest requirements."
+    ]
+   },
+   {
+    "title": "Berkeley Rent Stabilization and Just Cause Eviction Ordinance - Single-Family Homes with Tenancies Beginning Before 1996",
+    "category": "rent_increase_limits",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Rent increases are limited under Berkeley's rent stabilization ordinance for single-family homes where the tenancy began before 1996.",
+    "keyValue": null,
+    "citation": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance",
+    "quotedSpan": "Single family homes with current tenancies that began before 1996** Fully Covered Yes Yes Yes Yes",
+    "coverageJson": "{\"op\":\"all\",\"args\":[{\"op\":\"eq\",\"field\":\"single_family_or_condo\",\"value\":true},{\"op\":\"not\",\"arg\":{\"op\":\"eq\",\"field\":\"owner_occupied\",\"value\":true}}]}",
+    "coverageDescription": "Single-family homes that are not owner-occupied, where the current tenancy began before January 1, 1996, including those with certain government subsidies.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The ordinance text does not specify the rent increase limit percentage; additional source needed for specific increase caps."
+    ]
+   },
+   {
+    "title": "Berkeley Rent Stabilization and Just Cause Eviction Ordinance - Single-Family Homes with Tenancies Beginning Before 1996",
+    "category": "just_cause_eviction",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Landlords must show just cause when evicting tenants in single-family homes where the tenancy began before 1996.",
+    "keyValue": null,
+    "citation": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance",
+    "quotedSpan": "Single family homes with current tenancies that began before 1996** Fully Covered Yes Yes Yes Yes",
+    "coverageJson": "{\"op\":\"all\",\"args\":[{\"op\":\"eq\",\"field\":\"single_family_or_condo\",\"value\":true},{\"op\":\"not\",\"arg\":{\"op\":\"eq\",\"field\":\"owner_occupied\",\"value\":true}}]}",
+    "coverageDescription": "Single-family homes that are not owner-occupied, where the current tenancy began before January 1, 1996, including those with certain government subsidies.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The ordinance text does not specify what constitutes just cause; additional source needed for specific grounds."
+    ]
+   },
+   {
+    "title": "Berkeley Rent Stabilization and Just Cause Eviction Ordinance - Single-Family Homes with Tenancies Beginning Before 1996",
+    "category": "security_deposits",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Security deposits must accrue interest for tenants in single-family homes where the tenancy began before 1996.",
+    "keyValue": null,
+    "citation": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance",
+    "quotedSpan": "Single family homes with current tenancies that began before 1996** Fully Covered Yes Yes Yes Yes",
+    "coverageJson": "{\"op\":\"all\",\"args\":[{\"op\":\"eq\",\"field\":\"single_family_or_condo\",\"value\":true},{\"op\":\"not\",\"arg\":{\"op\":\"eq\",\"field\":\"owner_occupied\",\"value\":true}}]}",
+    "coverageDescription": "Single-family homes that are not owner-occupied, where the current tenancy began before January 1, 1996, including those with certain government subsidies.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The ordinance text does not specify the interest rate; additional source needed."
+    ]
+   },
+   {
+    "title": "Berkeley Rent Stabilization and Just Cause Eviction Ordinance - Rooming Houses",
+    "category": "rent_increase_limits",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Rent increases are limited under Berkeley's rent stabilization ordinance for rooming houses (single-family homes with five or more rooms rented out individually with separate leases).",
+    "keyValue": null,
+    "citation": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance",
+    "quotedSpan": "Rooming house: single-family homes with five or more rooms rented out individually with separate leases** Fully Covered Yes Yes Yes Yes",
+    "coverageJson": "{\"op\":\"unknown\",\"reason\":\"Rooming houses are not multifamily apartment buildings and cannot be represented in the property model.\"}",
+    "coverageDescription": "Single-family homes with five or more rooms rented out individually with separate leases, including those with certain government subsidies.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "Rooming houses are not multifamily apartment buildings and coverage cannot be determined from the property fields provided.",
+     "The ordinance text does not specify the rent increase limit percentage; additional source needed."
+    ]
+   },
+   {
+    "title": "Berkeley Rent Stabilization and Just Cause Eviction Ordinance - Rooming Houses",
+    "category": "just_cause_eviction",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Landlords must show just cause when evicting tenants in rooming houses (single-family homes with five or more rooms rented out individually with separate leases).",
+    "keyValue": null,
+    "citation": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance",
+    "quotedSpan": "Rooming house: single-family homes with five or more rooms rented out individually with separate leases** Fully Covered Yes Yes Yes Yes",
+    "coverageJson": "{\"op\":\"unknown\",\"reason\":\"Rooming houses are not multifamily apartment buildings and cannot be represented in the property model.\"}",
+    "coverageDescription": "Single-family homes with five or more rooms rented out individually with separate leases, including those with certain government subsidies.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "Rooming houses are not multifamily apartment buildings and coverage cannot be determined from the property fields provided.",
+     "The ordinance text does not specify what constitutes just cause; additional source needed."
+    ]
+   },
+   {
+    "title": "Berkeley Rent Stabilization and Just Cause Eviction Ordinance - Rooming Houses",
+    "category": "security_deposits",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Security deposits must accrue interest for tenants in rooming houses (single-family homes with five or more rooms rented out individually with separate leases).",
+    "keyValue": null,
+    "citation": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance",
+    "quotedSpan": "Rooming house: single-family homes with five or more rooms rented out individually with separate leases** Fully Covered Yes Yes Yes Yes",
+    "coverageJson": "{\"op\":\"unknown\",\"reason\":\"Rooming houses are not multifamily apartment buildings and cannot be represented in the property model.\"}",
+    "coverageDescription": "Single-family homes with five or more rooms rented out individually with separate leases, including those with certain government subsidies.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "Rooming houses are not multifamily apartment buildings and coverage cannot be determined from the property fields provided.",
+     "The ordinance text does not specify the interest rate; additional source needed."
+    ]
+   },
+   {
+    "title": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance - New Construction",
+    "category": "rent_increase_limits",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Rent registration is required for new construction units built and receiving a Certificate of Occupancy after June 1980, though rent control does not apply to these units.",
+    "keyValue": null,
+    "citation": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance",
+    "quotedSpan": "New construction: units that were built and received a Certificate of Occupancy after June 1980** Partially Covered Yes No Yes Yes",
+    "coverageJson": "{\"op\":\"all\",\"args\":[{\"op\":\"gte\",\"field\":\"certificate_of_occupancy_date\",\"value\":\"1980-06-01\"},{\"op\":\"gte\",\"field\":\"units\",\"value\":2}]}",
+    "coverageDescription": "Multifamily residential buildings (2+ units) with a certificate of occupancy after June 1980, including those with certain government subsidies.",
+    "exemptions": [
+     "Rent control (increases may be set freely by landlord) does not apply; only registration and security deposit interest requirements apply."
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The coverage table indicates 'Partially Covered' and 'No' for rent control, meaning these units are not subject to rent increase limits."
+    ]
+   },
+   {
+    "title": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance - New Construction",
+    "category": "just_cause_eviction",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Just cause for eviction protections do not apply to new construction units built and receiving a Certificate of Occupancy after June 1980.",
+    "keyValue": null,
+    "citation": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance",
+    "quotedSpan": "New construction: units that were built and received a Certificate of Occupancy after June 1980** Partially Covered Yes No Yes Yes",
+    "coverageJson": "{\"op\":\"all\",\"args\":[{\"op\":\"gte\",\"field\":\"certificate_of_occupancy_date\",\"value\":\"1980-06-01\"},{\"op\":\"gte\",\"field\":\"units\",\"value\":2}]}",
+    "coverageDescription": "Multifamily residential buildings (2+ units) with a certificate of occupancy after June 1980.",
+    "exemptions": [
+     "Just cause eviction protections do not apply."
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": []
+   },
+   {
+    "title": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance - New Construction",
+    "category": "security_deposits",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Security deposits must accrue interest for new construction units built and receiving a Certificate of Occupancy after June 1980.",
+    "keyValue": null,
+    "citation": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance",
+    "quotedSpan": "New construction: units that were built and received a Certificate of Occupancy after June 1980** Partially Covered Yes No Yes Yes",
+    "coverageJson": "{\"op\":\"all\",\"args\":[{\"op\":\"gte\",\"field\":\"certificate_of_occupancy_date\",\"value\":\"1980-06-01\"},{\"op\":\"gte\",\"field\":\"units\",\"value\":2}]}",
+    "coverageDescription": "Multifamily residential buildings (2+ units) with a certificate of occupancy after June 1980, including those with certain government subsidies.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The ordinance text does not specify the interest rate; additional source needed."
+    ]
+   },
+   {
+    "title": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance - Single-Family Homes with Tenancies Beginning After 1995",
+    "category": "rent_increase_limits",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Rent registration is required for single-family homes where the tenancy began on or after January 1, 1996, though rent control does not apply to these units.",
+    "keyValue": null,
+    "citation": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance",
+    "quotedSpan": "Single-family home with a tenancy that began on or after January 1, 1996** Partially Covered Yes No Yes Yes",
+    "coverageJson": "{\"op\":\"eq\",\"field\":\"single_family_or_condo\",\"value\":true}",
+    "coverageDescription": "Single-family homes, including those with certain government subsidies, where a tenancy began on or after January 1, 1996.",
+    "exemptions": [
+     "Rent control does not apply; increases may be set freely by landlord.",
+     "Owner-occupied single-family homes are exempt from all ordinance requirements."
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The coverage table indicates 'Partially Covered' and 'No' for rent control, meaning these units are not subject to rent increase limits."
+    ]
+   },
+   {
+    "title": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance - Single-Family Homes with Tenancies Beginning After 1995",
+    "category": "just_cause_eviction",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Just cause for eviction protections do not apply to single-family homes where the tenancy began on or after January 1, 1996.",
+    "keyValue": null,
+    "citation": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance",
+    "quotedSpan": "Single-family home with a tenancy that began on or after January 1, 1996** Partially Covered Yes No Yes Yes",
+    "coverageJson": "{\"op\":\"eq\",\"field\":\"single_family_or_condo\",\"value\":true}",
+    "coverageDescription": "Single-family homes where a tenancy began on or after January 1, 1996.",
+    "exemptions": [
+     "Just cause eviction protections do not apply.",
+     "Owner-occupied single-family homes are exempt."
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": []
+   },
+   {
+    "title": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance - Single-Family Homes with Tenancies Beginning After 1995",
+    "category": "security_deposits",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Security deposits must accrue interest for single-family homes where the tenancy began on or after January 1, 1996.",
+    "keyValue": null,
+    "citation": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance",
+    "quotedSpan": "Single-family home with a tenancy that began on or after January 1, 1996** Partially Covered Yes No Yes Yes",
+    "coverageJson": "{\"op\":\"eq\",\"field\":\"single_family_or_condo\",\"value\":true}",
+    "coverageDescription": "Single-family homes, including those with certain government subsidies, where a tenancy began on or after January 1, 1996.",
+    "exemptions": [
+     "Owner-occupied single-family homes are exempt."
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The ordinance text does not specify the interest rate; additional source needed."
+    ]
+   },
+   {
+    "title": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance - Condominiums",
+    "category": "rent_increase_limits",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Rent registration is required for most condominiums, though rent control does not apply.",
+    "keyValue": null,
+    "citation": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance",
+    "quotedSpan": "Most condominiums** Partially Covered Yes No Yes Yes",
+    "coverageJson": "{\"op\":\"all\",\"args\":[{\"op\":\"eq\",\"field\":\"single_family_or_condo\",\"value\":true},{\"op\":\"not\",\"arg\":{\"op\":\"eq\",\"field\":\"owner_occupied\",\"value\":true}}]}",
+    "coverageDescription": "Most condominiums (individually owned units) that are not owner-occupied, including those with certain government subsidies.",
+    "exemptions": [
+     "Rent control does not apply; increases may be set freely by landlord."
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The ordinance text does not specify which condominiums are covered; full source needed.",
+     "The coverage table indicates 'Partially Covered' and 'No' for rent control."
+    ]
+   },
+   {
+    "title": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance - Condominiums",
+    "category": "just_cause_eviction",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Just cause for eviction protections do not apply to most condominiums.",
+    "keyValue": null,
+    "citation": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance",
+    "quotedSpan": "Most condominiums** Partially Covered Yes No Yes Yes",
+    "coverageJson": "{\"op\":\"all\",\"args\":[{\"op\":\"eq\",\"field\":\"single_family_or_condo\",\"value\":true},{\"op\":\"not\",\"arg\":{\"op\":\"eq\",\"field\":\"owner_occupied\",\"value\":true}}]}",
+    "coverageDescription": "Most condominiums (individually owned units) that are not owner-occupied.",
+    "exemptions": [
+     "Just cause eviction protections do not apply."
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": []
+   },
+   {
+    "title": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance - Condominiums",
+    "category": "security_deposits",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Security deposits must accrue interest for most condominiums.",
+    "keyValue": null,
+    "citation": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance",
+    "quotedSpan": "Most condominiums** Partially Covered Yes No Yes Yes",
+    "coverageJson": "{\"op\":\"all\",\"args\":[{\"op\":\"eq\",\"field\":\"single_family_or_condo\",\"value\":true},{\"op\":\"not\",\"arg\":{\"op\":\"eq\",\"field\":\"owner_occupied\",\"value\":true}}]}",
+    "coverageDescription": "Most condominiums (individually owned units) that are not owner-occupied, including those with certain government subsidies.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The ordinance text does not specify the interest rate; additional source needed."
+    ]
+   },
+   {
+    "title": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance - Section 202 and 811 Supportive Housing",
+    "category": "rent_increase_limits",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Rent registration is required for units with Section 202 Supportive Housing for the Elderly or Section 811 Supportive Housing for Persons with Disabilities subsidies, though rent control does not apply.",
+    "keyValue": null,
+    "citation": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance",
+    "quotedSpan": "Units with the following government subsidies regardless of unit type: Section 202 Supportive Housing for the Elderly, Section 811 Supportive Housing for Persons with Disabilities Partially Covered Yes No Yes Yes",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental units with Section 202 Supportive Housing for the Elderly or Section 811 Supportive Housing for Persons with Disabilities subsidies, regardless of unit type or building age.",
+    "exemptions": [
+     "Rent control does not apply; increases may be set freely by landlord."
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "Coverage is not restricted to any particular building type based on the ordinance text shown."
+    ]
+   },
+   {
+    "title": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance - Section 202 and 811 Supportive Housing",
+    "category": "just_cause_eviction",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Just cause for eviction protections do not apply to units with Section 202 Supportive Housing for the Elderly or Section 811 Supportive Housing for Persons with Disabilities subsidies.",
+    "keyValue": null,
+    "citation": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance",
+    "quotedSpan": "Units with the following government subsidies regardless of unit type: Section 202 Supportive Housing for the Elderly, Section 811 Supportive Housing for Persons with Disabilities Partially Covered Yes No Yes Yes",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental units with Section 202 Supportive Housing for the Elderly or Section 811 Supportive Housing for Persons with Disabilities subsidies, regardless of unit type or building age.",
+    "exemptions": [
+     "Just cause eviction protections do not apply."
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": []
+   },
+   {
+    "title": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance - Section 202 and 811 Supportive Housing",
+    "category": "security_deposits",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Security deposits must accrue interest for units with Section 202 Supportive Housing for the Elderly or Section 811 Supportive Housing for Persons with Disabilities subsidies.",
+    "keyValue": null,
+    "citation": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance",
+    "quotedSpan": "Units with the following government subsidies regardless of unit type: Section 202 Supportive Housing for the Elderly, Section 811 Supportive Housing for Persons with Disabilities Partially Covered Yes No Yes Yes",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental units with Section 202 Supportive Housing for the Elderly or Section 811 Supportive Housing for Persons with Disabilities subsidies, regardless of unit type or building age.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The ordinance text does not specify the interest rate; additional source needed."
+    ]
+   },
+   {
+    "title": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance - Section 8 and Other Project-Based Subsidies",
+    "category": "rent_increase_limits",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Rent registration is required for units with Rental Supplement Program, Section 8 Loan Management Set Aside, or project-based Section 8 subsidies in a project with a mortgage insured or held by HUD, though rent control does not apply.",
+    "keyValue": null,
+    "citation": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance",
+    "quotedSpan": "Regardless of unit type, units with Rental Supplement Program, Section 8 Loan Management Set Aside, Project-based Section 8 subsidies AND in a project with a mortgage insured or held by HUD. Partially Covered Yes No Yes Yes",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental units with Rental Supplement Program, Section 8 Loan Management Set Aside, or project-based Section 8 subsidies in a project with a mortgage insured or held by HUD, regardless of unit type or building characteristics.",
+    "exemptions": [
+     "Rent control does not apply; increases may be set freely by landlord."
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The ordinance text does not fully specify all conditions under which these subsidies trigger coverage; full text may be needed."
+    ]
+   },
+   {
+    "title": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance - Section 8 and Other Project-Based Subsidies",
+    "category": "just_cause_eviction",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Just cause for eviction protections do not apply to units with Rental Supplement Program, Section 8 Loan Management Set Aside, or project-based Section 8 subsidies in a project with a mortgage insured or held by HUD.",
+    "keyValue": null,
+    "citation": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance",
+    "quotedSpan": "Regardless of unit type, units with Rental Supplement Program, Section 8 Loan Management Set Aside, Project-based Section 8 subsidies AND in a project with a mortgage insured or held by HUD. Partially Covered Yes No Yes Yes",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental units with Rental Supplement Program, Section 8 Loan Management Set Aside, or project-based Section 8 subsidies in a project with a mortgage insured or held by HUD.",
+    "exemptions": [
+     "Just cause eviction protections do not apply."
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": []
+   },
+   {
+    "title": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance - Section 8 and Other Project-Based Subsidies",
+    "category": "security_deposits",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Security deposits must accrue interest for units with Rental Supplement Program, Section 8 Loan Management Set Aside, or project-based Section 8 subsidies in a project with a mortgage insured or held by HUD.",
+    "keyValue": null,
+    "citation": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance",
+    "quotedSpan": "Regardless of unit type, units with Rental Supplement Program, Section 8 Loan Management Set Aside, Project-based Section 8 subsidies AND in a project with a mortgage insured or held by HUD. Partially Covered Yes No Yes Yes",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental units with Rental Supplement Program, Section 8 Loan Management Set Aside, or project-based Section 8 subsidies in a project with a mortgage insured or held by HUD, regardless of unit type or building characteristics.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The ordinance text does not specify the interest rate; additional source needed."
+    ]
+   }
+  ],
+  "warnings": [
+   "This source is a coverage guide only and does not contain the full text of the Berkeley rent stabilization and eviction for just cause ordinance. Specific requirement percentages, interest rates, and detailed just cause grounds are not provided in this document.",
+   "The document does not provide effective dates for the ordinance; the current status (in_force) assumes these protections are currently operative, but the source does not state when they became effective.",
+   "Golden Duplexes (owner-occupied as of December 31, 1979 and currently owner-occupied), units where the owner shares a kitchen or bath with the tenant (and the owner lived there when tenancy started), tenancies started after November 7, 2018 on properties with an ADU where either unit is owner-occupied, university rental units, and nonprofit cooperatives are all exempt from all ordinance coverage.",
+   "The table note indicates units with Housing Choice Voucher, Shelter Plus Care, VASH, LIHTC, California Community Housing Agency, HOME, City of Berkeley Housing Trust Fund, and Mental Health Safety Act are included in 'fully covered' categories, while Rental Supplement Program and Section 8 Loan Management Set Aside are only covered if the project does NOT have an HUD-insured or HUD-held mortgage."
+  ]
+ },
+ "docId": "D009",
+ "chunk": 0,
+ "chunkHash": "bddd7d3ab24d2717a0393cf879bad9a849af3aa10dd2e426bc9da34dcd19c5e3",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:11:03.583Z"
+}

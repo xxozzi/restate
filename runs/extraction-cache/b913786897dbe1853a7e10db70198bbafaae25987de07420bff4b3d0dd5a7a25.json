@@ -1,0 +1,79 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "Just Cause Required for Termination of Tenancy",
+    "category": "just_cause_eviction",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": "2023-06-24",
+    "effectiveDateQuote": "effective 6-24-2023",
+    "endDate": null,
+    "requirement": "A landlord must not terminate a tenancy without just cause. Just cause includes at-fault reasons (such as non-payment of rent, lease violations, nuisance, waste, criminal activity, or unlawful use) and no-fault reasons (owner or family occupation, withdrawal from rental market, compliance with government orders or habitability requirements, or demolition or substantial remodeling). For leases entered into after June 24, 2023, owner-occupation terminations require tenant agreement or an express lease provision allowing unilateral termination.",
+    "keyValue": null,
+    "citation": "S.D.M.C. § 98.0704",
+    "quotedSpan": "A landlord shall not terminate a tenancy without just cause. For purposes of this Division, just cause includes at-fault just cause and no-fault just cause.",
+    "coverageJson": "{\"op\":\"not\",\"arg\":{\"op\":\"any\",\"args\":[{\"op\":\"in\",\"field\":\"owner_type\",\"value\":[\"public_entity\"]},{\"op\":\"eq\",\"field\":\"single_family_or_condo\",\"value\":true},{\"op\":\"all\",\"args\":[{\"op\":\"eq\",\"field\":\"owner_occupied\",\"value\":true},{\"op\":\"lte\",\"field\":\"units\",\"value\":2}]},{\"op\":\"lt\",\"field\":\"building_age_years\",\"value\":15},{\"op\":\"eq\",\"field\":\"affordable_housing_restricted\",\"value\":true}]}}",
+    "coverageDescription": "Applies to residential rental properties in San Diego, except: transient/tourist hotels, short-term rentals, deed-restricted affordable housing, subsidized affordable housing (excluding Section 8), mobilehomes under state law, non-profit hospitals/facilities, dormitories, properties where tenant shares kitchen/bath with owner-occupant landlord, single-family residences with owner-occupant and no more than two bedrooms or ADUs, two-unit properties with owner-occupant, properties with certificate of occupancy within previous 15 years (unless mobilehome), and certain small owner-occupied properties meeting specific criteria.",
+    "exemptions": [
+     "Properties issued a certificate of occupancy within the previous 15 years (unless mobilehome)",
+     "Single-family residence with landlord principal residence (max two bedrooms, two ADUs, or two JADUs)",
+     "Two-unit building with owner-occupant continuing in occupancy",
+     "Small owner-operated properties without corporate/REIT/LLC-with-corporate ownership that provide required notice",
+     "Deed-restricted affordable housing",
+     "Subsidized affordable housing (except Section 8)",
+     "Transient and tourist hotels",
+     "Short-term residential occupancy",
+     "Non-profit hospital, religious facility, extended care facility, or non-profit transitional housing",
+     "Dormitories",
+     "Properties where tenant shares kitchen or bathroom with owner-occupant",
+     "Mobilehomes subject to state Mobilehome Residency Law"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "Source text is part 1 of 2; relocation assistance amounts and notice requirements in §98.0706(c) may continue in part 2",
+     "The exemption in §98.0703(l) for certain owner-occupied properties requires written notice to tenants that includes specific statutory language; coverage JSON simplified to 'unknown' for these conditional exemptions",
+     "Coverage excludes mobilehomes subject to state law per §98.0703(e), though text also indicates some mobilehome exemptions have been modified"
+    ]
+   },
+   {
+    "title": "Notice and Relocation Assistance for No-Fault Terminations",
+    "category": "just_cause_eviction",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": "2023-06-24",
+    "effectiveDateQuote": "effective 6-24-2023",
+    "endDate": null,
+    "requirement": "For no-fault just cause terminations (owner/family occupation, withdrawal from market, compliance with government orders, or demolition/substantial remodeling), the landlord must provide written notice at least 30 or 60 days in advance (as required by California law) describing the basis, stating the tenant's right to relocation assistance, and informing tenants of their right to receive an offer to renew if the property is re-rented for residential purposes within five years. Relocation assistance is two months of actual rent (or three months if tenant is senior or disabled), provided by direct payment or rent waiver, and must be delivered within 15 days of notice if by direct payment.",
+    "keyValue": "2 months' rent (3 months if senior/disabled)",
+    "citation": "S.D.M.C. § 98.0706(b) and (c)",
+    "quotedSpan": "The landlord shall, regardless of the tenant's income or length of tenancy and at the landlord's option, provide relocation assistance to the tenant by one of the following: (A) The landlord shall provide a direct payment to the tenant. (i) Unless section 98.0706(c)(1)(A)(ii) applies, the direct payment to the tenant shall be in an amount equal to two months of actual rent under the tenant's lease in effect at the date of the notice. (ii) If the tenant is a senior or disabled, the direct payment to the tenant shall be in an amount equal to three months of actual rent",
+    "coverageJson": "{\"op\":\"not\",\"arg\":{\"op\":\"any\",\"args\":[{\"op\":\"in\",\"field\":\"owner_type\",\"value\":[\"public_entity\"]},{\"op\":\"eq\",\"field\":\"single_family_or_condo\",\"value\":true},{\"op\":\"all\",\"args\":[{\"op\":\"eq\",\"field\":\"owner_occupied\",\"value\":true},{\"op\":\"lte\",\"field\":\"units\",\"value\":2}]},{\"op\":\"lt\",\"field\":\"building_age_years\",\"value\":15},{\"op\":\"eq\",\"field\":\"affordable_housing_restricted\",\"value\":true}]}}",
+    "coverageDescription": "Same as just cause rule above; applies to residential rental properties subject to §98.0704 terminations for no-fault just cause.",
+    "exemptions": [
+     "Same exemptions as just cause rule apply",
+     "If tenant is determined at fault for habitability violation triggering government order, tenant not entitled to relocation assistance under §98.0704(b)(3)"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "Text indicates relocation assistance rules continue beyond source excerpt (part 1 of 2)",
+     "Multiple tenancy rule mentioned in §98.0706(c)(2) but details not in source excerpt"
+    ]
+   }
+  ],
+  "warnings": [
+   "Source is part 1 of 2; relocation assistance rules in §98.0706(c)(2) onward (affecting multiple-tenant units) are not included in this excerpt",
+   "No rent increase limits, security deposit, screening fee, screening restriction, or algorithmic rent-setting rules are present in this part of the ordinance",
+   "Exemption criteria in §98.0703(l) contain complex conditions about owner type, LLC membership, and required tenant notice that may require case-by-case verification",
+   "§98.0704(b)(1) owner-occupancy termination has extensive conditions (90-day move-in deadline, 12-month occupancy requirement, re-offer obligation if not satisfied) that restrict when this ground applies"
+  ]
+ },
+ "docId": "D073",
+ "chunk": 0,
+ "chunkHash": "c5517057d10a0aa3f7cba704334fd3f75366fa5ffd5a9a4bc6ab253981e56845",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:12:46.882Z"
+}

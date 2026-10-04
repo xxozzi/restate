@@ -1,0 +1,14 @@
+{
+ "raw": {
+  "rules": [],
+  "warnings": [
+   "This source is a Massachusetts Supreme Judicial Court decision (Cella v. Attorney General, decided June 23, 2026) striking down Initiative Petition 25-21 on constitutional grounds. The decision does not enact, describe, or establish any operative rental-housing law. Initiative Petition 25-21 itself proposed rent control (limiting annual increases to the lower of CPI or 5%), but it was never enacted—the court ruled it unconstitutional under Article 48 of the Massachusetts Constitution because it included an exemption for facilities operated solely for religious purposes. The petition's status is 'failed' (struck by judicial decision before placement on the ballot). Since the underlying initiative was invalidated and never became law, there are no operative rules to record. The document discusses what the proposed law would have done (e.g., limits of CPI or 5%, exemptions for owner-occupied 4-unit buildings, buildings under 10 years old, educational/religious/nonprofit facilities, regulated units, and transient housing), but none of these provisions are in force. A reviewer should note that Initiative Petition 25-21 represents a failed attempt at Massachusetts statewide rent control legislation, not a binding rule."
+  ]
+ },
+ "docId": "SUP-MA-CELLA",
+ "chunk": 0,
+ "chunkHash": "e763a06f6bf01a5e929ffe3f3df61ec98de3e761f3cf8e47add80c846fbd1b87",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:13:29.168Z"
+}

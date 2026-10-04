@@ -1,0 +1,14 @@
+{
+ "raw": {
+  "rules": [],
+  "warnings": [
+   "GOV 12955 addresses housing discrimination (race, color, religion, sex, gender identity, sexual orientation, marital status, national origin, ancestry, familial status, source of income, disability, veteran/military status, genetic information) and screening practices. It does not establish operative rules in the six target categories: rent increase limits, just cause eviction, security deposits, application screening fees, screening restrictions (beyond general discrimination prohibitions), or algorithmic rent setting. While subsection (n) and (o) address income standards and credit history in rental applications, these are anti-discrimination provisions rather than caps on application fees or restrictions on specific screening criteria that would fit the screening_restrictions category as defined. The source is a civil rights statute, not a rental housing regulation statute."
+  ]
+ },
+ "docId": "D027",
+ "chunk": 0,
+ "chunkHash": "511f8074b8f4959161fb4c7ec922c8fa963735b47c13d852b8a09ca42b922ecf",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:11:00.734Z"
+}

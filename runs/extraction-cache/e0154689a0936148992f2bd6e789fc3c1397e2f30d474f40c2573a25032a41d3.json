@@ -1,0 +1,34 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "Notice to Determine Estate at Will",
+    "category": "just_cause_eviction",
+    "level": "state",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "A landlord may terminate a tenancy at will with three months' written notice, or equal to the rent payment interval if that is longer, whichever applies. For nonpayment of rent, the landlord may terminate with 14 days' written notice, but a tenant who has not received a similar notice within the prior 12 months may prevent termination by paying all rent due within 10 days of receiving the notice.",
+    "keyValue": "3 months or rent payment interval; 14 days for nonpayment",
+    "citation": "M.G.L. c. 186 § 12",
+    "quotedSpan": "Estates at will may be determined by either party by three months' notice in writing for that purpose given to the other party; and, if the rent reserved is payable at periods of less than three months, the time of such notice shall be sufficient if it is equal to the interval between the days of payment or thirty days, whichever is longer. In case of neglect or refusal to pay the rent due from a tenant at will, fourteen days' notice to quit, given in writing by the landlord to the tenant, shall be sufficient to determine the tenancy; provided, that the tenancy of a tenant who has not received a similar notice from the landlord within the twelve months next preceding the receipt of such notice shall not be determined if the tenant, within ten days after the receipt thereof, pays or tenders to the landlord, the landlord's attorney, or the person to whom the tenant customarily pays rent, the full amount of any rent due.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental units in Massachusetts under a tenancy at will.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "This rule applies only to 'estates at will' tenancies; coverage for other tenancy types (lease terms, periodic tenancies) is not addressed in this section."
+    ]
+   }
+  ],
+  "warnings": []
+ },
+ "docId": "D051",
+ "chunk": 0,
+ "chunkHash": "6c1a194983bb0ee7079919bb8ef0e77efcd35d73dd9795853024a6eaaf5b24de",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:11:54.837Z"
+}

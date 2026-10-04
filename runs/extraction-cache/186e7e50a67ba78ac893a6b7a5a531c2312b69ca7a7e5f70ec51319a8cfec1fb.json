@@ -1,0 +1,49 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "California Statewide Rent Increase Cap",
+    "category": "rent_increase_limits",
+    "level": "state",
+    "status": "in_force",
+    "effectiveDate": "2024-04-01",
+    "effectiveDateQuote": "This section shall become operative on April 1, 2024.",
+    "endDate": "2030-01-01",
+    "requirement": "Landlords cannot increase rent by more than 5% plus the percentage change in the cost of living (or 10%, whichever is lower) in any 12-month period, based on the lowest rent charged in the prior 12 months. For tenants remaining in occupancy, increases are limited to no more than two increments per 12-month period.",
+    "keyValue": "5% + CPI, max 10%",
+    "citation": "Cal. Civ. Code § 1947.12",
+    "quotedSpan": "an owner of residential real property shall not, over the course of any 12-month period, increase the gross rental rate for a dwelling or a unit more than 5 percent plus the percentage change in the cost of living, or 10 percent, whichever is lower",
+    "coverageJson": "{\"op\":\"not\",\"arg\":{\"op\":\"any\",\"args\":[{\"op\":\"eq\",\"field\":\"affordable_housing_restricted\",\"value\":true},{\"op\":\"lt\",\"field\":\"building_age_years\",\"value\":15},{\"op\":\"all\",\"args\":[{\"op\":\"eq\",\"field\":\"single_family_or_condo\",\"value\":true},{\"op\":\"not\",\"arg\":{\"op\":\"in\",\"field\":\"owner_type\",\"value\":[\"corporation\",\"reit\",\"llc\"]}}]},{\"op\":\"all\",\"args\":[{\"op\":\"eq\",\"field\":\"units\",\"value\":2},{\"op\":\"eq\",\"field\":\"owner_occupied\",\"value\":true}]}]}}",
+    "coverageDescription": "Applies to residential real property statewide except: (1) affordable housing restricted by deed or regulatory agreement; (2) housing with certificate of occupancy within previous 15 years (unless mobilehome); (3) single-family homes or individually-owned condos where owner is a natural person and not a REIT, corporation, or LLC with corporate member; (4) owner-occupied duplexes.",
+    "exemptions": [
+     "Affordable housing restricted by deed or regulatory agreement for very low, low, or moderate income tenants",
+     "Housing issued certificate of occupancy within previous 15 years (unless mobilehome)",
+     "Single-family homes or individually-owned condos not owned by corporations, REITs, or LLCs with corporate members",
+     "Owner-occupied duplexes where owner occupies one unit as principal residence",
+     "Mobilehomes subject to different operative date (February 18, 2021)"
+    ],
+    "yieldsToLocal": true,
+    "preemptsLocal": false,
+    "warnings": [
+     "This section is scheduled for repeal on January 1, 2030 and will no longer apply after that date. Status reflects applicability as of 2026-10-01.",
+     "Calculation of 'percentage change in the cost of living' uses specific CPI-U indices by metropolitan area or California CPI-U if no federal index is published for the area.",
+     "For rent increases occurring between March 15, 2019 and January 1, 2020, owners who overcharged were not liable for overpayment but rents were capped at March 15, 2019 level plus maximum permissible increase.",
+     "Mobilehome tenancies have different effective date (February 18, 2021) and different retroactive rules.",
+     "Rent discounts, incentives, concessions, or credits offered by the owner must be excluded from the baseline rent calculation and separately listed in the lease."
+    ]
+   }
+  ],
+  "warnings": [
+   "Section 1947.12 is set to be repealed January 1, 2030. It will not apply after that date unless the Legislature extends it.",
+   "The statute explicitly states it is not intended to limit local government authority to adopt stricter rent control under Chapter 2.7, and nothing in this section authorizes local governments to adopt weaker protections than otherwise permissible.",
+   "The 15-year exemption for new construction is measured from certificate of occupancy date and does not apply to mobilehomes.",
+   "Coverage for single-family homes (subsection (d)(5)) requires notice to tenants and has specific formatting requirements; addition of this notice to renewal leases constitutes a 'similar provision' under Section 1946.2."
+  ]
+ },
+ "docId": "D024",
+ "chunk": 0,
+ "chunkHash": "eb9c42af2b9a5c220ca37816f409f0bd3ea92a002a973283e779fdb72de18bd7",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:10:57.849Z"
+}

@@ -1,0 +1,42 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "Ban on rent-pricing algorithms and coordination services",
+    "category": "algorithmic_rent_setting",
+    "level": "state",
+    "status": "pending",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Landlords cannot contract with or pay for services that collect actual rent prices, analyze them, and recommend rental prices to landlords. Service providers cannot help landlords agree not to compete on rent pricing for residential units.",
+    "keyValue": null,
+    "citation": "MA H.5222, Chapter 40Z, Sections 2 and 3",
+    "quotedSpan": "No real estate lessor, or any agent or subcontractor thereof, shall subscribe to, contract with or otherwise exchange anything of value in return for the services of a service provider. No service provider shall facilitate an agreement to not compete among real estate lessors with respect to residential dwelling units.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential dwelling units in Massachusetts, excluding inpatient medical care, licensed long-term care, and detention or correctional facilities.",
+    "exemptions": [
+     "Publication of fair market rent calculated using publicly available data does not constitute a prohibited recommendation"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "This is a pending bill (H.5222) with no enacted effective date shown in the source",
+     "The bill has not passed both chambers or been signed into law as of the source date",
+     "Section 2(a) uses the phrase 'subscribe to, contract with or otherwise exchange anything of value' which may need interpretation to determine scope of prohibited services"
+    ]
+   }
+  ],
+  "warnings": [
+   "H.5222 is a pending bill, not enacted law. Its status is 'pending' as of 2026-10-01 unless other sources confirm passage.",
+   "No effective date is stated in the bill text.",
+   "The definitions of 'coordinate' and 'service provider' are central to enforcement but may require judicial interpretation."
+  ]
+ },
+ "docId": "SUP-MA-H5222",
+ "chunk": 0,
+ "chunkHash": "b75a39fdeb33dfdb4716d0a5ce350974f9bbe32646f34c4de96134282714a93a",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:13:28.393Z"
+}

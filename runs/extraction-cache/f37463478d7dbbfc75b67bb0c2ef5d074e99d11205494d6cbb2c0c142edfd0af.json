@@ -1,0 +1,14 @@
+{
+ "raw": {
+  "rules": [],
+  "warnings": [
+   "This is a bill summary page showing only procedural history (referrals, hearing dates, reporting date extensions, and final action to accompany a study order on 2024-09-09). The page does not include the bill text itself. No operative rule language is present—only metadata about the legislative process. The bill was referred to the Housing committee on 2023-04-10, a hearing was scheduled for 2023-11-14, and the last action (2024-09-09) was that it 'Accompanied a study order, see H5035', which suggests the bill was not enacted into law. Without the actual bill text, no rules can be extracted. To analyze the substance of H.3744, the full bill text would be needed."
+  ]
+ },
+ "docId": "D011",
+ "chunk": 0,
+ "chunkHash": "93835654c3483e7b169677f7a3ccdcf021b6edab4ac81ab7ad3091903de71ff2",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:10:37.467Z"
+}

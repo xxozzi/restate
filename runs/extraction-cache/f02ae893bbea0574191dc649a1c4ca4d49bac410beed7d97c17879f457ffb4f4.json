@@ -1,0 +1,39 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "San Francisco Annual Rent Increase for March 1, 2026 - February 28, 2027",
+    "category": "rent_increase_limits",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": "2026-03-01",
+    "effectiveDateQuote": "effective March 1, 2026 through February 28, 2027",
+    "endDate": "2027-02-28",
+    "requirement": "For rent-controlled units in San Francisco, landlords may increase rent by up to 1.6% annually during the period March 1, 2026 through February 28, 2027.",
+    "keyValue": "1.6%",
+    "citation": "S.F. Admin. Code ch. 37 (as administered by Rent Board)",
+    "quotedSpan": "For rent-controlled units, the annual allowable increase amount effective March 1, 2026 through February 28, 2027 is 1.6%.",
+    "coverageJson": "{\"op\":\"unknown\",\"reason\":\"Source announces annual allowable increase for rent-controlled units under S.F. Admin. Code ch. 37 but does not specify building coverage criteria; coverage is determined by separate S.F.R.C. § 37.2(r) definitions of 'rental unit' and exemptions.\"}",
+    "coverageDescription": "Rent-controlled units in San Francisco as defined by S.F. Admin. Code ch. 37. Coverage excludes owner-occupied buildings with two or fewer units and other exemptions under S.F.R.C. § 37.2(r).",
+    "exemptions": [
+     "Owner-occupied buildings with two or fewer units",
+     "Units exempted under S.F. Rent Control Ordinance § 37.2(r)"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "Source is an announcement of an annual allowable increase under existing San Francisco rent control law (S.F. Admin. Code ch. 37) and does not state building-level coverage criteria. Complete coverage rules are in the underlying ordinance, not this announcement."
+    ]
+   }
+  ],
+  "warnings": [
+   "This source is a news announcement of the annual allowable rent increase for a specific 12-month period under San Francisco's existing rent control law. It does not define which buildings are covered; that is determined by S.F. Admin. Code ch. 37 and its definitions and exemptions. A separate rule record for the underlying ordinance (S.F. Admin. Code ch. 37) would be needed to fully specify coverage."
+  ]
+ },
+ "docId": "D080",
+ "chunk": 0,
+ "chunkHash": "924783981b92aabf2a5200517290879d008fd1e8c579969bdddaa28ff6f9fd7d",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:12:55.801Z"
+}

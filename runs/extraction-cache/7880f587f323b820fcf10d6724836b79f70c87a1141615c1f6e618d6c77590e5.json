@@ -1,0 +1,43 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "NJ Law Against Discrimination: Housing discrimination based on protected characteristics and source of lawful income",
+    "category": "screening_restrictions",
+    "level": "state",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "A landlord cannot deny housing, refuse to rent, or discriminate in the terms or conditions of rental based on race, creed, color, national origin, sex, gender identity or expression, marital status, civil union status, ancestry, disability, nationality, affectional or sexual orientation, familial status, domestic partner status, or source of lawful income (including Section 8 HUD vouchers used for rent payment). Service or guide dogs for disabled, blind or deaf tenants must be permitted without extra fees.",
+    "keyValue": null,
+    "citation": "N.J.S.A. 10:5-1 et seq. (NJ Law Against Discrimination)",
+    "quotedSpan": "The LAD also prohibits housing discrimination based on the source of lawful income or source of lawful rent or mortgage payment a tenant or purchaser uses. This means, for example, that a landlord cannot deny the lawful recipient of a Section 8 HUD voucher the right to rent an apartment based solely on that source of lawful income.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental property in New Jersey, except single apartments in two-family owner-occupied dwellings and rooms rented by owner-occupants of one-family dwellings.",
+    "exemptions": [
+     "Single apartment or flat in a two-family dwelling where the other unit is occupied by the owner as residence",
+     "Room or rooms rented by owner or occupant of one-family dwelling occupied as their residence"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "This is a discrimination/fair housing rule, not a rent control or eviction rule; included because it addresses screening restrictions and source-of-income protection for voucher holders",
+     "Document is an agency informational brochure; the underlying statute is N.J.S.A. 10:5-1 et seq.",
+     "No effective date stated in source document; law is presumed to be in force as of 2026-10-01"
+    ]
+   }
+  ],
+  "warnings": [
+   "Source document is a brochure about NJ's fair housing law and complaint procedures; it does not address rent_increase_limits, just_cause_eviction, security_deposits, application_screening_fees, or algorithmic_rent_setting",
+   "No effective date is provided in the document for when the Law Against Discrimination took effect or became applicable to rental housing"
+  ]
+ },
+ "promptHash": "0727a2616b08e130e31a4569973e766a81018a99bb37cbcd49ff0ded37b18b97",
+ "docId": "D068",
+ "chunk": 0,
+ "chunkHash": "857cb50fde16e0027346c44f502b2f0d854aad4bca7cf0926a31cd54adad8159",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:16:25.040Z"
+}

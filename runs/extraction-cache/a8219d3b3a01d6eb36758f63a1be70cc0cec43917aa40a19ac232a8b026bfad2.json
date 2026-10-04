@@ -1,0 +1,14 @@
+{
+ "raw": {
+  "rules": [],
+  "warnings": [
+   "The source document is a bill header/status page from the Massachusetts legislature (S.2983, 194th General Court) titled 'An Act prohibiting algorithmic rent setting,' but does not include the actual bill text. The page shows only metadata: the bill number, committee action (reported favorably on 3/12/2026 and referred to Senate Ways and Means), and navigation elements. Without the substantive statutory language, operative rule requirements, coverage, effective dates, and citations cannot be extracted. To record this bill, the full text must be retrieved from the legislature's website or a legislative database."
+  ]
+ },
+ "docId": "D046",
+ "chunk": 0,
+ "chunkHash": "6ea5313d0a656ab73b683e72b594cf143ee61bd6923ee1d9f3df46682248004d",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:11:42.756Z"
+}

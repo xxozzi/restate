@@ -1,0 +1,14 @@
+{
+ "raw": {
+  "rules": [],
+  "warnings": [
+   "The source document is a Boston Fair Housing Commission informational page about housing discrimination enforcement under fair housing laws (federal, state, and local). It does not contain operative rental-housing rules in the six target categories (rent increases, just-cause eviction, security deposits, application/screening fees, screening restrictions, or algorithmic rent-setting). It describes protected classes and discrimination complaint procedures, which fall outside the scope of the six categories. No rules were identified."
+  ]
+ },
+ "docId": "D012",
+ "chunk": 0,
+ "chunkHash": "aaed5c3d1e3aacb57a1f9a8fa9e855ecaa857bdbedc3d7b99a1992e7fc0aed0f",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:10:36.896Z"
+}

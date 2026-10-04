@@ -1,0 +1,36 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "Nonpayment of Rent—Notice to Quit and Eviction",
+    "category": "just_cause_eviction",
+    "level": "state",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "A landlord must give a tenant 14 days' written notice to quit for nonpayment of rent. The tenant may stop the eviction by paying all rent due, interest, and court costs on or before the answer is due in the eviction action. If the nonpayment was caused by a government agency's failure to deliver a subsistence or rental payment to the tenant or landlord, the court must continue the hearing at least 7 days to notify the agency, and the tenancy is treated as not terminated if the tenant tenders all rent, interest and costs within that time.",
+    "keyValue": "14 days",
+    "citation": "M.G.L. c. 186 § 11",
+    "quotedSpan": "Upon the neglect or refusal to pay the rent due under a written lease, fourteen days' notice to quit, given in writing by the landlord to the tenant, shall be sufficient to determine the lease, unless the tenant, on or before the day the answer is due, in an action by the landlord to recover possession of the premises, pays or tenders to the landlord or to his attorney all rent then due, with interest and costs of suit.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental housing with a written lease.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The statute refers to 'written lease' and does not explicitly state applicability to tenancies at will or oral agreements; this rule is limited to written leases.",
+     "The statute does not specify an effective date; it is assumed to be currently in force.",
+     "No end date is specified in the statute."
+    ]
+   }
+  ],
+  "warnings": []
+ },
+ "docId": "D050",
+ "chunk": 0,
+ "chunkHash": "cdc077701a5c63533240e370c77ce86546bd2c8372d771433c52a98fadc48f19",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:11:55.843Z"
+}

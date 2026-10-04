@@ -1,0 +1,40 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "Prohibition on Algorithmic Rent-Fixing and Coordination Among Landlords",
+    "category": "algorithmic_rent_setting",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": "2025-05-22",
+    "effectiveDateQuote": "Approved: May 22 2025",
+    "endDate": null,
+    "requirement": "Landlords and service providers are prohibited from using software or coordinating to collect nonpublic competitor information (prices, supply levels, occupancy rates, lease terms) from multiple landlords and using it to recommend rent prices, lease terms, or occupancy levels. Service providers cannot facilitate agreements among landlords not to compete on rental pricing or other rental terms.",
+    "keyValue": null,
+    "citation": "Jersey City Ord. 25-057, Jersey City Municipal Code § 218-12",
+    "quotedSpan": "It is unlawful for any real estate lessor, agent, or subcontractor thereof, to subscribe to, contract with, or otherwise exchange anything of value in return for the services of a Service Provider. No service provider shall facilitate an agreement not to compete among real estate lessors with respect to any aspect of residential dwelling units, including rental pricing, fees, or any other rental terms.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential dwelling units in Jersey City, including houses, apartments, and accessory units (excludes inpatient medical care, long-term care, detention or correctional facilities). Exemption: single-property owners taking actions only on their own multiple properties.",
+    "exemptions": [
+     "Actions of owners related exclusively to properties controlled by the same rental property owner",
+     "Licensed real estate agents operating in accordance with applicable state regulations"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The ordinance was approved on May 22, 2025; current date assumption is October 1, 2026, so the rule is in force. However, note that the ordinance may face legal challenges regarding preemption by state law or First Amendment concerns, which are not addressed in the text.",
+     "The definition of 'coordinate' includes collecting 'historical or contemporaneous prices' less than 365 days old; the practical scope of enforcement depends on application."
+    ]
+   }
+  ],
+  "warnings": [
+   "No rules found in other categories (rent_increase_limits, just_cause_eviction, security_deposits, application_screening_fees, screening_restrictions). This ordinance addresses only algorithmic rent-fixing."
+  ]
+ },
+ "docId": "SUP-JC-057",
+ "chunk": 0,
+ "chunkHash": "ca6f6155178314ae1a0c1e7bf5c79f0daba9f44663a34622a12f35a9ad48f8c3",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:13:18.532Z"
+}

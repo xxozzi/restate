@@ -1,0 +1,39 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "State prohibition on local rent control, with limited exceptions",
+    "category": "rent_increase_limits",
+    "level": "state",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Massachusetts prohibits any city or town from enacting, maintaining or enforcing rent control of any kind. However, a city or town that accepts chapter 40P may adopt rent control regulation only if: (a) compliance is entirely voluntary after six months; (b) the regulation does not cover occupancy, services, evictions, condominium conversion, or removal from the program, and does not apply to units owned by an entity owning fewer than ten rental units or units with fair market rent exceeding $400; and (c) the municipality compensates owners from general funds for the difference between fair market rent and controlled rent.",
+    "keyValue": null,
+    "citation": "M.G.L. c. 40P § 4",
+    "quotedSpan": "No city or town may enact, maintain or enforce rent control of any kind, except that any city or town that accepts this chapter may adopt rent control regulation that provides: (a) after six months from the date of the initial adoption of rent control regulation by a particular city or town, compliance on the part of property owners as to the rent control regulation or any subsequently adopted rent control regulation shall be entirely voluntary and uncoerced",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental units in Massachusetts cities and towns.",
+    "exemptions": [
+     "Units owned by a person or entity owning fewer than ten rental units",
+     "Rental units with fair market rent exceeding $400"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": true,
+    "warnings": [
+     "This is a state preemption law that restricts local authority rather than imposing a rent control requirement. The rule describes the constraint on what local governments may do, not an affirmative requirement on landlords or tenants. The $400 fair market rent threshold and ten-unit ownership thresholds appear to be from an older version of the statute and may not reflect current law. The requirement that municipalities compensate owners is a condition on any local adoption, not a requirement that applies absent local action."
+    ]
+   }
+  ],
+  "warnings": [
+   "This statute primarily preempts local rent control rather than imposing rent control itself. No affirmative rent increase limits are stated for properties subject to voluntary local rent control. The text does not state an effective date for this statute; it appears to be existing law. The $400 threshold and other specific provisions may be outdated or superseded by amendments not included in this excerpt."
+  ]
+ },
+ "docId": "D048",
+ "chunk": 0,
+ "chunkHash": "090647f489ec5f03c114df23b74c28a107a7e0b855e382969c27dbf58a55837d",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:11:50.093Z"
+}

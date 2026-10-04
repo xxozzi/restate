@@ -1,0 +1,41 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "Report on Algorithm-Based Rent-Setting Software",
+    "category": "algorithmic_rent_setting",
+    "level": "city",
+    "status": "pending",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "The Los Angeles Housing Department shall report on the number of ownership and management entities using algorithm-based software to establish rents and the feasibility of instituting a ban on such software in the City.",
+    "keyValue": null,
+    "citation": "Los Angeles Motion 24-1031 (September 3, 2024)",
+    "quotedSpan": "MOVE that the City Council instruct the Los Angeles Housing Department to report on the number of ownership and management entities that are using algorithm-based software to establish rents and the feasibility of instituting a ban on the use of this software to set rents in the City.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental units in Los Angeles where algorithm-based software is used to establish rents.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "This is a motion requesting a report and feasibility study, not an enacted ordinance banning the software.",
+     "Status is 'pending' because the motion directs staff to report; no substantive ban has been approved as of the source date.",
+     "The motion references San Francisco's July 2024 ban but does not itself establish one for Los Angeles."
+    ]
+   }
+  ],
+  "warnings": [
+   "Source is a City Council motion (September 3, 2024) requesting a report and feasibility study on algorithm-based rent-setting software, not an enacted law or ordinance.",
+   "No effective date can be assigned because this is a directive to staff to study the issue, not a rule with a compliance date.",
+   "The motion cites investigations and lawsuits against RealPage and similar companies but does not impose legal restrictions in this document."
+  ]
+ },
+ "promptHash": "0727a2616b08e130e31a4569973e766a81018a99bb37cbcd49ff0ded37b18b97",
+ "docId": "D039",
+ "chunk": 0,
+ "chunkHash": "cf36489eb7db23226ff24eb4a65615b9837c67659221630e0366a4ff4456df00",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:16:12.042Z"
+}

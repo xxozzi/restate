@@ -1,0 +1,47 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "Ban on algorithmic rent-setting coordinating functions",
+    "category": "algorithmic_rent_setting",
+    "level": "state",
+    "status": "in_force",
+    "effectiveDate": "2027-07-20",
+    "effectiveDateQuote": "This act shall take effect on the first day of the twelfth month next following the date of enactment.",
+    "endDate": null,
+    "requirement": "It is unlawful for a rental property owner to use, subscribe to, or contract for a coordinator's services; for a coordinator to facilitate agreements among rental property owners using algorithmic systems; or for any person to perform a coordinating function that collects competitively sensitive information from multiple landlords to set or recommend rental prices, material lease terms, or occupancy levels.",
+    "keyValue": null,
+    "citation": "N.J.S.A. 56:9-20 et seq. (P.L. 2026, c. 43, effective July 20, 2027)",
+    "quotedSpan": "It shall be unlawful and a violation of the \"New Jersey Antitrust Act,\" P.L.1970, c.73 (C.56:9-1 et seq.) for: a. a rental property owner, or any agent, representative, or subcontractor thereof, to receive, subscribe to, contract for, or otherwise exchange any form of consideration in return for the use of, the services of a coordinator; b. a coordinator to facilitate a tacit or express agreement among rental property owners that restricts competition with respect to residential dwelling units, including by performing a coordinating function; c. two or more persons to engage in or otherwise facilitate parallel pricing coordination; d. any agent or representative of a coordinator or subcontractor thereof to engage in parallel pricing coordination; or e. any person to perform a coordinating function.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential dwelling units in New Jersey",
+    "exemptions": [
+     "Use of spreadsheets without artificial intelligence that require human analysis",
+     "Use of databases that only query unprocessed data",
+     "Public rent estimates available at no cost",
+     "Real estate brokerage databases available on equal terms to subscribers that do not set prices or collect competitively sensitive information for pricing",
+     "Government-imposed affordability controls"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": true,
+    "warnings": [
+     "Effective date is July 20, 2027 (twelve months after enactment on July 20, 2026)",
+     "The law defines 'coordinating function' narrowly to exclude certain permitted uses; review exemptions carefully",
+     "Ambiguity: 'substantially similar underlying algorithm' in the definition of coordinating function may be subject to interpretation"
+    ]
+   }
+  ],
+  "warnings": [
+   "This act supplements the New Jersey Antitrust Act (P.L. 1970, c. 73) and does not create a separate private right of action; enforcement is through existing antitrust law",
+   "Municipalities are prohibited from enacting conflicting ordinances but may enact ordinances explicitly authorized by other law",
+   "The law applies to rental property owners who hold a controlling interest in entities that own residential dwelling units",
+   "'Residential dwelling unit' excludes inpatient medical care, licensed long-term care, and detention or correctional facilities"
+  ]
+ },
+ "docId": "D069",
+ "chunk": 0,
+ "chunkHash": "1fdbfb48743a46429c3f47dbd8d08c665739202361661e1a2f19b94bb0ec43a6",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:08:56.233Z"
+}

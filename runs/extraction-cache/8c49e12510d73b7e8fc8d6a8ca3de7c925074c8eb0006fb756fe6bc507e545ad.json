@@ -1,0 +1,14 @@
+{
+ "raw": {
+  "rules": [],
+  "warnings": [
+   "This source is an employment discrimination statute (M.G.L. c. 151B, § 4) covering discrimination in hiring, employment, and housing access. It does not address rental housing regulation categories (rent increase limits, just cause eviction, security deposits, application screening fees, screening restrictions for tenants, or algorithmic rent setting). Section 6 and 7 address housing discrimination but do not establish rules governing tenant protections in rental housing. Section 7A addresses reasonable modifications for handicapped persons, which is a fair housing accommodation requirement, not a rental housing regulation rule. No operative rules in the six target categories appear in this source."
+  ]
+ },
+ "docId": "D049",
+ "chunk": 0,
+ "chunkHash": "3fe0be3f30b354451ea8abab28f7467977c364c794df887abd603ea8befd76f0",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:11:48.756Z"
+}

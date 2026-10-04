@@ -1,0 +1,14 @@
+{
+ "raw": {
+  "rules": [],
+  "warnings": [
+   "The source document does not include the full text of Bill H.5222. Only the bill header, status information, and bill history are provided. The actual legislative language that would describe the requirements for algorithmic rent-setting restrictions is not present in the retrieved text. To extract rule information, the complete bill text would be needed. The document shows the bill was reported favorably from the Housing Committee on 2026-03-12 and referred to Ways and Means, indicating it is pending as of 2026-10-01."
+  ]
+ },
+ "docId": "D045",
+ "chunk": 0,
+ "chunkHash": "8bc537dfe4d0e00b829147ae82ba11d40bef8a2b0696f487c417ca517673bba7",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:11:40.301Z"
+}

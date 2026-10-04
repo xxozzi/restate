@@ -1,0 +1,2061 @@
+[
+  {
+    "team_rule_id": "CA-RENT-01",
+    "jurisdiction": "CA",
+    "level": "state",
+    "category": "rent_increase_limits",
+    "status": "in_force",
+    "title": "Rent Increase Notice Requirement",
+    "requirement": "Landlords must provide at least 30 days' written advance notice before implementing a rent increase of less than 10%.",
+    "key_value": "30 days",
+    "coverage_conditions": {
+      "description": "All residential rental units in California.",
+      "predicate": {
+        "op": "always"
+      }
+    },
+    "exemptions": null,
+    "overrides": [],
+    "interaction": null,
+    "effective_date": null,
+    "citation": "Cal. Civ. Code § 1946.4 or related CA statute",
+    "source_doc_id": "D042",
+    "source_url": "https://housing.lacity.gov/rso-rent-increase-calculator",
+    "quoted_span": "State law requires landlords to provide 30 days' written advance notice of rent increases of less than 10%.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "CA-RENT-02",
+    "jurisdiction": "CA",
+    "level": "state",
+    "category": "rent_increase_limits",
+    "status": "in_force",
+    "title": "California Statewide Rent Increase Cap",
+    "requirement": "Landlords cannot increase rent by more than 5% plus the percentage change in the cost of living (or 10%, whichever is lower) in any 12-month period, based on the lowest rent charged in the prior 12 months. For tenants remaining in occupancy, increases are limited to no more than two increments per 12-month period.",
+    "key_value": "5% + CPI, max 10%",
+    "coverage_conditions": {
+      "description": "Applies to residential real property statewide except: (1) affordable housing restricted by deed or regulatory agreement; (2) housing with certificate of occupancy within previous 15 years (unless mobilehome); (3) single-family homes or individually-owned condos where owner is a natural person and not a REIT, corporation, or LLC with corporate member; (4) owner-occupied duplexes.",
+      "predicate": {
+        "op": "not",
+        "arg": {
+          "op": "any",
+          "args": [
+            {
+              "op": "eq",
+              "field": "affordable_housing_restricted",
+              "value": true
+            },
+            {
+              "op": "lt",
+              "field": "building_age_years",
+              "value": 15
+            },
+            {
+              "op": "all",
+              "args": [
+                {
+                  "op": "eq",
+                  "field": "single_family_or_condo",
+                  "value": true
+                },
+                {
+                  "op": "not",
+                  "arg": {
+                    "op": "in",
+                    "field": "owner_type",
+                    "value": [
+                      "corporation",
+                      "reit",
+                      "llc"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "op": "all",
+              "args": [
+                {
+                  "op": "eq",
+                  "field": "units",
+                  "value": 2
+                },
+                {
+                  "op": "eq",
+                  "field": "owner_occupied",
+                  "value": true
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "exemptions": "Affordable housing restricted by deed or regulatory agreement for very low, low, or moderate income tenants; Housing issued certificate of occupancy within previous 15 years (unless mobilehome); Single-family homes or individually-owned condos not owned by corporations, REITs, or LLCs with corporate members; Owner-occupied duplexes where owner occupies one unit as principal residence; Mobilehomes subject to different operative date (February 18, 2021)",
+    "overrides": [],
+    "interaction": "Yields to a stricter local ordinance that covers the unit (stated in the source).",
+    "effective_date": "2024-04-01",
+    "citation": "Cal. Civ. Code § 1947.12",
+    "source_doc_id": "D024",
+    "source_url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=CIV&sectionNum=1947.12",
+    "quoted_span": "an owner of residential real property shall not, over the course of any 12-month period, increase the gross rental rate for a dwelling or a unit more than 5 percent plus the percentage change in the cost of living, or 10 percent, whichever is lower",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "CA-EVICT-01",
+    "jurisdiction": "CA",
+    "level": "state",
+    "category": "just_cause_eviction",
+    "status": "in_force",
+    "title": "Just cause requirement for residential tenancy termination after 12 months of occupancy",
+    "requirement": "After a tenant has continuously and lawfully occupied a residential property for 12 months, the owner must not terminate the tenancy without just cause, which must be stated in the written notice. Just cause includes at-fault causes (default in rent, lease violations, nuisance, waste, criminal activity, illegal subletting, refusal of entry, unlawful use) and no-fault causes (owner or family intent to occupy for 12+ months, withdrawal from rental market, compliance with government habitability orders, intent to demolish or substantially remodel).",
+    "key_value": null,
+    "coverage_conditions": {
+      "description": "Applies to all residential rental properties except: transient/tourist hotels, nonprofit hospital/religious facility housing, dormitories, housing where tenant shares kitchen/bathroom with owner, single-family owner-occupied residences renting no more than 2 units, 2-unit buildings where owner occupies one unit, housing issued a certificate of occupancy within the previous 15 years (unless a mobilehome), certain individually-owned properties meeting ownership and notice requirements, and afforda",
+      "predicate": {
+        "op": "not",
+        "arg": {
+          "op": "any",
+          "args": [
+            {
+              "op": "eq",
+              "field": "single_family_or_condo",
+              "value": true
+            },
+            {
+              "op": "lt",
+              "field": "building_age_years",
+              "value": 15
+            },
+            {
+              "op": "all",
+              "args": [
+                {
+                  "op": "eq",
+                  "field": "units",
+                  "value": 2
+                },
+                {
+                  "op": "eq",
+                  "field": "owner_occupied",
+                  "value": true
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "exemptions": "Transient and tourist hotel occupancy; Housing in nonprofit hospitals, religious facilities, extended care facilities, licensed residential care facilities for the elderly, or adult residential facilities; Dormitories owned and operated by institutions of higher education or K-12 schools; Housing where tenant shares bathroom or kitchen facilities with owner who maintains principal residence there; Single-family owner-occupied residences, including accessory dwelling units, renting no more than 2 units or bedrooms, or mobilehomes; 2-unit buildings where owner occupied one unit as principal residence at tenancy start; Housing issued a certificate of occupancy within the previous 15 years (except mobilehomes); Individually-owned residential property not owned by a REIT, corporation, or certain LLCs, where tenants have received written notice of exemption; Affordable housing restricted by deed, regulatory agreement, or other recorded document, or subject to housing subsidy agreements",
+    "overrides": [],
+    "interaction": "Yields to a stricter local ordinance that covers the unit (stated in the source).",
+    "effective_date": "2024-04-01",
+    "citation": "Cal. Civ. Code § 1946.2",
+    "source_doc_id": "D023",
+    "source_url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=CIV&sectionNum=1946.2",
+    "quoted_span": "after a tenant has continuously and lawfully occupied a residential real property for 12 months, the owner of the residential real property shall not terminate a tenancy without just cause, which shall be stated in the written notice to terminate tenancy.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "CA-DEP-01",
+    "jurisdiction": "CA",
+    "level": "state",
+    "category": "security_deposits",
+    "status": "in_force",
+    "title": "California Assembly Bill 12: Security Deposit Limit (General Landlords)",
+    "requirement": "Landlords may charge only one month's rent for security deposits on both unfurnished and furnished residential units, except for small landlords who own two or fewer rental properties with four or fewer total residential units.",
+    "key_value": "1 month's rent",
+    "coverage_conditions": {
+      "description": "All residential rental units in California, except those owned by small landlords.",
+      "predicate": {
+        "op": "always"
+      }
+    },
+    "exemptions": "Landlords who own only two rental properties with no more than four residential units total, if ownership is held by a natural person, family trust, or limited liability company (LLC) where all members are natural persons, may charge up to two months' rent for furnished and unfurnished units.",
+    "overrides": [],
+    "interaction": null,
+    "effective_date": "2024-07-01",
+    "citation": "California Assembly Bill 12",
+    "source_doc_id": "D007",
+    "source_url": "https://rentboard.berkeleyca.gov/rights-responsibilities/security-deposits",
+    "quoted_span": "Starting July 1, 2024, many landlords may only charge one month's rent for unfurnished and furnished units",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "CA-FEE-01",
+    "jurisdiction": "CA",
+    "level": "state",
+    "category": "application_screening_fees",
+    "status": "in_force",
+    "title": "California application screening fee cap",
+    "requirement": "A landlord may charge an applicant a nonrefundable screening fee, but only up to $30 per applicant (adjusted annually for inflation starting January 1, 1998), and only to cover actual out-of-pocket costs of obtaining information such as credit reports and reference checks. The fee may be charged only if a rental unit is or will be available within a reasonable time, and only if the landlord uses a screening process that considers completed applications in order received or returns the entire fee to applicants not selected, within 7 days of selection or 30 days of application, whichever is first.",
+    "key_value": "$30",
+    "coverage_conditions": {
+      "description": "All residential rental properties in California.",
+      "predicate": {
+        "op": "always"
+      }
+    },
+    "exemptions": null,
+    "overrides": [],
+    "interaction": null,
+    "effective_date": "2026-01-01",
+    "citation": "Cal. Civ. Code § 1950.6",
+    "source_doc_id": "D026",
+    "source_url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=CIV&sectionNum=1950.6",
+    "quoted_span": "The amount of the application screening fee shall not be greater than the actual\nout-of-pocket costs of gathering information concerning the applicant, including, but not limited to, the cost of using a tenant screening service or a consumer credit reporting service, and the reasonable value of time spent by the landlord or their agent in obtaining information on the applicant. In no case shall the amount of the application screening fee charged by the landlord or their agent be greater than thirty dollars ($30) per applicant.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "CA-SCREEN-01",
+    "jurisdiction": "CA",
+    "level": "state",
+    "category": "screening_restrictions",
+    "status": "in_force",
+    "title": "California Fair Housing: Protected Characteristics in Housing Discrimination",
+    "requirement": "Housing providers cannot discriminate against applicants or tenants based on race, color, religion, sex, gender identity, sexual orientation, marital status, national origin, ancestry, familial status, source of income, disability, veteran or military status, or genetic information. Housing providers cannot make written or oral inquiries about these protected characteristics, publish discriminatory notices, or aid in discrimination.",
+    "key_value": null,
+    "coverage_conditions": {
+      "description": "All residential rental housing in California.",
+      "predicate": {
+        "op": "always"
+      }
+    },
+    "exemptions": null,
+    "overrides": [],
+    "interaction": null,
+    "effective_date": "2024-01-01",
+    "citation": "Cal. Gov. Code § 12955",
+    "source_doc_id": "D027",
+    "source_url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=12955",
+    "quoted_span": "It shall be unlawful:\n(a) For the owner of any housing accommodation to discriminate against or harass any person because of the race, color, religion, sex, gender, gender identity, gender expression, sexual orientation, marital status, national origin, ancestry, familial status, source of income, disability, veteran or military status, or genetic information of that person.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "CA-ALG-01",
+    "jurisdiction": "CA",
+    "level": "state",
+    "category": "algorithmic_rent_setting",
+    "status": "in_force",
+    "title": "Prohibition on Common Pricing Algorithms in Restraint of Trade",
+    "requirement": "It is unlawful for a person to use or distribute a common pricing algorithm as part of a contract, combination, trust, or conspiracy to restrain trade or commerce. It is also unlawful for a person to use or distribute a common pricing algorithm if they coerce another person to set or adopt a recommended price or commercial term recommended by that algorithm for the same or similar products or services in California.",
+    "key_value": null,
+    "coverage_conditions": {
+      "description": "Applies to all persons and entities in California that use or distribute common pricing algorithms affecting rental housing prices or commercial terms.",
+      "predicate": {
+        "op": "always"
+      }
+    },
+    "exemptions": "End consumers of products or services are excluded from the definition of \"person\" under the statute",
+    "overrides": [],
+    "interaction": null,
+    "effective_date": "2026-01-01",
+    "citation": "Cal. Bus. & Prof. Code § 16729",
+    "source_doc_id": "D022",
+    "source_url": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202520260AB325",
+    "quoted_span": "It shall be unlawful for a person to use or distribute a common pricing algorithm as part of a contract, combination in the form of a trust, or conspiracy to restrain trade or commerce in violation of this chapter.\n(b) It shall be unlawful for a person to use or distribute a common pricing algorithm if the person coerces another person to set or adopt a recommended price or commercial term recommended by the common pricing algorithm for the same or similar products or services in the jurisdiction of this state.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "BER-RENT-01",
+    "jurisdiction": "Berkeley, CA",
+    "level": "city",
+    "category": "rent_increase_limits",
+    "status": "in_force",
+    "title": "Annual General Adjustment (AGA) Cap at 5%",
+    "requirement": "Landlords of fully-covered rental units may raise rent each year by the Annual General Adjustment (AGA), which is capped at a maximum of 5%, even if the formula results in a higher amount. Landlords may still implement banked (unused) AGAs from previous years to raise rent to the rent ceiling.",
+    "key_value": "5%",
+    "coverage_conditions": {
+      "description": "Buildings with 2+ units where either: (1) certificate of occupancy issued before June 2, 1980, or (2) certificate of occupancy on or after June 2, 1980 AND unit is deed-restricted affordable housing. Landlords of fully-covered units may raise rent by the AGA (capped at 5% maximum per year), though banked AGAs from prior years can still be used to reach the rent ceiling.",
+      "predicate": {
+        "op": "all",
+        "args": [
+          {
+            "op": "gte",
+            "field": "units",
+            "value": 2
+          },
+          {
+            "op": "any",
+            "args": [
+              {
+                "op": "lt",
+                "field": "certificate_of_occupancy_date",
+                "value": "1980-06-02"
+              },
+              {
+                "op": "all",
+                "args": [
+                  {
+                    "op": "gte",
+                    "field": "certificate_of_occupancy_date",
+                    "value": "1980-06-02"
+                  },
+                  {
+                    "op": "eq",
+                    "field": "affordable_housing_restricted",
+                    "value": true
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "exemptions": "Partially covered units; Units exempt from the Rent Ordinance",
+    "overrides": [],
+    "interaction": null,
+    "effective_date": null,
+    "citation": "Berkeley Measure BB (2024), codified in Berkeley Rent Ordinance",
+    "source_doc_id": "D006",
+    "source_url": "https://rentboard.berkeleyca.gov/laws-regulations/measure-bb-changes-berkeleys-rent-ordinance",
+    "quoted_span": "The maximum AGA is 5%. This means that, if the formula in the Rent Ordinance results in an AGA that is greater than 5%, the AGA approved by the Board for that year can be no more than 5%.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "BER-RENT-02",
+    "jurisdiction": "Berkeley, CA",
+    "level": "city",
+    "category": "rent_increase_limits",
+    "status": "in_force",
+    "title": "Berkeley Annual General Adjustment (AGA) for 2026",
+    "requirement": "Eligible landlords may increase 2025 permanent rent ceilings by 1.0% for tenancies that began before January 1, 2025. Tenancies beginning on or after January 1, 2025 under Costa-Hawkins are exempt.",
+    "key_value": "1.0%",
+    "coverage_conditions": {
+      "description": "Multifamily buildings (2+ units) with certificate of occupancy before June 2, 1980. For tenancies that began before January 1, 2025, eligible landlords may increase 2025 permanent rent ceilings by 1.0% for 2026 under the Annual General Adjustment. Tenancies beginning on or after January 1, 2025 are exempt (covered under Costa-Hawkins).",
+      "predicate": {
+        "op": "all",
+        "args": [
+          {
+            "op": "gte",
+            "field": "units",
+            "value": 2
+          },
+          {
+            "op": "lt",
+            "field": "certificate_of_occupancy_date",
+            "value": "1980-06-02"
+          }
+        ]
+      }
+    },
+    "exemptions": "Tenancies begun on or after January 1, 2025 under the Costa-Hawkins Rental Housing Act",
+    "overrides": [],
+    "interaction": null,
+    "effective_date": null,
+    "citation": "Berkeley Rent Board Regulation 1148; Berkeley Municipal Code § 13.76.110A",
+    "source_doc_id": "D008",
+    "source_url": "https://rentboard.berkeleyca.gov/sites/default/files/documents/AGA%20Public%20Notice.pdf",
+    "quoted_span": "the Berkeley Rent Stabilization Board \nadopted the Annual General Adjustment (AGA) Order for Year 2026 which will allow \neligible landlords to increase the 2025 permanent rent ceilings by 1.0% no earlier than \nJanuary 1, 2026",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "BER-RENT-03",
+    "jurisdiction": "Berkeley, CA",
+    "level": "city",
+    "category": "rent_increase_limits",
+    "status": "in_force",
+    "title": "Berkeley Rent Stabilization and Just Cause Eviction Ordinance - Multifamily Buildings Built Before 1980",
+    "requirement": "Rent increases are limited under Berkeley's rent stabilization ordinance. Tenants in most multifamily properties built before 1980 are fully covered by rent control.",
+    "key_value": null,
+    "coverage_conditions": {
+      "description": "Multifamily properties (2+ units) with certificate of occupancy before June 2, 1980. Rent increases are limited under Berkeley's rent stabilization ordinance, and tenants are fully covered by rent control.",
+      "predicate": {
+        "op": "all",
+        "args": [
+          {
+            "op": "gte",
+            "field": "units",
+            "value": 2
+          },
+          {
+            "op": "lt",
+            "field": "certificate_of_occupancy_date",
+            "value": "1980-06-02"
+          }
+        ]
+      }
+    },
+    "exemptions": null,
+    "overrides": [],
+    "interaction": null,
+    "effective_date": null,
+    "citation": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance",
+    "source_doc_id": "D009",
+    "source_url": "https://rentboard.berkeleyca.gov/sites/default/files/documents/Rent%20Ordinance%20Coverage%20by%20Unit%20Type.pdf",
+    "quoted_span": "Most units in multifamily properties built before 1980** Fully Covered Yes Yes Yes Yes",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "BER-EVICT-01",
+    "jurisdiction": "Berkeley, CA",
+    "level": "city",
+    "category": "just_cause_eviction",
+    "status": "in_force",
+    "title": "Notice of Tenant Rights at Start of Tenancy",
+    "requirement": "For tenancies started on or after December 20, 2024, landlords must, within fifteen days of the start of the tenancy, provide written notice containing: the existence and scope of the Rent Ordinance; the tenant's right to petition against certain rent increases, if applicable; whether the unit is exempt from rent control; and any other partial exemptions. If the property has an interior common area, the landlord must post the notice there.",
+    "key_value": null,
+    "coverage_conditions": {
+      "description": "For tenancies started on or after December 20, 2024, in buildings with 2+ units that are fully covered by the Rent Ordinance (built before 1980 or deed-restricted affordable), landlords must provide written notice within 15 days containing: the existence and scope of the Rent Ordinance; tenant's right to petition against certain rent increases; whether the unit is exempt from rent control; and any partial exemptions. If the property has an interior common area, the notice must be posted there.",
+      "predicate": {
+        "op": "all",
+        "args": [
+          {
+            "op": "gte",
+            "field": "units",
+            "value": 2
+          },
+          {
+            "op": "any",
+            "args": [
+              {
+                "op": "lt",
+                "field": "certificate_of_occupancy_date",
+                "value": "1980-06-02"
+              },
+              {
+                "op": "all",
+                "args": [
+                  {
+                    "op": "gte",
+                    "field": "certificate_of_occupancy_date",
+                    "value": "1980-06-02"
+                  },
+                  {
+                    "op": "eq",
+                    "field": "affordable_housing_restricted",
+                    "value": true
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "exemptions": null,
+    "overrides": [],
+    "interaction": null,
+    "effective_date": "2024-12-20",
+    "citation": "Berkeley Measure BB (2024), codified in Berkeley Rent Ordinance",
+    "source_doc_id": "D006",
+    "source_url": "https://rentboard.berkeleyca.gov/laws-regulations/measure-bb-changes-berkeleys-rent-ordinance",
+    "quoted_span": "For tenancies started on or after December 20, 2024, landlords must, within fifteen days of the start of the tenancy, give the tenant written notice containing the following information: The existence of and scope of the Rent Ordinance; the tenant’s right to petition against certain rent increases, if applicable; whether the unit is exempt from rent control; and any other partial exemptions which may exist.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "BER-EVICT-02",
+    "jurisdiction": "Berkeley, CA",
+    "level": "city",
+    "category": "just_cause_eviction",
+    "status": "in_force",
+    "title": "Berkeley Rent Stabilization and Just Cause Eviction Ordinance - Multifamily Buildings Built Before 1980",
+    "requirement": "Landlords must show just cause when evicting tenants in most multifamily properties built before 1980.",
+    "key_value": null,
+    "coverage_conditions": {
+      "description": "Multifamily properties (2+ units) with certificate of occupancy before June 2, 1980. Landlords must show just cause when evicting tenants in these properties.",
+      "predicate": {
+        "op": "all",
+        "args": [
+          {
+            "op": "gte",
+            "field": "units",
+            "value": 2
+          },
+          {
+            "op": "lt",
+            "field": "certificate_of_occupancy_date",
+            "value": "1980-06-02"
+          }
+        ]
+      }
+    },
+    "exemptions": null,
+    "overrides": [],
+    "interaction": null,
+    "effective_date": null,
+    "citation": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance",
+    "source_doc_id": "D009",
+    "source_url": "https://rentboard.berkeleyca.gov/sites/default/files/documents/Rent%20Ordinance%20Coverage%20by%20Unit%20Type.pdf",
+    "quoted_span": "Most units in multifamily properties built before 1980** Fully Covered Yes Yes Yes Yes",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "BER-EVICT-03",
+    "jurisdiction": "Berkeley, CA",
+    "level": "city",
+    "category": "just_cause_eviction",
+    "status": "in_force",
+    "title": "Owner move-in eviction relocation assistance payment",
+    "requirement": "When an owner evicts a tenant for owner move-in, the owner must pay the tenant relocation assistance. As of January 1, 2026, the standard payment is $19,413 and the additional payment for qualifying households is $6,471.",
+    "key_value": "$19,413 standard; $6,471 additional",
+    "coverage_conditions": {
+      "description": "All residential rental units in Berkeley subject to the Rent Stabilization and Good Cause for Eviction Ordinance.",
+      "predicate": {
+        "op": "always"
+      }
+    },
+    "exemptions": null,
+    "overrides": [],
+    "interaction": null,
+    "effective_date": null,
+    "citation": "Berkeley Rent Stabilization and Good Cause for Eviction Ordinance",
+    "source_doc_id": "D004",
+    "source_url": "https://rentboard.berkeleyca.gov/elected-rent-board/news/2026-adjustments-relocation-assistance-payments",
+    "quoted_span": "The Rent Stabilization and Good Cause for Eviction Ordinance requires owners to pay tenants relocation assistance in the event of an owner move-in eviction.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "BER-DEP-01",
+    "jurisdiction": "Berkeley, CA",
+    "level": "city",
+    "category": "security_deposits",
+    "status": "in_force",
+    "title": "Utility Charges Incorporated into Base Rent or Separately Metered",
+    "requirement": "For tenancies starting on or after February 6, 2024, a landlord may charge a tenant in a fully-covered unit for utilities only if the cost is part of the base rent or if the utility service is separately-metered and the lease requires the tenant to place the utility in the tenant's name. Landlords may petition the Rent Board to add average utility costs to the rent ceiling.",
+    "key_value": null,
+    "coverage_conditions": {
+      "description": "For tenancies starting on or after February 6, 2024, in fully-covered units (multifamily buildings with 2+ units built before 1980, or deed-restricted affordable), landlords may charge for utilities only if: (1) the cost is part of the base rent, or (2) the utility is separately metered and the lease requires the tenant to place the utility in the tenant's name. Landlords may petition the Rent Board to add average utility costs to the rent ceiling.",
+      "predicate": {
+        "op": "all",
+        "args": [
+          {
+            "op": "gte",
+            "field": "units",
+            "value": 2
+          },
+          {
+            "op": "any",
+            "args": [
+              {
+                "op": "lt",
+                "field": "certificate_of_occupancy_date",
+                "value": "1980-06-02"
+              },
+              {
+                "op": "all",
+                "args": [
+                  {
+                    "op": "gte",
+                    "field": "certificate_of_occupancy_date",
+                    "value": "1980-06-02"
+                  },
+                  {
+                    "op": "eq",
+                    "field": "affordable_housing_restricted",
+                    "value": true
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "exemptions": "Partially covered units; Tenancies started before February 6, 2024",
+    "overrides": [],
+    "interaction": null,
+    "effective_date": "2024-02-06",
+    "citation": "Berkeley Measure BB (2024), codified in Berkeley Rent Ordinance",
+    "source_doc_id": "D006",
+    "source_url": "https://rentboard.berkeleyca.gov/laws-regulations/measure-bb-changes-berkeleys-rent-ordinance",
+    "quoted_span": "For tenancies starting on or after February 6, 2024, a landlord may charge a tenant in a fully covered unit for utilities only if either: the cost of the  utilities are part of the base rent, or the utility service is separately-metered and the lease requires the tenant to place the utility in the tenant’s name.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "BER-DEP-02",
+    "jurisdiction": "Berkeley, CA",
+    "level": "city",
+    "category": "security_deposits",
+    "status": "in_force",
+    "title": "Berkeley Rent Ordinance: Security Deposit Interest",
+    "requirement": "For tenancies in units fully or partially covered by Berkeley's Rent Ordinance, landlords must pay tenants interest on their security deposit at the end of each year and a prorated amount if the tenant moves out before the end of the year.",
+    "key_value": null,
+    "coverage_conditions": {
+      "description": "Landlords must pay tenants interest on security deposits at the end of each year and a prorated amount if the tenant moves out before year-end. Coverage applies to units fully or partially covered by Berkeley's Rent Ordinance: (1) multifamily buildings (2+ units) with any certificate of occupancy date, (2) single-family homes with tenancies begun before January 1, 1996.",
+      "predicate": {
+        "op": "any",
+        "args": [
+          {
+            "op": "all",
+            "args": [
+              {
+                "op": "gte",
+                "field": "units",
+                "value": 2
+              },
+              {
+                "op": "lt",
+                "field": "certificate_of_occupancy_date",
+                "value": "1980-06-02"
+              }
+            ]
+          },
+          {
+            "op": "all",
+            "args": [
+              {
+                "op": "gte",
+                "field": "units",
+                "value": 2
+              },
+              {
+                "op": "gte",
+                "field": "certificate_of_occupancy_date",
+                "value": "1980-06-02"
+              }
+            ]
+          },
+          {
+            "op": "all",
+            "args": [
+              {
+                "op": "eq",
+                "field": "single_family_or_condo",
+                "value": true
+              },
+              {
+                "op": "lt",
+                "field": "certificate_of_occupancy_date",
+                "value": "1996-01-01"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "exemptions": null,
+    "overrides": [],
+    "interaction": null,
+    "effective_date": null,
+    "citation": "Berkeley Rent Ordinance",
+    "source_doc_id": "D007",
+    "source_url": "https://rentboard.berkeleyca.gov/rights-responsibilities/security-deposits",
+    "quoted_span": "For tenancies in units fully or partially covered by Berkeley's Rent Ordinance, landlords must pay tenants interest on their security deposit at the end of each year and a prorated amount if the tenant moves out before the end of the year.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "BER-DEP-03",
+    "jurisdiction": "Berkeley, CA",
+    "level": "city",
+    "category": "security_deposits",
+    "status": "in_force",
+    "title": "Berkeley Rent Stabilization and Just Cause Eviction Ordinance - Multifamily Buildings Built Before 1980",
+    "requirement": "Security deposits must accrue interest for tenants in most multifamily properties built before 1980.",
+    "key_value": null,
+    "coverage_conditions": {
+      "description": "Multifamily properties (2+ units) with certificate of occupancy before June 2, 1980. Security deposits must accrue interest for tenants in these properties.",
+      "predicate": {
+        "op": "all",
+        "args": [
+          {
+            "op": "gte",
+            "field": "units",
+            "value": 2
+          },
+          {
+            "op": "lt",
+            "field": "certificate_of_occupancy_date",
+            "value": "1980-06-02"
+          }
+        ]
+      }
+    },
+    "exemptions": null,
+    "overrides": [],
+    "interaction": null,
+    "effective_date": null,
+    "citation": "Berkeley Rent Stabilization and Eviction for Just Cause Ordinance",
+    "source_doc_id": "D009",
+    "source_url": "https://rentboard.berkeleyca.gov/sites/default/files/documents/Rent%20Ordinance%20Coverage%20by%20Unit%20Type.pdf",
+    "quoted_span": "Most units in multifamily properties built before 1980** Fully Covered Yes Yes Yes Yes",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "BER-FEE-01",
+    "jurisdiction": "Berkeley, CA",
+    "level": "city",
+    "category": "application_screening_fees",
+    "status": "in_force",
+    "title": "Maximum Tenant Screening Fee",
+    "requirement": "Landlords may not charge more than $68.96 per tenant screening report (2026 amount; adjusted annually). Landlords must provide a copy of any consumer credit report obtained within 7 days, a receipt for the fee, an itemized list of out-of-pocket expenses and time spent, and refund any unused portion.",
+    "key_value": "$68.96",
+    "coverage_conditions": {
+      "description": "All residential rental units in Berkeley",
+      "predicate": {
+        "op": "always"
+      }
+    },
+    "exemptions": null,
+    "overrides": [],
+    "interaction": null,
+    "effective_date": null,
+    "citation": "Berkeley Municipal Code § 13.78.010; California Civil Code § 1950.6",
+    "source_doc_id": "D005",
+    "source_url": "https://rentboard.berkeleyca.gov/laws-regulations/city-berkeley-ordinances-affecting-rental-properties/tenant-screening-and",
+    "quoted_span": "Prospective tenants should expect to receive a copy of their credit report within 7 days of receipt by the landlord, a receipt for the fee paid and an itemized list of any out-of-pocket expenses and time spent by the landlord on the screening, and a refund of any unused portion of the fee.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "BER-SCREEN-01",
+    "jurisdiction": "Berkeley, CA",
+    "level": "city",
+    "category": "screening_restrictions",
+    "status": "in_force",
+    "title": "Ronald V. Dellums Fair Chance Access to Housing Ordinance – Criminal History Screening Restrictions",
+    "requirement": "Housing providers cannot inquire about, use, or consider criminal history in rental advertising, applications, tenant selection, or decision-making. Providers cannot refuse to rent, terminate tenancy, demand higher deposits or rent, or refuse to add family members based on criminal history. They cannot disqualify tenants from rental assistance based on criminal history (with limited exceptions). If taking any action based on criminal history, the provider must give written notice and opportunity to respond.",
+    "key_value": null,
+    "coverage_conditions": {
+      "description": "All residential rental properties. Housing providers cannot inquire about, use, or consider criminal history in rental advertising, applications, tenant selection, or decision-making. Providers cannot refuse to rent, terminate tenancy, demand higher deposits or rent, or refuse to add family members based on criminal history. They cannot disqualify tenants from rental assistance based on criminal history (with limited exceptions). If taking any action based on criminal history, written notice and",
+      "predicate": {
+        "op": "always"
+      }
+    },
+    "exemptions": "Lifetime sex offenders (limited exemption); Public housing/Section 8 properties (limited exemptions); Owner-occupied properties (1–3 units) where an owner of record resides as primary residence; Units under rental agreement allowing owner to move back (BMC 13.76.130 A.9); Units occupied by existing tenants seeking to sublet or add/replace roommates",
+    "overrides": [],
+    "interaction": null,
+    "effective_date": null,
+    "citation": "Berkeley Mun. Code § 13.106",
+    "source_doc_id": "D003",
+    "source_url": "https://rentboard.berkeleyca.gov/Fair_Chance",
+    "quoted_span": "The Fair Chance Access to Housing Ordinance prohibits rental housing providers in Berkeley from asking about and using criminal history and/or criminal background checks in their rental housing advertising, applications, tenant selection process, or decision-making.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "BER-SCREEN-02",
+    "jurisdiction": "Berkeley, CA",
+    "level": "city",
+    "category": "screening_restrictions",
+    "status": "in_force",
+    "title": "Requirement to Accept Reusable Screening Reports",
+    "requirement": "If a prospective tenant provides a reusable screening report, the landlord must accept and use it instead of charging the tenant for a new screening report.",
+    "key_value": null,
+    "coverage_conditions": {
+      "description": "All residential rental properties. If a prospective tenant provides a reusable screening report, the landlord must accept and use it instead of charging the tenant for a new screening report.",
+      "predicate": {
+        "op": "always"
+      }
+    },
+    "exemptions": null,
+    "overrides": [],
+    "interaction": null,
+    "effective_date": null,
+    "citation": "Berkeley Municipal Code § 13.78.010; California Civil Code § 1950.6",
+    "source_doc_id": "D005",
+    "source_url": "https://rentboard.berkeleyca.gov/laws-regulations/city-berkeley-ordinances-affecting-rental-properties/tenant-screening-and",
+    "quoted_span": "If the tenant provides a reusable screening report, the landlord must use it.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "BER-ALG-01",
+    "jurisdiction": "Berkeley, CA",
+    "level": "city",
+    "category": "algorithmic_rent_setting",
+    "status": "in_force",
+    "title": "Prohibition on Sale or Use of Coordinated Pricing Algorithms to Set Rents or Manage Occupancy Levels",
+    "requirement": "Landlords and vendors are prohibited from selling, licensing, or using coordinated pricing algorithms that use competitor data to set or recommend rent prices, occupancy rates, or other rental terms for residential dwelling units in Berkeley. Each month of violation and each unit affected constitutes a separate violation.",
+    "key_value": null,
+    "coverage_conditions": {
+      "description": "All residential dwelling units in the City of Berkeley",
+      "predicate": {
+        "op": "always"
+      }
+    },
+    "exemptions": "Products that publish aggregated and anonymous rental data without recommending specific rents or occupancy rates; Products used to establish rent or income limits per affordable housing guidelines of government entities; Products used solely for market research, appraisals, or software development and testing that do not use competitor data as input in real-time recommendations",
+    "overrides": [],
+    "interaction": null,
+    "effective_date": null,
+    "citation": "Berkeley Mun. Code ch. 13.63",
+    "source_doc_id": "D001",
+    "source_url": "https://berkeleyca.gov/sites/default/files/documents/2025-12-02%20Item%2001%20Ordinance%207992.pdf",
+    "quoted_span": "It shall be unlawful to sell, license, or otherwise provide to City of Berkeley \nlandlords any coordinated pricing algorithm that sets or recommends rents or occupancy \nlevels that may be achieved for residential dwelling units in the City of Berkeley.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "LA-RENT-01",
+    "jurisdiction": "Los Angeles, CA",
+    "level": "city",
+    "category": "rent_increase_limits",
+    "status": "in_force",
+    "title": "Rent Increase Prohibition - COVID-19 Relief",
+    "requirement": "Rent increases are prohibited for rental units subject to the RSO.",
+    "key_value": "0%",
+    "coverage_conditions": {
+      "description": "Rent increases prohibited for RSO units (buildings first built on or before October 1, 1978)",
+      "predicate": {
+        "op": "eq",
+        "field": "certificate_of_occupancy_date",
+        "value": "1978-10-01"
+      }
+    },
+    "exemptions": null,
+    "overrides": [],
+    "interaction": null,
+    "effective_date": "2020-03-30",
+    "citation": "L.A.M.C. § 151 et seq.",
+    "source_doc_id": "D041",
+    "source_url": "https://housing.lacity.gov/residents/rso-overview",
+    "quoted_span": "Effective March 30, 2020, through January 31, 2024, rent increases are prohibited for rental units subject to the Rent Stabilization Ordinance (RSO).",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "LA-RENT-02",
+    "jurisdiction": "Los Angeles, CA",
+    "level": "city",
+    "category": "rent_increase_limits",
+    "status": "in_force",
+    "title": "Los Angeles RSO Annual Rent Increase Limit",
+    "requirement": "Landlords of rental units subject to the Los Angeles Rent Stabilization Ordinance (RSO) may increase rent by no more than 3% per year. Beginning February 2, 2026, landlords can no longer include any additional percentage increase for utilities.",
+    "key_value": "3%",
+    "coverage_conditions": {
+      "description": "Rental units subject to the City of Los Angeles Rent Stabilization Ordinance. To determine if a unit is covered, tenants and landlords must check the unit's registration status using the ZIMAS database or contact LAHD.",
+      "predicate": {
+        "op": "unknown",
+        "reason": "Source does not specify building characteristics (age, unit count, ownership type, etc.) that determine RSO coverage; coverage is determined by individual property registration and zoning status in ZIMAS"
+      }
+    },
+    "exemptions": "Non-RSO properties",
+    "overrides": [],
+    "interaction": null,
+    "effective_date": "2025-07-01",
+    "citation": "L.A.M.C. ch. XV (RSO)",
+    "source_doc_id": "D042",
+    "source_url": "https://housing.lacity.gov/rso-rent-increase-calculator",
+    "quoted_span": "Beginning February 2, 2026, a landlord can no longer include any additional percentage increase for utilities.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "LA-EVICT-01",
+    "jurisdiction": "Los Angeles, CA",
+    "level": "city",
+    "category": "just_cause_eviction",
+    "status": "in_force",
+    "title": "Evictions for Non-Payment of Rent – Fair Market Rent Threshold",
+    "requirement": "Landlords may not evict a tenant for non-payment of rent unless the amount of rent owed exceeds the Fair Market Rent (FMR) for the unit's bedroom size. FMR thresholds vary by bedroom count.",
+    "key_value": "FMR (varies by bedroom size)",
+    "coverage_conditions": {
+      "description": "Non-payment of rent eviction restrictions apply to all RSO and JCO rental units",
+      "predicate": {
+        "op": "always"
+      }
+    },
+    "exemptions": null,
+    "overrides": [],
+    "interaction": null,
+    "effective_date": "2023-03-27",
+    "citation": "L.A.M.C. – Just Cause for Eviction Ordinance (Non-Payment of Rent)",
+    "source_doc_id": "D040",
+    "source_url": "https://housing.lacity.gov/residents/just-cause-for-eviction-ordinance-jco",
+    "quoted_span": "Effective March 27, 2023, landlords may not evict a tenant who falls behind in rent unless the tenant owes an amount higher than the Fair Market Rent (FMR). The FMR depends on the bedroom size of the rental unit.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "LA-EVICT-02",
+    "jurisdiction": "Los Angeles, CA",
+    "level": "city",
+    "category": "just_cause_eviction",
+    "status": "in_force",
+    "title": "Right to Counsel Notice Requirement",
+    "requirement": "Landlords must post and provide tenants with a Notice of Right to Counsel at the start of the tenancy, and also attach it to any eviction notice or termination of rental subsidy notice.",
+    "key_value": null,
+    "coverage_conditions": {
+      "description": "Right to Counsel notice requirement applies to all RSO and JCO properties",
+      "predicate": {
+        "op": "always"
+      }
+    },
+    "exemptions": null,
+    "overrides": [],
+    "interaction": null,
+    "effective_date": "2025-08-20",
+    "citation": "L.A.M.C. § 151 et seq.",
+    "source_doc_id": "D041",
+    "source_url": "https://housing.lacity.gov/residents/rso-overview",
+    "quoted_span": "Beginning August 20, 2025, landlords must post the\nNotice of Right to Counsel\nand provide it to the tenant at the start of the tenancy. The Notice must also be attached to a copy of any eviction notice or termination of a rental subsidy.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "LA-EVICT-03",
+    "jurisdiction": "Los Angeles, CA",
+    "level": "city",
+    "category": "just_cause_eviction",
+    "status": "in_force",
+    "title": "'Mom and Pop' reduced relocation assistance for owner/family occupancy evictions",
+    "requirement": "Landlords of 'Mom and Pop' properties (4 or fewer rental units, natural person owner with no more than 4 units total and one single-family home on separate lot in LA) may pay reduced relocation assistance for good-faith evictions for owner or eligible relative occupancy, provided: (1) building contains 4 or fewer units; (2) landlord has not used this provision in previous 3 years; (3) landlord owns no more than 4 units plus single-family home; (4) eligible relative does not own residential property in LA. Reduced amounts: $10,550 for eligible tenants, $21,250 for qualified tenants.",
+    "key_value": "$10,550 (eligible)–$21,250 (qualified)",
+    "coverage_conditions": {
+      "description": "Buildings with 4 or fewer rental units owned by a natural person who owns no more than 4 units total (plus one single-family home on separate lot) in Los Angeles.",
+      "predicate": {
+        "op": "all",
+        "args": [
+          {
+            "op": "lte",
+            "field": "units",
+            "value": 4
+          },
+          {
+            "op": "eq",
+            "field": "owner_type",
+            "value": "natural_person"
+          }
+        ]
+      }
+    },
+    "exemptions": "Evictions not for owner or eligible family member occupancy; Landlord used this provision in previous 3 years; Eligible family member owns residential property in Los Angeles",
+    "overrides": [],
+    "interaction": null,
+    "effective_date": "2026-07-01",
+    "citation": "L.A.M.C. § 151.30",
+    "source_doc_id": "D043",
+    "source_url": "https://housing.lacity.gov/wp-content/uploads/2026/08/Relocation-Assistance-Bulletins-A-and-B-Combined.pdf",
+    "quoted_span": "Mom and Pop properties may pay reduced relocation assistance payments to their tenants\nfor a good faith eviction for occupancy by the owner or eligible relative, provided that\nrequirements  in Section 151.30 of the LAMC are met.  This applies only for evictions  for\noccupancy by owner, family, or manager.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "LA-EVICT-04",
+    "jurisdiction": "Los Angeles, CA",
+    "level": "city",
+    "category": "just_cause_eviction",
+    "status": "in_force",
+    "title": "Single-family dwelling relocation assistance under JCO",
+    "requirement": "For single-family dwellings subject to JCO owned by natural persons (including trusts/registered legal entities controlled by that person) who own no more than 4 dwelling units and one single-family home on separate lot, relocation assistance is one month's rent in effect when notice was served, payable as monetary payment or credit. LAMC 151.30(E) does not apply.",
+    "key_value": "One month's rent",
+    "coverage_conditions": {
+      "description": "Single-family dwellings owned by natural persons with 4 or fewer total dwelling units (plus one single-family home on separate lot) in Los Angeles.",
+      "predicate": {
+        "op": "all",
+        "args": [
+          {
+            "op": "eq",
+            "field": "single_family_or_condo",
+            "value": true
+          },
+          {
+            "op": "eq",
+            "field": "owner_type",
+            "value": "natural_person"
+          }
+        ]
+      }
+    },
+    "exemptions": null,
+    "overrides": [],
+    "interaction": null,
+    "effective_date": "2026-07-01",
+    "citation": "L.A.M.C. § 165.06.A.(6)",
+    "source_doc_id": "D043",
+    "source_url": "https://housing.lacity.gov/wp-content/uploads/2026/08/Relocation-Assistance-Bulletins-A-and-B-Combined.pdf",
+    "quoted_span": "When the residential real property  is\na single-family dwelling subject to the JCO and the owner is a natural person, including\nnatural  persons who hold properties in a trust or registered legal entity controlled by   that\nnatural person, who owns no more than four dwelling units and a single-family home on a\nseparate lot  in the City of Los Angeles: one month’s rent that was in effect when   the\nlandlord served the written notice to terminate the tenancy, as either a monetary payment\nor credit.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "LA-DEP-01",
+    "jurisdiction": "Los Angeles, CA",
+    "level": "city",
+    "category": "security_deposits",
+    "status": "in_force",
+    "title": "Interest Payments on Security Deposits",
+    "requirement": "The RSO requires interest payments on security deposits, with specific rules set by the Rent Adjustment Commission.",
+    "key_value": null,
+    "coverage_conditions": {
+      "description": "RSO-covered residential rental units built on or before October 1, 1978.",
+      "predicate": {
+        "op": "all",
+        "args": [
+          {
+            "op": "lt",
+            "field": "certificate_of_occupancy_date",
+            "value": "1978-10-02"
+          }
+        ]
+      }
+    },
+    "exemptions": null,
+    "overrides": [],
+    "interaction": null,
+    "effective_date": null,
+    "citation": "L.A.M.C. § 151 et seq.",
+    "source_doc_id": "D041",
+    "source_url": "https://housing.lacity.gov/residents/rso-overview",
+    "quoted_span": "Interest Payments on Security Deposits",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "LA-ALG-P1",
+    "jurisdiction": "Los Angeles, CA",
+    "level": "city",
+    "category": "algorithmic_rent_setting",
+    "status": "pending",
+    "title": "Report on Algorithm-Based Rent-Setting Software",
+    "requirement": "The Los Angeles Housing Department shall report on the number of ownership and management entities using algorithm-based software to establish rents and the feasibility of instituting a ban on such software in the City.",
+    "key_value": null,
+    "coverage_conditions": {
+      "description": "All residential rental units in Los Angeles where algorithm-based software is used to establish rents.",
+      "predicate": {
+        "op": "always"
+      }
+    },
+    "exemptions": null,
+    "overrides": [],
+    "interaction": null,
+    "effective_date": null,
+    "citation": "Los Angeles Motion 24-1031 (September 3, 2024)",
+    "source_doc_id": "D039",
+    "source_url": "https://cityclerk.lacity.org/onlinedocs/2024/24-1031_misc_9-03-24.pdf",
+    "quoted_span": "MOVE that the City Council instruct the Los Angeles Housing Department to \nreport on the number of ownership and management entities that are using algorithm-based \nsoftware to establish rents and the feasibility of instituting a ban on the use of this software to set \nrents in the City.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "SD-EVICT-01",
+    "jurisdiction": "San Diego, CA",
+    "level": "city",
+    "category": "just_cause_eviction",
+    "status": "in_force",
+    "title": "Notice and Relocation Assistance for No-Fault Terminations",
+    "requirement": "For no-fault just cause terminations (owner/family occupation, withdrawal from market, compliance with government orders, or demolition/substantial remodeling), the landlord must provide written notice at least 30 or 60 days in advance (as required by California law) describing the basis, stating the tenant's right to relocation assistance, and informing tenants of their right to receive an offer to renew if the property is re-rented for residential purposes within five years. Relocation assistance is two months of actual rent (or three months if tenant is senior or disabled), provided by direct payment or rent waiver, and must be delivered within 15 days of notice if by direct payment.",
+    "key_value": "2 months' rent (3 months if senior/disabled)",
+    "coverage_conditions": {
+      "description": "Same as just cause rule above; applies to residential rental properties subject to §98.0704 terminations for no-fault just cause.",
+      "predicate": {
+        "op": "not",
+        "arg": {
+          "op": "any",
+          "args": [
+            {
+              "op": "in",
+              "field": "owner_type",
+              "value": [
+                "public_entity"
+              ]
+            },
+            {
+              "op": "eq",
+              "field": "single_family_or_condo",
+              "value": true
+            },
+            {
+              "op": "all",
+              "args": [
+                {
+                  "op": "eq",
+                  "field": "owner_occupied",
+                  "value": true
+                },
+                {
+                  "op": "lte",
+                  "field": "units",
+                  "value": 2
+                }
+              ]
+            },
+            {
+              "op": "lt",
+              "field": "building_age_years",
+              "value": 15
+            },
+            {
+              "op": "eq",
+              "field": "affordable_housing_restricted",
+              "value": true
+            }
+          ]
+        }
+      }
+    },
+    "exemptions": "Same exemptions as just cause rule apply; If tenant is determined at fault for habitability violation triggering government order, tenant not entitled to relocation assistance under §98.0704(b)(3)",
+    "overrides": [],
+    "interaction": null,
+    "effective_date": "2023-06-24",
+    "citation": "S.D.M.C. § 98.0706(b) and (c)",
+    "source_doc_id": "D073",
+    "source_url": "https://docs.sandiego.gov/municode/municodechapter09/ch09art08division07.pdf",
+    "quoted_span": "(i) Unless section 98.0706(c)(1)(A)(ii) applies, the direct \npayment to the tenant shall be in an amount equal to \ntwo months of actual rent under the tenant’s lease in \neffect at the date of the notice.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "SD-EVICT-02",
+    "jurisdiction": "San Diego, CA",
+    "level": "city",
+    "category": "just_cause_eviction",
+    "status": "in_force",
+    "title": "San Diego Just-Cause Eviction: Relocation Assistance for No-Fault Terminations",
+    "requirement": "When a landlord terminates a tenancy for no-fault just cause (owner move-in, demolition, or other qualifying reasons), the landlord must provide relocation assistance to the tenant at the landlord's option: either a direct payment equal to two months of actual rent (or three months if the tenant is a senior or disabled person), or waiver of rent through the end of the tenancy in that same amount.",
+    "key_value": "2 months' rent (or 3 months if senior/disabled)",
+    "coverage_conditions": {
+      "description": "All residential rental properties in San Diego covered by the just-cause eviction provisions of Division 7.",
+      "predicate": {
+        "op": "always"
+      }
+    },
+    "exemptions": null,
+    "overrides": [],
+    "interaction": null,
+    "effective_date": "2023-06-24",
+    "citation": "S.D.M.C. § 98.0706(c)",
+    "source_doc_id": "D073",
+    "source_url": "https://docs.sandiego.gov/municode/municodechapter09/ch09art08division07.pdf",
+    "quoted_span": "Unless section 98.0706(c)(1)(A)(ii) applies, the direct \npayment to the tenant shall be in an amount equal to \ntwo months of actual rent under the tenant’s lease in \neffect at the date of the notice.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "SD-ALG-P1",
+    "jurisdiction": "San Diego, CA",
+    "level": "city",
+    "category": "algorithmic_rent_setting",
+    "status": "pending",
+    "title": "Prohibition of Anti-Competitive Automated Rent Price-Fixing",
+    "requirement": "Landlords may not use algorithmic devices to set rental rates or occupancy levels. No person may sell, license, or provide algorithmic devices to landlords. An algorithmic device is software that uses nonpublic competitor data to advise or recommend rental rates or occupancy levels.",
+    "key_value": null,
+    "coverage_conditions": {
+      "description": "All residential rental properties in San Diego.",
+      "predicate": {
+        "op": "always"
+      }
+    },
+    "exemptions": "Software that publishes reports on rental rates or occupancy levels from aggregated historical data more than 90 days old or from publicly available information, without recommending future rates or occupancy levels.; Software used to establish rental rates or income limits under local, state, or federal affordable housing program guidelines.",
+    "overrides": [],
+    "interaction": null,
+    "effective_date": null,
+    "citation": "San Diego Municipal Code § 98.1103 (proposed)",
+    "source_doc_id": "D076",
+    "source_url": "https://sandiego.gov/sites/default/files/2025-04/automated-rent-price-fixing-prohibition-ordinance-materials.pdf",
+    "quoted_span": "It is unlawful for a landlord to use an algorithmic device to set rental rates\nor occupancy levels for residential rental property.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "SF-RENT-01",
+    "jurisdiction": "San Francisco, CA",
+    "level": "city",
+    "category": "rent_increase_limits",
+    "status": "in_force",
+    "title": "San Francisco Annual Rent Increase for March 1, 2026 - February 28, 2027",
+    "requirement": "For rent-controlled units in San Francisco, landlords may increase rent by up to 1.6% annually during the period March 1, 2026 through February 28, 2027.",
+    "key_value": "1.6%",
+    "coverage_conditions": {
+      "description": "Rent-controlled units in San Francisco as defined by S.F. Admin. Code ch. 37. Coverage excludes owner-occupied buildings with two or fewer units and other exemptions under S.F.R.C. § 37.2(r).",
+      "predicate": {
+        "op": "unknown",
+        "reason": "Source announces annual allowable increase for rent-controlled units under S.F. Admin. Code ch. 37 but does not specify building coverage criteria; coverage is determined by separate S.F.R.C. § 37.2(r) definitions of 'rental unit' and exemptions."
+      }
+    },
+    "exemptions": "Owner-occupied buildings with two or fewer units; Units exempted under S.F. Rent Control Ordinance § 37.2(r)",
+    "overrides": [],
+    "interaction": null,
+    "effective_date": "2026-03-01",
+    "citation": "S.F. Admin. Code ch. 37 (as administered by Rent Board)",
+    "source_doc_id": "D080",
+    "source_url": "https://www.sf.gov/news--annual-rent-increase-3126-22827-announced",
+    "quoted_span": "For rent-controlled units, the annual allowable increase amount effective March 1, 2026 through February 28, 2027 is 1.6%.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "SF-EVICT-01",
+    "jurisdiction": "San Francisco, CA",
+    "level": "city",
+    "category": "just_cause_eviction",
+    "status": "in_force",
+    "title": "San Francisco Relocation Payments for Owner/Relative Move-in, Demolition, Capital Improvement, and Substantial Rehabilitation Evictions",
+    "requirement": "Tenants evicted for owner or relative move-in, demolition or permanent removal of the unit from housing use, temporary capital improvement work (20 days or longer), or substantial rehabilitation are entitled to relocation payments. The amount varies based on the date of service of the eviction notice and increases annually. As of March 1, 2026, the relocation payment is $8,245 per tenant, up to $24,733 maximum per unit, plus an additional $5,497 for each elderly (60+) or disabled tenant or household with minor children.",
+    "key_value": "$8,245 per tenant; $24,733 per unit; +$5,497 for elderly/disabled/minor children (as of 3/1/26)",
+    "coverage_conditions": {
+      "description": "All residential rental units in San Francisco subject to eviction under these grounds.",
+      "predicate": {
+        "op": "always"
+      }
+    },
+    "exemptions": "Temporary capital improvement evictions lasting less than 20 days are governed by California Civil Code Section 1947.9, not this ordinance.",
+    "overrides": [],
+    "interaction": null,
+    "effective_date": null,
+    "citation": "S.F. Admin. Code ch. 37, § 37.9C",
+    "source_doc_id": "D082",
+    "source_url": "https://www.sf.gov/reports--archive-relocation-rates",
+    "quoted_span": "Relocation Payments for Evictions based on Owner/Relative Move-in OR Demolition/Permanent Removal of Unit from Housing Use OR Temporary Capital Improvement Work* OR Substantial Rehabilitation",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "SF-DEP-01",
+    "jurisdiction": "San Francisco, CA",
+    "level": "city",
+    "category": "security_deposits",
+    "status": "in_force",
+    "title": "San Francisco Security Deposit Interest Rate",
+    "requirement": "Landlords must pay interest on security deposits held for tenants at an annual rate of 4.2% for the period March 1, 2026 through February 28, 2027.",
+    "key_value": "4.2%",
+    "coverage_conditions": {
+      "description": "All residential rental units in San Francisco.",
+      "predicate": {
+        "op": "always"
+      }
+    },
+    "exemptions": null,
+    "overrides": [],
+    "interaction": null,
+    "effective_date": null,
+    "citation": "S.F. Admin. Code ch. 37",
+    "source_doc_id": "D083",
+    "source_url": "https://www.sf.gov/reports--current-rates-including-rent-increase-relocation-sec-deposit",
+    "quoted_span": "Security Deposit Interest:\n4.2% for March 1, 2026 – February 28, 2027",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "SF-ALG-01",
+    "jurisdiction": "San Francisco, CA",
+    "level": "city",
+    "category": "algorithmic_rent_setting",
+    "status": "in_force",
+    "title": "Prohibition on Algorithmic Rent-Setting Devices in San Francisco",
+    "requirement": "Landlords in San Francisco cannot sell or use algorithmic devices—software programs that analyze competitor rental data to recommend rent prices—to set rents or manage occupancy levels for residential units. Tenants or the City Attorney may sue to enforce this rule.",
+    "key_value": null,
+    "coverage_conditions": {
+      "description": "All residential rental units in San Francisco.",
+      "predicate": {
+        "op": "always"
+      }
+    },
+    "exemptions": null,
+    "overrides": [],
+    "interaction": null,
+    "effective_date": null,
+    "citation": "S.F. Rent Ordinance § 37.10C",
+    "source_doc_id": "D081",
+    "source_url": "https://www.sf.gov/news/new-law-prohibits-algorithmic-devices-used-set-rents-san-francisco",
+    "quoted_span": "The law prohibits the sale or use of algorithmic devices to set rents or manage occupancy levels for residential units in San Francisco.\nThe term “algorithmic device” means a device such as a software program that uses algorithms to analyze nonpublic competitor rental data for the purposes of providing a landlord recommendations on what rent to charge for a vacant unit.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "SA-RENT-01",
+    "jurisdiction": "Santa Ana, CA",
+    "level": "city",
+    "category": "rent_increase_limits",
+    "status": "in_force",
+    "title": "Santa Ana Rent Increase Limit",
+    "requirement": "A landlord can raise rent by no more than 3% of current rent or 80% of the Consumer Price Index (CPI) change for the year, whichever is less. The current maximum allowable increase for September 1, 2026 through August 31, 2027 is 2.87%.",
+    "key_value": "3% or 80% CPI, whichever is less",
+    "coverage_conditions": {
+      "description": "All residential rental units in Santa Ana.",
+      "predicate": {
+        "op": "always"
+      }
+    },
+    "exemptions": null,
+    "overrides": [],
+    "interaction": null,
+    "effective_date": null,
+    "citation": "Santa Ana Ord. (Rent Stabilization and Just Cause Eviction)",
+    "source_doc_id": "D084",
+    "source_url": "https://santa-ana.gov/departments/rent-stabilization",
+    "quoted_span": "The increase cannot be more than 3% of your current rent or 80% of the Consumer Price Index (CPI) change, whichever is less.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "SA-RENT-02",
+    "jurisdiction": "Santa Ana, CA",
+    "level": "city",
+    "category": "rent_increase_limits",
+    "status": "in_force",
+    "title": "Rent increase cap at 3% or 80% CPI (whichever is lower)",
+    "requirement": "Residential rent increases are limited annually to the lower of 3% or 80% of the Consumer Price Index change over the prior 12 months. If CPI is negative, no increase is permitted.",
+    "key_value": "3% or 80% CPI, whichever is lower",
+    "coverage_conditions": {
+      "description": "Applies to residential buildings with a certificate of occupancy before February 1, 1995. Exempts buildings constructed on or after February 1, 1995 and mobile home spaces.",
+      "predicate": {
+        "op": "not",
+        "arg": {
+          "op": "any",
+          "args": [
+            {
+              "op": "gte",
+              "field": "certificate_of_occupancy_date",
+              "value": "1995-02-01"
+            },
+            {
+              "op": "eq",
+              "field": "single_family_or_condo",
+              "value": true
+            }
+          ]
+        }
+      }
+    },
+    "exemptions": "Buildings with certificate of occupancy on or after February 1, 1995; Mobile home spaces offered for rent after January 1, 1990",
+    "overrides": [],
+    "interaction": null,
+    "effective_date": "2021-11-19",
+    "citation": "Santa Ana Rent Stabilization Ordinance",
+    "source_doc_id": "D085",
+    "source_url": "https://santa-ana.gov/santa-ana-city-council-adopts-rent-stabilization-and-just-cause-eviction-ordinances-effective-nov-19",
+    "quoted_span": "Increase in residential rents are limited to the lower of 3% per year, or 80% of the percent change in the Consumer Price Index over the most recent 12-month period. If the CPI is negative, no rent increase is permitted.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "SA-EVICT-01",
+    "jurisdiction": "Santa Ana, CA",
+    "level": "city",
+    "category": "just_cause_eviction",
+    "status": "in_force",
+    "title": "Relocation assistance or rent waiver for no-fault termination",
+    "requirement": "When terminating a tenancy for no-fault just cause (owner occupancy, removal from rental market, or demolition/substantial remodel), the landlord must provide either three months of relocation assistance or waive rent payment for the final three months of tenancy.",
+    "key_value": "3 months relocation assistance or 3 months rent waiver",
+    "coverage_conditions": {
+      "description": "Applies to residential rental buildings not constructed in the last 15 years and not deed-restricted as affordable housing.",
+      "predicate": {
+        "op": "not",
+        "arg": {
+          "op": "any",
+          "args": [
+            {
+              "op": "lt",
+              "field": "building_age_years",
+              "value": 15
+            },
+            {
+              "op": "eq",
+              "field": "affordable_housing_restricted",
+              "value": true
+            }
+          ]
+        }
+      }
+    },
+    "exemptions": "Housing produced within the last 15 years; Deed-restricted affordable housing; Hotel and transient occupancy; Hospital and care facilities; Dormitories and shared living quarters",
+    "overrides": [],
+    "interaction": null,
+    "effective_date": "2021-11-19",
+    "citation": "Santa Ana Just Cause Eviction Ordinance",
+    "source_doc_id": "D085",
+    "source_url": "https://santa-ana.gov/santa-ana-city-council-adopts-rent-stabilization-and-just-cause-eviction-ordinances-effective-nov-19",
+    "quoted_span": "Under a no-fault just cause termination, the owner shall either provide 3 months of relocation assistance or waive payment of rent for the final 3 months of the tenancy.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "SA-EVICT-02",
+    "jurisdiction": "Santa Ana, CA",
+    "level": "city",
+    "category": "just_cause_eviction",
+    "status": "in_force",
+    "title": "Santa Ana Just Cause Eviction Requirement",
+    "requirement": "A landlord must have a valid reason to evict a tenant, such as non-payment of rent, breach of lease, or the landlord's intent to occupy the property themselves.",
+    "key_value": null,
+    "coverage_conditions": {
+      "description": "All residential rental units in Santa Ana.",
+      "predicate": {
+        "op": "always"
+      }
+    },
+    "exemptions": null,
+    "overrides": [],
+    "interaction": null,
+    "effective_date": null,
+    "citation": "Santa Ana Ord. (Rent Stabilization and Just Cause Eviction)",
+    "source_doc_id": "D084",
+    "source_url": "https://santa-ana.gov/departments/rent-stabilization",
+    "quoted_span": "Your landlord must have a valid reason to evict you. This could be for not paying rent, breaking the lease, or if the landlord wants to move into the property themselves.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "MA-RENT-P1",
+    "jurisdiction": "MA",
+    "level": "state",
+    "category": "rent_increase_limits",
+    "status": "failed",
+    "title": "Initiative Petition 25-21: Limit on Annual Rent Increases",
+    "requirement": "The proposed law would limit annual rent increases for residential dwelling units to the lower of the annual increase in the Consumer Price Index or five percent. The proposal was struck down by the Massachusetts Supreme Judicial Court as violating the state constitution's prohibition on initiative petitions relating to religion, because it exempted facilities operated solely for religious purposes.",
+    "key_value": "5% or CPI, whichever is lower",
+    "coverage_conditions": {
+      "description": "All residential dwelling units except: owner-occupied buildings with four or fewer units; units whose rents are subject to regulation by a public authority (excluding mobile housing voucher programs); units rented to transient guests for less than 14 consecutive days; units in facilities operated solely for educational, religious, or non-profit purposes; and units with first residential certificate of occupancy less than 10 years old.",
+      "predicate": {
+        "op": "not",
+        "arg": {
+          "op": "any",
+          "args": [
+            {
+              "op": "eq",
+              "field": "owner_occupied",
+              "value": true
+            },
+            {
+              "op": "lte",
+              "field": "units",
+              "value": 4
+            },
+            {
+              "op": "unknown",
+              "reason": "dwelling units rented to transient guests for periods under 14 consecutive days"
+            },
+            {
+              "op": "eq",
+              "field": "affordable_housing_restricted",
+              "value": true
+            },
+            {
+              "op": "lt",
+              "field": "building_age_years",
+              "value": 10
+            }
+          ]
+        }
+      }
+    },
+    "exemptions": "Owner-occupied buildings with four or fewer units; Dwelling units regulated by public authority (excluding mobile housing vouchers); Transient rentals under 14 consecutive days; Facilities operated solely for educational, religious, or non-profit purposes; Units with certificate of occupancy less than 10 years old",
+    "overrides": [],
+    "interaction": null,
+    "effective_date": null,
+    "citation": "Initiative Petition 25-21; M.G.L. c. 40P (existing prohibition on rent control)",
+    "source_doc_id": "SUP-MA-CELLA",
+    "source_url": "https://www.uschamber.com/assets/documents/Opinion-Cella-v.-Campbell-Mass.pdf",
+    "quoted_span": "the annual increase in Consumer \nPrice Index or [five percent], whichever is lower.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "MA-RENT-01",
+    "jurisdiction": "MA",
+    "level": "state",
+    "category": "rent_increase_limits",
+    "status": "in_force",
+    "title": "State prohibition on local rent control, with limited exceptions",
+    "requirement": "Massachusetts prohibits any city or town from enacting, maintaining or enforcing rent control of any kind. However, a city or town that accepts chapter 40P may adopt rent control regulation only if: (a) compliance is entirely voluntary after six months; (b) the regulation does not cover occupancy, services, evictions, condominium conversion, or removal from the program, and does not apply to units owned by an entity owning fewer than ten rental units or units with fair market rent exceeding $400; and (c) the municipality compensates owners from general funds for the difference between fair market rent and controlled rent.",
+    "key_value": null,
+    "coverage_conditions": {
+      "description": "All residential rental units in Massachusetts cities and towns.",
+      "predicate": {
+        "op": "always"
+      }
+    },
+    "exemptions": "Units owned by a person or entity owning fewer than ten rental units; Rental units with fair market rent exceeding $400",
+    "overrides": [],
+    "interaction": "May preempt local ordinances on the same subject; flagged for review.",
+    "effective_date": null,
+    "citation": "M.G.L. c. 40P § 4",
+    "source_doc_id": "D048",
+    "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVII/Chapter40P/Section4",
+    "quoted_span": "No city or town may enact, maintain or enforce rent control of any kind, except that any city or town that accepts this chapter may adopt rent control regulation that provides:\n(a) after six months from the date of the initial adoption of rent control regulation by a particular city or town, compliance on the part of property owners as to the rent control regulation or any subsequently adopted rent control regulation shall be entirely voluntary and uncoerced",
+    "confidence": null,
+    "conflict_flag": true,
+    "conflict_note": "Possible preemption of local ordinances; needs human review."
+  },
+  {
+    "team_rule_id": "MA-EVICT-01",
+    "jurisdiction": "MA",
+    "level": "state",
+    "category": "just_cause_eviction",
+    "status": "in_force",
+    "title": "Nonpayment of Rent—Notice to Quit and Eviction",
+    "requirement": "A landlord must give a tenant 14 days' written notice to quit for nonpayment of rent. The tenant may stop the eviction by paying all rent due, interest, and court costs on or before the answer is due in the eviction action. If the nonpayment was caused by a government agency's failure to deliver a subsistence or rental payment to the tenant or landlord, the court must continue the hearing at least 7 days to notify the agency, and the tenancy is treated as not terminated if the tenant tenders all rent, interest and costs within that time.",
+    "key_value": "14 days",
+    "coverage_conditions": {
+      "description": "All residential rental housing with a written lease.",
+      "predicate": {
+        "op": "always"
+      }
+    },
+    "exemptions": null,
+    "overrides": [],
+    "interaction": null,
+    "effective_date": null,
+    "citation": "M.G.L. c. 186 § 11",
+    "source_doc_id": "D050",
+    "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartII/TitleI/Chapter186/Section11",
+    "quoted_span": "Upon the neglect or refusal to pay the rent due under a written lease, fourteen days' notice to quit, given in writing by the landlord to the tenant, shall be sufficient to determine the lease, unless the tenant, on or before the day the answer is due, in an action by the landlord to recover possession of the premises, pays or tenders to the landlord or to his attorney all rent then due, with interest and costs of suit.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "MA-DEP-01",
+    "jurisdiction": "MA",
+    "level": "state",
+    "category": "security_deposits",
+    "status": "in_force",
+    "title": "Security deposit maximum and prepaid rent limits",
+    "requirement": "A landlord may require tenants to pay at most: first month's rent, last month's rent at the same rate, and a security deposit equal to one month's rent (or a fee in lieu of deposit under executive office regulations, not to exceed one month's rent total). Landlords may also charge for key and lock installation.",
+    "key_value": "1 month's rent",
+    "coverage_conditions": {
+      "description": "All residential rental properties, except those with tenancies of 100 days or less for vacation or recreational purposes.",
+      "predicate": {
+        "op": "always"
+      }
+    },
+    "exemptions": "Tenancies of 100 days or less for vacation or recreational purposes",
+    "overrides": [],
+    "interaction": null,
+    "effective_date": null,
+    "citation": "M.G.L. c. 186 § 15B(1)(b)",
+    "source_doc_id": "D052",
+    "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartII/TitleI/Chapter186/Section15B",
+    "quoted_span": "At or prior to the commencement of any tenancy, no lessor or agent of the lessor may require a tenant or prospective tenant to pay, to the lessor or to an agent of the lessor, any amount in excess of the following:\n(i) rent for the first full month of occupancy;  and,\n(ii) rent for the last full month of occupancy calculated at the same rate as the first month;  and,\n(iii) a security deposit equal to the first month's rent",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "MA-ALG-P1",
+    "jurisdiction": "MA",
+    "level": "state",
+    "category": "algorithmic_rent_setting",
+    "status": "pending",
+    "title": "Ban on rent-pricing algorithms and coordination services",
+    "requirement": "Landlords cannot contract with or pay for services that collect actual rent prices, analyze them, and recommend rental prices to landlords. Service providers cannot help landlords agree not to compete on rent pricing for residential units.",
+    "key_value": null,
+    "coverage_conditions": {
+      "description": "All residential dwelling units in Massachusetts, excluding inpatient medical care, licensed long-term care, and detention or correctional facilities.",
+      "predicate": {
+        "op": "always"
+      }
+    },
+    "exemptions": "Publication of fair market rent calculated using publicly available data does not constitute a prohibited recommendation",
+    "overrides": [],
+    "interaction": null,
+    "effective_date": null,
+    "citation": "MA H.5222, Chapter 40Z, Sections 2 and 3",
+    "source_doc_id": "SUP-MA-H5222",
+    "source_url": "https://malegislature.gov/Bills/194/H5222/House/Bill/Text",
+    "quoted_span": "No real estate lessor, or any agent or subcontractor thereof, shall subscribe to, contract with or otherwise exchange anything of value in return for the services of a service provider.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "MA-ALG-P2",
+    "jurisdiction": "MA",
+    "level": "state",
+    "category": "algorithmic_rent_setting",
+    "status": "pending",
+    "title": "An Act prohibiting algorithmic rent setting",
+    "requirement": "This bill proposes to prohibit the use of algorithmic rent setting in the rental housing market.",
+    "key_value": null,
+    "coverage_conditions": {
+      "description": "All residential rental housing in Massachusetts.",
+      "predicate": {
+        "op": "always"
+      }
+    },
+    "exemptions": null,
+    "overrides": [],
+    "interaction": null,
+    "effective_date": null,
+    "citation": "MA S.2983 (194th Gen. Court)",
+    "source_doc_id": "D047",
+    "source_url": "https://malegislature.gov/Bills/194/S2983/BillHistory",
+    "quoted_span": "An Act prohibiting algorithmic rent setting",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "BOS-EVICT-01",
+    "jurisdiction": "Boston, MA",
+    "level": "city",
+    "category": "just_cause_eviction",
+    "status": "in_force",
+    "title": "Housing Stability Notification Act – Notice requirement when ending tenancy",
+    "requirement": "When a landlord ends a tenancy or decides not to renew a lease, the landlord must provide the tenant with a Notice of Tenants' Rights and Resources at the same time as the Notice to Quit or Notice of Non-renewal. The landlord must also send a copy of the notice and a Certificate of Compliance/Service to the City of Boston's Office of Housing Stability.",
+    "key_value": null,
+    "coverage_conditions": {
+      "description": "Applies to all residential units in the City of Boston, except those in hospitals, skilled nursing facilities, health facilities, or non-profit facilities providing short-term treatment for substance abuse.",
+      "predicate": {
+        "op": "not",
+        "arg": {
+          "op": "any",
+          "args": [
+            {
+              "op": "unknown",
+              "reason": "hospital, skilled nursing facility or health facility"
+            },
+            {
+              "op": "unknown",
+              "reason": "non-profit facility whose primary purpose is providing short-term treatment, assistance or therapy for alcohol, drug, or other substance abuse"
+            }
+          ]
+        }
+      }
+    },
+    "exemptions": "Hospital, skilled nursing facility or health facility residences; Non-profit facility residences whose primary purpose is providing short-term treatment, assistance or therapy for alcohol, drug, or other substance abuse",
+    "overrides": [],
+    "interaction": null,
+    "effective_date": "2020-11-06",
+    "citation": "Boston City Ordinance, Housing Stability Notification Act (Sec. 10-11.7)",
+    "source_doc_id": "D014",
+    "source_url": "https://www.boston.gov/sites/default/files/file/2020/11/Housing%20Stability%20Notification%20Act%20Tenant%20FAQs.pdf",
+    "quoted_span": "The HSNA requires that landlords give this Notice of Tenants’ Rights and Resources\nto tenants when the landlord starts the eviction process, or when the landlord\ndecides to not offer the tenant a renewal of their lease agreement. The Notice of\nTenants’ Rights and Resources must be delivered at the same time as the Notice to\nQuit.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "BOS-SCREEN-01",
+    "jurisdiction": "Boston, MA",
+    "level": "city",
+    "category": "screening_restrictions",
+    "status": "in_force",
+    "title": "Boston Fair Chance Tenant Selection Policy—Criminal History Screening Restrictions",
+    "requirement": "Housing providers receiving DND funding, land, or having income-restricted units created under BPDA's Inclusionary Development Policy must not impose a blanket policy denying housing based on arrests or convictions. Providers must consider applicants on a case-by-case basis and may not consider arrests without conviction, convictions subject to judicial relief, juvenile records, or convictions over 5 years old—unless there is a direct relationship between the conviction and housing sought or unreasonable risk of substantial harm to others' safety.",
+    "key_value": null,
+    "coverage_conditions": {
+      "description": "This policy applies to multifamily residential buildings where the housing provider receives DND funding/land or has income-restricted units created under BPDA's Inclusionary Development Policy. The screening restrictions cover all units in qualifying buildings.",
+      "predicate": {
+        "op": "all",
+        "args": [
+          {
+            "op": "any",
+            "args": [
+              {
+                "op": "eq",
+                "field": "owner_type",
+                "value": "public_entity"
+              },
+              {
+                "op": "eq",
+                "field": "owner_type",
+                "value": "nonprofit"
+              },
+              {
+                "op": "eq",
+                "field": "affordable_housing_restricted",
+                "value": true
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "field": "residential",
+            "value": true
+          }
+        ]
+      }
+    },
+    "exemptions": "Convictions with a direct relationship to the housing sought or unreasonable risk of substantial harm to others' safety may be considered.; Current criminal behavior is excluded from the policy's protections.; Federal or state law imposing criminal history requirements preempts this policy.",
+    "overrides": [],
+    "interaction": null,
+    "effective_date": null,
+    "citation": "Boston Department of Neighborhood Development, Fair Chance Tenant Selection Policy (Feb. 2017)",
+    "source_doc_id": "D010",
+    "source_url": "https://drive.google.com/file/d/1j4U3fDtmnYuwcUWhx5BMUcXc1bnKT8Ku/view?usp=sharing",
+    "quoted_span": "Housing providers receiving Department of Neighborhood Development (DND) funding and/or \nland, or that have income restricted units created under the Boston Planning and Development \nAgency (BPDA) Inclusionary Development Policy will not impose a blanket policy that denies \nhousing to anyone with arrests and or convictions. Housing providers will consider applicants on \na case-by-case basis.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "NJ-EVICT-01",
+    "jurisdiction": "NJ",
+    "level": "state",
+    "category": "just_cause_eviction",
+    "status": "in_force",
+    "title": "Failure to Pay Rent—Eviction Cause",
+    "requirement": "A landlord may evict a tenant for failure to pay rent. Landlord need not give notice before filing suit unless tenant resides in federally subsidized housing, in which case landlord must give 14-day notice. Tenant cannot be evicted for nonpayment if tenant paid utilities to prevent service disconnection when landlord was responsible for payment.",
+    "key_value": "14 days (federally subsidized housing only)",
+    "coverage_conditions": {
+      "description": "All residential rental units in New Jersey",
+      "predicate": {
+        "op": "always"
+      }
+    },
+    "exemptions": "Federally subsidized housing tenants",
+    "overrides": [],
+    "interaction": null,
+    "effective_date": null,
+    "citation": "N.J.S.A. 2A:18-61.1(a)",
+    "source_doc_id": "D067",
+    "source_url": "https://www.nj.gov/dca/codes/publications/pdf_lti/t_i_r.pdf",
+    "quoted_span": "The landlord is not required to give the tenant notice before filing an \neviction suit, except if the tenant resides in federally subsidized housing.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "NJ-EVICT-02",
+    "jurisdiction": "NJ",
+    "level": "state",
+    "category": "just_cause_eviction",
+    "status": "in_force",
+    "title": "Safe Housing Act - Lease termination due to domestic violence",
+    "requirement": "A tenant who is a victim of domestic violence or whose child faces an imminent threat of serious physical harm from a specific person may terminate their lease with 30 days' notice after providing the landlord with documented proof of domestic violence (such as a restraining order, law enforcement record, medical documentation, or certification from a domestic violence specialist). The tenant's security deposit must be returned within 15 business days.",
+    "key_value": "30 days",
+    "coverage_conditions": {
+      "description": "Applies to all residential rental properties except transient or seasonal rentals.",
+      "predicate": {
+        "op": "not",
+        "arg": {
+          "op": "in",
+          "field": "residential",
+          "value": [
+            false
+          ]
+        }
+      }
+    },
+    "exemptions": "Transient or seasonal rentals",
+    "overrides": [],
+    "interaction": null,
+    "effective_date": null,
+    "citation": "N.J.S.A. 46:8-9.4 et seq.",
+    "source_doc_id": "D067",
+    "source_url": "https://www.nj.gov/dca/codes/publications/pdf_lti/t_i_r.pdf",
+    "quoted_span": "Lease Termination due to domestic violence shall take effect on the thirtieth day following \nreceipt by the landlord of one of the documents listed above and a written notice from the tenant \nthat they intend to vacate the premises and terminate the lease.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "NJ-DEP-01",
+    "jurisdiction": "NJ",
+    "level": "state",
+    "category": "security_deposits",
+    "status": "in_force",
+    "title": "Security Deposit Law - Maximum deposit and prohibited practices",
+    "requirement": "A landlord may not collect more than one and one-half times the tenant's monthly rent as a security deposit. Combined with first month's rent, the landlord may not require more than two and one-half times the monthly rent at lease inception. Any prepaid funds (including last month's rent) held to secure future rents count toward the security deposit limit. Pet security deposits cannot exceed one and one-half times monthly rent when combined with the regular security deposit.",
+    "key_value": "1.5 months' rent",
+    "coverage_conditions": {
+      "description": "Applies to all residential rental properties except owner-occupied two- or three-family dwellings, unless the tenant requests application of the law in writing 30 days after occupancy.",
+      "predicate": {
+        "op": "not",
+        "arg": {
+          "op": "all",
+          "args": [
+            {
+              "op": "eq",
+              "field": "owner_occupied",
+              "value": true
+            },
+            {
+              "op": "lte",
+              "field": "units",
+              "value": 3
+            }
+          ]
+        }
+      }
+    },
+    "exemptions": "Owner-occupied two- or three-family dwellings (unless tenant requests application)",
+    "overrides": [],
+    "interaction": null,
+    "effective_date": null,
+    "citation": "N.J.S.A. 46:8-21.2",
+    "source_doc_id": "D067",
+    "source_url": "https://www.nj.gov/dca/codes/publications/pdf_lti/t_i_r.pdf",
+    "quoted_span": "Any additional \nyearly security deposit increase may not exceed 10% of the current security deposit.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "NJ-FEE-01",
+    "jurisdiction": "NJ",
+    "level": "state",
+    "category": "application_screening_fees",
+    "status": "in_force",
+    "title": "Residential Rental Property Application Fee Cap",
+    "requirement": "A landlord or agent cannot charge an application or similar fee to apply to lease or sublease residential rental property that exceeds $50. The cap is adjusted annually by the Consumer Price Index.",
+    "key_value": "$50",
+    "coverage_conditions": {
+      "description": "All residential rental properties except one-family or two-family dwellings offered for rent.",
+      "predicate": {
+        "op": "not",
+        "arg": {
+          "op": "all",
+          "args": [
+            {
+              "op": "lte",
+              "field": "units",
+              "value": 2
+            },
+            {
+              "op": "eq",
+              "field": "single_family_or_condo",
+              "value": true
+            }
+          ]
+        }
+      }
+    },
+    "exemptions": "One-family or two-family dwelling offered for rent; Real estate licensees unless the licensee is the landlord",
+    "overrides": [],
+    "interaction": null,
+    "effective_date": "2026-05-01",
+    "citation": "N.J.S.A. 46:8-18.1",
+    "source_doc_id": "D066",
+    "source_url": "https://pub.njleg.gov/bills/2024/PL25/405_.HTM",
+    "quoted_span": "A landlord, or\nagent thereof, shall not require an application or other similar fee to apply\nto lease or sublease a residential rental property for dwelling purposes, which\nexceeds $50.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "NJ-SCREEN-01",
+    "jurisdiction": "NJ",
+    "level": "state",
+    "category": "screening_restrictions",
+    "status": "in_force",
+    "title": "Discrimination in rental housing",
+    "requirement": "It is illegal for a landlord to refuse to rent or discriminate in rental of housing based on race, creed, color, national origin, ancestry, sex, marital status, civil union status, domestic partnership status, familial status, affectional or sexual orientation, gender identity or expression, mental and physical disability, nationality, or source of lawful income. A landlord may refuse to rent only if the prospective tenant lacks sufficient income, the family is too large for the unit, occupancy would violate zoning laws, or has poor credit history.",
+    "key_value": null,
+    "coverage_conditions": {
+      "description": "Applies to all landlord-tenant relationships except two-family owner-occupied dwellings, rooms in owner- or resident-occupied single homes, and residences planned exclusively for one sex.",
+      "predicate": {
+        "op": "always"
+      }
+    },
+    "exemptions": "Two-family owner-occupied dwellings; Rooms in owner- or resident-occupied single homes; Residences planned exclusively for one sex (e.g., YMCA, age-restricted housing for familial status purposes)",
+    "overrides": [],
+    "interaction": null,
+    "effective_date": null,
+    "citation": "N.J.S.A. 10:5-12(g)-(h); 42 U.S.C.A. § 3601-3610",
+    "source_doc_id": "D067",
+    "source_url": "https://www.nj.gov/dca/codes/publications/pdf_lti/t_i_r.pdf",
+    "quoted_span": "The New Jersey Law Against Discrimination (LAD), \nN.J.S.A. 10:5-12(g) to -(h), prohibits discrimination when selling or renting property and requires \nequal treatment in the sale or rental of housing regardless of race, creed, color, national origin, \nancestry, sex, marital status, civil union status, domestic partnership status, familial status, \naffectional or sexual orientation, gender  identity or expression, mental and physical disability, \nnationality, or source of lawful income.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "NJ-SCREEN-02",
+    "jurisdiction": "NJ",
+    "level": "state",
+    "category": "screening_restrictions",
+    "status": "in_force",
+    "title": "Fair Chance in Housing Act: Criminal record screening restrictions",
+    "requirement": "Housing providers cannot inquire about an applicant's criminal record before making a conditional offer. After a conditional offer, they may only consider certain convictions (murder, aggravated sexual assault, kidnapping, arson, human trafficking, sex offenses with lifetime registration, or indictable offenses issued or with prison sentence concluded within specified timeframes: 6 years for 1st degree, 4 years for 2nd/3rd degree, 1 year for 4th degree). They must conduct an individualized assessment considering offense nature/severity, applicant age, time elapsed, rehabilitation evidence, impact on tenant safety, and whether offense occurred on rented property. They cannot consider arrests ",
+    "key_value": null,
+    "coverage_conditions": {
+      "description": "All rental dwelling units except owner-occupied premises of not more than four dwelling units.",
+      "predicate": {
+        "op": "not",
+        "arg": {
+          "op": "all",
+          "args": [
+            {
+              "op": "eq",
+              "field": "owner_occupied",
+              "value": true
+            },
+            {
+              "op": "lte",
+              "field": "units",
+              "value": 4
+            }
+          ]
+        }
+      }
+    },
+    "exemptions": "Drug-related criminal activity for the manufacture or production of methamphetamine on the premises of federally assisted housing; Whether the applicant is subject to a lifetime registration requirement under a State sex offender registration program",
+    "overrides": [],
+    "interaction": null,
+    "effective_date": "2022-01-01",
+    "citation": "N.J.S.A. 46:8-55, 46:8-56, 46:8-58",
+    "source_doc_id": "D065",
+    "source_url": "https://pub.njleg.gov/bills/2020/PL21/110_.HTM",
+    "quoted_span": "A housing\nprovider\nshall not make any oral or written inquiry\nregarding an applicant’s criminal record prior to making a conditional offer.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "NJ-ALG-01",
+    "jurisdiction": "NJ",
+    "level": "state",
+    "category": "algorithmic_rent_setting",
+    "status": "not_yet_effective",
+    "title": "Prohibition on Algorithmic Rent-Setting and Coordination",
+    "requirement": "Landlords and property management companies cannot use algorithmic devices or software to set, recommend, or coordinate rental prices among multiple properties. It is unlawful for landlords to use coordinating functions, for coordinators to facilitate parallel pricing coordination, or for any person to perform a coordinating function that collects competitively sensitive information (such as rental prices or lease terms) from multiple property owners to set or recommend rents.",
+    "key_value": null,
+    "coverage_conditions": {
+      "description": "All residential rental dwellings in New Jersey, except those subject to affordability controls or exempt coordinating functions (such as real estate brokerages, research databases, or public rent-setting programs).",
+      "predicate": {
+        "op": "always"
+      }
+    },
+    "exemptions": "Properties subject to affordability controls (federal Section 8, state housing programs, rent control or rent leveling ordinances, or other government housing programs); Coordinating functions involving only research, statistical analysis, or testing where competitively sensitive information is not used in setting rents; Public rent estimates available at no cost; Real estate brokerage databases available on equal terms that do not collect competitively sensitive information to set rents; Government entities setting rents through affordability controls",
+    "overrides": [],
+    "interaction": "May preempt local ordinances on the same subject; flagged for review.",
+    "effective_date": "2027-07-01",
+    "citation": "N.J.S.A. 56:9-20 to 56:9-26; P.L. 2026, c. 43 (A3497 1R ACS)",
+    "source_doc_id": "D069",
+    "source_url": "https://pub.njleg.state.nj.us/Bills/2026/AL26/43_.HTM",
+    "quoted_span": "It\nshall be unlawful and a violation of the “New Jersey Antitrust Act,” P.L.1970,\nc.73 (C.56:9-1 et seq.) for:\na.     a rental property owner, or any agent,\nrepresentative, or subcontractor thereof, to receive, subscribe to, contract\nfor, or otherwise exchange any form of consideration in return for the use of,\nthe services of a coordinator;\nb.    a coordinator to facilitate a tacit or express\nagreement among rental property owners that restricts competition with respect\nto residential dwelling units, including by performing a coordinating\nfunction;\nc.     two or more persons to engage in\n1\nor\notherwise facilitate\n1\nparallel pricing coordination",
+    "confidence": null,
+    "conflict_flag": true,
+    "conflict_note": "Possible preemption of local ordinances; needs human review."
+  },
+  {
+    "team_rule_id": "HOB-ALG-01",
+    "jurisdiction": "Hoboken, NJ",
+    "level": "city",
+    "category": "algorithmic_rent_setting",
+    "status": "in_force",
+    "title": "Prohibition Against Algorithmic Rent-Fixing in the Rental Housing Market",
+    "requirement": "Landlords in Hoboken are prohibited from using software, algorithms, or data-sharing platforms to collect and analyze nonpublic competitor information from other landlords in order to coordinate, recommend, or implement rental prices, lease terms, or occupancy levels for residential dwelling units.",
+    "key_value": null,
+    "coverage_conditions": {
+      "description": "All residential dwelling units in Hoboken, excluding medical/long-term care or detention facilities.",
+      "predicate": {
+        "op": "all",
+        "args": [
+          {
+            "op": "eq",
+            "field": "residential",
+            "value": true
+          },
+          {
+            "op": "not",
+            "arg": {
+              "op": "unknown",
+              "reason": "Ordinance excludes medical/long-term care or detention facilities, which are not residential rental apartment buildings"
+            }
+          }
+        ]
+      }
+    },
+    "exemptions": "Medical or long-term care facilities; Detention facilities",
+    "overrides": [],
+    "interaction": null,
+    "effective_date": null,
+    "citation": "Hoboken City Code § 158-2 (Ord. adopted Jul 9, 2025)",
+    "source_doc_id": "SUP-HOB-STATUS",
+    "source_url": "https://hobokennj.iqm2.com/Citizens/Detail_LegiFile.aspx?ID=12291",
+    "quoted_span": "Landlords who rent any residential dwelling unit (defined as any primary residence excluding medical/long-term care or detention facilities) in the City of Hoboken are prohibited from price fixing using algorithmic pricing. For purposes of this chapter, “price fixing using algorithmic pricing”shall be defined as the use of software, algorithms, or data-sharing platforms to collect and analyze nonpublic competitor information from other real estate lessors in order to coordinate, recommend, or implement rental prices, lease terms, or occupancy levels for residential dwelling units among competing real estate lessors.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "JC-RENT-01",
+    "jurisdiction": "Jersey City, NJ",
+    "level": "city",
+    "category": "rent_increase_limits",
+    "status": "in_force",
+    "title": "Jersey City Rent Control Ordinance",
+    "requirement": "Jersey City enforces a rent control ordinance that regulates rent increases for residential rental properties. The Office of Landlord/Tenant Relations administers and enforces Chapter 260 of the Jersey City Municipal Code, which provides a rent control framework with certain exemptions and allows for capital improvement increases, vacancy increases, and hardship increases through formal applications.",
+    "key_value": null,
+    "coverage_conditions": {
+      "description": "Applies to residential rental buildings with five or more units. Exempt: 1-4 unit properties.",
+      "predicate": {
+        "op": "not",
+        "arg": {
+          "op": "lte",
+          "field": "units",
+          "value": 4
+        }
+      }
+    },
+    "exemptions": "Single-family and small multifamily buildings (1-4 units)",
+    "overrides": [],
+    "interaction": null,
+    "effective_date": null,
+    "citation": "Jersey City Municipal Code ch. 260",
+    "source_doc_id": "D036",
+    "source_url": "https://www.jerseycitynj.gov/landlordtenant",
+    "quoted_span": "The Office of Landlord Tenant Relations administers and enforces the\nRent Control Ordinance, Chapter 260\nof the Jersey City Municipal Code",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  },
+  {
+    "team_rule_id": "JC-ALG-01",
+    "jurisdiction": "Jersey City, NJ",
+    "level": "city",
+    "category": "algorithmic_rent_setting",
+    "status": "in_force",
+    "title": "Prohibition on Algorithmic Rent-Fixing and Coordination Among Landlords",
+    "requirement": "Landlords and service providers are prohibited from using software or coordinating to collect nonpublic competitor information (prices, supply levels, occupancy rates, lease terms) from multiple landlords and using it to recommend rent prices, lease terms, or occupancy levels. Service providers cannot facilitate agreements among landlords not to compete on rental pricing or other rental terms.",
+    "key_value": null,
+    "coverage_conditions": {
+      "description": "All residential dwelling units in Jersey City, including houses, apartments, and accessory units (excludes inpatient medical care, long-term care, detention or correctional facilities). Exemption: single-property owners taking actions only on their own multiple properties.",
+      "predicate": {
+        "op": "always"
+      }
+    },
+    "exemptions": "Actions of owners related exclusively to properties controlled by the same rental property owner; Licensed real estate agents operating in accordance with applicable state regulations",
+    "overrides": [],
+    "interaction": null,
+    "effective_date": null,
+    "citation": "Jersey City Ord. 25-057, Jersey City Municipal Code § 218-12",
+    "source_doc_id": "SUP-JC-057",
+    "source_url": "https://cityofjerseycity.civicweb.net/document/429156/Ordinance%20Amending%20Chapter%20218%20creating%20section.pdf?handle=2B058398395C4A5699FBE387DE507D6C",
+    "quoted_span": "No service provider shall facilitate an agreement not to compete among real estate lessors with respect to any \naspect of residential dwelling units, including rental pricing, fees, or any other rental terms.",
+    "confidence": null,
+    "conflict_flag": false,
+    "conflict_note": null
+  }
+]

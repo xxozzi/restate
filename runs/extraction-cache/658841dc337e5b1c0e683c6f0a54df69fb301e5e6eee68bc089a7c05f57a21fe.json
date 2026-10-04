@@ -1,0 +1,17 @@
+{
+ "raw": {
+  "rules": [],
+  "warnings": [
+   "The source is a Human Rights Commission web portal page describing the agency and its services, not the text of the Fair Chance Ordinance itself. The page mentions 'Affordable housing protections for people with criminal history' and 'San Francisco's Fair Chance Ordinance protects residents with arrest or conviction history in affordable housing decisions' but does not state the operative requirements, effective dates, coverage, or citations needed to record a rule.",
+   "To extract the Fair Chance Ordinance rule, the actual ordinance text (e.g., S.F. Admin. Code § 49.1 or similar) would be needed, showing what screening restrictions it imposes on landlords and when they apply.",
+   "This page provides links and descriptions of HRC services and resources but is not legislative or regulatory text."
+  ]
+ },
+ "promptHash": "0727a2616b08e130e31a4569973e766a81018a99bb37cbcd49ff0ded37b18b97",
+ "docId": "D078",
+ "chunk": 0,
+ "chunkHash": "448b85d4e40d5f17d12acf18db20aab4b9337b2e196099fee46c65f46dae91cc",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:16:21.991Z"
+}

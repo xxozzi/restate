@@ -1,0 +1,122 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "Just Cause for Eviction Ordinance (JCO) – Allowed Reasons for Eviction",
+    "category": "just_cause_eviction",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "A landlord may only evict a tenant for specific at-fault reasons (failure to pay rent, breach of lease, nuisance, illegal use, failure to renew similar lease, denial of access, or unapproved subtenant) or no-fault reasons (owner or family move-in, manager move-in, demolition, government order, HUD sale, hotel conversion, or conversion to affordable housing). Tenants evicted for no-fault reasons are entitled to relocation assistance; those evicted for at-fault reasons are not.",
+    "keyValue": null,
+    "citation": "L.A.M.C. (Los Angeles Municipal Code) – Just Cause for Eviction Ordinance",
+    "quotedSpan": "Under the JCO, the landlord may recover possession of a rental unit in specific situations... These reasons include The owner or an immediate family member will move into the rental unit; Resident manager will move into the rental unit when required by law or by an affordable housing covenant or regulatory agreement; Demolition, permanent removal from the rental market, or conversion to non-residential; Government order to vacate; HUD owns and is selling the property; Residential Hotel being converted or demolished; Conversion to affordable housing.",
+    "coverageJson": "{\"op\":\"and\",\"args\":[{\"op\":\"not\",\"arg\":{\"op\":\"in\",\"field\":\"owner_type\",\"value\":[\"public_entity\"]}},{\"op\":\"not\",\"arg\":{\"op\":\"all\",\"args\":[{\"op\":\"eq\",\"field\":\"single_family_or_condo\",\"value\":true},{\"op\":\"eq\",\"field\":\"owner_occupied\",\"value\":true},{\"op\":\"not\",\"arg\":{\"op\":\"in\",\"field\":\"owner_type\",\"value\":[\"corporation\",\"reit\",\"llc\"]}}]}}]}",
+    "coverageDescription": "Applies to most residential rental properties in Los Angeles not regulated by RSO. Covers buildings newer than October 1, 1978. Does not apply to: transient hotels, licensed care facilities, fraternities/sororities, owner's roommate situations, some cooperatives, nonprofit homeless facilities, short-term substance abuse treatment centers, HACLA-owned or government properties, and single-family homes/condos owned by natural persons (without corporate/REIT/LLC ownership) where the owner occupied the unit and notified the tenant in writing of the exemption. Applies to single-family dwellings when only one unit exists on the lot.",
+    "exemptions": [
+     "Transient hotels",
+     "Licensed care facilities",
+     "Fraternity or sorority houses",
+     "Owner's roommate situations",
+     "Some cooperatives",
+     "Nonprofit facilities for the homeless",
+     "Short-term substance abuse treatment centers",
+     "Properties owned by HACLA or government",
+     "Units already subject to RSO",
+     "Single-family homes and condos owned by natural persons if owner-occupied and tenant was notified in writing (does not apply if multiple units on same lot or second residential unit cannot be sold separately)"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "Source does not provide an exact enactment date or effective date for JCO; effective date status inferred from document date and context indicating ordinance is in force",
+     "Coverage rules for single-family homes complex; exemption requires both ownership and notification criteria",
+     "Source references but does not fully detail the RSO (Rent Stabilization Ordinance)"
+    ]
+   },
+   {
+    "title": "Just Cause for Eviction Ordinance – Relocation Assistance for No-Fault Evictions",
+    "category": "just_cause_eviction",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Property owners must pay relocation assistance to tenants when evicting them for no-fault reasons (owner/family move-in, manager move-in, demolition, government order, HUD sale, hotel conversion, or conversion to affordable housing). No relocation assistance is required if the tenant is at fault for the eviction.",
+    "keyValue": null,
+    "citation": "L.A.M.C. – Just Cause for Eviction Ordinance",
+    "quotedSpan": "Situations in which the property owner wishes to regain the use of the rental unit, as the result of a personal or business decision, and not the tenant's fault, may be cause for eviction, but the property owner may have to pay the tenant relocation assistance.",
+    "coverageJson": "{\"op\":\"and\",\"args\":[{\"op\":\"not\",\"arg\":{\"op\":\"in\",\"field\":\"owner_type\",\"value\":[\"public_entity\"]}},{\"op\":\"not\",\"arg\":{\"op\":\"all\",\"args\":[{\"op\":\"eq\",\"field\":\"single_family_or_condo\",\"value\":true},{\"op\":\"eq\",\"field\":\"owner_occupied\",\"value\":true},{\"op\":\"not\",\"arg\":{\"op\":\"in\",\"field\":\"owner_type\",\"value\":[\"corporation\",\"reit\",\"llc\"]}}]}}]}",
+    "coverageDescription": "Same as JCO coverage above.",
+    "exemptions": [
+     "Evictions for at-fault reasons (failure to pay rent, lease violation, nuisance, illegal use, failure to renew, denial of access, unapproved subtenant)"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "Source does not specify the amount or formula for relocation assistance; only states it may be required",
+     "Exact relocation assistance amounts would be in separate regulation or LAHD guidelines not quoted here"
+    ]
+   },
+   {
+    "title": "Just Cause for Eviction Ordinance – Tenancy Duration and Application Requirements",
+    "category": "just_cause_eviction",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "JCO protections apply only if the tenant has lived in the same unit for at least six months or their original lease has expired, whichever comes first.",
+    "keyValue": "6 months",
+    "citation": "L.A.M.C. – Just Cause for Eviction Ordinance",
+    "quotedSpan": "In order to apply to a tenancy, it requires that the tenant either has lived in the same unit for at least six months or that their original lease expired, whichever comes first.",
+    "coverageJson": "{\"op\":\"and\",\"args\":[{\"op\":\"not\",\"arg\":{\"op\":\"in\",\"field\":\"owner_type\",\"value\":[\"public_entity\"]}},{\"op\":\"not\",\"arg\":{\"op\":\"all\",\"args\":[{\"op\":\"eq\",\"field\":\"single_family_or_condo\",\"value\":true},{\"op\":\"eq\",\"field\":\"owner_occupied\",\"value\":true},{\"op\":\"not\",\"arg\":{\"op\":\"in\",\"field\":\"owner_type\",\"value\":[\"corporation\",\"reit\",\"llc\"]}}]}}]}",
+    "coverageDescription": "Same jurisdiction and building coverage as JCO generally, but applies only to tenancies meeting the six-month or lease-expiration threshold.",
+    "exemptions": [
+     "Tenancies shorter than six months where the original lease has not yet expired"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "This is a threshold rule affecting when JCO protections apply, not an additional eviction category"
+    ]
+   },
+   {
+    "title": "Evictions for Non-Payment of Rent – Fair Market Rent Threshold",
+    "category": "just_cause_eviction",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": "2023-03-27",
+    "effectiveDateQuote": "Effective March 27, 2023, landlords may not evict a tenant who falls behind in rent unless the tenant owes an amount higher than the Fair Market Rent (FMR).",
+    "endDate": null,
+    "requirement": "Landlords may not evict a tenant for non-payment of rent unless the amount of rent owed exceeds the Fair Market Rent (FMR) for the unit's bedroom size. FMR thresholds vary by bedroom count.",
+    "keyValue": "FMR (varies by bedroom size)",
+    "citation": "L.A.M.C. – Just Cause for Eviction Ordinance (Non-Payment of Rent)",
+    "quotedSpan": "Effective March 27, 2023, landlords may not evict a tenant who falls behind in rent unless the tenant owes an amount higher than the Fair Market Rent (FMR). The FMR depends on the bedroom size of the rental unit.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "Applies to all RSO and JCO rental units in Los Angeles.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "Source states FMR depends on bedroom size but does not provide specific FMR dollar amounts; those amounts are referenced as external data",
+     "The source gives only one example (1-bedroom at $1,500 rent) and notes it is below FMR, but exact FMR figures not provided in this document"
+    ]
+   }
+  ],
+  "warnings": [
+   "Document does not state the effective date of the main JCO ordinance itself; only March 27, 2023 is given for the non-payment rule",
+   "Document does not provide dollar amounts for relocation assistance or the complete FMR thresholds by bedroom",
+   "Document references AB 1482 (state rent increase law) but that is not in the JCO; see separate rules for state law",
+   "August 20, 2025 notice-of-right-to-counsel requirement is mentioned but is procedural, not a substantive eviction rule",
+   "Document notes JCO does not regulate rent increases; state law AB 1482 applies separately to buildings over 15 years old"
+  ]
+ },
+ "docId": "D040",
+ "chunk": 0,
+ "chunkHash": "13f9d54597199b73e23ad12dcc38626d53bb30bd53d89a63b6a7f55ecc570425",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:11:26.626Z"
+}

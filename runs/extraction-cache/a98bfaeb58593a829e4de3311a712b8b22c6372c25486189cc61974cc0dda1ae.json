@@ -1,0 +1,14 @@
+{
+ "raw": {
+  "rules": [],
+  "warnings": [
+   "This source text (part 4 of 6) is an informational guide to New Jersey tenant-landlord law covering maintenance, utilities, lead-based paint, eviction procedures, and related remedies. It does not state operative rules in the six tracked categories: rent_increase_limits, just_cause_eviction, security_deposits, application_screening_fees, screening_restrictions, or algorithmic_rent_setting. The eviction content explains existing legal processes and remedies (repair and deduct, constructive eviction, rent withholding, rent receivership) but does not codify new substantive requirements about allowed grounds for eviction, notice periods, or relocation assistance that would constitute a 'just_cause_eviction' rule for this database. The text cites underlying statutes (N.J.S.A. 2A:18-53 to -84, N.J.S.A. 2A:18-61.1 to 61.12) but does not quote their substantive operative provisions. To record a just_cause_eviction rule, the source would need to state what grounds for eviction are permitted and what notice periods apply; this guide explains judicial remedies and procedures without doing so."
+  ]
+ },
+ "docId": "D067",
+ "chunk": 3,
+ "chunkHash": "de6c3a3e3e8d048df3ea2fe963ab642bac715a543b310581ca8e5e66e396f460",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:12:15.061Z"
+}

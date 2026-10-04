@@ -1,447 +1,219 @@
 import "dotenv/config";
 import express from "express";
 import { createServer } from "node:http";
-import { readFile, writeFile, mkdir, rename } from "node:fs/promises";
+import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { resolve } from "node:path";
 import { createHash } from "node:crypto";
-import type {
-  Bootstrap,
-  Facts,
-  Rule,
-  SourceDocument,
-  ExtractionReport,
-} from "./contracts";
+import type { Bootstrap, ExtractionReport, Facts, Rule, SourceDocument } from "./contracts";
 import { loadDataset, describeChange } from "./data";
-import {
-  extractDocuments,
-  getBudgetStatus,
-  validatePredicate,
-  EXTRACTION_VERSION,
-} from "./extract";
+import { extractDocuments, getBudgetStatus, DEFAULT_AS_OF } from "./extract";
 import { evaluateProperty } from "./evaluate";
 import { computeChange } from "./changes";
-import {
-  exportChanges,
-  exportEvidenceFixtures,
-  exportLookups,
-  exportRules,
-  validateRules,
-} from "./export";
+import { exportChanges, exportEvidenceFixtures, exportLookups, exportRules, validateRules } from "./export";
+import { isField } from "./facts";
 
 const app = express();
 const server = createServer(app);
 app.disable("x-powered-by");
-app.use(express.json({ limit: "300kb" }));
+app.use(express.json({ limit: "400kb" }));
 app.use("/api", (_req, res, next) => {
   res.setHeader("Cache-Control", "no-store");
-  res.setHeader("X-Content-Type-Options", "nosniff");
   next();
 });
+
 const dataset = await loadDataset();
-const initial = await extractDocuments(dataset.documents, { useModel: false });
-let rules = initial.rules;
-let extraction: ExtractionReport = initial.report;
-const runDir = resolve("runs/current");
-await mkdir(runDir, { recursive: true });
-
-// Only validated same-source model results can replace pattern candidates on restart.
+const importsPath = resolve("runs/imports.json");
 try {
-  const persisted = JSON.parse(
-    await readFile(resolve(runDir, "model-results.json"), "utf8"),
-  ) as {
-    documents: SourceDocument[];
-    rules: Rule[];
-    sourceHashes?: Record<string, string>;
-    version?: string;
-  };
-  const valid = persisted.rules.filter((rule) => {
-    const doc =
-      dataset.documents.find((d) => d.id === rule.sourceId) ||
-      persisted.documents.find((d) => d.id === rule.sourceId);
-    return (
-      doc &&
-      persisted.version === EXTRACTION_VERSION &&
-      persisted.sourceHashes?.[doc.id] ===
-        createHash("sha256").update(doc.text).digest("hex") &&
-      validatePredicate(rule.coverage) &&
-      validateRules([rule], "2026-10-01", dataset.schema).errors.length === 0 &&
-      doc.text.slice(
-        rule.quoteStart,
-        rule.quoteStart + rule.quotedSpan.length,
-      ) === rule.quotedSpan &&
-      doc.text.includes(rule.quotedSpan) &&
-      rule.quotedSpan.length >= 20 &&
-      (rule.extractionMethod === "model" || doc.id.startsWith("import-"))
-    );
-  });
-  const ids = new Set(valid.map((rule) => rule.sourceId));
-  rules = [...rules.filter((rule) => !ids.has(rule.sourceId)), ...valid];
-  for (const doc of persisted.documents)
-    if (!dataset.documents.some((d) => d.id === doc.id))
-      dataset.documents.push(doc);
+  // Sources added through the app are kept so their cached extraction replays after a restart.
+  const imported = JSON.parse(await readFile(importsPath, "utf8")) as SourceDocument[];
+  for (const doc of imported) if (!dataset.documents.some((d) => d.id === doc.id)) dataset.documents.push(doc);
 } catch {
-  /* First startup intentionally has no paid or persisted model run. */
+  /* No imported sources yet. */
 }
+// Startup never pays: rules are rebuilt from cached, previously validated model responses.
+let { rules, report: extraction } = await extractDocuments(dataset.documents);
 
-const defaultAsOf = "2026-10-01";
 function queryDate(value: unknown): string {
-  const date = value ?? defaultAsOf;
-  if (
-    typeof date !== "string" ||
-    !/^\d{4}-\d{2}-\d{2}$/.test(date) ||
-    Number.isNaN(Date.parse(date)) ||
-    new Date(date).toISOString().slice(0, 10) !== date
-  )
-    throw new Error("Enter a valid date in YYYY-MM-DD format.");
+  const date = value ?? DEFAULT_AS_OF;
+  if (typeof date !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(date) || new Date(`${date}T00:00:00Z`).toISOString().slice(0, 10) !== date)
+    throw new Error("Use a date in YYYY-MM-DD format.");
   return date;
 }
-function safeFacts(value: unknown): Facts {
-  if (value === undefined) return {};
-  if (!value || typeof value !== "object" || Array.isArray(value))
-    throw new Error("Scenario facts must be a JSON object.");
+function scenarioFacts(value: unknown): Facts {
+  if (value === undefined || value === null) return {};
+  if (typeof value !== "object" || Array.isArray(value)) throw new Error("Scenario facts must be an object.");
   const facts: Facts = {};
   for (const [field, fact] of Object.entries(value)) {
-    if (
-      !/^[a-z][a-z0-9_]{0,60}$/.test(field) ||
-      ["constructor", "prototype", "__proto__", "state"].includes(field)
-    )
-      throw new Error("Invalid scenario field.");
-    if (
-      fact !== null &&
-      typeof fact !== "string" &&
-      typeof fact !== "number" &&
-      typeof fact !== "boolean"
-    )
-      throw new Error(
-        "Scenario values must be text, numbers, booleans, or null.",
-      );
-    if (typeof fact === "string" && fact.length > 150)
-      throw new Error("Scenario text is too long.");
-    if (
-      typeof fact === "number" &&
-      (!Number.isFinite(fact) || fact < 0 || fact > 1_000_000)
-    )
-      throw new Error("Scenario numbers must be finite and nonnegative.");
-    facts[field] = fact;
+    if (!isField(field) && field !== "legal_city") throw new Error(`Unknown fact: ${field}`);
+    if (fact !== null && !["string", "number", "boolean"].includes(typeof fact)) throw new Error("Facts must be text, numbers or yes/no.");
+    if (typeof fact === "string" && fact.length > 80) throw new Error("Fact text is too long.");
+    if (typeof fact === "number" && (!Number.isFinite(fact) || fact < 0 || fact > 100_000)) throw new Error("Fact number out of range.");
+    facts[field] = fact as Facts[string];
   }
   return facts;
 }
-function summaryReport(): ExtractionReport {
-  return {
-    ...extraction,
-    mode: rules.some((r) => r.extractionMethod === "model")
-      ? "model"
-      : "pattern",
-    model: rules.some((r) => r.extractionMethod === "model")
-      ? process.env.ANTHROPIC_MODEL || "claude-haiku-4-5-20251001"
-      : null,
-    rulesExtracted: rules.length,
-    quotedRules: rules.filter((rule) =>
-      dataset.documents
-        .find((doc) => doc.id === rule.sourceId)
-        ?.text.includes(rule.quotedSpan),
-    ).length,
-  };
-}
+const property = (id: unknown) => dataset.properties.find((p) => p.id === id);
 
-app.get("/api/health", (_req, res) =>
-  res.json({ ok: true, name: "(R)estate", paidCallsOnStartup: false }),
-);
-app.get("/api/budget", async (_req, res) => res.json(await getBudgetStatus()));
 app.get("/api/bootstrap", async (_req, res) => {
+  const counts = new Map<string, number>();
+  for (const rule of rules) for (const id of [rule.sourceId, ...rule.alsoIn]) counts.set(id, (counts.get(id) ?? 0) + 1);
   const data: Bootstrap = {
     properties: dataset.properties,
     rules,
-    documents: dataset.documents.map(({ text: _text, ...doc }) => doc),
+    documents: dataset.documents.map(({ text: _text, ...doc }) => ({ ...doc, ruleCount: counts.get(doc.id) ?? 0 })),
     changes: dataset.changes.map(describeChange),
-    extraction: summaryReport(),
+    extraction,
     stats: {
       addresses: dataset.properties.length,
-      cities: new Set(dataset.properties.map((p) => p.city).filter(Boolean))
-        .size,
+      resolvedAddresses: dataset.properties.filter((p) => p.city).length,
+      cities: new Set(dataset.properties.map((p) => p.city).filter(Boolean)).size,
       states: new Set(dataset.properties.map((p) => p.state)).size,
       sources: dataset.documents.length,
       capturedSources: dataset.documents.filter((d) => d.text).length,
       rules: rules.length,
     },
     defaultAddressId:
-      dataset.properties.find(
-        (p) => p.state === "NJ" && p.city && p.facts.units === null,
-      )?.id || dataset.properties[0].id,
-    defaultAsOf,
-    capabilities: {
-      liveModel: Boolean(process.env.ANTHROPIC_API_KEY),
-      provider: process.env.ANTHROPIC_API_KEY ? "Anthropic" : null,
-    },
+      dataset.properties.find((p) => p.city === "Berkeley")?.id ?? dataset.properties[0].id,
+    defaultAsOf: DEFAULT_AS_OF,
+    liveModel: Boolean(process.env.ANTHROPIC_API_KEY),
+    budget: await getBudgetStatus(),
   };
-  res.json({ ...data, budget: await getBudgetStatus() });
+  res.json(data);
 });
+
 app.post("/api/lookup", (req, res) => {
-  const property = dataset.properties.find((p) => p.id === req.body?.addressId);
-  if (!property) {
-    res
-      .status(404)
-      .json({ error: "Choose an address from the supplied sample." });
+  const found = property(req.body?.addressId);
+  if (!found) {
+    res.status(404).json({ error: "Pick an address from the sample." });
     return;
   }
-  const report = evaluateProperty(
-    property,
-    rules,
-    queryDate(req.body.asOf),
-    safeFacts(req.body.facts),
-  );
-  res.json(report);
+  res.json(evaluateProperty(found, rules, queryDate(req.body.asOf), scenarioFacts(req.body.facts)));
 });
-app.post("/api/fixtures", async (req, res) => {
-  const property = dataset.properties.find((p) => p.id === req.body?.addressId);
-  if (!property) {
-    res.status(404).json({ error: "Choose a supplied address." });
+
+app.post("/api/fixtures", (req, res) => {
+  const found = property(req.body?.addressId);
+  if (!found) {
+    res.status(404).json({ error: "Pick an address from the sample." });
     return;
   }
-  const fixture = exportEvidenceFixtures(
-    property,
-    rules,
-    queryDate(req.body.asOf),
-    safeFacts(req.body.facts),
-  );
-  const output = {
-    ...fixture,
-    createdAt: new Date().toISOString(),
-    rules,
-    sourceHashes: Object.fromEntries(
-      dataset.documents.map((doc) => [doc.id, doc.sha256]),
-    ),
-  };
-  await writeFile(
-    resolve(runDir, `fixtures-${property.id}.json`),
-    JSON.stringify(output, null, 2),
-  );
-  res.setHeader(
-    "Content-Disposition",
-    `attachment; filename="fixtures-${property.id}.json"`,
-  );
-  res.json(output);
+  res.setHeader("Content-Disposition", `attachment; filename="fixtures-${found.id}.json"`);
+  res.json(exportEvidenceFixtures(found, rules, queryDate(req.body.asOf), scenarioFacts(req.body.facts)));
 });
+
 app.get("/api/sources/:id", (req, res) => {
   const doc = dataset.documents.find((d) => d.id === req.params.id);
-  if (!doc) {
-    res.status(404).json({ error: "Source not found." });
-    return;
-  }
-  res.json(doc);
+  if (!doc) res.status(404).json({ error: "Source not found." });
+  else res.json(doc);
 });
+
 app.get("/api/changes/:id", (req, res) => {
-  const change = dataset.changes.find((c) => c.test_id === req.params.id);
-  if (!change) {
-    res.status(404).json({ error: "Change case not found." });
-    return;
-  }
-  res.json(computeChange(change, dataset.properties, rules));
+  const test = dataset.changes.find((c) => c.test_id === req.params.id);
+  if (!test) res.status(404).json({ error: "Change test not found." });
+  else res.json(computeChange(test, dataset.properties, rules));
 });
-app.get("/api/export/:kind", async (req, res) => {
+
+app.get("/api/export/:kind", (req, res) => {
   const asOf = queryDate(req.query.asOf);
-  const kind = req.params.kind;
-  let output: unknown;
-  if (kind === "rules") {
-    const validation = validateRules(rules, asOf, dataset.schema);
-    if (validation.errors.length) {
-      res.status(422).json({
-        error: "Rule validation failed; export withheld.",
-        validation,
-      });
-      return;
-    }
-    const records = exportRules(rules, asOf);
-    output = req.query.envelope === "template" ? { rules: records } : records;
-  } else if (kind === "lookups")
-    output = exportLookups(dataset.properties, rules, asOf);
-  else if (kind === "changes")
-    output = exportChanges(dataset.changes, dataset.properties, rules);
-  else {
+  const output =
+    req.params.kind === "rules"
+      ? exportRules(rules, asOf)
+      : req.params.kind === "lookups"
+        ? exportLookups(dataset.properties, rules, asOf)
+        : req.params.kind === "changes"
+          ? exportChanges(dataset.changes, dataset.properties, rules)
+          : null;
+  if (!output) {
     res.status(404).json({ error: "Unknown export." });
     return;
   }
-  const serialized = JSON.stringify(output, null, 2);
-  await writeFile(resolve(runDir, `${kind}.json`), serialized + "\n");
-  res.setHeader("Content-Disposition", `attachment; filename="${kind}.json"`);
-  res.type("json").send(serialized);
+  res.setHeader("Content-Disposition", `attachment; filename="${req.params.kind}.json"`);
+  res.type("json").send(JSON.stringify(output, null, 2));
 });
+
 app.get("/api/validation", (_req, res) =>
   res.json({
-    schema: validateRules(rules, defaultAsOf, dataset.schema),
-    citationPresence: {
+    schema: validateRules(rules, DEFAULT_AS_OF, dataset.schema),
+    quotes: {
       checked: rules.length,
-      passed: rules.filter((r) =>
-        dataset.documents
-          .find((d) => d.id === r.sourceId)
-          ?.text.includes(r.quotedSpan),
-      ).length,
+      verbatim: rules.filter((r) => dataset.documents.find((d) => d.id === r.sourceId)?.text.includes(r.quotedSpan)).length,
     },
-    jurisdiction: {
-      total: dataset.properties.length,
-      resolved: dataset.properties.filter((p) => p.city).length,
-    },
-    independentlyReviewedAccuracy: null,
-    note: "Team-created structural and provenance checks, not an official score or legal-accuracy certification.",
+    addresses: { total: dataset.properties.length, cityResolved: dataset.properties.filter((p) => p.city).length },
   }),
 );
-let extractionInProgress = false;
+
+let extracting = false;
+/** Paste a new law and watch it become rules. This is the one endpoint that can spend money. */
 app.post("/api/extract", async (req, res) => {
-  if (extractionInProgress) {
-    res.status(409).json({
-      error: "An extraction is already running. Please wait for it to finish.",
-    });
+  if (extracting) {
+    res.status(409).json({ error: "An extraction is already running." });
     return;
   }
-  let doc =
-    typeof req.body?.sourceId === "string"
-      ? dataset.documents.find((d) => d.id === req.body.sourceId)
-      : undefined;
-  if (!doc) {
-    const {
-      title,
-      text,
-      url = "",
-      jurisdiction = "",
-      state = "",
-    } = req.body || {};
-    if (
-      typeof title !== "string" ||
-      !title.trim() ||
-      typeof text !== "string" ||
-      text.trim().length < 40 ||
-      text.length > 180_000
-    ) {
-      res.status(400).json({
-        error:
-          "Provide a title and between 40 and 180,000 characters of source text.",
-      });
-      return;
-    }
-    if (typeof jurisdiction !== "string" || !jurisdiction.trim()) {
-      res.status(400).json({
-        error: "Provide the source jurisdiction, such as CA or Berkeley, CA.",
-      });
-      return;
-    }
-    if (typeof url !== "string" || (url && !/^https?:\/\//.test(url))) {
-      res
-        .status(400)
-        .json({ error: "Use an http(s) source URL or leave it empty." });
-      return;
-    }
-    if (
-      typeof state !== "string" ||
-      (!/^(CA|NJ|MA)$/.test(state) && !/\b(CA|NJ|MA)\b/.test(jurisdiction))
-    ) {
-      res
-        .status(400)
-        .json({ error: "Choose CA, NJ, or MA for this bounded collection." });
-      return;
-    }
-    const sha256 = createHash("sha256").update(text).digest("hex");
-    doc = {
-      id: `import-${sha256.slice(0, 12)}`,
-      title: title.trim().slice(0, 180),
-      jurisdiction:
-        req.body.level === "state"
-          ? state
-          : jurisdiction.includes(",") || /^(CA|NJ|MA)$/.test(jurisdiction)
-            ? jurisdiction
-            : `${jurisdiction}, ${state}`,
-      url,
-      text,
-      sha256,
-      retrievedAt: new Date().toISOString(),
-      captureStatus: "user-provided-public-text",
-      filename: "",
-    };
-  }
-  if (!doc.text) {
-    res.status(422).json({
-      error:
-        "This source has no captured text. Supply its permitted public text before extraction.",
-    });
+  const { title, text, url = "", jurisdiction } = req.body ?? {};
+  if (typeof title !== "string" || !title.trim() || typeof text !== "string" || text.trim().length < 80 || text.length > 120_000) {
+    res.status(400).json({ error: "Give the source a title and paste between 80 and 120,000 characters of text." });
     return;
   }
-  const useModel =
-    req.body.useModel !== false && Boolean(process.env.ANTHROPIC_API_KEY);
-  extractionInProgress = true;
+  if (typeof jurisdiction !== "string" || !/^(CA|NJ|MA)$|^[A-Za-z .'-]+, (CA|NJ|MA)$/.test(jurisdiction.trim())) {
+    res.status(400).json({ error: "Jurisdiction must be CA, NJ, MA, or “City, ST”." });
+    return;
+  }
+  if (typeof url !== "string" || (url && !/^https?:\/\//.test(url))) {
+    res.status(400).json({ error: "The source link must start with http:// or https://." });
+    return;
+  }
+  const sha256 = createHash("sha256").update(text).digest("hex");
+  const doc: SourceDocument = {
+    id: `NEW-${sha256.slice(0, 6).toUpperCase()}`,
+    title: title.trim().slice(0, 140),
+    jurisdiction: jurisdiction.trim(),
+    url,
+    text,
+    sha256,
+    retrievedAt: new Date().toISOString(),
+    captureStatus: "added",
+    filename: "",
+  };
+  extracting = true;
   try {
-    const result = await extractDocuments([doc], { useModel });
+    const result = await extractDocuments([doc], { paid: true });
     if (!result.rules.length) {
-      res.status(422).json({
-        error:
-          "No supported rules were extracted. Existing rules have been retained.",
-        report: result.report,
-      });
+      res.status(422).json({ error: result.report.warnings[0] ?? "No rules were found in that text.", report: result.report });
       return;
     }
-    const validation = validateRules(result.rules, defaultAsOf, dataset.schema);
-    if (validation.errors.length) {
-      res.status(422).json({
-        error:
-          "Extracted candidates failed the organizer schema. Existing rules have been retained.",
-        validation,
-      });
-      return;
-    }
-    rules = [
-      ...rules.filter((rule) => rule.sourceId !== doc!.id),
-      ...result.rules,
-    ];
-    if (!dataset.documents.some((source) => source.id === doc!.id))
+    if (!dataset.documents.some((d) => d.id === doc.id)) {
       dataset.documents.push(doc);
-    extraction = result.report;
-    const persistedRules = rules.filter(
-      (r) => r.extractionMethod === "model" || r.sourceId.startsWith("import-"),
-    );
-    const save = {
-      version: EXTRACTION_VERSION,
-      documents: dataset.documents.filter((d) => d.id.startsWith("import-")),
-      rules: persistedRules,
-      sourceHashes: Object.fromEntries(
-        dataset.documents.map((d) => [d.id, d.sha256]),
-      ),
-    };
-    const temporary = resolve(runDir, "model-results.json.tmp");
-    await writeFile(temporary, JSON.stringify(save, null, 2));
-    await rename(temporary, resolve(runDir, "model-results.json"));
-    res.json({ ...result, budget: await getBudgetStatus() });
+      await mkdir("runs", { recursive: true });
+      await writeFile(importsPath, JSON.stringify(dataset.documents.filter((d) => d.captureStatus === "added"), null, 1));
+    }
+    const rebuilt = await extractDocuments(dataset.documents);
+    rules = rebuilt.rules;
+    extraction = rebuilt.report;
+    res.json({
+      document: { id: doc.id, title: doc.title },
+      rules: rules.filter((rule) => rule.sourceId === doc.id || rule.alsoIn.includes(doc.id)),
+      budget: await getBudgetStatus(),
+    });
+  } catch (error) {
+    res.status(502).json({ error: error instanceof Error ? error.message : "Extraction failed." });
   } finally {
-    extractionInProgress = false;
+    extracting = false;
   }
 });
-app.use("/api", (_req, res) =>
-  res.status(404).json({ error: "API endpoint not found." }),
-);
-app.use(
-  (
-    error: Error,
-    _req: express.Request,
-    res: express.Response,
-    _next: express.NextFunction,
-  ) => {
-    res
-      .status(400)
-      .json({ error: error.message || "The request could not be completed." });
-  },
-);
+
+app.use("/api", (_req, res) => res.status(404).json({ error: "Not found." }));
+app.use((error: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+  res.status(400).json({ error: error.message || "The request could not be completed." });
+});
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(resolve("dist")));
   app.get("/{*path}", (_req, res) => res.sendFile(resolve("dist/index.html")));
 } else {
-  const { createServer: createViteServer } = await import("vite");
-  const vite = await createViteServer({
-    server: { middlewareMode: true, hmr: { server } },
-    appType: "spa",
-  });
+  const { createServer: createVite } = await import("vite");
+  const vite = await createVite({ server: { middlewareMode: true, hmr: { server } }, appType: "spa" });
   app.use(vite.middlewares);
 }
 const port = Number(process.env.PORT || 5173);
-server.listen(port, "127.0.0.1", () =>
-  console.log(
-    `(R)estate · http://127.0.0.1:${port} · ${dataset.properties.length} addresses · ${rules.length} candidate rules · no paid startup calls`,
-  ),
+server.listen(port, process.env.HOST || "127.0.0.1", () =>
+  console.log(`(R)estate · http://localhost:${port} · ${dataset.properties.length} addresses · ${rules.length} rules (from cache, no paid calls)`),
 );

@@ -1,0 +1,40 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "San Francisco Just Cause Eviction Requirements",
+    "category": "just_cause_eviction",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "A landlord may evict a tenant only for one of 17 enumerated just-cause reasons, which must be the dominant motive for eviction. Mere expiration of a rental agreement or change of ownership does not constitute just cause. The 17 reasons include: non-payment or habitual late payment of rent; failure to cure a substantial breach; nuisance or substantial interference with comfort, safety, or enjoyment (severe, continuing or recurring); illegal use of the unit (but not single cured violation of short-term rental law within 30 days); tenant's refusal to execute a written extension under materially same terms; tenant's refusal to allow landlord access as required by law; only tenant is unapproved subtenant; owner-occupancy or occupancy by immediate family member; good-faith sale following approved condo conversion; demolition or permanent removal from housing use; capital improvements making unit temporarily uninhabitable with reoccupancy after; substantial rehabilitation of building at least 50 years old and essentially uninhabitable (work cost at least 75% of new construction); withdrawal under Ellis Act; lead remediation required by Health Code; demolition under development agreement; expiration of Good Samaritan occupancy agreement with notice within 60 days; or completion of development project requiring demolition. Landlord also needs just cause to remove housing services (garage, parking, storage, laundry), though may temporarily remove parking and storage for mandatory soft-story seismic retrofit if requirements met.",
+    "keyValue": null,
+    "citation": "S.F. Admin. Code § 37.9(a)",
+    "quotedSpan": "In order to evict a tenant from a rental unit covered by the Rent Ordinance, a landlord must have a \"just cause\" reason that is the dominant motive for pursuing the eviction. Note that the mere expiration of a rental agreement or a change in ownership does not constitute \"just cause\" for eviction.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All rental units covered by the San Francisco Rent Ordinance, including some units exempt from rent increase limitations (newly constructed units with Certificate of Occupancy after June 13, 1979; units eligible for rent increase under Costa-Hawkins Act; units where rent regulated by another government agency).",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "Source does not specify notice periods for eviction; consult § 37.9(a) full text for notice requirements",
+     "17 just-cause reasons are summarized, not exhaustive in this overview; review ordinance for complete definitions and conditions",
+     "Good Samaritan tenancy is limited circumstance requiring specific conditions"
+    ]
+   }
+  ],
+  "warnings": [
+   "This page is an overview; full requirements and notice periods are in S.F. Admin. Code § 37.9(a)",
+   "Costa-Hawkins reference indicates some units are exempt from rent limits but still subject to just-cause; consult that statute for its specific exemptions"
+  ]
+ },
+ "promptHash": "0727a2616b08e130e31a4569973e766a81018a99bb37cbcd49ff0ded37b18b97",
+ "docId": "D079",
+ "chunk": 0,
+ "chunkHash": "51f9490227bafc8a6f458c7e417f41bce3af07c1416fae77f281b987d97ef793",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:16:37.523Z"
+}

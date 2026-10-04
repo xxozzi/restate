@@ -1,0 +1,51 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "California Statewide Rent Increase Cap",
+    "category": "rent_increase_limits",
+    "level": "state",
+    "status": "in_force",
+    "effectiveDate": "2024-04-01",
+    "effectiveDateQuote": "This section shall become operative on April 1, 2024.",
+    "endDate": "2030-01-01",
+    "requirement": "Landlords cannot increase rent more than 5% plus the percentage change in the cost of living (or 10%, whichever is lower) in any 12-month period, and can raise rent no more than twice per 12 months for the same tenant.",
+    "keyValue": "5% + CPI, max 10%",
+    "citation": "Cal. Civ. Code § 1947.12",
+    "quotedSpan": "Subject to subdivision (b), an owner of residential real property shall not, over the course of any 12-month period, increase the gross rental rate for a dwelling or a unit more than 5 percent plus the percentage change in the cost of living, or 10 percent, whichever is lower, of the lowest gross rental rate charged for that dwelling or unit at any time during the 12 months prior to the effective date of the increase.",
+    "coverageJson": "{\"op\":\"not\",\"arg\":{\"op\":\"any\",\"args\":[{\"op\":\"eq\",\"field\":\"affordable_housing_restricted\",\"value\":true},{\"op\":\"unknown\",\"reason\":\"dormitory or school housing\"},{\"op\":\"lt\",\"field\":\"building_age_years\",\"value\":15},{\"op\":\"all\",\"args\":[{\"op\":\"eq\",\"field\":\"single_family_or_condo\",\"value\":true},{\"op\":\"not\",\"arg\":{\"op\":\"in\",\"field\":\"owner_type\",\"value\":[\"corporation\",\"reit\",\"llc\"]}}]},{\"op\":\"all\",\"args\":[{\"op\":\"eq\",\"field\":\"units\",\"value\":2},{\"op\":\"eq\",\"field\":\"owner_occupied\",\"value\":true}]}]}}",
+    "coverageDescription": "Applies to all residential rental properties in California except: (1) affordable housing restricted by deed or regulatory agreement; (2) dormitories; (3) housing subject to local rent control with lower limits; (4) properties issued a certificate of occupancy within the previous 15 years (unless mobilehomes); (5) single-family homes or condos owned by individuals or mobilehomes not owned by REITs, corporations, or LLCs; and (6) owner-occupied duplexes where the owner occupies one unit.",
+    "exemptions": [
+     "Affordable housing restricted by deed, regulatory restriction, or government subsidy agreement",
+     "Dormitories owned and operated by institutions of higher education or schools",
+     "Housing subject to local rent control with lower annual increase limits",
+     "Housing issued a certificate of occupancy within the previous 15 years (except mobilehomes)",
+     "Single-family homes or condos (alienable separate from other units) owned by natural persons or certain LLCs, if tenant given exemption notice",
+     "Owner-occupied duplexes where owner occupies one unit as principal residence"
+    ],
+    "yieldsToLocal": true,
+    "preemptsLocal": false,
+    "warnings": [
+     "Exemption (3) references 'Chapter 2.7 (commencing with Section 1954.50)' for local rent control; the exact threshold for 'less restrictive' requires reading that chapter. This rule yields to stricter local controls.",
+     "Exemption (4) references 'mobilehome' which may have a specific legal meaning; the rule may apply to mobilehomes even if 15-year-old.",
+     "The CPI calculation methodology is complex and varies by region and effective date; see subdivision (g) for details.",
+     "Effective date April 1, 2024; rule sunsets January 1, 2030.",
+     "Subdivision (h) contains transition rules for increases between March 15, 2019 and January 1, 2020; subdivision (i) contains transition rules for mobilehomes between February 18, 2021 and January 1, 2022."
+    ]
+   }
+  ],
+  "warnings": [
+   "The statute sunsets January 1, 2030; after that date, Cal. Civ. Code § 1947.12 is repealed and this statewide rent cap no longer applies.",
+   "Local governments retain authority to adopt stricter rent control under Chapter 2.7; this state rule yields to local ordinances that impose lower increases.",
+   "The 'certificate of occupancy within the previous 15 years' exemption is a rolling window; buildings become subject to the cap 15 years after their certificate of occupancy.",
+   "Mobilehomes have special rules: they are generally covered (unless owner-occupied) but have a different effective date (February 18, 2021 instead of March 15, 2019).",
+   "The statute requires notice of rent increases under Cal. Civ. Code § 827; violations carry treble damages if willful and other penalties."
+  ]
+ },
+ "docId": "D024",
+ "chunk": 0,
+ "chunkHash": "eb9c42af2b9a5c220ca37816f409f0bd3ea92a002a973283e779fdb72de18bd7",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:09:00.113Z"
+}

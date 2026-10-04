@@ -1,0 +1,158 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "California Assembly Bill 12: Security Deposit Limit (General Landlords)",
+    "category": "security_deposits",
+    "level": "state",
+    "status": "in_force",
+    "effectiveDate": "2024-07-01",
+    "effectiveDateQuote": "Starting July 1, 2024, many landlords may only charge one month's rent for unfurnished and furnished units",
+    "endDate": null,
+    "requirement": "Landlords may charge only one month's rent for security deposits on both unfurnished and furnished residential units, except for small landlords who own two or fewer rental properties with four or fewer total residential units.",
+    "keyValue": "1 month's rent",
+    "citation": "California Assembly Bill 12",
+    "quotedSpan": "Starting July 1, 2024, many landlords may only charge one month's rent for unfurnished and furnished units",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental units in California, except those owned by small landlords.",
+    "exemptions": [
+     "Landlords who own only two rental properties with no more than four residential units total, if ownership is held by a natural person, family trust, or limited liability company (LLC) where all members are natural persons, may charge up to two months' rent for furnished and unfurnished units."
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The source states that before July 1, 2024, landlords could charge up to two months' rent for unfurnished units and up to three months' rent for furnished units; this rule supersedes those prior limits.",
+     "The source notes 'Last month's rent IS considered part of the security deposit' and 'First month's rent is NOT considered part of the security deposit'."
+    ]
+   },
+   {
+    "title": "California State Law: Security Deposit Deductions Allowed",
+    "category": "security_deposits",
+    "level": "state",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Landlords may deduct from a security deposit only amounts reasonably necessary to cover rent default, repair damages caused by the tenant or guest (excluding normal wear and tear), clean the unit to return it to the condition at the start of the tenancy, and restore or replace personal property or furniture (excluding ordinary wear and tear) if allowed by the lease. Landlords cannot require tenants to pay for professional carpet cleaning or other professional cleaning services unless reasonably necessary to return the premises to the condition at the start of the tenancy, minus ordinary wear and tear.",
+    "keyValue": null,
+    "citation": "California State Law (referenced in Berkeley Rent Board guidance)",
+    "quotedSpan": "A landlord may deduct only the amount that is reasonably necessary to: Cover rent default, Repair damages caused by a tenant or a tenant's guest other than normal wear and tear, Clean the unit to return it to the same level of cleanliness as at the start of the tenancy (for tenancies beginning after January 1, 2003)",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental units in California.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": []
+   },
+   {
+    "title": "California State Law: Security Deposit Return Deadline",
+    "category": "security_deposits",
+    "level": "state",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Landlords must return all or any remaining portion of a security deposit within 21 days after the tenant leaves the unit vacant. If deductions are made, the landlord must provide an itemized written statement detailing the amount and purpose of deductions, accompanied by copies of documents showing charges incurred.",
+    "keyValue": "21 days",
+    "citation": "California State Law (referenced in Berkeley Rent Board guidance)",
+    "quotedSpan": "All or any remaining portion of a security deposit must be returned within 21 days after the tenant/s leave the unit vacant.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental units in California.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": []
+   },
+   {
+    "title": "California State Law: Landlord Photograph Requirement Before Start of Tenancy",
+    "category": "security_deposits",
+    "level": "state",
+    "status": "in_force",
+    "effectiveDate": "2025-07-01",
+    "effectiveDateQuote": "For tenancies that begin on or after July 1, 2025, a landlord must photograph the unit immediately before or at the start of a new tenancy to document the condition of the unit.",
+    "endDate": null,
+    "requirement": "For tenancies beginning on or after July 1, 2025, landlords must photograph the unit immediately before or at the start of a new tenancy to document its condition.",
+    "keyValue": null,
+    "citation": "California State Law (referenced in Berkeley Rent Board guidance)",
+    "quotedSpan": "For tenancies that begin on or after July 1, 2025, a landlord must photograph the unit immediately before or at the start of a new tenancy to document the condition of the unit.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental units in California for tenancies beginning on or after July 1, 2025.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": []
+   },
+   {
+    "title": "California State Law: Landlord Walk-through Inspection Offer",
+    "category": "security_deposits",
+    "level": "state",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Landlords must offer tenants a walk-through inspection during the last two weeks of a tenancy to identify items that need repair or cleaning, giving tenants a chance to correct issues to avoid security deposit deductions.",
+    "keyValue": null,
+    "citation": "California State Law (referenced in Berkeley Rent Board guidance)",
+    "quotedSpan": "Under state law, landlords must offer a walk-through inspection during the last two weeks of a tenancy to identify any items that need repair/cleaning.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental units in California.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": []
+   },
+   {
+    "title": "California State Law: Post-Move-Out Photograph Requirement and Proof of Repairs",
+    "category": "security_deposits",
+    "level": "state",
+    "status": "in_force",
+    "effectiveDate": "2025-04-01",
+    "effectiveDateQuote": "Starting April 1, 2025, landlords must take photographs of a unit after regaining possession, but before any repairs or cleaning for which the landlord intends to make a deduction from the security deposit.",
+    "endDate": null,
+    "requirement": "Starting April 1, 2025, landlords must photograph the unit after regaining possession but before any repairs or cleaning for which they intend to deduct from the security deposit. Starting January 1, 2025, landlords must provide proof that necessary repairs were completed.",
+    "keyValue": null,
+    "citation": "California State Law (referenced in Berkeley Rent Board guidance)",
+    "quotedSpan": "Starting April 1, 2025, landlords must take photographs of a unit after regaining possession, but before any repairs or cleaning for which the landlord intends to make a deduction from the security deposit. These photos and a written explanation of the cost of the repairs/cleaning must be given to the tenant along with the itemized statement.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental units in California for photos starting April 1, 2025, and proof of repairs starting January 1, 2025.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The source mentions a January 1, 2025 requirement to provide proof of repairs, but the main emphasis is on the April 1, 2025 photograph requirement."
+    ]
+   },
+   {
+    "title": "Berkeley Rent Ordinance: Security Deposit Interest",
+    "category": "security_deposits",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "For tenancies in units fully or partially covered by Berkeley's Rent Ordinance, landlords must pay tenants interest on their security deposit at the end of each year and a prorated amount if the tenant moves out before the end of the year.",
+    "keyValue": null,
+    "citation": "Berkeley Rent Ordinance",
+    "quotedSpan": "For tenancies in units fully or partially covered by Berkeley's Rent Ordinance, landlords must pay tenants interest on their security deposit at the end of each year and a prorated amount if the tenant moves out before the end of the year.",
+    "coverageJson": "{\"op\":\"unknown\",\"reason\":\"The source does not specify which units are covered by Berkeley's Rent Ordinance or provide details on coverage conditions.\"}",
+    "coverageDescription": "Residential rental units in Berkeley, CA that are fully or partially covered by Berkeley's Rent Ordinance.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The source refers to 'our Security Deposit Interest & Calculator page' but does not provide the interest rate or calculation method in this document."
+    ]
+   }
+  ],
+  "warnings": [
+   "The source is an informational webpage from the Berkeley Rent Board and summarizes both state law and local ordinance provisions. Some details on coverage for the Berkeley Rent Ordinance interest requirement are not provided.",
+   "The source states 'The Rent Board cannot determine whether a landlord can charge one or two months' rent for a new tenancy,' which may indicate ongoing ambiguity about the small-landlord exemption."
+  ]
+ },
+ "docId": "D007",
+ "chunk": 0,
+ "chunkHash": "2ba3028382b89ee70810a45e25dd9707297bd65512e2723f4f9bda514af57203",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:10:33.948Z"
+}

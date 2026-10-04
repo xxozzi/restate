@@ -1,0 +1,39 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "Berkeley Annual General Adjustment (AGA) for 2026",
+    "category": "rent_increase_limits",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": "2026-01-01",
+    "effectiveDateQuote": "no earlier than January 1, 2026",
+    "endDate": null,
+    "requirement": "Eligible landlords may increase 2025 permanent rent ceilings by 1.0% for tenancies that began before January 1, 2025. Tenancies beginning on or after January 1, 2025 under Costa-Hawkins are exempt.",
+    "keyValue": "1.0%",
+    "citation": "Berkeley Rent Board Regulation 1148; Berkeley Municipal Code § 13.76.110A",
+    "quotedSpan": "the Berkeley Rent Stabilization Board adopted the Annual General Adjustment (AGA) Order for Year 2026 which will allow eligible landlords to increase the 2025 permanent rent ceilings by 1.0% no earlier than January 1, 2026",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All rent-stabilized residential rental units in Berkeley subject to rent control, except those with tenancies commencing on or after January 1, 2025 under Costa-Hawkins Rental Housing Act.",
+    "exemptions": [
+     "Tenancies begun on or after January 1, 2025 under the Costa-Hawkins Rental Housing Act"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The notice does not provide the full text of Regulation 1148, which sets conditions for qualifying and notice requirements; full rule text unavailable.",
+     "AGA is an annual order; this 2026 adjustment may not apply in subsequent years without further Board action."
+    ]
+   }
+  ],
+  "warnings": [
+   "Source is a public notice of an adopted annual rent adjustment order, not the full regulation text. Coverage, exemptions, and notice requirements should be verified against Regulation 1148 and Berkeley Municipal Code § 13.76.110A."
+  ]
+ },
+ "docId": "D008",
+ "chunk": 0,
+ "chunkHash": "969848595b70aa2ff7b9e8420f610c36b914521c4ea4dd1d0656be776e90c39f",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:10:22.203Z"
+}

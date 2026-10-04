@@ -1,0 +1,14 @@
+{
+ "raw": {
+  "rules": [],
+  "warnings": [
+   "This is part 1 of a 6-part source document. The excerpt contains only informational overview, lease requirements, mobile home rules, public housing reference, lease renewal, cable installation, pets, and lease termination sections. No operative rules in the six tracked categories (rent_increase_limits, just_cause_eviction, security_deposits, application_screening_fees, screening_restrictions, algorithmic_rent_setting) have been encountered yet. Rent control and eviction rules are mentioned as forthcoming in later sections. The document references N.J.S.A. 46:8-43 to 51 (Truth in Renting Act) and states that good causes for non-renewal are detailed in the eviction section, but the actual substantive rules are not included in this part."
+  ]
+ },
+ "docId": "D067",
+ "chunk": 0,
+ "chunkHash": "a3b87a995b53c2ca87dc540ea2dfea3218142bac6dcbf49d5477a11d0c212598",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:12:08.700Z"
+}

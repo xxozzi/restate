@@ -8,6 +8,8 @@
     "build": "tsc --noEmit && vite build",
     "start": "NODE_ENV=production tsx src/server.ts",
     "test": "tsx --test tests/*.test.ts",
+    "extract": "tsx src/extract-cli.ts",
+    "export": "tsx src/export-cli.ts",
     "check:workspace": "python3 tools/check_workspace.py"
   },
   "dependencies": {

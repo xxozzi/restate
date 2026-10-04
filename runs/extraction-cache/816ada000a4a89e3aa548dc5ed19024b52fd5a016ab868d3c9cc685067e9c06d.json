@@ -1,0 +1,55 @@
+{
+ "raw": {
+  "updates": [
+   {
+    "id": "LA-RENT-01",
+    "coverageJson": "{\"op\":\"eq\",\"field\":\"certificate_of_occupancy_date\",\"value\":\"1978-10-01\"}",
+    "coverageDescription": "Rent increases prohibited for RSO units (buildings first built on or before October 1, 1978)",
+    "coverageQuote": "Effective March 30, 2020, through January 31, 2024, rent increases are prohibited for rental units subject to the Rent Stabilization Ordinance (RSO).",
+    "sourceId": "D041"
+   },
+   {
+    "id": "LA-RENT-02",
+    "coverageJson": "{\"op\":\"lte\",\"field\":\"certificate_of_occupancy_date\",\"value\":\"1978-10-01\"}",
+    "coverageDescription": "3% annual rent increase limit applies to RSO units (buildings with certificate of occupancy on or before October 1, 1978)",
+    "coverageQuote": "Rent may be increased once every 12 months by the allowable rent increase percentage...Effective February 2, 2026, the landlord can no longer include an additional percentage increase for utilities.",
+    "sourceId": "D041"
+   },
+   {
+    "id": "LA-EVICT-01",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "Non-payment of rent eviction restrictions apply to all RSO and JCO rental units",
+    "coverageQuote": "Effective March 27, 2023, landlords may not evict a tenant who falls behind in rent unless the tenant owes an amount higher than the Fair Market Rent (FMR).",
+    "sourceId": "D040"
+   },
+   {
+    "id": "LA-EVICT-02",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "Right to Counsel notice requirement applies to all RSO and JCO properties",
+    "coverageQuote": "Beginning August 20, 2025, landlords must post a Notice of Right to Counsel in a conspicuous common area of the residential building where the tenant resides.",
+    "sourceId": "D040"
+   },
+   {
+    "id": "LA-EVICT-03",
+    "coverageJson": "{\"op\":\"all\",\"args\":[{\"op\":\"eq\",\"field\":\"units\",\"value\":4},{\"op\":\"eq\",\"field\":\"owner_type\",\"value\":\"natural_person\"},{\"op\":\"unknown\",\"reason\":\"Documents do not specify how to verify landlord owns no more than 4 units plus single-family home elsewhere\"}]}",
+    "coverageDescription": "Reduced relocation assistance for 'Mom and Pop' properties (4 or fewer units, natural person owner) for owner/family occupancy evictions",
+    "coverageQuote": "Landlords of 'Mom and Pop' properties (4 or fewer rental units, natural person owner with no more than 4 units total and one single-family home on separate lot in LA) may pay reduced relocation assistance",
+    "sourceId": "D043"
+   },
+   {
+    "id": "LA-EVICT-04",
+    "coverageJson": "{\"op\":\"all\",\"args\":[{\"op\":\"eq\",\"field\":\"single_family_or_condo\",\"value\":true},{\"op\":\"eq\",\"field\":\"owner_type\",\"value\":\"natural_person\"}]}",
+    "coverageDescription": "Single-family dwelling relocation assistance (one month's rent) applies to JCO properties owned by natural persons who own no more than 4 dwelling units and one single-family home on separate lot",
+    "coverageQuote": "When the residential real property is a single-family dwelling subject to the JCO and the owner is a natural person...who owns no more than four dwelling units and a single-family home on a separate lot",
+    "sourceId": "D043"
+   }
+  ]
+ },
+ "promptHash": "0727a2616b08e130e31a4569973e766a81018a99bb37cbcd49ff0ded37b18b97",
+ "docId": "COVERAGE:Los Angeles, CA",
+ "chunk": 0,
+ "chunkHash": "f56fc4579b67672e841a9788c179ae72e9442a07738d1d5be7899ab826e03636",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:33:21.464Z"
+}

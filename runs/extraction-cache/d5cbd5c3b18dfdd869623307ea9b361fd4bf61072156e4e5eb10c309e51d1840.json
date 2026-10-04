@@ -1,0 +1,14 @@
+{
+ "raw": {
+  "rules": [],
+  "warnings": [
+   "This excerpt covers abandoned property disposition, distraint (seizure for nonpayment), consumer fraud protections, credit checks, rent payment obligations, rent control framework, property tax rebates, landlord identity registration, habitability standards, window guards, smoke/CO detectors, locks, and heating requirements. None of these topics fall within the six rule categories (rent_increase_limits, just_cause_eviction, security_deposits, application_screening_fees, screening_restrictions, algorithmic_rent_setting). The section on rent control briefly states that NJ has no statewide rent control law and municipalities may establish local ordinances, and notes the 30-year exemption for newly constructed multiple dwellings under N.J.S.A. 2A:42-84.5, but does not itself establish a rent increase limit rule. The rent increase procedures described (notice requirements, unconscionability standard) relate to common-law or municipal requirements, not a state-level rule in the six categories. No rules in the specified categories are extractable from this text."
+  ]
+ },
+ "docId": "D067",
+ "chunk": 2,
+ "chunkHash": "f21a449a3667b941a437fb111f80de173de675f748745acb97ae28bda9b9be06",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:12:12.837Z"
+}

@@ -1,0 +1,14 @@
+{
+ "raw": {
+  "rules": [],
+  "warnings": [
+   "This document excerpt (part 6 of 6) contains procedural information about eviction court processes, foreclosure protections, senior citizen/disabled tenant protections in conversions, and agency contact information. It does not state operative rules in the six tracked categories (rent_increase_limits, just_cause_eviction, security_deposits, application_screening_fees, screening_restrictions, algorithmic_rent_setting). The foreclosure notice requirements and senior citizen protected tenancy provisions address eviction notice timing and conversion-related protections but are not stated as affirmative rent, deposit, fee, screening, or algorithmic rules applicable to standard rental housing. The document does mention that an unreasonable rent increase may constitute pressure tactics in foreclosure buyout offers (N.J.S.A. 2A:50-71(b)(5)), but this is a constraint on conduct during a foreclosure settlement negotiation, not a rent-control or rent-increase rule for the general rental market."
+  ]
+ },
+ "docId": "D067",
+ "chunk": 5,
+ "chunkHash": "9dba6b3e4648251c130c0fb5a58b328ee82ae23ee7dced45677d630b5971088d",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:12:18.076Z"
+}

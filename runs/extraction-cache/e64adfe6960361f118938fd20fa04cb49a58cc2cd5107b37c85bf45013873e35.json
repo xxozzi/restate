@@ -1,0 +1,14 @@
+{
+ "raw": {
+  "rules": [],
+  "warnings": [
+   "This document is a judicial opinion (Cella v. Campbell) discussing Massachusetts constitutional law regarding initiative petitions and the \"relates to religion\" exclusion in Article 48 of the Massachusetts Constitution. It does not contain operative rental housing law in the six regulated categories (rent_increase_limits, just_cause_eviction, security_deposits, application_screening_fees, screening_restrictions, algorithmic_rent_setting). The opinion mentions rent control only in the context of a constitutional analysis of whether a hypothetical rent-control initiative would violate Article 48's prohibition on initiatives relating to religion. It does not establish, modify, or enforce any substantive rent control rule itself. The court's conclusion concerns only the constitutional validity of a proposed ballot measure, not the content of any enacted housing law."
+  ]
+ },
+ "docId": "SUP-MA-CELLA",
+ "chunk": 1,
+ "chunkHash": "3785e855ad63671f495a7db91915a0e0e16e421366b6a1f741cd43a25b1623e5",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:13:29.254Z"
+}

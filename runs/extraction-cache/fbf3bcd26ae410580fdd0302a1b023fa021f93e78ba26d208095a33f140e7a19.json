@@ -1,0 +1,41 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "Prohibition of Anti-Competitive Automated Rent Price-Fixing",
+    "category": "algorithmic_rent_setting",
+    "level": "city",
+    "status": "pending",
+    "effectiveDate": null,
+    "effectiveDateQuote": "This Ordinance will take effect and be in force on the thirtieth day from and after its final passage.",
+    "endDate": null,
+    "requirement": "Landlords may not use algorithmic devices to set rental rates or occupancy levels. No person may sell, license, or provide algorithmic devices to landlords. An algorithmic device is software that uses nonpublic competitor data to advise or recommend rental rates or occupancy levels.",
+    "keyValue": null,
+    "citation": "San Diego Municipal Code § 98.1103 (proposed)",
+    "quotedSpan": "It is unlawful for a person to sell, license, or otherwise provide an algorithmic device to a landlord... It is unlawful for a landlord to use an algorithmic device to set rental rates or occupancy levels for residential rental property.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental properties in San Diego.",
+    "exemptions": [
+     "Software that publishes reports on rental rates or occupancy levels from aggregated historical data more than 90 days old or from publicly available information, without recommending future rates or occupancy levels.",
+     "Software used to establish rental rates or income limits under local, state, or federal affordable housing program guidelines."
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "This ordinance is pending final passage; status is not yet in force as of 2026-10-01. The effective date is thirty days after final passage, which has not yet occurred per the document. The document shows this is a proposed ordinance (O-2025-107) prepared for Council consideration.",
+     "The term 'algorithmic device' is defined by reference to performing calculations of nonpublic competitor data, but the practical boundaries of what constitutes 'nonpublic competitor data' or 'algorithms' may be subject to interpretation."
+    ]
+   }
+  ],
+  "warnings": [
+   "This document is a staff report and proposed ordinance dated February 27, 2025, not yet adopted. The ordinance number, date of final passage, and mayor's approval/veto status are blank, indicating it has not been enacted as of the retrieval date (2026-10-01). The effective date cannot be computed without knowing the actual date of final passage.",
+   "The document references DOJ litigation against RealPage and landlords but does not state whether the ordinance has been finally adopted by City Council or when that occurred."
+  ]
+ },
+ "docId": "D076",
+ "chunk": 0,
+ "chunkHash": "31b29a40becda1c218d4f64aedcb56a44241857b0f5d8b451c7b20b5737edc1e",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:12:53.651Z"
+}

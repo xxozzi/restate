@@ -1,0 +1,37 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "Prohibition on Algorithmic Rent-Setting Devices in San Francisco",
+    "category": "algorithmic_rent_setting",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": "2024-10-14",
+    "effectiveDateQuote": "went into effect on October 14, 2024",
+    "endDate": null,
+    "requirement": "Landlords in San Francisco cannot sell or use algorithmic devices—software programs that analyze competitor rental data to recommend rent prices—to set rents or manage occupancy levels for residential units. Tenants or the City Attorney may sue to enforce this rule.",
+    "keyValue": null,
+    "citation": "S.F. Rent Ordinance § 37.10C",
+    "quotedSpan": "The law prohibits the sale or use of algorithmic devices to set rents or manage occupancy levels for residential units in San Francisco. The term \"algorithmic device\" means a device such as a software program that uses algorithms to analyze nonpublic competitor rental data for the purposes of providing a landlord recommendations on what rent to charge for a vacant unit.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental units in San Francisco.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "Source is a news summary, not the full ordinance text; verify the precise scope and any exemptions in the actual ordinance (S.F. Rent Ordinance § 37.10C)",
+     "Effective date is stated as October 14, 2024; source retrieved on October 1, 2026, confirming law is in force"
+    ]
+   }
+  ],
+  "warnings": [
+   "This source is a summary announcement rather than the full statutory text; some details (exact exemptions, enforcement procedures, definition scope) may not be fully captured and should be verified against the official ordinance"
+  ]
+ },
+ "docId": "D081",
+ "chunk": 0,
+ "chunkHash": "e3437f99eae3882641b5052fd7006f2a0304abd2033e1b721a8c32324be2afab",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:12:58.116Z"
+}

@@ -1,0 +1,39 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "Prohibition Against Algorithmic Rent-Fixing in the Rental Housing Market",
+    "category": "algorithmic_rent_setting",
+    "level": "city",
+    "status": "pending",
+    "effectiveDate": null,
+    "effectiveDateQuote": "This Ordinance shall take effect immediately upon passage and publication as provided by law.",
+    "endDate": null,
+    "requirement": "Landlords in Hoboken are prohibited from using software, algorithms, or data-sharing platforms to collect and analyze nonpublic competitor information from other landlords in order to coordinate, recommend, or implement rental prices, lease terms, or occupancy levels for residential dwelling units.",
+    "keyValue": null,
+    "citation": "Hoboken Ord. § 158-2 (Proposed)",
+    "quotedSpan": "Landlords who rent any residential dwelling unit (defined as any primary residence excluding medical/long-term care or detention facilities) in the City of Hoboken are prohibited from price fixing using algorithmic pricing. For purposes of this chapter, \"price fixing using algorithmic pricing\"shall be defined as the use of software, algorithms, or data-sharing platforms to collect and analyze nonpublic competitor information from other real estate lessors in order to coordinate, recommend, or implement rental prices, lease terms, or occupancy levels for residential dwelling units among competing real estate lessors.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential dwelling units (primary residences) in Hoboken, excluding medical/long-term care or detention facilities.",
+    "exemptions": [
+     "Medical or long-term care facilities",
+     "Detention facilities"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The ordinance document shows meeting date of July 9, 2025 but contains blank fields for adoption date and mayor approval date (dated 2023), indicating this is a draft or pending measure. Vote record shows checkmarks for 1st Reading and 2nd Reading but status of Adopted/Failed is unclear. Without clear evidence of passage and mayor approval, status marked as 'pending' rather than 'in_force'. No effective date can be confirmed as the ordinance has not been fully executed. The document notes space for 'Vetoed by the Mayor' which may have occurred."
+    ]
+   }
+  ],
+  "warnings": [
+   "The ordinance appears to be a draft or pending measure. The document shows a meeting date of July 9, 2025 and contains blank signature lines and undated approval fields. The vote record indicates 1st and 2nd readings were conducted, but the 'Adopted' vs 'Failed' status is not clearly marked in the checkboxes shown. There is a line for 'Vetoed by the Mayor for the following reasons' with blank space, suggesting possible mayoral veto. Confirmation is needed on whether this ordinance was actually adopted and when it became or will become effective."
+  ]
+ },
+ "docId": "SUP-HOB-781",
+ "chunk": 0,
+ "chunkHash": "61a129fb8b99e7d71582d46b057b551569c1e4f1ff19a8f517454bd849aa1481",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:13:24.324Z"
+}

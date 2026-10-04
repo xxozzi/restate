@@ -1,0 +1,14 @@
+{
+ "raw": {
+  "rules": [],
+  "warnings": [
+   "This source is a general informational webpage from the Cambridge Human Rights Commission describing its enforcement of discrimination laws in employment, housing, public accommodation, and education. It does not state any operative rental-housing rules in the six tracked categories (rent_increase_limits, just_cause_eviction, security_deposits, application_screening_fees, screening_restrictions, algorithmic_rent_setting). The page mentions the Cambridge Human Rights Ordinance (chapter 2.76) and Cambridge Fair Housing Ordinance (chapter 14.04) but does not quote or describe the substantive requirements of those ordinances themselves. It briefly notes that tenant selection may be based on ability to pay rent and ability to care for the apartment, and references an exemption for 2-family dwellings when the owner lives there, but does not provide the text or effective dates of any operative rule. To extract rules, the actual text of those ordinances would be needed."
+  ]
+ },
+ "docId": "D029",
+ "chunk": 0,
+ "chunkHash": "ce40e4d452c15e43e1bb07e7f03f7bd2bd738b2da614d1d21b7826f7e581e01c",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:11:04.336Z"
+}

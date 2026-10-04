@@ -1,0 +1,37 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "Jersey City ban on algorithmic rent-setting coordination",
+    "category": "algorithmic_rent_setting",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": "2025-07-16",
+    "effectiveDateQuote": "Adopted on second and final reading after hearing on Jul 16 2025",
+    "endDate": null,
+    "requirement": "Real estate lessors and agents cannot subscribe to, contract with, or use services of a service provider that facilitates agreement not to compete on rental pricing, fees, or rental terms. Service providers cannot facilitate agreements among landlords not to compete on any aspect of residential dwelling unit rental.",
+    "keyValue": null,
+    "citation": "Jersey City Ord. 25-076, amending Jersey City Mun. Code § 218-12",
+    "quotedSpan": "It is unlawful for any real estate lessor, agent, or subcontractor thereof, to subscribe to, contract with, or otherwise exchange anything of value in return for or otherwise utilize the services of a Service Provider. No service provider shall facilitate an agreement not to compete among real estate lessors with respect to any aspect of residential dwelling units, including rental pricing, fees, or any other rental terms.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental dwellings in Jersey City",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "This ordinance amends Ord. 25-057 (passed May 21, 2025) to clarify language; the full text of Ord. 25-057 is not provided, so earlier sections and exemptions in that ordinance are not captured here. Section 218-1213 (exempt dwellings) is noted as 'no changes' but the exemptions themselves are not provided in this document."
+    ]
+   }
+  ],
+  "warnings": [
+   "This document only shows the amendments made by Ord. 25-076 to Ord. 25-057. The preceding ordinance Ord. 25-057, which established § 218-12, is not included. Exemptions listed in § 218-1213 (Exempt dwellings) are noted as unchanged but their specific content is not provided in this excerpt.",
+   "The effective date recorded here is the final passage date (July 16, 2025). If there is a separate statutory effective date for ordinances in Jersey City, it may differ."
+  ]
+ },
+ "docId": "SUP-JC-076",
+ "chunk": 0,
+ "chunkHash": "f3b08e1be49aaae573e905b3ea520e47fd69b2deafbf32b2ac81c7cdddb6414b",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:13:19.754Z"
+}

@@ -1,0 +1,17 @@
+{
+ "raw": {
+  "rules": [],
+  "warnings": [
+   "This source is Massachusetts employment and housing discrimination law (M.G.L. c. 151B § 4), not rental-housing law governing rent increases, evictions, deposits, fees, or algorithmic pricing.",
+   "The text covers fair-housing protections (race, color, creed, national origin, sex, gender identity, sexual orientation, age, genetic information, ancestry, veteran status, handicap, marital status) and reasonable accommodations for disabilities and pregnancy in housing and employment, which fall outside the six rental-regulation categories.",
+   "No operative rules found in the categories: rent_increase_limits, just_cause_eviction, security_deposits, application_screening_fees, screening_restrictions, or algorithmic_rent_setting."
+  ]
+ },
+ "promptHash": "0727a2616b08e130e31a4569973e766a81018a99bb37cbcd49ff0ded37b18b97",
+ "docId": "D049",
+ "chunk": 0,
+ "chunkHash": "3fe0be3f30b354451ea8abab28f7467977c364c794df887abd603ea8befd76f0",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:16:11.955Z"
+}

@@ -1,222 +1,118 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { createHash } from "node:crypto";
-import { mkdtemp, rm } from "node:fs/promises";
+import { mkdtemp } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import type { SourceDocument } from "../src/contracts.ts";
 import {
+  chunkText,
+  consolidate,
   extractDocuments,
-  extractPatternRules,
-  getBudgetStatus,
-  validateModelRules,
+  recoverSourceQuote,
+  statutoryEffectiveDate,
+  validateCandidates,
   validatePredicate,
-} from "../src/extract";
-import type { SourceDocument } from "../src/contracts";
+} from "../src/extract.ts";
 
-const text =
-  "The ordinance prohibits algorithmic rent pricing for residential rental properties. It takes effect on January 1, 2027.";
-const doc: SourceDocument = {
-  id: "test",
-  title: "Synthetic test ordinance",
-  jurisdiction: "CA",
-  url: "https://example.org/test",
-  retrievedAt: "2026-10-03",
+const doc = (text: string, overrides: Partial<SourceDocument> = {}): SourceDocument => ({
+  id: "T1",
+  title: "Test",
+  jurisdiction: "Example City, CA",
+  url: "https://example.invalid",
+  retrievedAt: "",
   text,
-  sha256: createHash("sha256").update(text).digest("hex"),
-  captureStatus: "synthetic-test",
+  sha256: "",
+  captureStatus: "captured",
   filename: "",
-};
-const response = {
-  rules: [
-    {
-      title: "Algorithmic pricing restriction",
-      category: "algorithmic_rent_setting",
-      status: "not_yet_effective",
-      effectiveDate: "2027-01-01",
-      endDate: null,
-      requirement: "Prohibits algorithmic rent pricing.",
-      coverageJson: '{"op":"always"}',
-      coverageDescription: "Residential rentals.",
-      exemptions: [],
-      citation: "Synthetic ordinance",
-      quotedSpan: text,
-      warnings: [],
-    },
-  ],
+  ...overrides,
+});
+const candidate = (overrides: Record<string, unknown> = {}) => ({
+  title: "Deposit cap",
+  category: "security_deposits",
+  level: "city",
+  status: "in_force",
+  effectiveDate: null,
+  effectiveDateQuote: "",
+  endDate: null,
+  requirement: "Deposits are capped.",
+  keyValue: "1 month",
+  citation: "Example Code § 1",
+  quotedSpan: "A landlord may not collect more than one month of rent as a deposit.",
+  coverageJson: '{"op":"always"}',
+  coverageDescription: "All rentals",
+  exemptions: [],
+  yieldsToLocal: false,
+  preemptsLocal: false,
   warnings: [],
-};
+  ...overrides,
+});
+const SOURCE = "Section 1.\nA landlord may not collect more than one month of rent\nas a deposit. This section takes effect on January 1, 2025.";
 
-test("automatic baseline preserves exact source quotes and explicit effective date", () => {
-  const rules = extractPatternRules(doc);
-  assert.ok(rules.length > 0);
-  assert.equal(rules[0].effectiveDate, "2027-01-01");
-  assert.ok(rules.every((rule) => doc.text.includes(rule.quotedSpan)));
-  assert.ok(
-    rules.every(
-      (rule) =>
-        rule.extractionMethod === "pattern" &&
-        rule.reviewStatus === "needs_review",
-    ),
-  );
-});
-test("model candidates need exact evidence and an allowlisted predicate", () => {
-  assert.equal(validateModelRules(doc, response).rules.length, 1);
-  assert.equal(
-    validateModelRules(doc, {
-      rules: [
-        {
-          ...response.rules[0],
-          quotedSpan: "This sentence was never present in the source.",
-        },
-      ],
-    }).rules.length,
-    0,
-  );
-  assert.equal(
-    validateModelRules(doc, {
-      rules: [
-        {
-          ...response.rules[0],
-          coverageJson: '{"op":"execute","code":"process.exit()"}',
-        },
-      ],
-    }).rules.length,
-    0,
-  );
-  assert.equal(
-    validateModelRules(doc, {
-      rules: [{ ...response.rules[0], effectiveDate: "2027-02-30" }],
-    }).rules.length,
-    0,
-  );
-  assert.equal(
-    validatePredicate({ op: "gte", field: "__proto__", value: 0 }),
-    false,
-  );
-});
-test("paid extraction is opt-in, bounded before sending, metered, and cached", async () => {
-  const directory = await mkdtemp(join(tmpdir(), "restate-budget-test-"));
-  const previous = {
-    key: process.env.ANTHROPIC_API_KEY,
-    budget: process.env.ANTHROPIC_BUDGET_USD,
-    runs: process.env.RESTATE_RUNS_DIR,
-    model: process.env.ANTHROPIC_MODEL,
-    fetch: globalThis.fetch,
-  };
-  let calls = 0;
-  process.env.ANTHROPIC_API_KEY = "test-placeholder-key";
-  process.env.ANTHROPIC_BUDGET_USD = "0";
-  process.env.RESTATE_RUNS_DIR = directory;
-  process.env.ANTHROPIC_MODEL = "claude-haiku-4-5-20251001";
-  globalThis.fetch = async () => {
-    calls++;
-    return new Response(
-      JSON.stringify({
-        content: [{ type: "text", text: JSON.stringify(response) }],
-        usage: { input_tokens: 100, output_tokens: 100 },
-        stop_reason: "end_turn",
-      }),
-      { status: 200, headers: { "content-type": "application/json" } },
-    );
-  };
-  try {
-    await extractDocuments([doc], { useModel: false });
-    assert.equal(calls, 0);
-    const blocked = await extractDocuments([doc], { useModel: true });
-    assert.equal(calls, 0);
-    assert.ok(
-      blocked.report.warnings.some((w) => w.includes("budget exhausted")),
-    );
-    process.env.ANTHROPIC_BUDGET_USD = "2";
-    const first = await extractDocuments([doc], { useModel: true });
-    assert.equal(calls, 1);
-    assert.equal(first.report.mode, "model");
-    const status = await getBudgetStatus();
-    assert.ok(status.spent >= 0.0006 && status.spent < 0.000602);
-    assert.equal(status.reserved, 0);
-    await extractDocuments([doc], { useModel: true });
-    assert.equal(calls, 1);
-    process.env.ANTHROPIC_MODEL = "unpriced-model";
-    await extractDocuments([{ ...doc, id: "other" }], { useModel: true });
-    assert.equal(calls, 1);
-  } finally {
-    globalThis.fetch = previous.fetch;
-    for (const [name, value] of Object.entries({
-      ANTHROPIC_API_KEY: previous.key,
-      ANTHROPIC_BUDGET_USD: previous.budget,
-      RESTATE_RUNS_DIR: previous.runs,
-      ANTHROPIC_MODEL: previous.model,
-    })) {
-      if (value === undefined) delete process.env[name];
-      else process.env[name] = value;
-    }
-    await rm(directory, { recursive: true, force: true });
-  }
+test("quotes are recovered across line breaks and curly quotes but never with missing words", () => {
+  assert.ok(recoverSourceQuote(SOURCE, "A landlord may not collect more than one month of rent as a deposit."));
+  assert.equal(recoverSourceQuote(SOURCE, "A landlord may not collect more than one month as a deposit."), null);
+  const withFootnote = "engage in\n1\nor otherwise facilitate parallel pricing coordination";
+  assert.ok(recoverSourceQuote(withFootnote, "engage in or otherwise facilitate parallel pricing coordination"));
 });
 
-test("source alignment recovers exact whitespace but never fills omitted words", async () => {
-  const { recoverSourceQuote } = await import("../src/extract");
-  const source = "The applicant’s criminal\nrecord shall not be requested.";
-  assert.equal(
-    recoverSourceQuote(
-      source,
-      "The applicant's criminal record shall not be requested.",
-    ),
-    source,
-  );
-  assert.equal(
-    recoverSourceQuote(
-      source,
-      "The applicant's criminal ... shall not be requested.",
-    ),
-    null,
-  );
-  assert.equal(
-    recoverSourceQuote(source, "The criminal record may be requested."),
-    null,
-  );
+test("only verbatim, allowlisted candidates become rules", () => {
+  const ok = validateCandidates(doc(SOURCE), { rules: [candidate()] });
+  assert.equal(ok.rules.length, 1);
+  const invented = validateCandidates(doc(SOURCE), { rules: [candidate({ quotedSpan: "Deposits may never exceed half a month of rent." })] });
+  assert.equal(invented.rules.length, 0);
+  assert.equal(validatePredicate({ op: "gte", field: "units", value: 5 }), true);
+  assert.equal(validatePredicate({ op: "gte", field: "landlord_mood", value: 5 }), false);
+  assert.equal(validatePredicate({ op: "gte", field: "owner_occupied", value: true }), false);
 });
 
-test("an independently parsed commencement clause overrides an invented model date", () => {
-  const sourceText =
-    "Algorithmic rent pricing is prohibited. This act shall take effect on the first day of the twelfth month next following the date of enactment. Approved July 20, 2026.";
-  const source = { ...doc, text: sourceText };
-  const result = validateModelRules(source, {
-    rules: [
-      {
-        ...response.rules[0],
-        effectiveDate: "2027-07-20",
-        quotedSpan: sourceText,
-      },
-    ],
+test("an unsupported coverage form becomes 'needs review', not a guess", () => {
+  const result = validateCandidates(doc(SOURCE), { rules: [candidate({ coverageJson: "units >= 5" })] });
+  assert.equal(result.rules[0].coverage.op, "unknown");
+});
+
+test("a start date must be shown in the source with start-date language", () => {
+  const shown = validateCandidates(doc(SOURCE), {
+    rules: [candidate({ effectiveDate: "2025-01-01", effectiveDateQuote: "This section takes effect on January 1, 2025." })],
   });
-  assert.equal(result.rules[0].effectiveDate, "2027-07-01");
-  assert.equal(result.rules[0].status, "not_yet_effective");
-  const unsupported = validateModelRules(
-    {
-      ...doc,
-      text: "Algorithmic rent pricing is prohibited. Passed April 14, 2020.",
-    },
-    {
-      rules: [
-        {
-          ...response.rules[0],
-          quotedSpan: "Algorithmic rent pricing is prohibited.",
-          effectiveDate: "2020-04-14",
-        },
-      ],
-    },
-  );
-  assert.equal(unsupported.rules[0].effectiveDate, null);
+  assert.equal(shown.rules[0].effectiveDate, "2025-01-01");
+  const invented = validateCandidates(doc(SOURCE), { rules: [candidate({ effectiveDate: "2019-01-01", effectiveDateQuote: "" })] });
+  assert.equal(invented.rules[0].effectiveDate, null);
 });
 
-test("a failed ballot measure is not treated as an operative rent cap", () => {
-  const source = {
-    ...doc,
-    title: "Court opinion on Initiative Petition 25-21",
-    text: "The rent control petition was reviewed. Accordingly, art. 48 bars placement of the petition on the November 2026 Statewide election ballot.",
-  };
-  assert.ok(
-    extractPatternRules(source).every((rule) => rule.status === "failed"),
-  );
+test("statutory start dates are computed by code from the source's own words", () => {
+  const nj = doc("approved July 20, 2026\n... This act shall take effect on the first day of\nthe twelfth month next following the date of enactment.", { jurisdiction: "NJ" });
+  assert.equal(statutoryEffectiveDate(nj)?.date, "2027-07-01");
+  const ca = doc("10/06/25 - Chaptered\nAn act to amend Section 16729", {
+    jurisdiction: "CA",
+    url: "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=x",
+  });
+  assert.equal(statutoryEffectiveDate(ca)?.date, "2026-01-01");
+});
+
+test("duplicates of one law across documents merge, with the other documents kept as references", () => {
+  const a = validateCandidates(doc(SOURCE, { id: "A" }), { rules: [candidate()] }).rules;
+  const b = validateCandidates(doc(SOURCE, { id: "B" }), { rules: [candidate({ citation: "Example Code §1" })] }).rules;
+  const merged = consolidate([...a, ...b]);
+  assert.equal(merged.length, 1);
+  assert.deepEqual(merged[0].alsoIn, ["B"]);
+  assert.match(merged[0].id, /-DEP-01$/);
+});
+
+test("long sources are split into overlapping parts that cover the whole text", () => {
+  const text = Array.from({ length: 3000 }, (_, i) => `Line ${i} of a long statute.`).join("\n");
+  const parts = chunkText(text);
+  assert.ok(parts.length > 1);
+  assert.equal(parts[0].start, 0);
+  assert.ok(parts.at(-1)!.start + parts.at(-1)!.text.length === text.length);
+});
+
+test("startup replays the cache only and never spends money", async () => {
+  process.env.RESTATE_RUNS_DIR = await mkdtemp(join(tmpdir(), "restate-"));
+  const saved = process.env.ANTHROPIC_API_KEY;
+  process.env.ANTHROPIC_API_KEY = "sk-ant-test-not-used";
+  const result = await extractDocuments([doc(SOURCE)]);
+  assert.equal(result.rules.length, 0);
+  assert.deepEqual(result.report.pendingDocuments, ["T1"]);
+  process.env.ANTHROPIC_API_KEY = saved;
+  delete process.env.RESTATE_RUNS_DIR;
 });

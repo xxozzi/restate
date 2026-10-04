@@ -4,17 +4,17 @@
 
 | Current state | Value |
 |---|---|
-| Last edited | 2026-10-03 19:49 EDT / America/New_York |
-| Latest contribution | Completed responsive app integration, validated cached live extraction, added scenario-aware regression fixture downloads, and recorded measured validation artifacts. |
-| Implemented | React/TypeScript UI, Express API, source extraction, deterministic evaluator, evidence scenarios, T1–T5 views, JSON exports, citation/schema checks, and local cost ledger. |
-| Not established | Complete legal interpretation, independent legal accuracy, official score, public deployment, and completed hackathon submission. |
-| Active stage | Working application and evidence-fixture workflow validated; source-interpretation and submission preparation remain. |
-| Latest validation | Production build passed; 36 tests passed; schema and exact-span checks 101/101; exports cover 500 addresses and T1–T5; workspace audit 0 errors/0 warnings, 97 source files. |
-| Next development action | Review and expand source interpretation, resolve California/local effective dates and missing jurisdictions, then rehearse the demo and prepare the video/method note. |
-| Deadline | **October 4, 2026, 9:00 a.m. Eastern**, supplied by the team; target completed upload by 8:30 a.m. Confirm submission mechanics with the event. |
-| Team and working style | Two humans; strong design, technical research, and MLOps; coding agents may implement substantial portions. Humans own interpretation review, integration, visual quality, and the demo. |
-| Repository status | Git `main`, remote `origin` configured by the user as `https://github.com/xxozzi/restate.git`. Preserve existing history and user changes. No automatic push or deployment. |
-| Primary unresolved risk | The original attached challenge and linked organizer materials disagree about scoring, a surprise test, and submission materials. |
+| Last edited | 2026-10-03 23:20 EDT / America/New_York |
+| Latest contribution | Replaced the keyword-placeholder extractor with verified model extraction of all 61 texts, fixed geography and evaluator semantics, redesigned the UI, regenerated submission files. |
+| Implemented | React/TypeScript UI (Lookup, Law changes, Sources, Add a law), Express API, cached Haiku extraction with exact-quote/date/predicate checks, interval-aware three-valued evaluator, evidence questions, T1–T5, exports in `submission/`. |
+| Not established | Independent legal review, official score, deployment, final submission. |
+| Active stage | Stage 5–6: validation done; demo rehearsal, video and submission remain. |
+| Latest validation | 30 tests pass; build passes; 57 rules, 57/57 schema-valid, 57/57 verbatim quotes; 492/500 addresses resolved; T1 250, T2 90, T3 140 (+90 conflict flags), T4 110, T5 0. See `submission/validation.json`. |
+| Next development action | Record the demo video and submit. |
+| Deadline | **October 4, 2026, 9:00 a.m. Eastern**; target completed upload by 8:30 a.m. |
+| Team and working style | Two humans; coding agents implement substantial portions. Humans own interpretation review, integration, visual quality, and the demo. |
+| Repository status | Git `main`, remote `origin` = `https://github.com/xxozzi/restate.git`. No automatic push. |
+| Model spend | $1.26 of the $2 app cap (ledger: `runs/model-budget.json`). Startup and exports never spend. |
 
 **Freshness rule:** This table describes observed state, not promises. Before working, compare it with the files and current clock. Before handing off a coherent change, update the relevant body, this table, and the bottom changelog. Do not mistake a planned feature for completed work.
 
@@ -47,9 +47,9 @@ A sortable table is sufficient initially. Maps, voice, translation, accounts, ex
 | Governing challenge version | Unresolved; retain both versions and build their common requirements. | Organizer clarification becomes available. |
 | Exact input/output contracts | Actual schema, templates, 500-address CSV, and five test definitions are local and consumed by the app. | Revisit only if organizers supply a successor. |
 | Framework and deployment | React 19, TypeScript, Vite 7, Express 5; one local process, port 5173. Deployment remains open. | User requests hosting. |
-| LLM/provider and extraction strategy | Haiku 4.5 targeted extraction; free pattern fallback, exact-quote validation and versioned cache. Default total application cap $2. | Review source fidelity before broadening model use. |
-| Predicate representation | Allowlisted JSON AST: all/any/not, comparisons, in, always, unknown; strict three-valued evaluation. | Extend only with source-supported cases and behavioral tests. |
-| Evidence-question algorithm | Bounded threshold/boolean/date alternatives and limited pairs; never claims globally minimal evidence. | Review proposed contrasts before demo. |
+| LLM/provider and extraction strategy | Claude Haiku 4.5 over every captured text (long ones split into overlapping parts), structured output, then code checks: verbatim quote (with salvage of the longest verbatim sentence), allowlisted predicate, start date evidenced by start-date language, statutory date arithmetic by code. Responses cached by exact chunk text in `runs/extraction-cache/` (committed). | Settled. |
+| Predicate representation | Allowlisted JSON AST over a fixed fact list in `src/facts.ts`; three-valued (Kleene) evaluation over exact values *or* known ranges (use-code unit bounds, certificate-of-occupancy date from year built, building age at the query date). | Settled. |
+| Evidence-question algorithm | For each missing fact behind an unknown answer, test values just either side of every threshold the relevant rules use (translated into the asked fact, and filtered by known bounds); show distinct outcome patterns. | Settled. |
 | Name and positioning | User selected **(R)estate**. Trademark/domain availability has not been checked. | Before any separate commercial launch. |
 
 ## 2. Requirements and source authority
@@ -215,7 +215,7 @@ The catalog currently uses `version: 1`, `sources: [...]`, and `markdown_excepti
 
 ### 4.4 One authored Markdown file
 
-**Current approved authored Markdown: `PROJECT_GUIDE.md` only.** Do not create `README.md`, `AGENTS.md`, task reports, implementation plans, research notes, or handoff files by default. Renaming notes to `.txt` or hiding plans in JSON does not satisfy this rule.
+**Current approved authored Markdown: `PROJECT_GUIDE.md` and `README.md`.** The README exception is active because the submission requires a repository README explaining how to run the tool; it stays a short launch-and-method page. Do not create `README.md`, `AGENTS.md`, task reports, implementation plans, research notes, or handoff files by default. Renaming notes to `.txt` or hiding plans in JSON does not satisfy this rule.
 
 Two conditional exceptions are predefined, but neither is active:
 
@@ -294,11 +294,11 @@ The current implementation proposal combines these ideas in a bounded challenge 
 
 These are observations about inspected sources and this workspace. **None is represented as an unpublished scientific discovery.**
 
-**Observed extraction failures and repairs (October 3 build):** Haiku initially classified a fair-chance ordinance outside the allowed screening category; explicit category definitions corrected that failure. Some returned quotations omitted text or changed formatting. `recoverSourceQuote` permits only whitespace and typographic-quotation alignment, recovers the exact original contiguous substring, and still rejects omitted words/ellipses. The model also supplied an incorrect commencement date for the New Jersey Fair Chance Act. The parser independently applies the source's first-day/seventh-month clause to its approval date, deriving January 1, 2022. Three D065 model candidates currently survive validation; no semantic accuracy percentage is inferred from that count. Evidence: `sources/starter/corpus/text/D065.txt`, §§3–14; cached raw model results in `runs/extraction-cache/`; executable checks in `tests/extract.test.ts`.
+**Extraction design decisions (22:30 rebuild).** The earlier keyword "pattern baseline" produced 98 placeholder rules with no dates and "unknown" coverage, so nearly every answer was unknown; it was removed. The regex that withheld every model date unless a narrow clause matched was replaced by evidence checks: the model must quote the start-date words, and those words must contain the year and start-date language. Exemptions the fact list cannot express (hospitals, dormitories) are presumed not to apply to apartment buildings, with a visible note, and a missing affordability restriction is treated as not shown. This follows the principle that exemptions must be established. Assessor use codes supply unit bounds (NJ class 4C means five or more units under N.J.A.C. 18:12-2.2; "APT 7-30 UNITS"; and so on).
 
-**Current demonstration:** start at the default resolved New Jersey property with missing unit count and owner occupancy. The evidence question explains why owner occupancy matters. “Owner lives elsewhere” resolves the extracted owner-occupied exception; “Owner lives here” leaves unit count relevant. Move to the unit-count question to see the threshold. Each choice is a clearly marked hypothetical overlay; the source CSV remains unchanged. “Save these contrasts as regression fixtures” exports complete original records, branch inputs, observed outcomes, rule records and source hashes. These generated expectations test reproducibility, not independent legal truth. The sample's residential classification derives from the organizer README §4, not a new assessor verification.
+**Current demonstration:** open 1609 Addison St, Berkeley (no year built). The evidence question "When was the building built?" shows Built 1979 (rent ceilings, eviction protections and deposit rules apply) against Built 1981 (they don't). Choose one to see the what-if overlay; the record is untouched. Then open *Law changes → T3* for the FAIR Act conflict flags, and *Sources* to read any rule's quote in context or to add a new law live.
 
-**Known coverage gaps:** the free pattern baseline is deliberately limited and can over-detect category mentions. T1's California commencement date and T2's local publication/effective dates remain unresolved in the loaded single-document interpretations. T3 evaluates 140 New Jersey addresses across the independently derived July 1, 2027 boundary, but city/state conflicts remain incomplete while the local dates are unresolved. T4 is explicitly hypothetical; T5 uses the court's ballot-exclusion language. Do not present these observed results as five passed official tests.
+**Known coverage gaps:** some agency pages yield rules whose coverage is "needs review" (e.g. SF and LA rent-increase announcements); 8 addresses cannot be placed (6 lack a house number). A second coverage pass reads each city's sources together to fill in which units a rule covers (e.g. Berkeley rent ceilings: certificate of occupancy before 1980-06-02); trivial "all residential" answers for city rent caps are rejected.
 
 ### 5.4 Promising hypotheses — untested
 
@@ -327,7 +327,7 @@ H1 and H3 are closest to the planned demonstration. H2 and H4 should expand only
 
 ## 6. Validation and honest reporting
 
-**Validation is structural and behavioral, not an official legal-accuracy score.** Latest measured run: `runs/current/validation.json`; production build passed, 36 tests passed, 101/101 exported candidates satisfy the schema and exact quotation check, all 500 address IDs appear in lookups, and five change records export. Desktop and narrow-screen layouts have no horizontal overflow; navigation, source inspection, cached extraction and scenario changes were exercised in the browser. Four generated scenario cases replayed successfully. Dependency audit reports no production vulnerabilities at this run. Browser download-event detection timed out; a direct browser click subsequently generated the fixture artifact successfully, and the fixture API and replay were independently verified. Unit tests cover null semantics, dates/status, jurisdiction, interactions, bounded evidence questions, exact quotations and API budget behavior. Corpus integration and browser results are recorded below when observed. Model output remains unreviewed; a supported quote does not prove that every condition was translated correctly.
+**Validation is structural and behavioral, not an official legal-accuracy score.** `npm test` runs 30 checks: evaluator logic on synthetic fixtures, extraction safeguards, and T1–T5 on the real corpus from the committed cache. `npm run export` regenerates `submission/` and `submission/validation.json`. Model output remains unreviewed by counsel; a verbatim quote does not prove every condition was translated correctly.
 
 Use the actual supplied change cases as the challenge checks from `sources/starter/dev/change_tests.json`. Use SARA, LegalBench, and R4's translation metrics as background benchmarks, not interchangeable substitutes for this task. A homemade check must be labeled team-created. If an organizer scorer becomes available, record its version and command separately.
 
@@ -380,14 +380,14 @@ Put detailed measurements in `runs/<run-id>/`; put the decisive finding and link
 
 ```bash
 npm ci
-npm run dev
-npm run build
-npm test
-npm run check:workspace
-npm start
+npm run dev        # app + API on http://localhost:5173, no paid calls
+npm test           # 30 tests
+npm run export     # submission/*.json, free
+npm run extract    # paid, cached; --force D079 re-asks one document
+npm run build && npm start
 ```
 
-`npm run dev` serves the app and API at `http://127.0.0.1:5173`. `npm start` serves an already-built production bundle. Copy `.env.example` to `.env` only if no `.env` exists; never overwrite credentials. Restart the server after environment changes. The Python workspace audit uses only the standard library.
+`npm start` serves an already-built production bundle. Copy `.env.example` to `.env` only if no `.env` exists; never overwrite credentials. Restart the server after environment changes. The Python workspace audit uses only the standard library.
 
 **Budget and credentials:** the user has $25 total Anthropic credit and asked for sparse usage. The application defaults to **$2** total and refuses any individual request with a calculated reserve above $0.25. `ANTHROPIC_WORKSPACE_ID` is necessary for the user's unscoped key; it is configured locally. Only explicit extraction actions invoke Haiku; startup, browsing, lookups, scenario changes, and exports are local/free. Cache keys contain source hash, jurisdiction, model and prompt version. Do not erase the cache or budget ledger to unblock requests. Failures with uncertain billing retain their full reserve. The UI/application ledger is not the provider account balance. Model rates are implemented only for verified Haiku 4.5 pricing; changing the model requires updating the metering logic.
 
@@ -442,3 +442,5 @@ This workspace keeps the plan in one place, original evidence in another, and cr
 | 2026-10-03 19:40 EDT | Coordinating agent; earlier implementation contributors | Renamed to (R)estate; built React/Express application, full starter ingestion, Census/TIGER geography, deterministic evaluation, source/evidence/change views, official-shape exports, and generated regression fixture downloads. Added Haiku extraction, exact-span alignment, independent commencement-date checks, persistent overrides, cache and $2 cap. User configured workspace ID; live API requests now succeed. | Initial tests/build passed; final expanded tests and responsive-browser checks ongoing. Three AI rules accepted from D065; provider-usage estimate $0.053874 plus $0.132754 retained for two earlier uncertain HTTP failures. No official accuracy score. Next: final QA, export validation and demo rehearsal. |
 
 | 2026-10-03 19:49 EDT | Coordinating agent | Finished responsive layout fixes, source-drawer extraction, truthful budget display, source-hash/version-checked persistence, independent date checks, dynamic evidence branches, and scenario-preserving regression exports. Refreshed the sole guide and module ownership. | Build passed; 36 tests passed; 101/101 schema and quote checks; 500 lookup IDs; five change records; audit 0 errors/0 warnings, 97 sources; production dependency audit clean. Browser verified desktop/mobile layouts, navigation, cached extraction and the 0-to-3 hypothetical applicability transition. Fixture button generated its artifact and API/replay passed; browser download-event observation itself timed out. Legal completeness and T1/T2 remain unresolved, explicitly documented above. Next: source review and demo preparation. |
+| 2026-10-03 22:30 EDT | Claude (Cowork session) | Removed the keyword baseline; full cached Haiku extraction of 61 texts with verbatim-quote salvage, start-date evidence, statutory date arithmetic and consolidation; accepted same-street approximate Census matches (374 → 479 resolved); interval-aware evaluator with use-code unit bounds, CO-date and building-age derivation, source-stated local yielding and preemption flags; new minimal blue UI; README; `submission/` outputs; committed extraction cache. | 30/30 tests, build OK, 57/57 schema and quote checks, T1 250 / T2 88 / T3 140 (+88 conflicts) / T4 110 / T5 0. Spend $1.15 of $2. |
+| 2026-10-03 23:20 EDT | Claude (Cowork session) | Census one-line retries for 16 unmatched addresses (`sources/geography/census-retry.json`, 479 → 492 resolved); cross-document coverage pass per city; exemptions the fact list can't express presumed not to apply (visible note); evidence branches sorted, up to four; 6× faster startup (memoized quote normalization); live Add-a-law verified end to end. | 30/30 tests; 57/57 schema and quote checks; T2 90, T3 conflicts 90. Spend $1.26 of $2. |

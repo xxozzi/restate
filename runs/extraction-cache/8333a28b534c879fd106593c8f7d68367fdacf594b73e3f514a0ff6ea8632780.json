@@ -1,0 +1,14 @@
+{
+ "raw": {
+  "rules": [],
+  "warnings": [
+   "The source is a bill history page (S.2983, 194th General Court) titled 'An Act prohibiting algorithmic rent setting', but it contains only metadata, bill status information, and website navigation elements. The actual bill text is not included in the source (it references 'View Text' and 'Print Preview' links but does not provide the substantive language). Without the operative provisions of the bill, no rules can be extracted. The bill's status as of 2026-10-01 is 'pending' (reported favorably from Housing Committee on 3/12/2026 and referred to Ways and Means, but no further action documented), so it has not been enacted into law. To extract rules, the full text of S.2983 would be needed."
+  ]
+ },
+ "docId": "D047",
+ "chunk": 0,
+ "chunkHash": "9af3e5eba834b37a5115fef298f5e2a1c1fc0b93c1d69500aea9d6bc7ee24b93",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:11:45.607Z"
+}

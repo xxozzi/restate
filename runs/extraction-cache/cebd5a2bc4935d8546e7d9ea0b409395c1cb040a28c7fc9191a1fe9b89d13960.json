@@ -1,0 +1,142 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "Security deposit maximum and prepaid rent limits",
+    "category": "security_deposits",
+    "level": "state",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "A landlord may require tenants to pay at most: first month's rent, last month's rent at the same rate, and a security deposit equal to one month's rent (or a fee in lieu of deposit under executive office regulations, not to exceed one month's rent total). Landlords may also charge for key and lock installation.",
+    "keyValue": "1 month's rent",
+    "citation": "M.G.L. c. 186 § 15B(1)(b)",
+    "quotedSpan": "At or prior to the commencement of any tenancy, no lessor or agent of the lessor may require a tenant or prospective tenant to pay, to the lessor or to an agent of the lessor, any amount in excess of the following: (i) rent for the first full month of occupancy; and, (ii) rent for the last full month of occupancy calculated at the same rate as the first month; and, (iii) a security deposit equal to the first month's rent",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental properties, except those with tenancies of 100 days or less for vacation or recreational purposes.",
+    "exemptions": [
+     "Tenancies of 100 days or less for vacation or recreational purposes"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": []
+   },
+   {
+    "title": "Security deposit handling and interest",
+    "category": "security_deposits",
+    "level": "state",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Landlords must deposit security deposits in a separate, interest-bearing bank account in Massachusetts. Tenants receive 5% annual interest (or the lesser amount actually earned) on deposits held one year or longer, paid yearly or deductible from rent. Landlords must provide a receipt within 30 days showing the bank name, location, account number, and deposit amount. Deposits are protected from creditors' claims and must transfer to property successors.",
+    "keyValue": "5% per year",
+    "citation": "M.G.L. c. 186 § 15B(3)",
+    "quotedSpan": "Any security deposit received by such lessor shall be held in a separate, interest-bearing account in a bank, located within the commonwealth under such terms as will place such deposit beyond the claim of creditors of the lessor... A lessor of residential real property who holds a security deposit pursuant to this section for a period of one year or longer from the commencement of the term of the tenancy shall, beginning with the first day of the tenancy, pay interest at the rate of five per cent per year",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental properties, except those with tenancies of 100 days or less for vacation or recreational purposes.",
+    "exemptions": [
+     "Tenancies of 100 days or less for vacation or recreational purposes"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": []
+   },
+   {
+    "title": "Security deposit return and deductions",
+    "category": "security_deposits",
+    "level": "state",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Landlords must return security deposits (with interest) within 30 days of tenancy end. Deductions are allowed only for unpaid rent, unpaid water charges, unpaid tax escalation, or reasonable repairs (not normal wear and tear), and must be itemized in writing with proof of cost. Landlords forfeit the right to retain deposits or counterclaim for damages if they fail to comply with deposit procedures or return requirements.",
+    "keyValue": null,
+    "citation": "M.G.L. c. 186 § 15B(4)-(6)",
+    "quotedSpan": "The lessor shall, within thirty days after the termination of occupancy under a tenancy-at-will or the end of the tenancy as specified in a valid written lease agreement, return to the tenant the security deposit or any balance thereof; provided, however, that the lessor may deduct from such security deposit for the following: (i) any unpaid rent or water charges... (ii) any unpaid increase in real estate taxes... (iii) a reasonable amount necessary to repair any damage caused to the dwelling unit by the tenant",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental properties, except those with tenancies of 100 days or less for vacation or recreational purposes.",
+    "exemptions": [
+     "Tenancies of 100 days or less for vacation or recreational purposes"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": []
+   },
+   {
+    "title": "Prepaid last month rent and interest",
+    "category": "security_deposits",
+    "level": "state",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Landlords must provide a receipt for prepaid last-month rent indicating the amount, date, intended application, and that the tenant earns 5% annual interest (or the lesser amount earned from the bank). Interest must be paid yearly or made available for deduction from rent. If interest is not paid or notice given within 30 days after year-end, tenants may deduct it from the next rent payment. Failure to pay interest within 30 days of tenancy end entitles the tenant to three times the interest owed plus court costs and attorney fees.",
+    "keyValue": "5% per year",
+    "citation": "M.G.L. c. 186 § 15B(2)(a)",
+    "quotedSpan": "Any lessor or his agent who receives said rent in advance for the last month of tenancy shall, beginning with the first day of tenancy, pay interest at the rate of five per cent per year or other such lesser amount of interest as has been received from the bank where the deposit has been held.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental properties, except those with tenancies of 100 days or less for vacation or recreational purposes.",
+    "exemptions": [
+     "Tenancies of 100 days or less for vacation or recreational purposes"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": []
+   },
+   {
+    "title": "Rent payment due date and late fees",
+    "category": "rent_increase_limits",
+    "level": "state",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "No lease may impose interest or penalties for failure to pay rent until 30 days after rent is due.",
+    "keyValue": null,
+    "citation": "M.G.L. c. 186 § 15B(1)(c)",
+    "quotedSpan": "No lease or other rental agreement shall impose any interest or penalty for failure to pay rent until thirty days after such rent shall have been due.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental properties, except those with tenancies of 100 days or less for vacation or recreational purposes.",
+    "exemptions": [
+     "Tenancies of 100 days or less for vacation or recreational purposes"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": []
+   },
+   {
+    "title": "Rent in advance prohibition",
+    "category": "rent_increase_limits",
+    "level": "state",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Landlords and successors in interest may not demand rent in advance beyond the current month's rent, except for the first and last month's rent allowed at lease commencement. This restriction binds all successors in interest.",
+    "keyValue": null,
+    "citation": "M.G.L. c. 186 § 15B(1)(d)",
+    "quotedSpan": "No lessor or successor in interest shall at any time subsequent to the commencement of a tenancy demand rent in advance in excess of the current month's rent or a security deposit in excess of the amount allowed by this section.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental properties, except those with tenancies of 100 days or less for vacation or recreational purposes.",
+    "exemptions": [
+     "Tenancies of 100 days or less for vacation or recreational purposes"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": []
+   }
+  ],
+  "warnings": [
+   "The statute contains an August 1, 2025 amendment to subsection (1)(b) regarding agent requirements and potential fee-in-lieu-of-deposit regulations, which are prospective and may not yet be fully implemented. Regulations by the executive office of housing and livable communities are authorized but may not yet exist as of 2026-10-01.",
+   "The statute does not establish rent increase limits or caps beyond what is negotiated in leases; it does not contain state-wide rent control."
+  ]
+ },
+ "docId": "D052",
+ "chunk": 0,
+ "chunkHash": "f24c21cb2b32330c0f2f112f066d02b784887a8552cc3777ea96f1d53dd0171f",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:12:14.167Z"
+}

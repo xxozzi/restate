@@ -1,0 +1,17 @@
+{
+ "raw": {
+  "rules": [],
+  "warnings": [
+   "This page describes Boston's Fair Housing Commission and protected classes under fair housing law, but contains no operative rental-housing rules in the six specified categories (rent increases, just-cause eviction, security deposits, application fees, screening restrictions, or algorithmic rent-setting). It is a general information and complaint-filing page.",
+   "The page lists protected characteristics (race, color, religion, disability, national origin, ancestry, sex, gender identity, gender expression, age, sexual orientation, marital status, rental assistance, family status, military status) and examples of discrimination, but does not establish specific requirements, limits, or procedures that fall within the structured rule categories.",
+   "To find Boston's actual rental-housing rules (e.g., just-cause eviction ordinances, security deposit limits, rent-control measures), consult Boston's municipal code or dedicated housing regulation pages."
+  ]
+ },
+ "promptHash": "0727a2616b08e130e31a4569973e766a81018a99bb37cbcd49ff0ded37b18b97",
+ "docId": "D012",
+ "chunk": 0,
+ "chunkHash": "aaed5c3d1e3aacb57a1f9a8fa9e855ecaa857bdbedc3d7b99a1992e7fc0aed0f",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:16:04.419Z"
+}

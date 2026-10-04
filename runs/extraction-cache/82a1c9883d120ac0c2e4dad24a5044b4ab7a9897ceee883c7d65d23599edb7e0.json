@@ -1,0 +1,43 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "Just Cause Eviction Requirement",
+    "category": "just_cause_eviction",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "A landlord may only evict a tenant from a rental unit covered by the Rent Ordinance for one of 17 specified just causes, which must be the dominant motive for the eviction. Mere expiration of a rental agreement or change in ownership does not constitute just cause.",
+    "keyValue": null,
+    "citation": "S.F. Admin. Code § 37.9(a)",
+    "quotedSpan": "In order to evict a tenant from a rental unit covered by the Rent Ordinance, a landlord must have a \"just cause\" reason that is the dominant motive for pursuing the eviction. Note that the mere expiration of a rental agreement or a change in ownership does not constitute \"just cause\" for eviction.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental units covered by the San Francisco Rent Ordinance.",
+    "exemptions": [
+     "Tenancies in newly constructed rental units that first obtained a Certificate of Occupancy after June 13, 1979, are exempt from rent increase limitations but remain subject to just-cause eviction requirements.",
+     "Tenancies eligible for a rent increase under the Costa-Hawkins Rental Housing Act are exempt from rent increase limitations but remain subject to just-cause eviction requirements.",
+     "Tenancies where rent is regulated by another government agency are exempt from rent increase limitations but remain subject to just-cause eviction requirements."
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The source does not provide an effective date for when this requirement began; the web page is informational and does not cite the original ordinance enactment date.",
+     "The source summarizes 17 just-cause reasons but this rule record consolidates them into one rule per the instruction to avoid splitting a single law into many tiny rules unless parts have different coverage or start dates.",
+     "The source mentions that tenancies newly obtained a Certificate of Occupancy after June 13, 1979 remain subject to just-cause eviction, implying that older units may have different rules, but the source does not clarify the just-cause requirement for pre-1979 units."
+    ]
+   }
+  ],
+  "warnings": [
+   "The source is an informational overview page and does not provide the enactment date or original effective date of the just-cause eviction requirement.",
+   "The 17 specific just-cause reasons are listed but not split into separate rules per the consolidation instruction."
+  ]
+ },
+ "docId": "D079",
+ "chunk": 0,
+ "chunkHash": "51f9490227bafc8a6f458c7e417f41bce3af07c1416fae77f281b987d97ef793",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:12:54.631Z"
+}

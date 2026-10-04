@@ -1,0 +1,152 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "Safe Housing Act - Lease termination due to domestic violence",
+    "category": "just_cause_eviction",
+    "level": "state",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "A tenant who is a victim of domestic violence or whose child faces an imminent threat of serious physical harm from a specific person may terminate their lease with 30 days' notice after providing the landlord with documented proof of domestic violence (such as a restraining order, law enforcement record, medical documentation, or certification from a domestic violence specialist). The tenant's security deposit must be returned within 15 business days.",
+    "keyValue": "30 days",
+    "citation": "N.J.S.A. 46:8-9.4 et seq.",
+    "quotedSpan": "Lease Termination due to domestic violence shall take effect on the thirtieth day following receipt by the landlord of one of the documents listed above and a written notice from the tenant that they intend to vacate the premises and terminate the lease.",
+    "coverageJson": "{\"op\":\"not\",\"arg\":{\"op\":\"in\",\"field\":\"residential\",\"value\":[false]}}",
+    "coverageDescription": "Applies to all residential rental properties except transient or seasonal rentals.",
+    "exemptions": [
+     "Transient or seasonal rentals"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": []
+   },
+   {
+    "title": "Service Members Civil Relief Act - Military lease termination",
+    "category": "just_cause_eviction",
+    "level": "state",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "A service member who leased an apartment before entering military service may terminate the lease at any time after entering military service, or if receiving military orders for permanent change of station outside the continental United States or to deploy for at least 90 days. The service member must provide written notice and a copy of military orders. Termination is effective on the last day of the month following the month notice is delivered. The security deposit must be returned per N.J.S.A. 46:8-26.",
+    "keyValue": "Last day of month following notice",
+    "citation": "50 U.S.C.A. § 3955; N.J.S.A. 46:8-26",
+    "quotedSpan": "At any time after the renter's entry into military service; or The service member, while in military service, executes the lease and thereafter receives military orders for a permanent change of station outside of the continental United States or to deploy with a military unit for a period of not less than 90 days.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "Applies to all residential rental properties.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "Rental cap amount ($3,991.90) mentioned as current as of 2020 and subject to annual CPI increases"
+    ]
+   },
+   {
+    "title": "Security Deposit Law - Maximum deposit and prohibited practices",
+    "category": "security_deposits",
+    "level": "state",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "A landlord may not collect more than one and one-half times the tenant's monthly rent as a security deposit. Combined with first month's rent, the landlord may not require more than two and one-half times the monthly rent at lease inception. Any prepaid funds (including last month's rent) held to secure future rents count toward the security deposit limit. Pet security deposits cannot exceed one and one-half times monthly rent when combined with the regular security deposit.",
+    "keyValue": "1.5 months' rent",
+    "citation": "N.J.S.A. 46:8-21.2",
+    "quotedSpan": "The maximum-security deposit to be collected by the landlord cannot be more than one and one-half times one month's rent. It can be less. Any additional yearly security deposit increase may not exceed 10% of the current security deposit.",
+    "coverageJson": "{\"op\":\"not\",\"arg\":{\"op\":\"all\",\"args\":[{\"op\":\"eq\",\"field\":\"owner_occupied\",\"value\":true},{\"op\":\"lte\",\"field\":\"units\",\"value\":3}]}}",
+    "coverageDescription": "Applies to all residential rental properties except owner-occupied two- or three-family dwellings, unless the tenant requests application of the law in writing 30 days after occupancy.",
+    "exemptions": [
+     "Owner-occupied two- or three-family dwellings (unless tenant requests application)"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": []
+   },
+   {
+    "title": "Security Deposit Law - Interest payments and account requirements",
+    "category": "security_deposits",
+    "level": "state",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Landlords with 10 or fewer units must deposit security money in an insured interest-bearing account at a New Jersey bank. Landlords with 10 or more units may use a money market fund or variable-rate account. Interest belongs to the tenant and must be paid on the anniversary of the lease or January 31 (if written notice is given). The landlord must notify the tenant within 30 days of deposit of the bank name, account type, and interest rate.",
+    "keyValue": null,
+    "citation": "N.J.S.A. 46:8-19(c)-(d)",
+    "quotedSpan": "The interest or earnings paid on the security deposit belongs to the tenant and shall be paid to the tenant in cash or credited toward rent due and owing on the renewal or anniversary of the tenant's lease or on January 31, if the tenant has been given written notice, that the interest payments will be paid on January 31 of each year.",
+    "coverageJson": "{\"op\":\"not\",\"arg\":{\"op\":\"all\",\"args\":[{\"op\":\"eq\",\"field\":\"owner_occupied\",\"value\":true},{\"op\":\"lte\",\"field\":\"units\",\"value\":3}]}}",
+    "coverageDescription": "Applies to all residential rental properties except owner-occupied two- or three-family dwellings, and does not apply to seasonal rentals.",
+    "exemptions": [
+     "Owner-occupied two- or three-family dwellings (unless tenant requests application)",
+     "Seasonal rentals (use or rental for 125 consecutive days or less)"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": []
+   },
+   {
+    "title": "Security Deposit Law - Return requirements and penalties",
+    "category": "security_deposits",
+    "level": "state",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Within 30 days of lease termination, the landlord must return the security deposit plus interest earned, less only deductions for damages beyond normal wear and tear or money owed under the lease. Deductions must be itemized and sent by certified mail. If the landlord fails to return the deposit within 30 days or wrongfully withholds it, the tenant may sue for double the amount wrongly withheld, plus court costs and attorney's fees.",
+    "keyValue": "30 days",
+    "citation": "N.J.S.A. 46:8-21.1",
+    "quotedSpan": "Within 30 days after the termination of a tenancy, a landlord must return the security deposit, plus interest earned less deductions, to the tenant. If there are any deductions made from the security deposit by the landlord, an itemized list of these deductions must also be sent to the tenant by registered or certified mail within 30 days from the termination of the tenancy.",
+    "coverageJson": "{\"op\":\"not\",\"arg\":{\"op\":\"all\",\"args\":[{\"op\":\"eq\",\"field\":\"owner_occupied\",\"value\":true},{\"op\":\"lte\",\"field\":\"units\",\"value\":3}]}}",
+    "coverageDescription": "Applies to all residential rental properties except owner-occupied two- or three-family dwellings, and does not apply to seasonal rentals.",
+    "exemptions": [
+     "Owner-occupied two- or three-family dwellings (unless tenant requests application)"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "Broken lease complications: 30-day return period does not begin until unit is re-rented or original lease expires, whichever occurs first"
+    ]
+   },
+   {
+    "title": "Discrimination in rental housing",
+    "category": "screening_restrictions",
+    "level": "state",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "It is illegal for a landlord to refuse to rent or discriminate in rental of housing based on race, creed, color, national origin, ancestry, sex, marital status, civil union status, domestic partnership status, familial status, affectional or sexual orientation, gender identity or expression, mental and physical disability, nationality, or source of lawful income. A landlord may refuse to rent only if the prospective tenant lacks sufficient income, the family is too large for the unit, occupancy would violate zoning laws, or has poor credit history.",
+    "keyValue": null,
+    "citation": "N.J.S.A. 10:5-12(g)-(h); 42 U.S.C.A. § 3601-3610",
+    "quotedSpan": "The New Jersey Law Against Discrimination (LAD), N.J.S.A. 10:5-12(g) to -(h), prohibits discrimination when selling or renting property and requires equal treatment in the sale or rental of housing regardless of race, creed, color, national origin, ancestry, sex, marital status, civil union status, domestic partnership status, familial status, affectional or sexual orientation, gender identity or expression, mental and physical disability, nationality, or source of lawful income.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "Applies to all landlord-tenant relationships except two-family owner-occupied dwellings, rooms in owner- or resident-occupied single homes, and residences planned exclusively for one sex.",
+    "exemptions": [
+     "Two-family owner-occupied dwellings",
+     "Rooms in owner- or resident-occupied single homes",
+     "Residences planned exclusively for one sex (e.g., YMCA, age-restricted housing for familial status purposes)"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "Source of lawful income is explicitly protected; distinction between protected and unprotected income sources not clarified in this excerpt"
+    ]
+   }
+  ],
+  "warnings": [
+   "Source text is part 2 of 6; full laws may have additional provisions not captured here",
+   "Section on lease termination due to domestic violence provides multiple acceptable forms of documentation but specific operational rules for co-tenants and public housing noted",
+   "Service member rent cap ($3,991.90) stated as current as of 2020 with annual CPI adjustments",
+   "Disability-related lease termination (N.J.S.A. 46:8-9.2) mentioned in text but full requirements not captured in excerpt",
+   "Right of entry and personal property disposition sections present but do not fall into the six target categories"
+  ]
+ },
+ "docId": "D067",
+ "chunk": 1,
+ "chunkHash": "42e998e9d7f5f410940a96f98de130c7aaccfb6bc9acfc648c11e0779e4e1a58",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:12:35.471Z"
+}

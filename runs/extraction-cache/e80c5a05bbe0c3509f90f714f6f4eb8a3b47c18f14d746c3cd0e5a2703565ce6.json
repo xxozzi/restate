@@ -1,0 +1,105 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "Self-Help Evictions Prohibited",
+    "category": "just_cause_eviction",
+    "level": "state",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "A landlord cannot evict a tenant by self-help means such as lockouts, padlocking doors, changing locks, or shutting off utilities without a court order. Only a court officer can legally evict a tenant after a judge issues a Warrant for Removal.",
+    "keyValue": null,
+    "citation": "N.J.S.A. 2A:39-1; N.J.S.A. 2A:18-61.1",
+    "quotedSpan": "\"Self-help\" eviction is entry into a dwelling unit and removal of tenants without their consent or without a judgment from a court, are not permitted in New Jersey under any circumstances.",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental units in New Jersey",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "Illegal self-help evictions may result in tenant damages claim; landlord liable for damages under N.J.S.A. 2A:39-1",
+     "Tenant may call police if landlord attempts lockout or utility shutoff"
+    ]
+   },
+   {
+    "title": "Failure to Pay Rent—Eviction Cause",
+    "category": "just_cause_eviction",
+    "level": "state",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "A landlord may evict a tenant for failure to pay rent. Landlord need not give notice before filing suit unless tenant resides in federally subsidized housing, in which case landlord must give 14-day notice. Tenant cannot be evicted for nonpayment if tenant paid utilities to prevent service disconnection when landlord was responsible for payment.",
+    "keyValue": "14 days (federally subsidized housing only)",
+    "citation": "N.J.S.A. 2A:18-61.1(a)",
+    "quotedSpan": "If a tenant fails to pay rent, the landlord may immediately take legal action to have the tenant evicted. The landlord is not required to give the tenant notice before filing an eviction suit, except if the tenant resides in federally subsidized housing. If the tenant resides in federally subsidized housing a 14-day notice must be given before filing a suite for eviction",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental units in New Jersey",
+    "exemptions": [
+     "Federally subsidized housing tenants"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "Utility-payment exception protects tenant only if landlord responsible for payment; requires written notice of service discontinuation risk"
+    ]
+   },
+   {
+    "title": "Disorderly Conduct—Eviction Cause",
+    "category": "just_cause_eviction",
+    "level": "state",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "After giving written notice to cease, if tenant continues disorderly conduct that destroys peace and quiet of other tenants, landlord may file for eviction. Three-day Notice to Quit required before filing suit.",
+    "keyValue": "3 days",
+    "citation": "N.J.S.A. 2A:18-61.1(b)",
+    "quotedSpan": "If after given written Notice to Cease disorderly conduct, the tenant continues the disorderly conduct and that conduct destroys the peace and quiet of the other tenants living in the building or neighborhood, the landlord may file a suite for eviction. A Notice to Quit must be served on the tenant at least three days prior to filing a suit for eviction",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental units in New Jersey",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "Requires written Notice to Cease first; tenant must continue conduct after notice to justify eviction"
+    ]
+   },
+   {
+    "title": "Property Damage or Destruction—Eviction Cause",
+    "category": "just_cause_eviction",
+    "level": "state",
+    "status": "in_force",
+    "effectiveDate": null,
+    "effectiveDateQuote": "",
+    "endDate": null,
+    "requirement": "Tenant may be evicted if they have intentionally or by gross negligence caused or allowed destruction, damage, or injury to property. Three-day Notice to Quit required before filing suit.",
+    "keyValue": "3 days",
+    "citation": "N.J.S.A. 2A:18-61.1(c)",
+    "quotedSpan": "The tenant may be evicted if they have intentionally or by reason of gross negligence caused or allowed destruction, damage, or injury to the property. A Notice to Quit must be served on the tenant at least three days prior to filing a suit for eviction",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental units in New Jersey",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "Requires intentional conduct or gross negligence, not ordinary negligence"
+    ]
+   }
+  ],
+  "warnings": [
+   "Source is part 5 of 6; other eviction causes (G-R) listed but not extracted; rules L(3), M, and N cover specific situations (conversions, employment-based tenancies, drug convictions)",
+   "Federally subsidized housing has additional notice requirements not fully detailed",
+   "Foreclosure section mentions recent federal law changes but text is incomplete at end"
+  ]
+ },
+ "promptHash": "0727a2616b08e130e31a4569973e766a81018a99bb37cbcd49ff0ded37b18b97",
+ "docId": "D067",
+ "chunk": 4,
+ "chunkHash": "b3d5e518612f37bc51b9725b7834dcb61ae41c951113619d97c1a07454f2aabf",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:16:28.207Z"
+}

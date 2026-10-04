@@ -1,0 +1,17 @@
+{
+ "raw": {
+  "rules": [],
+  "warnings": [
+   "Bill H.3744 is a petition for special legislation that would authorize Boston to implement rent stabilization and tenant eviction protections, but the actual text of the proposed bill is not included in the source document",
+   "The bill history shows it was accompanied by a study order (H5035) on 2024-09-09, indicating it did not pass; status should be 'failed'",
+   "Without the bill text, no specific rules on rent increase limits, eviction protections, or other categories can be extracted"
+  ]
+ },
+ "promptHash": "0727a2616b08e130e31a4569973e766a81018a99bb37cbcd49ff0ded37b18b97",
+ "docId": "D011",
+ "chunk": 0,
+ "chunkHash": "93835654c3483e7b169677f7a3ccdcf021b6edab4ac81ab7ad3091903de71ff2",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:16:03.890Z"
+}

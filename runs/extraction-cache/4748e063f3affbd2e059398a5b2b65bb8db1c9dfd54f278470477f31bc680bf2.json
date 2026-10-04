@@ -1,0 +1,20 @@
+{
+ "raw": {
+  "updates": [
+   {
+    "id": "SF-RENT-01",
+    "coverageJson": "{\"op\":\"eq\",\"field\":\"residential\",\"value\":true}",
+    "coverageDescription": "Applies to all residential rental units in San Francisco that are covered by the Rent Ordinance (rent-controlled units). The documents do not specify a construction date or certificate of occupancy cutoff for this 1.6% annual increase for March 1, 2026 - February 28, 2027, indicating it applies broadly to rent-controlled units.",
+    "coverageQuote": "For rent-controlled units, the annual allowable increase amount effective March 1, 2026 through February 28, 2027 is 1.6%.",
+    "sourceId": "D080"
+   }
+  ]
+ },
+ "promptHash": "0727a2616b08e130e31a4569973e766a81018a99bb37cbcd49ff0ded37b18b97",
+ "docId": "COVERAGE:San Francisco, CA",
+ "chunk": 0,
+ "chunkHash": "c635832534f370af160a3c91ae244505126226372cc66530b9f86ad16a091f8f",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:33:30.595Z"
+}

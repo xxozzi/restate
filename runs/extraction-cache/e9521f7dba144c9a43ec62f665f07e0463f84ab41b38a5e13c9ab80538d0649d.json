@@ -1,0 +1,61 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "San Francisco Relocation Payments for Owner/Relative Move-in, Demolition, Capital Improvement, and Substantial Rehabilitation Evictions",
+    "category": "just_cause_eviction",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": "2006-08-10",
+    "effectiveDateQuote": "8/10/06 – 2/28/07",
+    "endDate": null,
+    "requirement": "Tenants evicted for owner or relative move-in, demolition or permanent removal of the unit from housing use, temporary capital improvement work (20 days or longer), or substantial rehabilitation are entitled to relocation payments. The amount varies based on the date of service of the eviction notice and increases annually. As of March 1, 2026, the relocation payment is $8,245 per tenant, up to $24,733 maximum per unit, plus an additional $5,497 for each elderly (60+) or disabled tenant or household with minor children.",
+    "keyValue": "$8,245 per tenant; $24,733 per unit; +$5,497 for elderly/disabled/minor children (as of 3/1/26)",
+    "citation": "S.F. Admin. Code ch. 37, § 37.9C",
+    "quotedSpan": "Relocation Payments for Evictions based on Owner/Relative Move-in OR Demolition/Permanent Removal of Unit from Housing Use OR Temporary Capital Improvement Work* OR Substantial Rehabilitation",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental units in San Francisco subject to eviction under these grounds.",
+    "exemptions": [
+     "Temporary capital improvement evictions lasting less than 20 days are governed by California Civil Code Section 1947.9, not this ordinance."
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The source is an archive of historical rates; the current rates as of 2026-10-01 are listed but the underlying ordinance text is not provided. The footnote indicates that capital improvement payments for less than 20 days have different rules under state law."
+    ]
+   },
+   {
+    "title": "San Francisco Relocation Payments for Ellis Act Evictions",
+    "category": "just_cause_eviction",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": "2006-03-01",
+    "effectiveDateQuote": "3/01/06 – 2/28/07",
+    "endDate": null,
+    "requirement": "Tenants evicted under the Ellis Act (California Government Code § 7060 et seq., which permits owners to remove rental units from the market) are entitled to relocation payments. The amount varies based on the date of service of the eviction notice and increases annually. As of March 1, 2026, the relocation payment is $11,110.05 per tenant, up to $33,330.13 maximum per unit, plus an additional $7,443.90 for each elderly (62+) or disabled tenant.",
+    "keyValue": "$11,110.05 per tenant; $33,330.13 per unit; +$7,443.90 for elderly/disabled (as of 3/1/26)",
+    "citation": "S.F. Admin. Code ch. 37, § 37.9C",
+    "quotedSpan": "Relocation payments for tenants evicted under the Ellis Act",
+    "coverageJson": "{\"op\":\"always\"}",
+    "coverageDescription": "All residential rental units in San Francisco subject to eviction under the Ellis Act.",
+    "exemptions": [],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The source is an archive of historical rates; the current rates as of 2026-10-01 are listed but the underlying ordinance text is not provided. The age threshold for 'elderly' differs from the first relocation rule (62+ here vs. 60+ in the other rule)."
+    ]
+   }
+  ],
+  "warnings": [
+   "This document contains only relocation payment schedules and rates, not the substantive requirements of San Francisco's just-cause eviction or relocation laws. To fully understand the coverage and requirements, the source S.F. Admin. Code § 37.9C and related sections should be reviewed.",
+   "The effective dates listed in the document refer to the date periods during which the rates apply (e.g., '3/01/26 – 2/28/27'), not the dates when the rules themselves took effect. The earliest listed rate period begins 8/10/06, suggesting the rules were in effect by then, but the actual enactment date of these relocation requirements is not stated in this source.",
+   "No information is provided about coverage limitations, exemptions, or building types beyond what can be inferred from the rule structure itself."
+  ]
+ },
+ "docId": "D082",
+ "chunk": 0,
+ "chunkHash": "5e1ee2ddac37eb9639650aaa15af33f6820c182edc506f4b6da787a3da7714f6",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:13:06.756Z"
+}

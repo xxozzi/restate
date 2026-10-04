@@ -4,7 +4,9 @@
 !.env.example
 
 # Reproducible outputs and disposable work have different lifecycles.
-/runs/
+/runs/*
+# Cached model responses are committed so the app and exports reproduce without API calls.
+!/runs/extraction-cache/
 /.scratch/
 
 # Dependencies, build products, interpreter caches, and OS metadata.

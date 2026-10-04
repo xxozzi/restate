@@ -1,0 +1,41 @@
+{
+ "raw": {
+  "updates": [
+   {
+    "id": "SA-RENT-01",
+    "coverageJson": "{\"op\":\"all\",\"args\":[{\"op\":\"lt\",\"field\":\"year_built\",\"value\":1995},{\"op\":\"eq\",\"field\":\"certificate_of_occupancy_date\",\"value\":\"before 1995-02-01\"}]}",
+    "coverageDescription": "Applies to residential rental buildings with first certificate of occupancy before February 1, 1995. The rent increase limit of 3% or 80% CPI (whichever is less) applies to these properties; buildings constructed after February 1, 1995 are exempt.",
+    "coverageQuote": "The rent cap does not apply to residential buildings constructed after February 1, 1995",
+    "sourceId": "D085"
+   },
+   {
+    "id": "SA-RENT-02",
+    "coverageJson": "{\"op\":\"all\",\"args\":[{\"op\":\"lt\",\"field\":\"year_built\",\"value\":1995},{\"op\":\"eq\",\"field\":\"certificate_of_occupancy_date\",\"value\":\"before 1995-02-01\"}]}",
+    "coverageDescription": "Applies to residential rental buildings with first certificate of occupancy before February 1, 1995. Residential rent increases are limited annually to the lower of 3% or 80% of CPI change. If CPI is negative, no increase is permitted. Buildings constructed after February 1, 1995 are exempt.",
+    "coverageQuote": "Increase in residential rents are limited to the lower of 3% per year, or 80% of the percent change in the Consumer Price Index",
+    "sourceId": "D085"
+   },
+   {
+    "id": "SA-EVICT-01",
+    "coverageJson": "{\"op\":\"all\",\"args\":[{\"op\":\"lt\",\"field\":\"year_built\",\"value\":2011},{\"op\":\"eq\",\"field\":\"certificate_of_occupancy_date\",\"value\":\"before 2011-01-01\"}]}",
+    "coverageDescription": "Applies to residential rental buildings not produced in the last 15 years (as of the ordinance adoption in 2021). For no-fault terminations (owner occupancy, removal from rental market, or demolition/substantial remodel), landlord must provide 3 months relocation assistance or waive 3 months rent. Buildings produced within the last 15 years are exempt.",
+    "coverageQuote": "housing produced in the last 15 years; deed-restricted affordable housing",
+    "sourceId": "D085"
+   },
+   {
+    "id": "SA-EVICT-02",
+    "coverageJson": "{\"op\":\"all\",\"args\":[{\"op\":\"lt\",\"field\":\"year_built\",\"value\":2011},{\"op\":\"eq\",\"field\":\"certificate_of_occupancy_date\",\"value\":\"before 2011-01-01\"}]}",
+    "coverageDescription": "Applies to residential rental buildings not produced in the last 15 years (as of ordinance adoption in 2021). A landlord must have a valid reason to evict, including non-payment of rent, breach of lease, or owner occupancy intent. Buildings produced within the last 15 years are exempt.",
+    "coverageQuote": "After 30 days, an owner shall not terminate a tenancy without just cause",
+    "sourceId": "D085"
+   }
+  ]
+ },
+ "promptHash": "0727a2616b08e130e31a4569973e766a81018a99bb37cbcd49ff0ded37b18b97",
+ "docId": "COVERAGE:Santa Ana, CA",
+ "chunk": 0,
+ "chunkHash": "5a8e3e97f2fbbca28a914cca09dd31f2380b7936c01f43617db7b6687a7ebfe5",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:33:36.958Z"
+}

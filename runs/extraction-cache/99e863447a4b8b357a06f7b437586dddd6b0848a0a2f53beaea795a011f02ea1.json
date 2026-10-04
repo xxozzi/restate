@@ -1,0 +1,93 @@
+{
+ "raw": {
+  "rules": [
+   {
+    "title": "Rent increase cap at 3% or 80% CPI (whichever is lower)",
+    "category": "rent_increase_limits",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": "2021-11-19",
+    "effectiveDateQuote": "The new ordinances are not effective until November 19, 2021.",
+    "endDate": null,
+    "requirement": "Residential rent increases are limited annually to the lower of 3% or 80% of the Consumer Price Index change over the prior 12 months. If CPI is negative, no increase is permitted.",
+    "keyValue": "3% or 80% CPI, whichever is lower",
+    "citation": "Santa Ana Rent Stabilization Ordinance",
+    "quotedSpan": "Increase in residential rents are limited to the lower of 3% per year, or 80% of the percent change in the Consumer Price Index over the most recent 12-month period. If the CPI is negative, no rent increase is permitted.",
+    "coverageJson": "{\"op\":\"not\",\"arg\":{\"op\":\"any\",\"args\":[{\"op\":\"gte\",\"field\":\"certificate_of_occupancy_date\",\"value\":\"1995-02-01\"},{\"op\":\"eq\",\"field\":\"single_family_or_condo\",\"value\":true}]}}",
+    "coverageDescription": "Applies to residential buildings with a certificate of occupancy before February 1, 1995. Exempts buildings constructed on or after February 1, 1995 and mobile home spaces.",
+    "exemptions": [
+     "Buildings with certificate of occupancy on or after February 1, 1995",
+     "Mobile home spaces offered for rent after January 1, 1990"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The source does not provide the full ordinance text; the exemption for buildings constructed after February 1, 1995 is stated in the summary but the exact statutory language is not provided."
+    ]
+   },
+   {
+    "title": "Just cause eviction with notice requirements",
+    "category": "just_cause_eviction",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": "2021-11-19",
+    "effectiveDateQuote": "The new ordinances are not effective until November 19, 2021.",
+    "endDate": null,
+    "requirement": "After 30 days of tenancy, a landlord may only terminate the lease for 'just cause,' which includes at-fault causes (nonpayment of rent, material lease breach, nuisance, criminal activity) and no-fault causes (owner occupancy, removal from rental market, demolition or substantial remodel). The landlord must first give notice of any violation and time to cure before terminating for at-fault causes.",
+    "keyValue": null,
+    "citation": "Santa Ana Just Cause Eviction Ordinance",
+    "quotedSpan": "After 30 days, an owner shall not terminate a tenancy without just cause, which shall be stated in a written notice. \"Just cause\" includes certain at-fault causes such as default in payment of rent, breach of a material term of the lease, committing a nuisance, criminal activity, and other actions. \"Just cause\" also includes certain no-fault causes such as the intent of the owner to occupy the property, removal of the property from the rental market, and demolition or substantial remodel. Before issuing a notice to terminate for just cause, the owner shall first give notice of the violation with a time period for the tenant to fix the violation(s).",
+    "coverageJson": "{\"op\":\"not\",\"arg\":{\"op\":\"any\",\"args\":[{\"op\":\"lt\",\"field\":\"building_age_years\",\"value\":15},{\"op\":\"eq\",\"field\":\"affordable_housing_restricted\",\"value\":true}]}}",
+    "coverageDescription": "Applies to residential rental buildings not constructed in the last 15 years and not deed-restricted as affordable housing. Exempts housing produced within the previous 15 years, deed-restricted affordable housing, hotels, transient occupancy, hospitals, care facilities, dormitories, and shared living quarters.",
+    "exemptions": [
+     "Housing produced within the last 15 years",
+     "Deed-restricted affordable housing",
+     "Hotel and transient occupancy",
+     "Hospital and care facilities",
+     "Dormitories and shared living quarters"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": [
+     "The source summarizes just cause grounds but does not provide exhaustive list; full ordinance text referenced as unavailable until November 19, 2021."
+    ]
+   },
+   {
+    "title": "Relocation assistance or rent waiver for no-fault termination",
+    "category": "just_cause_eviction",
+    "level": "city",
+    "status": "in_force",
+    "effectiveDate": "2021-11-19",
+    "effectiveDateQuote": "The new ordinances are not effective until November 19, 2021.",
+    "endDate": null,
+    "requirement": "When terminating a tenancy for no-fault just cause (owner occupancy, removal from rental market, or demolition/substantial remodel), the landlord must provide either three months of relocation assistance or waive rent payment for the final three months of tenancy.",
+    "keyValue": "3 months relocation assistance or 3 months rent waiver",
+    "citation": "Santa Ana Just Cause Eviction Ordinance",
+    "quotedSpan": "Under a no-fault just cause termination, the owner shall either provide 3 months of relocation assistance or waive payment of rent for the final 3 months of the tenancy.",
+    "coverageJson": "{\"op\":\"not\",\"arg\":{\"op\":\"any\",\"args\":[{\"op\":\"lt\",\"field\":\"building_age_years\",\"value\":15},{\"op\":\"eq\",\"field\":\"affordable_housing_restricted\",\"value\":true}]}}",
+    "coverageDescription": "Applies to residential rental buildings not constructed in the last 15 years and not deed-restricted as affordable housing.",
+    "exemptions": [
+     "Housing produced within the last 15 years",
+     "Deed-restricted affordable housing",
+     "Hotel and transient occupancy",
+     "Hospital and care facilities",
+     "Dormitories and shared living quarters"
+    ],
+    "yieldsToLocal": false,
+    "preemptsLocal": false,
+    "warnings": []
+   }
+  ],
+  "warnings": [
+   "The source is a press release summarizing two ordinances; the full text of both ordinances was stated to be published later (by November 19, 2021). This summary may not capture all operative provisions, definitions, or exceptions in the full ordinance text.",
+   "The rent stabilization exemption for buildings constructed after February 1, 1995 uses a specific cutoff date; buildings at or near that date boundary require verification against the full ordinance text.",
+   "The just cause eviction coverage is limited by a 15-year lookback for 'housing produced in the last 15 years,' which creates a rolling exemption; as of October 1, 2026, this exempts buildings with certificates of occupancy on or after October 1, 2011."
+  ]
+ },
+ "docId": "D085",
+ "chunk": 0,
+ "chunkHash": "de9d126675c8ee1ab2809c897c8c819bfe241dc95de31ace5004b6c7973607d8",
+ "model": "claude-haiku-4-5-20251001",
+ "version": "restate-extraction-3",
+ "createdAt": "2026-10-04T00:13:22.018Z"
+}

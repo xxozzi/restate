@@ -1,126 +1,75 @@
 import type { ChangeReport, PropertyRecord, Rule } from "./contracts";
 import type { OfficialChange } from "./data";
 import { describeChange } from "./data";
-import { evaluateProperty } from "./evaluate";
+import { evaluateAll } from "./evaluate";
 
+const enacted = (rule: Rule) => rule.status === "in_force" || rule.status === "not_yet_effective";
+
+/**
+ * The organizer's test IDs name their answer-key rules, not ours, so each test picks our extracted
+ * rules by jurisdiction, category and status — never by expected addresses.
+ */
 export function selectChangeRules(test: OfficialChange, rules: Rule[]): Rule[] {
-  // Test identifiers are organizer references, not the IDs of automatically extracted rules.
-  // Select candidate rules by the test's jurisdiction/category/status, never by expected address IDs.
+  const alg = (rule: Rule) => rule.category === "algorithmic_rent_setting";
   switch (test.test_id) {
     case "T1":
-      return rules.filter(
-        (r) =>
-          r.state === "CA" &&
-          r.level === "state" &&
-          r.category === "algorithmic_rent_setting",
-      );
+      return rules.filter((r) => r.state === "CA" && r.level === "state" && alg(r) && enacted(r));
     case "T2":
-      return rules.filter(
-        (r) =>
-          r.state === "NJ" &&
-          r.level === "city" &&
-          /Hoboken|Jersey City/i.test(r.jurisdiction) &&
-          r.category === "algorithmic_rent_setting",
-      );
+      return rules.filter((r) => r.level === "city" && /^(Hoboken|Jersey City),/.test(r.jurisdiction) && alg(r) && enacted(r));
     case "T3":
-      return rules.filter(
-        (r) =>
-          r.state === "NJ" &&
-          r.level === "state" &&
-          r.category === "algorithmic_rent_setting",
-      );
+      return rules.filter((r) => r.state === "NJ" && r.level === "state" && alg(r) && enacted(r));
     case "T4":
-      return rules.filter(
-        (r) =>
-          r.state === "MA" &&
-          r.category === "algorithmic_rent_setting" &&
-          r.status === "pending",
-      );
+      return rules.filter((r) => r.state === "MA" && alg(r) && r.status === "pending");
     case "T5":
-      return rules.filter(
-        (r) =>
-          r.state === "MA" &&
-          r.category === "rent_increase_limits" &&
-          /25[–-]21|Cella|rent.control ballot/i.test(
-            r.title + " " + r.requirement + " " + r.quotedSpan,
-          ),
-      );
+      return rules.filter((r) => r.state === "MA" && r.category === "rent_increase_limits" && r.status === "failed");
     default:
       return [];
   }
 }
 
-export function computeChange(
-  test: OfficialChange,
-  properties: PropertyRecord[],
-  rules: Rule[],
-): ChangeReport {
+export function computeChange(test: OfficialChange, properties: PropertyRecord[], rules: Rule[]): ChangeReport {
   const description = describeChange(test);
   const selected = selectChangeRules(test, rules);
-  const hypothetical =
+  const ids = new Set(selected.map((rule) => rule.id));
+  // T4 asks what would happen if the bills passed: an explicit, labeled hypothetical.
+  const after =
     test.type === "pending"
-      ? selected.map((rule) => ({
-          ...rule,
-          status: "in_force" as const,
-          effectiveDate: description.afterDate,
-        }))
+      ? selected.map((rule) => ({ ...rule, status: "in_force" as const, effectiveDate: null }))
       : selected;
+  // Local rules in the same category stay in view so possible preemption conflicts can be flagged.
+  const context = rules.filter(
+    (rule) => !ids.has(rule.id) && selected.some((s) => s.state === rule.state && s.category === rule.category && rule.level === "city" && enacted(rule)),
+  );
   const affected: PropertyRecord[] = [];
   const conflicts: string[] = [];
-  let beforeCount = 0,
-    afterCount = 0,
-    unresolvedCount = 0;
+  let beforeCount = 0;
+  let afterCount = 0;
+  let unresolvedCount = 0;
   for (const property of properties) {
-    const before = evaluateProperty(property, selected, description.beforeDate);
-    const after = evaluateProperty(
-      property,
-      hypothetical,
-      description.afterDate,
-    );
-    const beforeApplies = before.results.some((r) => r.result === "applies");
-    const afterApplies = after.results.some((r) => r.result === "applies");
+    const beforeResults = evaluateAll(property, [...selected, ...context], description.beforeDate).filter((r) => ids.has(r.ruleId));
+    const afterResults = evaluateAll(property, [...after, ...context], description.afterDate).filter((r) => ids.has(r.ruleId));
+    const beforeApplies = beforeResults.some((r) => r.result === "applies");
+    const afterApplies = afterResults.some((r) => r.result === "applies");
     if (beforeApplies) beforeCount++;
     if (afterApplies) afterCount++;
-    if (!afterApplies && after.results.some((r) => r.result === "unknown"))
-      unresolvedCount++;
-    const changed =
-      test.type === "boundary"
-        ? afterApplies
-        : test.type === "negative"
-          ? afterApplies
-          : beforeApplies !== afterApplies;
+    if (!afterApplies && afterResults.some((r) => r.result === "unknown")) unresolvedCount++;
+    const changed = test.type === "as_of" || test.type === "pending" ? beforeApplies !== afterApplies : afterApplies;
     if (changed) affected.push(property);
-    if (test.test_id === "T3" && afterApplies) {
-      const local = rules.filter(
-        (r) =>
-          r.state === "NJ" &&
-          r.level === "city" &&
-          /Hoboken|Jersey City/i.test(r.jurisdiction) &&
-          r.category === "algorithmic_rent_setting",
-      );
-      if (
-        evaluateProperty(property, local, description.afterDate).results.some(
-          (r) => r.result === "applies",
-        )
-      )
-        conflicts.push(property.id);
-    }
+    if (test.conflict_with?.length && afterResults.some((r) => r.conflictFlag)) conflicts.push(property.id);
   }
   const notes = [
     test.type === "pending"
-      ? "Hypothetical enactment only. These proposals remain pending in ordinary lookups."
-      : test.type === "boundary"
-        ? "Addresses supported by the extracted local rules and resolved legal jurisdictions."
-        : "Computed from extracted rules and the two query dates; not an official score.",
+      ? "Hypothetical: what would change if the bills were enacted. In ordinary lookups they stay pending."
+      : test.type === "negative"
+        ? "The measure failed, so it creates no rent cap anywhere."
+        : test.type === "boundary"
+          ? "Each local ban applies only inside its own city limits."
+          : `Compares ${description.beforeDate} with ${description.afterDate}.`,
     selected.length
-      ? `${selected.length} extracted rule(s) evaluated.`
-      : "No matching extracted rule is available. An empty set here does not establish a correct legal negative.",
-    unresolvedCount
-      ? `${unresolvedCount} address(es) remain unresolved and are not counted as established affected addresses.`
-      : "",
-    test.test_id === "T3"
-      ? "Potential local/state preemption is flagged for human review as specified in T3; no automatic supersession is inferred."
-      : "",
+      ? `Rules used: ${selected.map((rule) => `${rule.id} (${rule.citation})`).join("; ")}.`
+      : "No extracted rule matches this test, so nothing is reported as affected.",
+    unresolvedCount ? `${unresolvedCount} address(es) could not be settled from the record and are not counted.` : "",
+    conflicts.length ? "Conflict flags mark possible state preemption of a local rule, for human review." : "",
   ]
     .filter(Boolean)
     .join(" ");
@@ -130,8 +79,9 @@ export function computeChange(
     conflictAddressIds: conflicts,
     beforeCount,
     afterCount,
+    unresolvedCount,
     notes,
     properties: affected,
-    ruleIds: selected.map((r) => r.id),
+    ruleIds: selected.map((rule) => rule.id),
   };
 }
