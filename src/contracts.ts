@@ -68,6 +68,8 @@ export interface PropertyRecord {
 export interface Rule {
   id: string;
   title: string;
+  /** One plain sentence addressed to the renter; null until the plain-language pass has run for this rule. */
+  headline?: string | null;
   category: Category;
   jurisdiction: string;
   state: string;

@@ -19,6 +19,10 @@ test("every rule is schema-valid and quotes its source exactly", () => {
   }
 });
 
+test("every rule has a plain-language headline addressed to the renter", () => {
+  for (const rule of rules) assert.match(rule.headline ?? "", /\byou(r)?\b/i, rule.id);
+});
+
 test("lookups cover all 500 addresses and omit rules that don't apply", () => {
   const output = exportLookups(dataset.properties, rules, "2026-10-01");
   assert.equal(Object.keys(output.lookups).length, 500);

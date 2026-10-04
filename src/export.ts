@@ -14,13 +14,15 @@ const exportStatus = (rule: Rule, asOf: string) =>
       : rule.status;
 
 export function exportRules(rules: Rule[], asOf: string) {
-  return rules.map((rule) => ({
+  // A measure whose own text ends before the query date is not current law, so it is left out.
+  return rules.filter((rule) => !rule.endDate || rule.endDate >= asOf).map((rule) => ({
     team_rule_id: rule.id,
     jurisdiction: rule.jurisdiction,
     level: rule.level,
     category: rule.category,
     status: exportStatus(rule, asOf),
     title: rule.title,
+    plain_language: rule.headline ?? null,
     requirement: rule.requirement,
     key_value: rule.keyValue,
     coverage_conditions: { description: rule.coverageDescription, predicate: rule.coverage },
@@ -45,11 +47,12 @@ export function exportRules(rules: Rule[], asOf: string) {
 export function validateRules(rules: Rule[], asOf: string, schema: Record<string, unknown>) {
   const ajv = new Ajv2020({ allErrors: true, strict: false });
   const validate = ajv.compile(schema);
-  const errors = exportRules(rules, asOf).flatMap((record) => {
+  const records = exportRules(rules, asOf);
+  const errors = records.flatMap((record) => {
     const ruleId = record.team_rule_id;
     return validate(record) ? [] : [{ ruleId, errors: structuredClone(validate.errors) }];
   });
-  return { checked: rules.length, passed: rules.length - errors.length, errors };
+  return { checked: records.length, passed: records.length - errors.length, errors };
 }
 
 export function exportLookups(properties: PropertyRecord[], rules: Rule[], asOf: string) {

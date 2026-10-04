@@ -29,6 +29,9 @@ const summary = {
   asOf: DEFAULT_AS_OF,
   model: report.model,
   rules: rules.length,
+  // Rules whose own text ends before the query date are kept for history but left out of rules.json.
+  rulesExported: schema.checked,
+  expiredBeforeAsOf: rules.filter((rule) => rule.endDate && rule.endDate < DEFAULT_AS_OF).map((rule) => rule.id),
   documentsWithRules: report.documentsProcessed,
   documentsWithText: report.documentsWithText,
   documentsNotExtracted: report.pendingDocuments,

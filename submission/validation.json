@@ -1,12 +1,17 @@
 {
-  "createdAt": "2026-10-04T02:33:31.664Z",
+  "createdAt": "2026-10-04T05:49:29.760Z",
   "asOf": "2026-10-01",
   "model": "claude-haiku-4-5-20251001",
   "rules": 57,
+  "rulesExported": 55,
+  "expiredBeforeAsOf": [
+    "LA-RENT-01",
+    "LA-RENT-02"
+  ],
   "documentsWithRules": 50,
   "documentsWithText": 61,
   "documentsNotExtracted": [],
-  "schemaValid": "57/57",
+  "schemaValid": "55/55",
   "quotesVerbatim": "57/57",
   "addresses": 500,
   "addressesWithCity": 492,

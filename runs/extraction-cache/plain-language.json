@@ -1,0 +1,311 @@
+{
+ "version": 1,
+ "entries": {
+  "c8f9b30bd951f15d0c8bfb6546a315df721bacc561170c982707cee587338156": {
+   "headline": "Your landlord must give you 30 days' written notice before raising your rent by less than 10%.",
+   "ruleId": "CA-RENT-01",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:28.801Z"
+  },
+  "28a374d99f3c871e9e59ec638a6f2b6f8575ce4fcbb3a6b15fddd27dac453aad": {
+   "headline": "Your landlord can't raise your rent more than 5% plus the cost-of-living increase, or 10%, whichever is lower, per year.",
+   "ruleId": "CA-RENT-02",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:28.801Z"
+  },
+  "c669299ee07b1cc7f7f240ba48aafd1d48bdeeed4222642f799f73676398c4c5": {
+   "headline": "After you've lived there 12 months, your landlord must have a legal reason to evict you.",
+   "ruleId": "CA-EVICT-01",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:28.801Z"
+  },
+  "0c67b6968e40d7d5297f676f82b0e0c88c0bcdafd945a26e1d980b3190409311": {
+   "headline": "Your landlord can't charge more than one month's rent as a security deposit.",
+   "ruleId": "CA-DEP-01",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:28.802Z"
+  },
+  "7e87145218c2b2b31eddfbeb713f166a8429f39268c16c734beb2d6c0adba768": {
+   "headline": "Your landlord can't charge you more than $30 to screen your rental application.",
+   "ruleId": "CA-FEE-01",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:28.802Z"
+  },
+  "67fb917cbea41dc62c228b3554b0d22c8bfa78855b2de474dbcbf9dab30476d5": {
+   "headline": "Your landlord can't refuse to rent to you based on race, religion, disability, or other protected characteristics.",
+   "ruleId": "CA-SCREEN-01",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:28.802Z"
+  },
+  "5b346731214c425738314acf661293f6bac50413e041ce52e96c8d6861432aff": {
+   "headline": "Your landlord can't use pricing software that uses competitors' data to set your rent.",
+   "ruleId": "CA-ALG-01",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:28.802Z"
+  },
+  "d24c22a2f5298c24b62210d956031fd11defbc7f4cb50323d54666847c002fc1": {
+   "headline": "Your landlord's annual rent increase is capped at 5%, even if the formula allows more.",
+   "ruleId": "BER-RENT-01",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:28.803Z"
+  },
+  "961bde792cd910e06c9f1c283eafdc5830154fe32a9eb8caab1a9e2a4bf596fc": {
+   "headline": "If you moved in before January 1, 2025, your landlord can raise your rent by 1.0% in 2026.",
+   "ruleId": "BER-RENT-02",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:28.803Z"
+  },
+  "28dc4dba78b1ccef15ebc91c6e53dd5e221359aa7ce41f7c20b6a536450c3c83": {
+   "headline": "If you live in a multifamily building built before 1980, your rent is controlled.",
+   "ruleId": "BER-RENT-03",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:28.803Z"
+  },
+  "5e2b16c4bec97efe18516120131c93f4c0732603dcf1641afc9bcc226294b867": {
+   "headline": "Your landlord must tell you within 15 days whether rent control applies to your unit.",
+   "ruleId": "BER-EVICT-01",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:28.803Z"
+  },
+  "e8379eb58c6821067c0b41ecacefc37f8480c2b0f433d401bfc33f648a39efb2": {
+   "headline": "If you live in a multifamily building built before 1980, your landlord needs a legal reason to evict.",
+   "ruleId": "BER-EVICT-02",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:28.803Z"
+  },
+  "38835d2842b05d25ae60dbf580f6b7191dc64e2b3e4dc89abca81f96a0d5163d": {
+   "headline": "Your landlord can only charge you for utilities if they're part of rent or separately metered.",
+   "ruleId": "BER-DEP-01",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:28.804Z"
+  },
+  "601846d0ec899569fe50401991cdd3d1693bf33f15ba0e8f083e63e63bf6f770": {
+   "headline": "Your landlord must pay you interest on your security deposit each year.",
+   "ruleId": "BER-DEP-02",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:28.804Z"
+  },
+  "afd00bf552c50594e2d5cd54399d73d4d4b9ccf0c4ae647dfead48eb73dc06d5": {
+   "headline": "Your landlord must pay you interest on your security deposit each year.",
+   "ruleId": "BER-DEP-03",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:28.804Z"
+  },
+  "a6d6225cff6b29fbabfee065a6c0aec2d62c83672098b9824e4f5017cbdff2b8": {
+   "headline": "Your landlord can't charge more than $68.96 for a tenant screening report.",
+   "ruleId": "BER-FEE-01",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:28.804Z"
+  },
+  "57d3c0c7b3b1bfba17af0f6511f3b2e2382b70abaa8e8d22b0fc2912e4e31874": {
+   "headline": "Your landlord can't ask about or use your criminal history to deny you housing.",
+   "ruleId": "BER-SCREEN-01",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:28.804Z"
+  },
+  "a54653d640caa4b352a86c44ab3ae9d669edc5795cfa93c260915c3b6b943c15": {
+   "headline": "If you provide a screening report, your landlord must use it instead of charging you.",
+   "ruleId": "BER-SCREEN-02",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:28.804Z"
+  },
+  "804ea5e62b04806eb456a99ff927d6212b74ac0160bd82c8cebbe433fe4a9f02": {
+   "headline": "Your landlord can't use software that uses competitor data to set your rent.",
+   "ruleId": "BER-ALG-01",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:28.804Z"
+  },
+  "864e05629ec1dfde01f6e733f55f28b8ec15a93ff7ee9294a028bca76eca3f5e": {
+   "headline": "Rent increases are prohibited for your rental unit under the Rent Stabilization Ordinance.",
+   "ruleId": "LA-RENT-01",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:28.805Z"
+  },
+  "7695da11cc43b33e475b3890e04288ec162a378c098d57d520ae47b5349bd651": {
+   "headline": "Your landlord can raise your rent by no more than 3% per year.",
+   "ruleId": "LA-RENT-02",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:36.597Z"
+  },
+  "e9effa8ae39a23b3ab9d277090fe1a889e521a542764e55640b8dd9e7745d006": {
+   "headline": "Your landlord can't evict you for unpaid rent unless you owe more than the Fair Market Rent for your unit.",
+   "ruleId": "LA-EVICT-01",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:36.598Z"
+  },
+  "73a656159d7cbcbd70e89b5f9e0d10a4a32f02e5fadf87266ec8950cca5fb3e4": {
+   "headline": "Your landlord must give you a Notice of Right to Counsel when your tenancy starts and with any eviction notice.",
+   "ruleId": "LA-EVICT-02",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:36.598Z"
+  },
+  "cd27d23f2ae8adad02827d042aded4f2811aa62cc13ac136ecd3d327c03b0798": {
+   "headline": "Your landlord may pay you $10,550 to $21,250 in relocation assistance for a good-faith owner move-in eviction.",
+   "ruleId": "LA-EVICT-03",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:36.598Z"
+  },
+  "cb081447b08e31c0767e6537c08bd5eaf5d428c8c84504a1682dd079c16f8e6b": {
+   "headline": "Your landlord must pay you one month's rent as relocation assistance for a single-family home eviction.",
+   "ruleId": "LA-EVICT-04",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:36.598Z"
+  },
+  "9744a42d31da343dbdca98fba0c17723b9ed4dc18e21cefd4cf5a3e1988e32e6": {
+   "headline": "Your landlord must pay interest on your security deposit as set by the Rent Adjustment Commission.",
+   "ruleId": "LA-DEP-01",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:36.598Z"
+  },
+  "c231eb19bb42e4347d46735ce97e1e28edafb0f4ec1c2a57a9460b2390636604": {
+   "headline": "Your landlord must give you 30 or 60 days' notice and pay you 2 months' rent (3 if senior/disabled) when ending your tenancy without cause.",
+   "ruleId": "SD-EVICT-01",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:36.598Z"
+  },
+  "b3f3bf28eeca4f98415354c302d5513bb53968bce17420e2372b89cd08c22d4a": {
+   "headline": "Your landlord must pay you 2 months' rent or waive 2 months' rent when evicting you for no-fault reasons.",
+   "ruleId": "SD-EVICT-02",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:36.598Z"
+  },
+  "e98f0d53297c2b75197e69f2ff4691399d5ca518ba81519fe77d5c0561713b02": {
+   "headline": "Your landlord can't use software that uses competitor data to set your rent or occupancy rules.",
+   "ruleId": "SD-ALG-P1",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:36.598Z"
+  },
+  "944a4e740b2227143be9e8369478679166b94bdeb13d182927c8ac8c7c7f202b": {
+   "headline": "Your landlord can raise your rent by no more than 1.6% for March 1, 2026 through February 28, 2027.",
+   "ruleId": "SF-RENT-01",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:36.598Z"
+  },
+  "ada534a2002e6c152e3b983a0e774484a9a1774121d7e99427368783ede4b472": {
+   "headline": "Your landlord must pay 4.2% annual interest on your security deposit.",
+   "ruleId": "SF-DEP-01",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:36.599Z"
+  },
+  "5fdf92cb2d2e2f500f5a810348059303d83293890f6e306320f84de53f1eca34": {
+   "headline": "Your landlord can't use software that analyzes competitor rents to set your rent.",
+   "ruleId": "SF-ALG-01",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:36.599Z"
+  },
+  "031900b57066de9ba7764b420ad5c4dd143671a85815d71456efacda0e16a4be": {
+   "headline": "Your landlord can raise your rent by no more than 3% or 80% of the CPI increase, whichever is less.",
+   "ruleId": "SA-RENT-01",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:36.599Z"
+  },
+  "61de44f0424e82caf7b69d83fa6c92c7dbec17328e470cc609046021cddd8966": {
+   "headline": "Your landlord can raise your rent by no more than 3% or 80% of the CPI change, whichever is lower.",
+   "ruleId": "SA-RENT-02",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:36.599Z"
+  },
+  "3d3cb65e42049150caddfb2fb1bdf3e42e40618a56e9f70bf3eb41dd18d0e9b7": {
+   "headline": "Your landlord must pay you 3 months' relocation assistance or waive 3 months' rent when ending your tenancy without cause.",
+   "ruleId": "SA-EVICT-01",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:36.599Z"
+  },
+  "40860afcaa963fb2eba311e494093fd29a1dad2a0be111261bf4f2339e859266": {
+   "headline": "Your landlord must have a valid reason, like non-payment of rent, to evict you.",
+   "ruleId": "SA-EVICT-02",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:36.599Z"
+  },
+  "fb76f44989bc9f2246959e1f00734d9b4697c0b2e0e7ffb239ca554c53e731d9": {
+   "headline": "Your landlord must give you 14 days' written notice before evicting you for not paying rent.",
+   "ruleId": "MA-EVICT-01",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:41.469Z"
+  },
+  "4e03a2c42fb47a05b08abd4b6d9173828713dcf9061a14ecc3473c96ebc0e572": {
+   "headline": "Your landlord can't charge more than one month's rent as a security deposit.",
+   "ruleId": "MA-DEP-01",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:41.469Z"
+  },
+  "1e3819bbeb4d93acaa8d6aa91f21e8b150873448040af00ed94f9702ff2075bc": {
+   "headline": "Your landlord can't use rent-pricing software that pools competitors' data to set your rent.",
+   "ruleId": "MA-ALG-P1",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:41.469Z"
+  },
+  "7ccb48956fcb8a4bc50a6f06dc0577fe20da858910c1b1c73fb13c821e5a32ca": {
+   "headline": "Your landlord can't use algorithmic rent setting to determine your rent.",
+   "ruleId": "MA-ALG-P2",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:41.469Z"
+  },
+  "65a3da41c1f41005005ca88aa59283ab68b751c179de9532a5f0d8bfc0d41eb1": {
+   "headline": "Your landlord must give you tenants' rights information when ending your tenancy.",
+   "ruleId": "BOS-EVICT-01",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:41.470Z"
+  },
+  "a43fc28fd6e2dd20b16650172a924ebda22d9a5515441692a170fd7288aede94": {
+   "headline": "Your landlord can't deny you housing based on arrests or old convictions.",
+   "ruleId": "BOS-SCREEN-01",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:41.470Z"
+  },
+  "8e25aa4ab84ee709f07ad255b8fb3cf612da6ea7bc6c9801f07246efe5fbdf89": {
+   "headline": "Your landlord must give you 14 days' notice before evicting you for nonpayment if you live in federally subsidized housing.",
+   "ruleId": "NJ-EVICT-01",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:41.470Z"
+  },
+  "add9ac185355f381a6f6d6e2246334d48b6a63c33d7775d9d0287fd57bd5e017": {
+   "headline": "You can end your lease with 30 days' notice if you're a victim of domestic violence.",
+   "ruleId": "NJ-EVICT-02",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:41.470Z"
+  },
+  "82042202b5991e8d22913d5bdad68a54806ea6415a07b137e897dc5439fea780": {
+   "headline": "Your landlord can't charge more than one and one-half months' rent as a security deposit.",
+   "ruleId": "NJ-DEP-01",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:41.470Z"
+  },
+  "8bf6c2ca49eb282a2967830f7688101602d4787f7eef074fabab66e39118ec3c": {
+   "headline": "Your landlord can't charge more than $50 to apply for a rental.",
+   "ruleId": "NJ-FEE-01",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:41.470Z"
+  },
+  "095463b2970e9ce790881a8c741e907d72d31990ca6ba27ed83953caad267aff": {
+   "headline": "Your landlord can't refuse to rent to you based on race, sex, disability, or other protected characteristics.",
+   "ruleId": "NJ-SCREEN-01",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:41.470Z"
+  },
+  "aa414599f0d453fae6588f8196fa029f276a8b01e9c97d39ef97ba5a4d5a0003": {
+   "headline": "Your landlord can't ask about your criminal record before making you a job offer.",
+   "ruleId": "NJ-SCREEN-02",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:41.470Z"
+  },
+  "b0aa6838394220b1ef4ca889df15dfe55616bdaf5b93c3cc69158435097ec778": {
+   "headline": "Your landlord can't use algorithms to coordinate rental prices with other landlords.",
+   "ruleId": "NJ-ALG-01",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:41.471Z"
+  },
+  "1d772d5ec1aef53d42e94e0e2e1dded1f75e37b2706918ae6b7cf6cbdbd71878": {
+   "headline": "Your landlord can't use software to share competitor data to set rental prices.",
+   "ruleId": "HOB-ALG-01",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:41.471Z"
+  },
+  "007470f2245060815d238c416a915f1980d88c7e03e018a4425943f1cd0eb180": {
+   "headline": "Your landlord can't use software to coordinate rental prices with other landlords.",
+   "ruleId": "JC-ALG-01",
+   "model": "claude-haiku-4-5-20251001",
+   "createdAt": "2026-10-04T05:34:41.471Z"
+  }
+ }
+}

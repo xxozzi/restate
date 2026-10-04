@@ -6,6 +6,7 @@
     "category": "rent_increase_limits",
     "status": "in_force",
     "title": "Rent Increase Notice Requirement",
+    "plain_language": "Your landlord must give you 30 days' written notice before raising your rent by less than 10%.",
     "requirement": "Landlords must provide at least 30 days' written advance notice before implementing a rent increase of less than 10%.",
     "key_value": "30 days",
     "coverage_conditions": {
@@ -33,6 +34,7 @@
     "category": "rent_increase_limits",
     "status": "in_force",
     "title": "California Statewide Rent Increase Cap",
+    "plain_language": "Your landlord can't raise your rent more than 5% plus the cost-of-living increase, or 10%, whichever is lower, per year.",
     "requirement": "Landlords cannot increase rent by more than 5% plus the percentage change in the cost of living (or 10%, whichever is lower) in any 12-month period, based on the lowest rent charged in the prior 12 months. For tenants remaining in occupancy, increases are limited to no more than two increments per 12-month period.",
     "key_value": "5% + CPI, max 10%",
     "coverage_conditions": {
@@ -112,6 +114,7 @@
     "category": "just_cause_eviction",
     "status": "in_force",
     "title": "Just cause requirement for residential tenancy termination after 12 months of occupancy",
+    "plain_language": "After you've lived there 12 months, your landlord must have a legal reason to evict you.",
     "requirement": "After a tenant has continuously and lawfully occupied a residential property for 12 months, the owner must not terminate the tenancy without just cause, which must be stated in the written notice. Just cause includes at-fault causes (default in rent, lease violations, nuisance, waste, criminal activity, illegal subletting, refusal of entry, unlawful use) and no-fault causes (owner or family intent to occupy for 12+ months, withdrawal from rental market, compliance with government habitability orders, intent to demolish or substantially remodel).",
     "key_value": null,
     "coverage_conditions": {
@@ -169,6 +172,7 @@
     "category": "security_deposits",
     "status": "in_force",
     "title": "California Assembly Bill 12: Security Deposit Limit (General Landlords)",
+    "plain_language": "Your landlord can't charge more than one month's rent as a security deposit.",
     "requirement": "Landlords may charge only one month's rent for security deposits on both unfurnished and furnished residential units, except for small landlords who own two or fewer rental properties with four or fewer total residential units.",
     "key_value": "1 month's rent",
     "coverage_conditions": {
@@ -196,6 +200,7 @@
     "category": "application_screening_fees",
     "status": "in_force",
     "title": "California application screening fee cap",
+    "plain_language": "Your landlord can't charge you more than $30 to screen your rental application.",
     "requirement": "A landlord may charge an applicant a nonrefundable screening fee, but only up to $30 per applicant (adjusted annually for inflation starting January 1, 1998), and only to cover actual out-of-pocket costs of obtaining information such as credit reports and reference checks. The fee may be charged only if a rental unit is or will be available within a reasonable time, and only if the landlord uses a screening process that considers completed applications in order received or returns the entire fee to applicants not selected, within 7 days of selection or 30 days of application, whichever is first.",
     "key_value": "$30",
     "coverage_conditions": {
@@ -223,6 +228,7 @@
     "category": "screening_restrictions",
     "status": "in_force",
     "title": "California Fair Housing: Protected Characteristics in Housing Discrimination",
+    "plain_language": "Your landlord can't refuse to rent to you based on race, religion, disability, or other protected characteristics.",
     "requirement": "Housing providers cannot discriminate against applicants or tenants based on race, color, religion, sex, gender identity, sexual orientation, marital status, national origin, ancestry, familial status, source of income, disability, veteran or military status, or genetic information. Housing providers cannot make written or oral inquiries about these protected characteristics, publish discriminatory notices, or aid in discrimination.",
     "key_value": null,
     "coverage_conditions": {
@@ -250,6 +256,7 @@
     "category": "algorithmic_rent_setting",
     "status": "in_force",
     "title": "Prohibition on Common Pricing Algorithms in Restraint of Trade",
+    "plain_language": "Your landlord can't use pricing software that uses competitors' data to set your rent.",
     "requirement": "It is unlawful for a person to use or distribute a common pricing algorithm as part of a contract, combination, trust, or conspiracy to restrain trade or commerce. It is also unlawful for a person to use or distribute a common pricing algorithm if they coerce another person to set or adopt a recommended price or commercial term recommended by that algorithm for the same or similar products or services in California.",
     "key_value": null,
     "coverage_conditions": {
@@ -277,6 +284,7 @@
     "category": "rent_increase_limits",
     "status": "in_force",
     "title": "Annual General Adjustment (AGA) Cap at 5%",
+    "plain_language": "Your landlord's annual rent increase is capped at 5%, even if the formula allows more.",
     "requirement": "Landlords of fully-covered rental units may raise rent each year by the Annual General Adjustment (AGA), which is capped at a maximum of 5%, even if the formula results in a higher amount. Landlords may still implement banked (unused) AGAs from previous years to raise rent to the rent ceiling.",
     "key_value": "5%",
     "coverage_conditions": {
@@ -336,6 +344,7 @@
     "category": "rent_increase_limits",
     "status": "in_force",
     "title": "Berkeley Annual General Adjustment (AGA) for 2026",
+    "plain_language": "If you moved in before January 1, 2025, your landlord can raise your rent by 1.0% in 2026.",
     "requirement": "Eligible landlords may increase 2025 permanent rent ceilings by 1.0% for tenancies that began before January 1, 2025. Tenancies beginning on or after January 1, 2025 under Costa-Hawkins are exempt.",
     "key_value": "1.0%",
     "coverage_conditions": {
@@ -375,6 +384,7 @@
     "category": "rent_increase_limits",
     "status": "in_force",
     "title": "Berkeley Rent Stabilization and Just Cause Eviction Ordinance - Multifamily Buildings Built Before 1980",
+    "plain_language": "If you live in a multifamily building built before 1980, your rent is controlled.",
     "requirement": "Rent increases are limited under Berkeley's rent stabilization ordinance. Tenants in most multifamily properties built before 1980 are fully covered by rent control.",
     "key_value": null,
     "coverage_conditions": {
@@ -414,6 +424,7 @@
     "category": "just_cause_eviction",
     "status": "in_force",
     "title": "Notice of Tenant Rights at Start of Tenancy",
+    "plain_language": "Within 15 days of move-in, your landlord must tell you in writing whether rent control covers your unit.",
     "requirement": "For tenancies started on or after December 20, 2024, landlords must, within fifteen days of the start of the tenancy, provide written notice containing: the existence and scope of the Rent Ordinance; the tenant's right to petition against certain rent increases, if applicable; whether the unit is exempt from rent control; and any other partial exemptions. If the property has an interior common area, the landlord must post the notice there.",
     "key_value": null,
     "coverage_conditions": {
@@ -473,6 +484,7 @@
     "category": "just_cause_eviction",
     "status": "in_force",
     "title": "Berkeley Rent Stabilization and Just Cause Eviction Ordinance - Multifamily Buildings Built Before 1980",
+    "plain_language": "If you live in a multifamily building built before 1980, your landlord needs a legal reason to evict.",
     "requirement": "Landlords must show just cause when evicting tenants in most multifamily properties built before 1980.",
     "key_value": null,
     "coverage_conditions": {
@@ -512,6 +524,7 @@
     "category": "just_cause_eviction",
     "status": "in_force",
     "title": "Owner move-in eviction relocation assistance payment",
+    "plain_language": "If your landlord evicts you to move in, they must pay you $19,413 to help you relocate.",
     "requirement": "When an owner evicts a tenant for owner move-in, the owner must pay the tenant relocation assistance. As of January 1, 2026, the standard payment is $19,413 and the additional payment for qualifying households is $6,471.",
     "key_value": "$19,413 standard; $6,471 additional",
     "coverage_conditions": {
@@ -539,6 +552,7 @@
     "category": "security_deposits",
     "status": "in_force",
     "title": "Utility Charges Incorporated into Base Rent or Separately Metered",
+    "plain_language": "Your landlord can only charge you for utilities if they're part of rent or separately metered.",
     "requirement": "For tenancies starting on or after February 6, 2024, a landlord may charge a tenant in a fully-covered unit for utilities only if the cost is part of the base rent or if the utility service is separately-metered and the lease requires the tenant to place the utility in the tenant's name. Landlords may petition the Rent Board to add average utility costs to the rent ceiling.",
     "key_value": null,
     "coverage_conditions": {
@@ -598,6 +612,7 @@
     "category": "security_deposits",
     "status": "in_force",
     "title": "Berkeley Rent Ordinance: Security Deposit Interest",
+    "plain_language": "Your landlord must pay you interest on your security deposit each year.",
     "requirement": "For tenancies in units fully or partially covered by Berkeley's Rent Ordinance, landlords must pay tenants interest on their security deposit at the end of each year and a prorated amount if the tenant moves out before the end of the year.",
     "key_value": null,
     "coverage_conditions": {
@@ -672,6 +687,7 @@
     "category": "security_deposits",
     "status": "in_force",
     "title": "Berkeley Rent Stabilization and Just Cause Eviction Ordinance - Multifamily Buildings Built Before 1980",
+    "plain_language": "In most multifamily buildings built before 1980, your security deposit must earn interest.",
     "requirement": "Security deposits must accrue interest for tenants in most multifamily properties built before 1980.",
     "key_value": null,
     "coverage_conditions": {
@@ -711,6 +727,7 @@
     "category": "application_screening_fees",
     "status": "in_force",
     "title": "Maximum Tenant Screening Fee",
+    "plain_language": "Your landlord can't charge more than $68.96 for a tenant screening report.",
     "requirement": "Landlords may not charge more than $68.96 per tenant screening report (2026 amount; adjusted annually). Landlords must provide a copy of any consumer credit report obtained within 7 days, a receipt for the fee, an itemized list of out-of-pocket expenses and time spent, and refund any unused portion.",
     "key_value": "$68.96",
     "coverage_conditions": {
@@ -738,6 +755,7 @@
     "category": "screening_restrictions",
     "status": "in_force",
     "title": "Ronald V. Dellums Fair Chance Access to Housing Ordinance – Criminal History Screening Restrictions",
+    "plain_language": "Your landlord can't ask about or use your criminal history to deny you housing.",
     "requirement": "Housing providers cannot inquire about, use, or consider criminal history in rental advertising, applications, tenant selection, or decision-making. Providers cannot refuse to rent, terminate tenancy, demand higher deposits or rent, or refuse to add family members based on criminal history. They cannot disqualify tenants from rental assistance based on criminal history (with limited exceptions). If taking any action based on criminal history, the provider must give written notice and opportunity to respond.",
     "key_value": null,
     "coverage_conditions": {
@@ -765,6 +783,7 @@
     "category": "screening_restrictions",
     "status": "in_force",
     "title": "Requirement to Accept Reusable Screening Reports",
+    "plain_language": "If you provide a screening report, your landlord must use it instead of charging you.",
     "requirement": "If a prospective tenant provides a reusable screening report, the landlord must accept and use it instead of charging the tenant for a new screening report.",
     "key_value": null,
     "coverage_conditions": {
@@ -792,6 +811,7 @@
     "category": "algorithmic_rent_setting",
     "status": "in_force",
     "title": "Prohibition on Sale or Use of Coordinated Pricing Algorithms to Set Rents or Manage Occupancy Levels",
+    "plain_language": "Your landlord can't use software that uses competitor data to set your rent.",
     "requirement": "Landlords and vendors are prohibited from selling, licensing, or using coordinated pricing algorithms that use competitor data to set or recommend rent prices, occupancy rates, or other rental terms for residential dwelling units in Berkeley. Each month of violation and each unit affected constitutes a separate violation.",
     "key_value": null,
     "coverage_conditions": {
@@ -813,69 +833,13 @@
     "conflict_note": null
   },
   {
-    "team_rule_id": "LA-RENT-01",
-    "jurisdiction": "Los Angeles, CA",
-    "level": "city",
-    "category": "rent_increase_limits",
-    "status": "in_force",
-    "title": "Rent Increase Prohibition - COVID-19 Relief",
-    "requirement": "Rent increases are prohibited for rental units subject to the RSO.",
-    "key_value": "0%",
-    "coverage_conditions": {
-      "description": "Rent increases prohibited for RSO units (buildings first built on or before October 1, 1978)",
-      "predicate": {
-        "op": "eq",
-        "field": "certificate_of_occupancy_date",
-        "value": "1978-10-01"
-      }
-    },
-    "exemptions": null,
-    "overrides": [],
-    "interaction": null,
-    "effective_date": "2020-03-30",
-    "citation": "L.A.M.C. § 151 et seq.",
-    "source_doc_id": "D041",
-    "source_url": "https://housing.lacity.gov/residents/rso-overview",
-    "quoted_span": "Effective March 30, 2020, through January 31, 2024, rent increases are prohibited for rental units subject to the Rent Stabilization Ordinance (RSO).",
-    "confidence": null,
-    "conflict_flag": false,
-    "conflict_note": null
-  },
-  {
-    "team_rule_id": "LA-RENT-02",
-    "jurisdiction": "Los Angeles, CA",
-    "level": "city",
-    "category": "rent_increase_limits",
-    "status": "in_force",
-    "title": "Los Angeles RSO Annual Rent Increase Limit",
-    "requirement": "Landlords of rental units subject to the Los Angeles Rent Stabilization Ordinance (RSO) may increase rent by no more than 3% per year. Beginning February 2, 2026, landlords can no longer include any additional percentage increase for utilities.",
-    "key_value": "3%",
-    "coverage_conditions": {
-      "description": "Rental units subject to the City of Los Angeles Rent Stabilization Ordinance. To determine if a unit is covered, tenants and landlords must check the unit's registration status using the ZIMAS database or contact LAHD.",
-      "predicate": {
-        "op": "unknown",
-        "reason": "Source does not specify building characteristics (age, unit count, ownership type, etc.) that determine RSO coverage; coverage is determined by individual property registration and zoning status in ZIMAS"
-      }
-    },
-    "exemptions": "Non-RSO properties",
-    "overrides": [],
-    "interaction": null,
-    "effective_date": "2025-07-01",
-    "citation": "L.A.M.C. ch. XV (RSO)",
-    "source_doc_id": "D042",
-    "source_url": "https://housing.lacity.gov/rso-rent-increase-calculator",
-    "quoted_span": "Beginning February 2, 2026, a landlord can no longer include any additional percentage increase for utilities.",
-    "confidence": null,
-    "conflict_flag": false,
-    "conflict_note": null
-  },
-  {
     "team_rule_id": "LA-EVICT-01",
     "jurisdiction": "Los Angeles, CA",
     "level": "city",
     "category": "just_cause_eviction",
     "status": "in_force",
     "title": "Evictions for Non-Payment of Rent – Fair Market Rent Threshold",
+    "plain_language": "Your landlord can't evict you for unpaid rent unless you owe more than the Fair Market Rent for your unit.",
     "requirement": "Landlords may not evict a tenant for non-payment of rent unless the amount of rent owed exceeds the Fair Market Rent (FMR) for the unit's bedroom size. FMR thresholds vary by bedroom count.",
     "key_value": "FMR (varies by bedroom size)",
     "coverage_conditions": {
@@ -903,6 +867,7 @@
     "category": "just_cause_eviction",
     "status": "in_force",
     "title": "Right to Counsel Notice Requirement",
+    "plain_language": "Your landlord must give you a Notice of Right to Counsel when your tenancy starts and with any eviction notice.",
     "requirement": "Landlords must post and provide tenants with a Notice of Right to Counsel at the start of the tenancy, and also attach it to any eviction notice or termination of rental subsidy notice.",
     "key_value": null,
     "coverage_conditions": {
@@ -930,6 +895,7 @@
     "category": "just_cause_eviction",
     "status": "in_force",
     "title": "'Mom and Pop' reduced relocation assistance for owner/family occupancy evictions",
+    "plain_language": "If a small landlord evicts you to move in, you get $10,550 to $21,250 to help you relocate.",
     "requirement": "Landlords of 'Mom and Pop' properties (4 or fewer rental units, natural person owner with no more than 4 units total and one single-family home on separate lot in LA) may pay reduced relocation assistance for good-faith evictions for owner or eligible relative occupancy, provided: (1) building contains 4 or fewer units; (2) landlord has not used this provision in previous 3 years; (3) landlord owns no more than 4 units plus single-family home; (4) eligible relative does not own residential property in LA. Reduced amounts: $10,550 for eligible tenants, $21,250 for qualified tenants.",
     "key_value": "$10,550 (eligible)–$21,250 (qualified)",
     "coverage_conditions": {
@@ -969,6 +935,7 @@
     "category": "just_cause_eviction",
     "status": "in_force",
     "title": "Single-family dwelling relocation assistance under JCO",
+    "plain_language": "Your landlord must pay you one month's rent as relocation assistance for a single-family home eviction.",
     "requirement": "For single-family dwellings subject to JCO owned by natural persons (including trusts/registered legal entities controlled by that person) who own no more than 4 dwelling units and one single-family home on separate lot, relocation assistance is one month's rent in effect when notice was served, payable as monetary payment or credit. LAMC 151.30(E) does not apply.",
     "key_value": "One month's rent",
     "coverage_conditions": {
@@ -1008,6 +975,7 @@
     "category": "security_deposits",
     "status": "in_force",
     "title": "Interest Payments on Security Deposits",
+    "plain_language": "Your landlord must pay you interest on your security deposit.",
     "requirement": "The RSO requires interest payments on security deposits, with specific rules set by the Rent Adjustment Commission.",
     "key_value": null,
     "coverage_conditions": {
@@ -1042,6 +1010,7 @@
     "category": "algorithmic_rent_setting",
     "status": "pending",
     "title": "Report on Algorithm-Based Rent-Setting Software",
+    "plain_language": "The city would study banning rent-pricing software; it isn't a rule for your landlord yet.",
     "requirement": "The Los Angeles Housing Department shall report on the number of ownership and management entities using algorithm-based software to establish rents and the feasibility of instituting a ban on such software in the City.",
     "key_value": null,
     "coverage_conditions": {
@@ -1069,6 +1038,7 @@
     "category": "just_cause_eviction",
     "status": "in_force",
     "title": "Notice and Relocation Assistance for No-Fault Terminations",
+    "plain_language": "If you're evicted through no fault of your own, your landlord must pay you 2 months' rent (3 if senior or disabled).",
     "requirement": "For no-fault just cause terminations (owner/family occupation, withdrawal from market, compliance with government orders, or demolition/substantial remodeling), the landlord must provide written notice at least 30 or 60 days in advance (as required by California law) describing the basis, stating the tenant's right to relocation assistance, and informing tenants of their right to receive an offer to renew if the property is re-rented for residential purposes within five years. Relocation assistance is two months of actual rent (or three months if tenant is senior or disabled), provided by direct payment or rent waiver, and must be delivered within 15 days of notice if by direct payment.",
     "key_value": "2 months' rent (3 months if senior/disabled)",
     "coverage_conditions": {
@@ -1138,6 +1108,7 @@
     "category": "just_cause_eviction",
     "status": "in_force",
     "title": "San Diego Just-Cause Eviction: Relocation Assistance for No-Fault Terminations",
+    "plain_language": "Your landlord must pay you 2 months' rent or waive 2 months' rent when evicting you for no-fault reasons.",
     "requirement": "When a landlord terminates a tenancy for no-fault just cause (owner move-in, demolition, or other qualifying reasons), the landlord must provide relocation assistance to the tenant at the landlord's option: either a direct payment equal to two months of actual rent (or three months if the tenant is a senior or disabled person), or waiver of rent through the end of the tenancy in that same amount.",
     "key_value": "2 months' rent (or 3 months if senior/disabled)",
     "coverage_conditions": {
@@ -1165,6 +1136,7 @@
     "category": "algorithmic_rent_setting",
     "status": "pending",
     "title": "Prohibition of Anti-Competitive Automated Rent Price-Fixing",
+    "plain_language": "Your landlord can't use software that uses competitor data to set your rent or occupancy rules.",
     "requirement": "Landlords may not use algorithmic devices to set rental rates or occupancy levels. No person may sell, license, or provide algorithmic devices to landlords. An algorithmic device is software that uses nonpublic competitor data to advise or recommend rental rates or occupancy levels.",
     "key_value": null,
     "coverage_conditions": {
@@ -1192,6 +1164,7 @@
     "category": "rent_increase_limits",
     "status": "in_force",
     "title": "San Francisco Annual Rent Increase for March 1, 2026 - February 28, 2027",
+    "plain_language": "Your landlord can raise your rent by no more than 1.6% between March 2026 and February 2027.",
     "requirement": "For rent-controlled units in San Francisco, landlords may increase rent by up to 1.6% annually during the period March 1, 2026 through February 28, 2027.",
     "key_value": "1.6%",
     "coverage_conditions": {
@@ -1220,6 +1193,7 @@
     "category": "just_cause_eviction",
     "status": "in_force",
     "title": "San Francisco Relocation Payments for Owner/Relative Move-in, Demolition, Capital Improvement, and Substantial Rehabilitation Evictions",
+    "plain_language": "If you're evicted for an owner move-in or major work, you get $8,245 per tenant to help you relocate.",
     "requirement": "Tenants evicted for owner or relative move-in, demolition or permanent removal of the unit from housing use, temporary capital improvement work (20 days or longer), or substantial rehabilitation are entitled to relocation payments. The amount varies based on the date of service of the eviction notice and increases annually. As of March 1, 2026, the relocation payment is $8,245 per tenant, up to $24,733 maximum per unit, plus an additional $5,497 for each elderly (60+) or disabled tenant or household with minor children.",
     "key_value": "$8,245 per tenant; $24,733 per unit; +$5,497 for elderly/disabled/minor children (as of 3/1/26)",
     "coverage_conditions": {
@@ -1247,6 +1221,7 @@
     "category": "security_deposits",
     "status": "in_force",
     "title": "San Francisco Security Deposit Interest Rate",
+    "plain_language": "Your landlord must pay 4.2% annual interest on your security deposit.",
     "requirement": "Landlords must pay interest on security deposits held for tenants at an annual rate of 4.2% for the period March 1, 2026 through February 28, 2027.",
     "key_value": "4.2%",
     "coverage_conditions": {
@@ -1274,6 +1249,7 @@
     "category": "algorithmic_rent_setting",
     "status": "in_force",
     "title": "Prohibition on Algorithmic Rent-Setting Devices in San Francisco",
+    "plain_language": "Your landlord can't use software that analyzes competitor rents to set your rent.",
     "requirement": "Landlords in San Francisco cannot sell or use algorithmic devices—software programs that analyze competitor rental data to recommend rent prices—to set rents or manage occupancy levels for residential units. Tenants or the City Attorney may sue to enforce this rule.",
     "key_value": null,
     "coverage_conditions": {
@@ -1301,6 +1277,7 @@
     "category": "rent_increase_limits",
     "status": "in_force",
     "title": "Santa Ana Rent Increase Limit",
+    "plain_language": "Your landlord can raise your rent by no more than 3% or 80% of the CPI increase, whichever is less.",
     "requirement": "A landlord can raise rent by no more than 3% of current rent or 80% of the Consumer Price Index (CPI) change for the year, whichever is less. The current maximum allowable increase for September 1, 2026 through August 31, 2027 is 2.87%.",
     "key_value": "3% or 80% CPI, whichever is less",
     "coverage_conditions": {
@@ -1328,6 +1305,7 @@
     "category": "rent_increase_limits",
     "status": "in_force",
     "title": "Rent increase cap at 3% or 80% CPI (whichever is lower)",
+    "plain_language": "Your landlord can raise your rent by no more than 3% or 80% of the CPI change, whichever is lower.",
     "requirement": "Residential rent increases are limited annually to the lower of 3% or 80% of the Consumer Price Index change over the prior 12 months. If CPI is negative, no increase is permitted.",
     "key_value": "3% or 80% CPI, whichever is lower",
     "coverage_conditions": {
@@ -1370,6 +1348,7 @@
     "category": "just_cause_eviction",
     "status": "in_force",
     "title": "Relocation assistance or rent waiver for no-fault termination",
+    "plain_language": "Your landlord must pay you 3 months' relocation assistance or waive 3 months' rent when ending your tenancy without cause.",
     "requirement": "When terminating a tenancy for no-fault just cause (owner occupancy, removal from rental market, or demolition/substantial remodel), the landlord must provide either three months of relocation assistance or waive rent payment for the final three months of tenancy.",
     "key_value": "3 months relocation assistance or 3 months rent waiver",
     "coverage_conditions": {
@@ -1412,6 +1391,7 @@
     "category": "just_cause_eviction",
     "status": "in_force",
     "title": "Santa Ana Just Cause Eviction Requirement",
+    "plain_language": "Your landlord must have a valid reason, like non-payment of rent, to evict you.",
     "requirement": "A landlord must have a valid reason to evict a tenant, such as non-payment of rent, breach of lease, or the landlord's intent to occupy the property themselves.",
     "key_value": null,
     "coverage_conditions": {
@@ -1439,6 +1419,7 @@
     "category": "rent_increase_limits",
     "status": "failed",
     "title": "Initiative Petition 25-21: Limit on Annual Rent Increases",
+    "plain_language": "A proposed cap on your rent increases (5% or inflation, whichever is lower) did not become law.",
     "requirement": "The proposed law would limit annual rent increases for residential dwelling units to the lower of the annual increase in the Consumer Price Index or five percent. The proposal was struck down by the Massachusetts Supreme Judicial Court as violating the state constitution's prohibition on initiative petitions relating to religion, because it exempted facilities operated solely for religious purposes.",
     "key_value": "5% or CPI, whichever is lower",
     "coverage_conditions": {
@@ -1495,6 +1476,7 @@
     "category": "rent_increase_limits",
     "status": "in_force",
     "title": "State prohibition on local rent control, with limited exceptions",
+    "plain_language": "Your city or town can't put rent control on your apartment.",
     "requirement": "Massachusetts prohibits any city or town from enacting, maintaining or enforcing rent control of any kind. However, a city or town that accepts chapter 40P may adopt rent control regulation only if: (a) compliance is entirely voluntary after six months; (b) the regulation does not cover occupancy, services, evictions, condominium conversion, or removal from the program, and does not apply to units owned by an entity owning fewer than ten rental units or units with fair market rent exceeding $400; and (c) the municipality compensates owners from general funds for the difference between fair market rent and controlled rent.",
     "key_value": null,
     "coverage_conditions": {
@@ -1522,6 +1504,7 @@
     "category": "just_cause_eviction",
     "status": "in_force",
     "title": "Nonpayment of Rent—Notice to Quit and Eviction",
+    "plain_language": "Your landlord must give you 14 days' written notice before evicting you for not paying rent.",
     "requirement": "A landlord must give a tenant 14 days' written notice to quit for nonpayment of rent. The tenant may stop the eviction by paying all rent due, interest, and court costs on or before the answer is due in the eviction action. If the nonpayment was caused by a government agency's failure to deliver a subsistence or rental payment to the tenant or landlord, the court must continue the hearing at least 7 days to notify the agency, and the tenancy is treated as not terminated if the tenant tenders all rent, interest and costs within that time.",
     "key_value": "14 days",
     "coverage_conditions": {
@@ -1549,6 +1532,7 @@
     "category": "security_deposits",
     "status": "in_force",
     "title": "Security deposit maximum and prepaid rent limits",
+    "plain_language": "Your landlord can't charge more than one month's rent as a security deposit.",
     "requirement": "A landlord may require tenants to pay at most: first month's rent, last month's rent at the same rate, and a security deposit equal to one month's rent (or a fee in lieu of deposit under executive office regulations, not to exceed one month's rent total). Landlords may also charge for key and lock installation.",
     "key_value": "1 month's rent",
     "coverage_conditions": {
@@ -1576,6 +1560,7 @@
     "category": "algorithmic_rent_setting",
     "status": "pending",
     "title": "Ban on rent-pricing algorithms and coordination services",
+    "plain_language": "Your landlord can't use rent-pricing software that pools competitors' data to set your rent.",
     "requirement": "Landlords cannot contract with or pay for services that collect actual rent prices, analyze them, and recommend rental prices to landlords. Service providers cannot help landlords agree not to compete on rent pricing for residential units.",
     "key_value": null,
     "coverage_conditions": {
@@ -1603,6 +1588,7 @@
     "category": "algorithmic_rent_setting",
     "status": "pending",
     "title": "An Act prohibiting algorithmic rent setting",
+    "plain_language": "Your landlord can't use algorithmic rent setting to determine your rent.",
     "requirement": "This bill proposes to prohibit the use of algorithmic rent setting in the rental housing market.",
     "key_value": null,
     "coverage_conditions": {
@@ -1630,6 +1616,7 @@
     "category": "just_cause_eviction",
     "status": "in_force",
     "title": "Housing Stability Notification Act – Notice requirement when ending tenancy",
+    "plain_language": "Your landlord must give you tenants' rights information when ending your tenancy.",
     "requirement": "When a landlord ends a tenancy or decides not to renew a lease, the landlord must provide the tenant with a Notice of Tenants' Rights and Resources at the same time as the Notice to Quit or Notice of Non-renewal. The landlord must also send a copy of the notice and a Certificate of Compliance/Service to the City of Boston's Office of Housing Stability.",
     "key_value": null,
     "coverage_conditions": {
@@ -1670,6 +1657,7 @@
     "category": "screening_restrictions",
     "status": "in_force",
     "title": "Boston Fair Chance Tenant Selection Policy—Criminal History Screening Restrictions",
+    "plain_language": "If your housing is city-funded or income-restricted, your landlord can't reject you over an arrest record.",
     "requirement": "Housing providers receiving DND funding, land, or having income-restricted units created under BPDA's Inclusionary Development Policy must not impose a blanket policy denying housing based on arrests or convictions. Providers must consider applicants on a case-by-case basis and may not consider arrests without conviction, convictions subject to judicial relief, juvenile records, or convictions over 5 years old—unless there is a direct relationship between the conviction and housing sought or unreasonable risk of substantial harm to others' safety.",
     "key_value": null,
     "coverage_conditions": {
@@ -1724,6 +1712,7 @@
     "category": "just_cause_eviction",
     "status": "in_force",
     "title": "Failure to Pay Rent—Eviction Cause",
+    "plain_language": "Your landlord must give you 14 days' notice before evicting you for nonpayment if you live in federally subsidized housing.",
     "requirement": "A landlord may evict a tenant for failure to pay rent. Landlord need not give notice before filing suit unless tenant resides in federally subsidized housing, in which case landlord must give 14-day notice. Tenant cannot be evicted for nonpayment if tenant paid utilities to prevent service disconnection when landlord was responsible for payment.",
     "key_value": "14 days (federally subsidized housing only)",
     "coverage_conditions": {
@@ -1751,6 +1740,7 @@
     "category": "just_cause_eviction",
     "status": "in_force",
     "title": "Safe Housing Act - Lease termination due to domestic violence",
+    "plain_language": "You can end your lease with 30 days' notice if you're a victim of domestic violence.",
     "requirement": "A tenant who is a victim of domestic violence or whose child faces an imminent threat of serious physical harm from a specific person may terminate their lease with 30 days' notice after providing the landlord with documented proof of domestic violence (such as a restraining order, law enforcement record, medical documentation, or certification from a domestic violence specialist). The tenant's security deposit must be returned within 15 business days.",
     "key_value": "30 days",
     "coverage_conditions": {
@@ -1785,6 +1775,7 @@
     "category": "security_deposits",
     "status": "in_force",
     "title": "Security Deposit Law - Maximum deposit and prohibited practices",
+    "plain_language": "Your landlord can't charge more than one and one-half months' rent as a security deposit.",
     "requirement": "A landlord may not collect more than one and one-half times the tenant's monthly rent as a security deposit. Combined with first month's rent, the landlord may not require more than two and one-half times the monthly rent at lease inception. Any prepaid funds (including last month's rent) held to secure future rents count toward the security deposit limit. Pet security deposits cannot exceed one and one-half times monthly rent when combined with the regular security deposit.",
     "key_value": "1.5 months' rent",
     "coverage_conditions": {
@@ -1827,6 +1818,7 @@
     "category": "application_screening_fees",
     "status": "in_force",
     "title": "Residential Rental Property Application Fee Cap",
+    "plain_language": "Your landlord can't charge more than $50 to apply for a rental.",
     "requirement": "A landlord or agent cannot charge an application or similar fee to apply to lease or sublease residential rental property that exceeds $50. The cap is adjusted annually by the Consumer Price Index.",
     "key_value": "$50",
     "coverage_conditions": {
@@ -1869,6 +1861,7 @@
     "category": "screening_restrictions",
     "status": "in_force",
     "title": "Discrimination in rental housing",
+    "plain_language": "Your landlord can't refuse to rent to you based on race, sex, disability, or other protected characteristics.",
     "requirement": "It is illegal for a landlord to refuse to rent or discriminate in rental of housing based on race, creed, color, national origin, ancestry, sex, marital status, civil union status, domestic partnership status, familial status, affectional or sexual orientation, gender identity or expression, mental and physical disability, nationality, or source of lawful income. A landlord may refuse to rent only if the prospective tenant lacks sufficient income, the family is too large for the unit, occupancy would violate zoning laws, or has poor credit history.",
     "key_value": null,
     "coverage_conditions": {
@@ -1896,6 +1889,7 @@
     "category": "screening_restrictions",
     "status": "in_force",
     "title": "Fair Chance in Housing Act: Criminal record screening restrictions",
+    "plain_language": "Your landlord can't ask about your criminal record until after offering you the apartment.",
     "requirement": "Housing providers cannot inquire about an applicant's criminal record before making a conditional offer. After a conditional offer, they may only consider certain convictions (murder, aggravated sexual assault, kidnapping, arson, human trafficking, sex offenses with lifetime registration, or indictable offenses issued or with prison sentence concluded within specified timeframes: 6 years for 1st degree, 4 years for 2nd/3rd degree, 1 year for 4th degree). They must conduct an individualized assessment considering offense nature/severity, applicant age, time elapsed, rehabilitation evidence, impact on tenant safety, and whether offense occurred on rented property. They cannot consider arrests ",
     "key_value": null,
     "coverage_conditions": {
@@ -1938,6 +1932,7 @@
     "category": "algorithmic_rent_setting",
     "status": "not_yet_effective",
     "title": "Prohibition on Algorithmic Rent-Setting and Coordination",
+    "plain_language": "Your landlord can't use algorithms to coordinate rental prices with other landlords.",
     "requirement": "Landlords and property management companies cannot use algorithmic devices or software to set, recommend, or coordinate rental prices among multiple properties. It is unlawful for landlords to use coordinating functions, for coordinators to facilitate parallel pricing coordination, or for any person to perform a coordinating function that collects competitively sensitive information (such as rental prices or lease terms) from multiple property owners to set or recommend rents.",
     "key_value": null,
     "coverage_conditions": {
@@ -1965,6 +1960,7 @@
     "category": "algorithmic_rent_setting",
     "status": "in_force",
     "title": "Prohibition Against Algorithmic Rent-Fixing in the Rental Housing Market",
+    "plain_language": "Your landlord can't use software to share competitor data to set rental prices.",
     "requirement": "Landlords in Hoboken are prohibited from using software, algorithms, or data-sharing platforms to collect and analyze nonpublic competitor information from other landlords in order to coordinate, recommend, or implement rental prices, lease terms, or occupancy levels for residential dwelling units.",
     "key_value": null,
     "coverage_conditions": {
@@ -2006,6 +2002,7 @@
     "category": "rent_increase_limits",
     "status": "in_force",
     "title": "Jersey City Rent Control Ordinance",
+    "plain_language": "If your building is under rent control, your rent increases are limited.",
     "requirement": "Jersey City enforces a rent control ordinance that regulates rent increases for residential rental properties. The Office of Landlord/Tenant Relations administers and enforces Chapter 260 of the Jersey City Municipal Code, which provides a rent control framework with certain exemptions and allows for capital improvement increases, vacancy increases, and hardship increases through formal applications.",
     "key_value": null,
     "coverage_conditions": {
@@ -2038,6 +2035,7 @@
     "category": "algorithmic_rent_setting",
     "status": "in_force",
     "title": "Prohibition on Algorithmic Rent-Fixing and Coordination Among Landlords",
+    "plain_language": "Your landlord can't use software to coordinate rental prices with other landlords.",
     "requirement": "Landlords and service providers are prohibited from using software or coordinating to collect nonpublic competitor information (prices, supply levels, occupancy rates, lease terms) from multiple landlords and using it to recommend rent prices, lease terms, or occupancy levels. Service providers cannot facilitate agreements among landlords not to compete on rental pricing or other rental terms.",
     "key_value": null,
     "coverage_conditions": {

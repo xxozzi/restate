@@ -5,8 +5,10 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import type { SourceDocument } from "../src/contracts.ts";
 import {
+  checkHeadline,
   chunkText,
   consolidate,
+  quotedEndDate,
   extractDocuments,
   recoverSourceQuote,
   statutoryEffectiveDate,
@@ -115,4 +117,25 @@ test("startup replays the cache only and never spends money", async () => {
   assert.deepEqual(result.report.pendingDocuments, ["T1"]);
   process.env.ANTHROPIC_API_KEY = saved;
   delete process.env.RESTATE_RUNS_DIR;
+});
+
+test("a plain-language headline must speak to the renter and use only numbers found in the rule", () => {
+  const rule = {
+    title: "Rent Increase Notice Requirement",
+    requirement: "Landlords must provide at least thirty days' written notice before a rent increase of less than 10%.",
+    keyValue: null,
+    quotedSpan: "at least thirty days' written advance notice",
+    coverageDescription: "",
+  } as unknown as Parameters<typeof checkHeadline>[0];
+  assert.equal(
+    checkHeadline(rule, "Your landlord must give you 30 days' written notice before raising your rent"),
+    "Your landlord must give you 30 days' written notice before raising your rent.",
+  );
+  assert.equal(checkHeadline(rule, "Your landlord must give you 60 days' notice before raising your rent."), null);
+  assert.equal(checkHeadline(rule, "Landlords must give 30 days' notice before raising rent."), null);
+});
+
+test("an end date stated in the quote is kept", () => {
+  assert.equal(quotedEndDate("Effective March 30, 2020, through January 31, 2024, rent increases are prohibited"), "2024-01-31");
+  assert.equal(quotedEndDate("Rent increases are limited to 3% per year."), null);
 });

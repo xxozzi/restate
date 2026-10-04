@@ -1,15 +1,18 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { ReactNode } from "react";
+import { AnimatePresence, LayoutGroup, MotionConfig, animate, motion } from "motion/react";
 import {
   ArrowRight,
   Check,
   ChevronDown,
   ChevronRight,
+  Clock,
   Download,
   ExternalLink,
   FileText,
-  HelpCircle,
+  Loader2,
   MapPin,
+  Minus,
   Plus,
   Search,
   X,
@@ -31,6 +34,10 @@ import { describeFact, labelFor, resolveFact } from "./facts";
 
 /* ---------------- shared helpers ---------------- */
 
+const EASE = [0.22, 1, 0.36, 1] as const;
+const SPRING = { type: "spring", stiffness: 420, damping: 38, mass: 0.8 } as const;
+const SOFT_SPRING = { type: "spring", stiffness: 300, damping: 34 } as const;
+
 const CATEGORIES: { id: Category; label: string }[] = [
   { id: "rent_increase_limits", label: "Rent increases" },
   { id: "just_cause_eviction", label: "Evictions" },
@@ -40,17 +47,28 @@ const CATEGORIES: { id: Category; label: string }[] = [
   { id: "algorithmic_rent_setting", label: "Rent-pricing software" },
 ];
 const categoryLabel = (id: Category) => CATEGORIES.find((c) => c.id === id)?.label ?? id;
+const categoryIndex = (id: Category) => CATEGORIES.findIndex((c) => c.id === id);
 const STATUS: Record<Exclude<Outcome, "does_not_apply">, { label: string; tone: string }> = {
-  applies: { label: "Applies", tone: "blue" },
+  applies: { label: "Applies", tone: "green" },
   unknown: { label: "Needs a fact", tone: "amber" },
   superseded: { label: "Overridden", tone: "gray" },
-  not_yet_effective: { label: "Upcoming", tone: "gray" },
+  not_yet_effective: { label: "Upcoming", tone: "blue" },
   pending: { label: "Proposed", tone: "gray" },
 };
-const ORDER: Outcome[] = ["applies", "unknown", "superseded", "not_yet_effective", "pending"];
+const SECTIONS: { outcome: Exclude<Outcome, "does_not_apply">; title: string }[] = [
+  { outcome: "applies", title: "Applies here" },
+  { outcome: "unknown", title: "Can't tell yet" },
+  { outcome: "not_yet_effective", title: "Coming up" },
+  { outcome: "superseded", title: "Replaced by a stricter local rule" },
+  { outcome: "pending", title: "Proposed, not law yet" },
+];
+const STATE_NAMES: Record<string, string> = { CA: "California", NJ: "New Jersey", MA: "Massachusetts" };
 const formatDate = (date: string) =>
   new Date(`${date}T12:00:00Z`).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
-const place = (rule: Rule) => (rule.level === "state" ? `${rule.state} state law` : rule.jurisdiction.replace(/, \w\w$/, ""));
+const place = (rule: Rule) =>
+  rule.level === "state" ? `${STATE_NAMES[rule.state] ?? rule.state} law` : `${rule.jurisdiction.replace(/, \w\w$/, "")} law`;
+const headlineOf = (rule: Rule) => rule.headline ?? rule.title;
+const reducedMotion = () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 async function api<T>(path: string, body?: unknown): Promise<T> {
   const response = await fetch(path, {
@@ -63,22 +81,40 @@ async function api<T>(path: string, body?: unknown): Promise<T> {
   return data as T;
 }
 
-type View = "address" | "changes" | "sources";
+type View = "home" | "address" | "changes" | "sources";
 type Route = { view: View; id?: string };
 const readRoute = (): Route => {
   const [, view, id] = window.location.hash.split("/");
-  return view === "changes" || view === "sources" ? { view, id } : { view: "address", id };
+  if (view === "changes" || view === "sources") return { view, id };
+  if (view === "address" && id) return { view: "address", id };
+  return { view: "home" };
 };
-const writeRoute = (route: Route) => {
-  const next = `#/${route.view}${route.id ? `/${route.id}` : ""}`;
-  if (window.location.hash !== next) window.history.replaceState(null, "", next);
-};
+const routeHash = (route: Route) => (route.view === "home" ? "#/" : `#/${route.view}${route.id ? `/${route.id}` : ""}`);
 
 function Pill({ outcome, review }: { outcome: Outcome; review?: boolean }) {
-  if (outcome === "does_not_apply") return null;
+  if (outcome === "does_not_apply") return <span className="pill pill-gray">Doesn't apply</span>;
   const status = STATUS[outcome];
   if (outcome === "unknown" && review) return <span className="pill pill-amber">Needs review</span>;
   return <span className={`pill pill-${status.tone}`}>{status.label}</span>;
+}
+
+function StatusIcon({ outcome, size = 22 }: { outcome: Outcome; size?: number }) {
+  const icon = size * 0.6;
+  const content =
+    outcome === "applies" ? (
+      <Check size={icon} strokeWidth={2.6} />
+    ) : outcome === "unknown" ? (
+      <span className="status-q">?</span>
+    ) : outcome === "not_yet_effective" ? (
+      <Clock size={icon} strokeWidth={2.4} />
+    ) : (
+      <Minus size={icon} strokeWidth={2.6} />
+    );
+  return (
+    <span className={`status-icon status-${outcome}`} style={{ width: size, height: size }} aria-hidden>
+      {content}
+    </span>
+  );
 }
 
 function useEscape(onClose: () => void) {
@@ -89,17 +125,75 @@ function useEscape(onClose: () => void) {
   }, [onClose]);
 }
 
+let scrollLocks = 0;
+function useScrollLock() {
+  useEffect(() => {
+    scrollLocks++;
+    document.body.style.overflow = "hidden";
+    return () => {
+      scrollLocks--;
+      if (!scrollLocks) document.body.style.overflow = "";
+    };
+  }, []);
+}
+
+/** Children rise into place one after another. */
+function Reveal({ i = 0, children, className }: { i?: number; children: ReactNode; className?: string }) {
+  return (
+    <motion.div
+      className={className}
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.06 + i * 0.05, duration: 0.4, ease: EASE }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function CountUp({ value }: { value: number }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  useEffect(() => {
+    const node = ref.current;
+    if (!node || reducedMotion()) return;
+    const controls = animate(0, value, {
+      duration: 0.9,
+      ease: EASE,
+      onUpdate: (latest) => (node.textContent = String(Math.round(latest))),
+      onComplete: () => (node.textContent = String(value)),
+    });
+    return () => controls.stop();
+  }, [value]);
+  return <span ref={ref}>{value}</span>;
+}
+
 function Drawer({ onClose, children, wide }: { onClose: () => void; children: ReactNode; wide?: boolean }) {
   useEscape(onClose);
+  useScrollLock();
   return (
-    <div className="overlay" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
-      <aside className={`drawer${wide ? " drawer-wide" : ""}`} role="dialog" aria-modal="true">
-        <button className="icon-button drawer-close" onClick={onClose} aria-label="Close">
+    <motion.div
+      className="overlay"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.22 }}
+      onMouseDown={(event) => event.target === event.currentTarget && onClose()}
+    >
+      <motion.aside
+        className={`drawer${wide ? " drawer-wide" : ""}`}
+        role="dialog"
+        aria-modal="true"
+        initial={{ x: "100%" }}
+        animate={{ x: 0 }}
+        exit={{ x: "100%" }}
+        transition={{ type: "spring", stiffness: 360, damping: 40 }}
+      >
+        <motion.button className="icon-button drawer-close" onClick={onClose} aria-label="Close" whileTap={{ scale: 0.9 }}>
           <X size={18} />
-        </button>
+        </motion.button>
         {children}
-      </aside>
-    </div>
+      </motion.aside>
+    </motion.div>
   );
 }
 
@@ -113,6 +207,7 @@ export default function App() {
   const [openSource, setOpenSource] = useState<{ id: string; highlight?: string } | null>(null);
   const [asOf, setAsOf] = useState("");
   const [entered, setEntered] = useState<Record<string, PropertyRecord>>({});
+  const [lastAddress, setLastAddress] = useState<string | null>(null);
 
   const load = () =>
     api<Bootstrap>("/api/bootstrap")
@@ -124,14 +219,24 @@ export default function App() {
   useEffect(() => {
     load();
     const listener = () => setRoute(readRoute());
+    window.addEventListener("popstate", listener);
     window.addEventListener("hashchange", listener);
-    return () => window.removeEventListener("hashchange", listener);
+    return () => {
+      window.removeEventListener("popstate", listener);
+      window.removeEventListener("hashchange", listener);
+    };
   }, []);
+  const go = (next: Route) => {
+    if (window.location.hash !== routeHash(next)) window.history.pushState(null, "", routeHash(next));
+    setRoute(next);
+  };
+  const pageKey = route.view === "address" ? `address-${route.id}` : route.view;
   useEffect(() => {
-    writeRoute(route);
     setOpenRule(null);
     setOpenSource(null);
-  }, [route]);
+    window.scrollTo({ top: 0 });
+    if (route.view === "address" && route.id) setLastAddress(route.id);
+  }, [pageKey]);
 
   // A typed address survives a page reload while the server still remembers it.
   useEffect(() => {
@@ -139,100 +244,150 @@ export default function App() {
     if (!boot || route.view !== "address" || !id?.startsWith("ADDR-") || entered[id]) return;
     api<PropertyRecord>(`/api/properties/${id}`)
       .then((found) => setEntered((current) => ({ ...current, [found.id]: found })))
-      .catch(() => setRoute({ view: "address" }));
+      .catch(() => go({ view: "home" }));
   }, [boot, route, entered]);
 
   if (error) return <div className="center-message">Couldn't load the data: {error}</div>;
-  if (!boot) return <div className="center-message">Loading…</div>;
-  const go = (next: Route) => setRoute(next);
+  if (!boot)
+    return (
+      <div className="center-message">
+        <Loader2 size={20} className="spin" />
+      </div>
+    );
+
+  const property =
+    route.view === "address" && route.id ? (boot.properties.find((p) => p.id === route.id) ?? entered[route.id]) : undefined;
+  const onEntered = (found: PropertyRecord) => {
+    setEntered((current) => ({ ...current, [found.id]: found }));
+    go({ view: "address", id: found.id });
+  };
+  const onAddress = (id: string) => go({ view: "address", id });
+  const lookupActive = route.view === "address" || route.view === "home";
 
   return (
-    <div className="app">
-      <header className="topbar">
-        <div className="topbar-inner">
-          <button className="brand" onClick={() => go({ view: "address" })}>
-            <span className="brand-mark">(R)</span>estate
-          </button>
-          <nav className="tabs">
-            {(["address", "changes", "sources"] as View[]).map((view) => (
-              <button
-                key={view}
-                className={`tab${route.view === view ? " tab-active" : ""}`}
-                onClick={() => go({ view })}
-              >
-                {view === "address" ? "Lookup" : view === "changes" ? "Law changes" : "Sources"}
-              </button>
-            ))}
-          </nav>
-          <ExportMenu asOf={asOf || boot.defaultAsOf} />
-        </div>
-      </header>
+    <MotionConfig reducedMotion="user">
+      <div className="app">
+        <header className="topbar">
+          <div className="topbar-inner">
+            <motion.button className="brand" onClick={() => go({ view: "home" })} whileTap={{ scale: 0.96 }}>
+              <span className="brand-mark">(R)</span>estate
+            </motion.button>
+            <nav className="tabs">
+              {(
+                [
+                  ["address", "Lookup"],
+                  ["changes", "Law changes"],
+                  ["sources", "Sources"],
+                ] as [View, string][]
+              ).map(([view, label]) => {
+                const active = view === "address" ? lookupActive : route.view === view;
+                return (
+                  <button
+                    key={view}
+                    className={`tab${active ? " tab-active" : ""}`}
+                    onClick={() =>
+                      view === "address"
+                        ? go(route.view !== "address" && lastAddress ? { view: "address", id: lastAddress } : { view: "home" })
+                        : go({ view })
+                    }
+                  >
+                    {active && <motion.span layoutId="tab-bg" className="tab-bg" transition={SPRING} />}
+                    {label}
+                  </button>
+                );
+              })}
+            </nav>
+            <ExportMenu asOf={asOf || boot.defaultAsOf} />
+          </div>
+        </header>
 
-      <main className="page">
-        {route.view === "address" && (
-          <AddressView
-            boot={boot}
-            property={
-              (route.id && (boot.properties.find((p) => p.id === route.id) ?? entered[route.id])) ||
-              boot.properties.find((p) => p.id === boot.defaultAddressId)!
-            }
-            onEntered={(found) => {
-              setEntered((current) => ({ ...current, [found.id]: found }));
-              go({ view: "address", id: found.id });
-            }}
-            asOf={asOf || boot.defaultAsOf}
-            setAsOf={setAsOf}
-            onAddress={(id) => go({ view: "address", id })}
-            onRule={(rule, result) => setOpenRule({ rule, result })}
-          />
-        )}
-        {route.view === "changes" && (
-          <ChangesView
-            boot={boot}
-            changeId={route.id ?? boot.changes[0]?.id}
-            onChange={(id) => go({ view: "changes", id })}
-            onAddress={(id, date) => {
-              setAsOf(date);
-              go({ view: "address", id });
-            }}
-            onRule={(rule) => setOpenRule({ rule })}
-          />
-        )}
-        {route.view === "sources" && (
-          <SourcesView boot={boot} onSource={(id) => setOpenSource({ id })} onAdded={load} />
-        )}
-      </main>
+        <main className="page">
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={pageKey}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.24, ease: EASE }}
+            >
+              {route.view === "home" && <HomeView boot={boot} onPick={onAddress} onEntered={onEntered} />}
+              {route.view === "address" &&
+                (property ? (
+                  <AddressView
+                    boot={boot}
+                    property={property}
+                    onEntered={onEntered}
+                    asOf={asOf || boot.defaultAsOf}
+                    setAsOf={setAsOf}
+                    onAddress={onAddress}
+                    onRule={(rule, result) => setOpenRule({ rule, result })}
+                  />
+                ) : route.id?.startsWith("ADDR-") ? (
+                  <div className="center-block">
+                    <Loader2 size={20} className="spin" />
+                  </div>
+                ) : (
+                  <div className="center-block">
+                    <p className="muted">That address isn't in the sample.</p>
+                    <button className="link" onClick={() => go({ view: "home" })}>
+                      Search again
+                    </button>
+                  </div>
+                ))}
+              {route.view === "changes" && (
+                <ChangesView
+                  boot={boot}
+                  changeId={route.id ?? boot.changes[0]?.id}
+                  onChange={(id) => go({ view: "changes", id })}
+                  onAddress={(id, date) => {
+                    setAsOf(date);
+                    go({ view: "address", id });
+                  }}
+                  onRule={(rule) => setOpenRule({ rule })}
+                />
+              )}
+              {route.view === "sources" && <SourcesView boot={boot} onSource={(id) => setOpenSource({ id })} onAdded={load} />}
+            </motion.div>
+          </AnimatePresence>
+        </main>
 
-      <footer className="footer">
-        Not legal advice. Answers come from {boot.stats.capturedSources} source documents and the public assessor sample, as of{" "}
-        {formatDate(boot.defaultAsOf)}.
-      </footer>
+        <footer className="footer">
+          Not legal advice. Answers come from {boot.stats.capturedSources} source documents and the public assessor sample, as of{" "}
+          {formatDate(boot.defaultAsOf)}.
+        </footer>
 
-      {openRule && (
-        <RuleDrawer
-          rule={openRule.rule}
-          result={openRule.result}
-          boot={boot}
-          onClose={() => setOpenRule(null)}
-          onSource={(id, highlight) => {
-            setOpenRule(null);
-            setOpenSource({ id, highlight });
-          }}
-        />
-      )}
-      {openSource && (
-        <SourceDrawer
-          id={openSource.id}
-          highlight={openSource.highlight}
-          boot={boot}
-          onClose={() => setOpenSource(null)}
-          onRule={(rule) => {
-            setOpenSource(null);
-            setOpenRule({ rule });
-          }}
-        />
-      )}
-    </div>
+        <AnimatePresence>
+          {openRule && (
+            <RuleDrawer
+              key={`rule-${openRule.rule.id}`}
+              rule={openRule.rule}
+              result={openRule.result}
+              boot={boot}
+              onClose={() => setOpenRule(null)}
+              onSource={(id, highlight) => {
+                setOpenRule(null);
+                setOpenSource({ id, highlight });
+              }}
+            />
+          )}
+        </AnimatePresence>
+        <AnimatePresence>
+          {openSource && (
+            <SourceDrawer
+              key={`source-${openSource.id}`}
+              id={openSource.id}
+              highlight={openSource.highlight}
+              boot={boot}
+              onClose={() => setOpenSource(null)}
+              onRule={(rule) => {
+                setOpenSource(null);
+                setOpenRule({ rule });
+              }}
+            />
+          )}
+        </AnimatePresence>
+      </div>
+    </MotionConfig>
   );
 }
 
@@ -246,23 +401,95 @@ function ExportMenu({ asOf }: { asOf: string }) {
   }, []);
   return (
     <div className="menu" ref={ref}>
-      <button className="button button-quiet" onClick={() => setOpen(!open)}>
-        <Download size={16} /> <span className="hide-small">Export</span> <ChevronDown size={14} />
-      </button>
-      {open && (
-        <div className="menu-list">
-          {[
-            ["rules", "Rules", "Every extracted rule with its citation"],
-            ["lookups", "Lookups", `All 500 addresses as of ${asOf}`],
-            ["changes", "Change tests", "Affected addresses for T1–T5"],
-          ].map(([kind, title, hint]) => (
-            <a key={kind} className="menu-item" href={`/api/export/${kind}?asOf=${asOf}`} onClick={() => setOpen(false)}>
-              <span>{title}</span>
-              <small>{hint}</small>
-            </a>
-          ))}
-        </div>
-      )}
+      <motion.button className="button button-quiet" onClick={() => setOpen(!open)} whileTap={{ scale: 0.96 }} aria-expanded={open}>
+        <Download size={16} /> <span className="hide-small">Export</span>
+        <motion.span className="menu-caret" animate={{ rotate: open ? 180 : 0 }} transition={SPRING}>
+          <ChevronDown size={14} />
+        </motion.span>
+      </motion.button>
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            className="menu-list"
+            initial={{ opacity: 0, scale: 0.96, y: -6 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.97, y: -4 }}
+            transition={{ duration: 0.18, ease: EASE }}
+          >
+            {[
+              ["rules", "Rules", "Every extracted rule with its citation"],
+              ["lookups", "Lookups", `All 500 addresses as of ${asOf}`],
+              ["changes", "Change tests", "Affected addresses for T1–T5"],
+            ].map(([kind, title, hint], i) => (
+              <motion.a
+                key={kind}
+                className="menu-item"
+                href={`/api/export/${kind}?asOf=${asOf}`}
+                onClick={() => setOpen(false)}
+                initial={{ opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.03 + i * 0.03, duration: 0.2 }}
+              >
+                <span>{title}</span>
+                <small>{hint}</small>
+              </motion.a>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+/* ---------------- home ---------------- */
+
+function HomeView({
+  boot,
+  onPick,
+  onEntered,
+}: {
+  boot: Bootstrap;
+  onPick: (id: string) => void;
+  onEntered: (property: PropertyRecord) => void;
+}) {
+  const examples = useMemo(
+    () =>
+      ["Berkeley", "Hoboken", "Boston"]
+        .map((city) => boot.properties.find((p) => p.city === city && p.facts.year_built && p.facts.units) ?? boot.properties.find((p) => p.city === city))
+        .filter((p): p is PropertyRecord => Boolean(p)),
+    [boot.properties],
+  );
+  return (
+    <div className="home">
+      <motion.h1 className="home-title" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: EASE }}>
+        Which rental laws apply <br className="hide-small" />
+        to your home?
+      </motion.h1>
+      <motion.div
+        className="home-search"
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.1, ease: EASE }}
+      >
+        <AddressSearch big autoFocus boot={boot} placeholder="Enter an address in CA, NJ or MA" onPick={onPick} onEntered={onEntered} />
+      </motion.div>
+      <motion.div className="home-examples" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.35, duration: 0.5 }}>
+        <span>Try</span>
+        {examples.map((p, i) => (
+          <motion.button
+            key={p.id}
+            className="example"
+            onClick={() => onPick(p.id)}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 + i * 0.06, duration: 0.4, ease: EASE }}
+            whileHover={{ y: -2 }}
+            whileTap={{ scale: 0.96 }}
+          >
+            {p.address.toLowerCase().replace(/\b[a-z]/g, (c) => c.toUpperCase())}, {p.city}
+          </motion.button>
+        ))}
+      </motion.div>
     </div>
   );
 }
@@ -271,14 +498,18 @@ function ExportMenu({ asOf }: { asOf: string }) {
 
 function AddressSearch({
   boot,
-  value,
+  placeholder,
   onPick,
   onEntered,
+  big,
+  autoFocus,
 }: {
   boot: Bootstrap;
-  value: PropertyRecord;
+  placeholder: string;
   onPick: (id: string) => void;
   onEntered: (property: PropertyRecord) => void;
+  big?: boolean;
+  autoFocus?: boolean;
 }) {
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
@@ -317,12 +548,13 @@ function AddressSearch({
     }
   };
   return (
-    <div className="search">
-      <Search size={18} className="search-icon" />
+    <div className={`search${big ? " search-big" : ""}`}>
+      <Search size={big ? 20 : 18} className="search-icon" />
       <input
         className="search-input"
-        placeholder={`${value.address}, ${value.city ?? value.postalCity}`}
+        placeholder={placeholder}
         value={query}
+        autoFocus={autoFocus}
         onChange={(event) => {
           setQuery(event.target.value);
           setOpen(true);
@@ -341,44 +573,92 @@ function AddressSearch({
         }}
         aria-label="Search the sample or type any address"
       />
-      {busy && <span className="search-status">Finding address…</span>}
-      {error && <p className="search-error">{error}</p>}
-      {open && total > 0 && (
-        <ul className="search-results">
-          {matches.map((p, index) => (
-            <li key={p.id}>
-              <button
-                className={`search-result${index === cursor ? " search-result-active" : ""}`}
-                onMouseDown={() => pick(p.id)}
-                onMouseEnter={() => setCursor(index)}
-              >
-                <span>{p.address}</span>
-                <small>
-                  {p.city ?? p.postalCity}, {p.state}
-                </small>
-              </button>
-            </li>
-          ))}
-          {canLookup && (
-            <li>
-              <button
-                className={`search-result search-any${cursor === matches.length ? " search-result-active" : ""}`}
-                onMouseDown={(event) => {
-                  event.preventDefault();
-                  lookup();
-                }}
-                onMouseEnter={() => setCursor(matches.length)}
-              >
-                <span>
-                  <MapPin size={15} /> Look up “{query.trim()}”
-                </span>
-                <small>Any address in CA, NJ or MA</small>
-              </button>
-            </li>
-          )}
-        </ul>
-      )}
+      <AnimatePresence>
+        {busy && (
+          <motion.span className="search-status" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+            <Loader2 size={15} className="spin" /> Finding address
+          </motion.span>
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {error && (
+          <motion.p className="search-error" initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+            {error}
+          </motion.p>
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {open && total > 0 && (
+          <motion.ul
+            className="search-results"
+            initial={{ opacity: 0, y: -6, scale: 0.99 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -4, scale: 0.99 }}
+            transition={{ duration: 0.16, ease: EASE }}
+          >
+            {matches.map((p, index) => (
+              <li key={p.id}>
+                <button className="search-result" onMouseDown={() => pick(p.id)} onMouseEnter={() => setCursor(index)}>
+                  {index === cursor && <motion.span layoutId="search-active" className="search-active" transition={SPRING} />}
+                  <span>{p.address}</span>
+                  <small>
+                    {p.city ?? p.postalCity}, {p.state}
+                  </small>
+                </button>
+              </li>
+            ))}
+            {canLookup && (
+              <li>
+                <button
+                  className="search-result search-any"
+                  onMouseDown={(event) => {
+                    event.preventDefault();
+                    lookup();
+                  }}
+                  onMouseEnter={() => setCursor(matches.length)}
+                >
+                  {cursor === matches.length && <motion.span layoutId="search-active" className="search-active" transition={SPRING} />}
+                  <span className="search-any-label">
+                    <MapPin size={15} /> Look up “{query.trim()}”
+                  </span>
+                  <small>Any address in CA, NJ or MA</small>
+                </button>
+              </li>
+            )}
+          </motion.ul>
+        )}
+      </AnimatePresence>
     </div>
+  );
+}
+
+function rowSub(rule: Rule, result: RuleResult): string {
+  if (result.result === "unknown")
+    return `${result.missingFacts.length ? result.explanation.replace(/\.$/, "") : "Needs a human read of the source"} · ${place(rule)}`;
+  if (result.result === "not_yet_effective")
+    return `${rule.effectiveDate?.length === 10 ? `Starts ${formatDate(rule.effectiveDate)}` : "Start date not set"} · ${place(rule)}`;
+  return `${categoryLabel(rule.category)} · ${place(rule)}`;
+}
+
+function RuleRow({ rule, result, index, onOpen }: { rule: Rule; result: RuleResult; index: number; onOpen: () => void }) {
+  const delay = Math.min(index, 12) * 0.035;
+  return (
+    <motion.li
+      layout="position"
+      layoutId={`row-${rule.id}`}
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ opacity: { duration: 0.3, delay }, y: { duration: 0.4, delay, ease: EASE }, layout: SOFT_SPRING }}
+    >
+      <motion.button className="row" onClick={onOpen} whileTap={{ scale: 0.995 }}>
+        <StatusIcon outcome={result.result} />
+        <span className="row-main">
+          <span className="row-title">{headlineOf(rule)}</span>
+          <span className="row-sub">{rowSub(rule, result)}</span>
+        </span>
+        <ChevronRight size={16} className="row-chevron" />
+      </motion.button>
+    </motion.li>
   );
 }
 
@@ -404,13 +684,8 @@ function AddressView({
   const [scenario, setScenario] = useState<Facts>({});
   const [report, setReport] = useState<LookupReport | null>(null);
   const [error, setError] = useState("");
-  const [filter, setFilter] = useState<Outcome | "all">("all");
   const rulesById = useMemo(() => new Map(boot.rules.map((rule) => [rule.id, rule])), [boot.rules]);
 
-  useEffect(() => {
-    setScenario({});
-    setFilter("all");
-  }, [addressId]);
   useEffect(() => {
     let live = true;
     setError("");
@@ -422,16 +697,21 @@ function AddressView({
     };
   }, [addressId, asOf, scenario]);
 
-  const results = (report?.property.id === addressId ? report.results : []).filter((r) => r.result !== "does_not_apply");
-  const counts = ORDER.map((outcome) => ({ outcome, count: results.filter((r) => r.result === outcome).length })).filter(
-    (item) => item.count > 0,
-  );
-  const shown = results.filter((r) => filter === "all" || r.result === filter);
+  const ready = report?.property.id === addressId;
+  const results = (ready ? report.results : [])
+    .filter((r) => r.result !== "does_not_apply" && rulesById.has(r.ruleId))
+    .sort((a, b) => categoryIndex(rulesById.get(a.ruleId)!.category) - categoryIndex(rulesById.get(b.ruleId)!.category));
+  const answers = Object.entries(scenario);
 
   return (
     <div className="lookup">
       <div className="lookup-bar">
-        <AddressSearch boot={boot} value={property} onPick={onAddress} onEntered={onEntered} />
+        <AddressSearch
+          boot={boot}
+          placeholder={`${property.address}, ${property.city ?? property.postalCity}`}
+          onPick={onAddress}
+          onEntered={onEntered}
+        />
         <label className="date-field">
           <span>As of</span>
           <input type="date" value={asOf} onChange={(event) => event.target.value && setAsOf(event.target.value)} />
@@ -440,91 +720,112 @@ function AddressView({
 
       <PropertyHeader property={property} asOf={asOf} scenario={scenario} />
 
-      {Object.keys(scenario).length > 0 && (
-        <div className="whatif">
-          <span className="whatif-label">{typed ? "Your answers" : "What-if"}</span>
-          {Object.entries(scenario).map(([field, value]) => (
-            <span key={field} className="chip">
-              {labelFor(field)}: {formatFact(field, value)}
-              <button
-                aria-label={`Remove ${labelFor(field)}`}
-                onClick={() => {
-                  const next = { ...scenario };
-                  delete next[field];
-                  setScenario(next);
-                }}
-              >
-                <X size={12} />
+      <AnimatePresence initial={false}>
+        {answers.length > 0 && (
+          <motion.div
+            className="whatif"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.28, ease: EASE }}
+          >
+            <div className="whatif-inner">
+              <span className="whatif-label">{typed ? "Your answers" : "What-if"}</span>
+              <AnimatePresence mode="popLayout" initial={false}>
+                {answers.map(([field, value]) => (
+                  <motion.span
+                    key={field}
+                    layout
+                    className="chip"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    transition={SPRING}
+                  >
+                    {labelFor(field)}: {formatFact(field, value)}
+                    <button
+                      aria-label={`Remove ${labelFor(field)}`}
+                      onClick={() => {
+                        const next = { ...scenario };
+                        delete next[field];
+                        setScenario(next);
+                      }}
+                    >
+                      <X size={12} />
+                    </button>
+                  </motion.span>
+                ))}
+              </AnimatePresence>
+              <span className="whatif-note">
+                {typed ? "Entered by you, not from an official record." : "Not from the record. The original data is unchanged."}
+              </span>
+              <button className="link" onClick={() => setScenario({})}>
+                Reset
               </button>
-            </span>
-          ))}
-          <span className="whatif-note">
-            {typed ? "Entered by you, not from an official record." : "Not from the record. The original data is unchanged."}
-          </span>
-          <button className="link" onClick={() => setScenario({})}>
-            Reset
-          </button>
-        </div>
-      )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {error && <p className="error">{error}</p>}
 
-      {report && report.property.id === addressId && report.questions.length > 0 && (
-        <EvidenceCard
-          report={report}
-          rulesById={rulesById}
-          onAnswer={(field, value) => setScenario({ ...scenario, [field]: value })}
-        />
-      )}
-
-      <div className="filters">
-        <button className={`filter${filter === "all" ? " filter-active" : ""}`} onClick={() => setFilter("all")}>
-          All <span>{results.length}</span>
-        </button>
-        {counts.map(({ outcome, count }) => (
-          <button
-            key={outcome}
-            className={`filter${filter === outcome ? " filter-active" : ""}`}
-            onClick={() => setFilter(filter === outcome ? "all" : outcome)}
+      <AnimatePresence initial={false}>
+        {ready && report.questions.length > 0 && (
+          <motion.div
+            key="evidence"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.35, ease: EASE }}
           >
-            {STATUS[outcome as keyof typeof STATUS].label} <span>{count}</span>
-          </button>
-        ))}
-      </div>
+            <EvidenceCard report={report} rulesById={rulesById} onAnswer={(field, value) => setScenario({ ...scenario, [field]: value })} />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      {report && results.length === 0 && <p className="empty">No extracted rule covers this address.</p>}
-      {CATEGORIES.map((category) => {
-        const items = shown.filter((result) => rulesById.get(result.ruleId)?.category === category.id);
-        if (!items.length) return null;
-        return (
-          <section key={category.id} className="group">
-            <h2 className="group-title">{category.label}</h2>
-            <ul className="rows">
-              {items.map((result) => {
-                const rule = rulesById.get(result.ruleId)!;
-                return (
-                  <li key={rule.id}>
-                    <button className="row" onClick={() => onRule(rule, result)}>
-                      <Pill outcome={result.result} review={result.missingFacts.length === 0} />
-                      <span className="row-main">
-                        <span className="row-title">{rule.title}</span>
-                        <span className="row-sub">
-                          {result.result === "applies" ? rule.requirement : result.explanation}
-                        </span>
-                      </span>
-                      <span className="row-meta">
-                        {rule.keyValue && <span className="row-value">{rule.keyValue}</span>}
-                        <span className="row-place">{place(rule)}</span>
-                      </span>
-                      <ChevronRight size={16} className="row-chevron" />
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
-          </section>
-        );
-      })}
+      {!ready && !error && (
+        <div className="skeleton" aria-hidden>
+          {[0, 1, 2, 3, 4].map((i) => (
+            <div key={i} className="skeleton-row" style={{ animationDelay: `${i * 0.08}s` }} />
+          ))}
+        </div>
+      )}
+      {ready && results.length === 0 && <p className="empty">No rule in our sources covers this address.</p>}
+
+      <LayoutGroup>
+        {SECTIONS.map((section) => {
+          const items = results.filter((r) => r.result === section.outcome);
+          if (!items.length) return null;
+          return (
+            <motion.section key={section.outcome} layout="position" className="status-section" transition={{ layout: SOFT_SPRING }}>
+              <div className="section-head">
+                <StatusIcon outcome={section.outcome} size={20} />
+                <h2>{section.title}</h2>
+                <motion.span
+                  key={items.length}
+                  className={`section-count count-${section.outcome}`}
+                  initial={{ scale: 0.5, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={SPRING}
+                >
+                  {items.length}
+                </motion.span>
+              </div>
+              <ul className="rows">
+                {items.map((result, index) => (
+                  <RuleRow
+                    key={result.ruleId}
+                    rule={rulesById.get(result.ruleId)!}
+                    result={result}
+                    index={index}
+                    onOpen={() => onRule(rulesById.get(result.ruleId)!, result)}
+                  />
+                ))}
+              </ul>
+            </motion.section>
+          );
+        })}
+      </LayoutGroup>
     </div>
   );
 }
@@ -544,48 +845,63 @@ function PropertyHeader({ property, asOf, scenario }: { property: PropertyRecord
   const units = resolveFact("units", facts, property.ranges, asOf);
   const year = facts.year_built;
   const city = "legal_city" in scenario ? (scenario.legal_city as string) || null : property.city;
+  const unitsText = units.kind === "missing" ? null : describeFact(units);
   return (
     <section className="property">
       <div>
-        <h1 className="property-address">{property.address}</h1>
-        <p className="property-place">
-          {city ?? property.postalCity}, {property.state} {plausibleZip(property)}
-        </p>
+        <Reveal>
+          <h1 className="property-address">{property.address}</h1>
+        </Reveal>
+        <Reveal i={1}>
+          <p className="property-place">
+            {city ?? property.postalCity}, {property.state} {plausibleZip(property)}
+          </p>
+        </Reveal>
       </div>
-      <dl className="facts">
-        <div className="fact" title={units.kind === "range" ? units.basis : undefined}>
-          <dt>Units</dt>
-          <dd>{units.kind === "missing" ? <span className="muted">Unknown</span> : describeFact(units)}</dd>
-          {units.kind === "range" && <small>from use code</small>}
-        </div>
-        <div className="fact">
-          <dt>Built</dt>
-          <dd>{year ? String(year) : <span className="muted">Unknown</span>}</dd>
-        </div>
-        <div className="fact" title={property.jurisdictionMethod}>
-          <dt>City</dt>
-          <dd>
-            {city ? (
-              <>
-                {city} <Check size={14} className="ok" />
-              </>
-            ) : (
-              <span className="muted">Not confirmed</span>
-            )}
-          </dd>
-          <small>
-            {!city
-              ? `mailed as ${property.postalCity}`
-              : /no local laws|outside any/.test(property.jurisdictionMethod)
-                ? "only state law loaded"
-                : "inside city limits"}
-          </small>
-        </div>
-      </dl>
+      <Reveal i={2}>
+        <dl className="facts">
+          <div className="fact" title={units.kind === "range" ? units.basis : undefined}>
+            <dt>Units</dt>
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.dd key={unitsText ?? "none"} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.2 }}>
+                {unitsText ?? <span className="muted">Unknown</span>}
+              </motion.dd>
+            </AnimatePresence>
+            {units.kind === "range" && <small>from use code</small>}
+          </div>
+          <div className="fact">
+            <dt>Built</dt>
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.dd key={String(year ?? "none")} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.2 }}>
+                {year ? String(year) : <span className="muted">Unknown</span>}
+              </motion.dd>
+            </AnimatePresence>
+          </div>
+          <div className="fact" title={property.jurisdictionMethod}>
+            <dt>City</dt>
+            <dd>
+              {city ? (
+                <>
+                  {city} <Check size={14} className="ok" />
+                </>
+              ) : (
+                <span className="muted">Not confirmed</span>
+              )}
+            </dd>
+            <small>
+              {!city
+                ? `mailed as ${property.postalCity}`
+                : /no local laws|outside any/.test(property.jurisdictionMethod)
+                  ? "only state law loaded"
+                  : "inside city limits"}
+            </small>
+          </div>
+        </dl>
+      </Reveal>
       {property.id.startsWith("ADDR-") && (
-        <p className="property-note">
+        <Reveal i={3} className="property-note">
           No assessor record for this address, so building facts start unknown. Answer the question below and the rules update.
-        </p>
+        </Reveal>
       )}
     </section>
   );
@@ -606,45 +922,72 @@ function EvidenceCard({
   useEffect(() => setIndex(0), [report.property.id]);
   const question = report.questions[Math.min(index, report.questions.length - 1)];
   const applies = (changes: { result: Outcome }[]) => changes.filter((c) => c.result === "applies").length;
+  const count = question.ruleIds.length;
   return (
     <section className="evidence">
       <div className="evidence-head">
-        <HelpCircle size={18} />
-        <span>One missing fact decides {question.ruleIds.length === 1 ? "a rule" : `${question.ruleIds.length} rules`} here</span>
+        <span className="evidence-kicker">One answer settles {count === 1 ? "a rule" : `${count} rules`}</span>
         {report.questions.length > 1 && (
           <div className="evidence-switch">
             {report.questions.map((q, i) => (
               <button key={q.id} className={i === index ? "active" : ""} onClick={() => setIndex(i)}>
+                {i === index && <motion.span layoutId="question-switch" className="switch-bg" transition={SPRING} />}
                 {q.label}
               </button>
             ))}
           </div>
         )}
       </div>
-      <h3 className="evidence-question">{question.question}</h3>
-      <div className="branches">
-        {question.branches.map((branch) => {
-          const count = applies(branch.changes);
-          return (
-            <button key={String(branch.value)} className="branch" onClick={() => onAnswer(question.field, branch.value)}>
-              <span className="branch-label">{branch.label}</span>
-              <span className="branch-result">
-                {count > 0
-                  ? `${count} of ${branch.changes.length} apply`
-                  : branch.changes.every((c) => c.result === "unknown")
-                    ? "Still unsettled"
-                    : `None of ${branch.changes.length} apply`}
-              </span>
-              <span className="branch-rules">
-                {branch.changes.map((change) => (
-                  <span key={change.ruleId} className={`dot dot-${change.result}`} title={`${rulesById.get(change.ruleId)?.title}: ${change.result.replace(/_/g, " ")}`} />
-                ))}
-              </span>
-              <ArrowRight size={16} className="branch-arrow" />
-            </button>
-          );
-        })}
-      </div>
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={question.id}
+          initial={{ opacity: 0, x: 12 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -12, transition: { duration: 0.12 } }}
+          transition={{ duration: 0.22, ease: EASE }}
+        >
+          <h3 className="evidence-question">{question.question}</h3>
+          <div className="branches">
+            {question.branches.map((branch, i) => {
+              const yes = applies(branch.changes);
+              return (
+                <motion.button
+                  key={String(branch.value)}
+                  className="branch"
+                  onClick={() => onAnswer(question.field, branch.value)}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.04 + i * 0.05, duration: 0.35, ease: EASE }}
+                  whileHover={{ y: -3 }}
+                  whileTap={{ scale: 0.97 }}
+                >
+                  <span className="branch-label">{branch.label}</span>
+                  <span className={`branch-result${yes > 0 ? " branch-yes" : ""}`}>
+                    {yes > 0
+                      ? `${yes} of ${branch.changes.length} apply`
+                      : branch.changes.every((c) => c.result === "unknown")
+                        ? "Still unsettled"
+                        : `None of ${branch.changes.length} apply`}
+                  </span>
+                  <span className="branch-rules">
+                    {branch.changes.map((change, d) => (
+                      <motion.span
+                        key={change.ruleId}
+                        className={`dot dot-${change.result}`}
+                        title={`${headlineOf(rulesById.get(change.ruleId)!)} (${change.result.replace(/_/g, " ")})`}
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ delay: 0.12 + i * 0.05 + d * 0.02, ...SPRING }}
+                      />
+                    ))}
+                  </span>
+                  <ArrowRight size={16} className="branch-arrow" />
+                </motion.button>
+              );
+            })}
+          </div>
+        </motion.div>
+      </AnimatePresence>
       {(question.field === "units" || question.field === "year_built") && (
         <form
           className="custom"
@@ -673,10 +1016,16 @@ function EvidenceCard({
               setCustomError("");
             }}
           />
-          <button className="button button-small" disabled={!custom.trim()}>
+          <motion.button className="button button-small" disabled={!custom.trim()} whileTap={{ scale: 0.95 }}>
             Apply
-          </button>
-          {customError && <span className="custom-error">{customError}</span>}
+          </motion.button>
+          <AnimatePresence>
+            {customError && (
+              <motion.span className="custom-error" initial={{ opacity: 0, x: -4 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }}>
+                {customError}
+              </motion.span>
+            )}
+          </AnimatePresence>
         </form>
       )}
       <p className="evidence-foot">
@@ -724,45 +1073,55 @@ function RuleDrawer({
   return (
     <Drawer onClose={onClose}>
       <div className="drawer-body">
-        <p className="eyebrow">
-          {categoryLabel(rule.category)} · {place(rule)}
-        </p>
-        <h2 className="drawer-title">{rule.title}</h2>
-        {result && (
+        <Reveal>
+          <p className="eyebrow">
+            {categoryLabel(rule.category)} · {place(rule)}
+          </p>
+          <h2 className="drawer-title">{headlineOf(rule)}</h2>
+          {rule.headline && <p className="drawer-official">{rule.title}</p>}
           <div className="drawer-status">
-            <Pill outcome={result.result} review={result.missingFacts.length === 0} />
-            <span>{result.explanation}</span>
+            {result ? (
+              <>
+                <Pill outcome={result.result} review={result.missingFacts.length === 0} />
+                <span>{result.explanation}</span>
+              </>
+            ) : (
+              <span className="pill pill-gray">{rule.status.replace(/_/g, " ")}</span>
+            )}
           </div>
-        )}
-        {!result && (
-          <div className="drawer-status">
-            <span className="pill pill-gray">{rule.status.replace(/_/g, " ")}</span>
-          </div>
-        )}
+        </Reveal>
 
-        <section className="block">
-          <h3>What it requires</h3>
+        <Reveal i={1} className="block">
+          <h3>What the law says</h3>
           <p>{rule.requirement}</p>
           {rule.keyValue && <p className="key-value">{rule.keyValue}</p>}
-        </section>
+        </Reveal>
 
         {result && result.trace.length > 0 && (
-          <section className="block">
+          <Reveal i={2} className="block">
             <h3>How we got there</h3>
             <ul className="trace">
               {result.trace.map((step, index) => (
-                <li key={index} className={`trace-${step.outcome}`}>
-                  <span className="trace-icon">{step.outcome === "pass" ? <Check size={13} /> : step.outcome === "fail" ? <X size={13} /> : "?"}</span>
+                <motion.li
+                  key={index}
+                  className={`trace-${step.outcome}`}
+                  initial={{ opacity: 0, x: -6 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.2 + index * 0.05, duration: 0.3, ease: EASE }}
+                >
+                  <span className="trace-icon">
+                    {step.outcome === "pass" ? <Check size={13} /> : step.outcome === "fail" ? <X size={13} /> : "?"}
+                  </span>
                   <span>
                     <strong>{step.label}.</strong> {step.detail}
                   </span>
-                </li>
+                </motion.li>
               ))}
             </ul>
-          </section>
+          </Reveal>
         )}
 
-        <section className="block">
+        <Reveal i={3} className="block">
           <h3>Source</h3>
           <blockquote className="quote">{rule.quotedSpan.replace(/\s+/g, " ").trim()}</blockquote>
           <p className="source-line">
@@ -776,14 +1135,20 @@ function RuleDrawer({
               </a>
             )}
           </p>
-          {doc?.retrievedAt && <p className="muted small">Retrieved {doc.retrievedAt.slice(0, 10)}. Quote checked word for word against the stored text.</p>}
-        </section>
+          {doc?.retrievedAt && (
+            <p className="muted small">Retrieved {doc.retrievedAt.slice(0, 10)}. Quote checked word for word against the stored text.</p>
+          )}
+        </Reveal>
 
-        <section className="block details">
+        <Reveal i={4} className="block details">
           <h3>Details</h3>
           <dl>
             <dt>Starts</dt>
-            <dd>{rule.effectiveDate ? formatDate(rule.effectiveDate.length === 10 ? rule.effectiveDate : `${rule.effectiveDate}-01`.slice(0, 10)) : "Not stated in the source"}</dd>
+            <dd>
+              {rule.effectiveDate
+                ? formatDate(rule.effectiveDate.length === 10 ? rule.effectiveDate : `${rule.effectiveDate}-01`.slice(0, 10))
+                : "Not stated in the source"}
+            </dd>
             {rule.endDate && (
               <>
                 <dt>Ends</dt>
@@ -825,7 +1190,7 @@ function RuleDrawer({
             <dt>Rule ID</dt>
             <dd className="mono">{rule.id}</dd>
           </dl>
-        </section>
+        </Reveal>
       </div>
     </Drawer>
   );
@@ -856,101 +1221,120 @@ function ChangesView({
       .then(setReport)
       .catch((err: Error) => setError(err.message));
   }, [changeId]);
-  const rows = (report?.properties ?? []).filter((p) =>
-    `${p.address} ${p.city ?? p.postalCity}`.toLowerCase().includes(query.toLowerCase()),
-  );
+  const rows = (report?.properties ?? []).filter((p) => `${p.address} ${p.city ?? p.postalCity}`.toLowerCase().includes(query.toLowerCase()));
   return (
     <div className="split">
       <nav className="side-list">
-        {boot.changes.map((change) => (
-          <button
+        {boot.changes.map((change, i) => (
+          <motion.button
             key={change.id}
             className={`side-item${change.id === changeId ? " side-item-active" : ""}`}
             onClick={() => onChange(change.id)}
+            initial={{ opacity: 0, x: -8 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: i * 0.04, duration: 0.35, ease: EASE }}
+            whileTap={{ scale: 0.98 }}
           >
+            {change.id === changeId && <motion.span layoutId="change-active" className="side-bg" transition={SPRING} />}
             <span className="side-id">{change.id}</span>
             <span className="side-title">{change.title}</span>
             <span className="side-tag">{change.status}</span>
-          </button>
+          </motion.button>
         ))}
       </nav>
       <section className="change">
         {error && <p className="error">{error}</p>}
-        {!report && !error && <p className="muted">Calculating…</p>}
-        {report && (
-          <>
-            <p className="eyebrow">
-              {report.id} · {report.status}
-            </p>
-            <h1 className="change-title">{report.title}</h1>
-            <p className="change-expect">{report.description}</p>
-            {report.beforeDate !== report.afterDate && (
-              <p className="dates">
-                {formatDate(report.beforeDate)} <ArrowRight size={14} /> {formatDate(report.afterDate)}
+        <AnimatePresence mode="wait">
+          {!report && !error ? (
+            <motion.div key="loading" className="center-block" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+              <Loader2 size={20} className="spin" />
+            </motion.div>
+          ) : report ? (
+            <motion.div key={report.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.25, ease: EASE }}>
+              <p className="eyebrow">
+                {report.id} · {report.status}
               </p>
-            )}
-            <div className="stats">
-              <div className="stat">
-                <span className="stat-number">{report.affectedAddressIds.length}</span>
-                <span className="stat-label">addresses affected</span>
-              </div>
-              {report.conflictAddressIds.length > 0 && (
+              <h1 className="change-title">{report.title}</h1>
+              <p className="change-expect">{report.description}</p>
+              {report.beforeDate !== report.afterDate && (
+                <p className="dates">
+                  {formatDate(report.beforeDate)} <ArrowRight size={14} /> {formatDate(report.afterDate)}
+                </p>
+              )}
+              <div className="stats">
                 <div className="stat">
-                  <span className="stat-number">{report.conflictAddressIds.length}</span>
-                  <span className="stat-label">flagged for a possible conflict</span>
+                  <span className="stat-number">
+                    <CountUp value={report.affectedAddressIds.length} />
+                  </span>
+                  <span className="stat-label">addresses affected</span>
+                </div>
+                {report.conflictAddressIds.length > 0 && (
+                  <div className="stat">
+                    <span className="stat-number stat-amber">
+                      <CountUp value={report.conflictAddressIds.length} />
+                    </span>
+                    <span className="stat-label">flagged for a possible conflict</span>
+                  </div>
+                )}
+                {report.unresolvedCount > 0 && (
+                  <div className="stat">
+                    <span className="stat-number stat-muted">
+                      <CountUp value={report.unresolvedCount} />
+                    </span>
+                    <span className="stat-label">couldn't be settled</span>
+                  </div>
+                )}
+              </div>
+              {report.ruleIds.length > 0 && (
+                <div className="rule-chips">
+                  {report.ruleIds.map((id) => {
+                    const rule = boot.rules.find((r) => r.id === id)!;
+                    return (
+                      <motion.button key={id} className="chip chip-button" onClick={() => onRule(rule)} whileHover={{ y: -1 }} whileTap={{ scale: 0.96 }}>
+                        {rule.citation}
+                      </motion.button>
+                    );
+                  })}
                 </div>
               )}
-              {report.unresolvedCount > 0 && (
-                <div className="stat">
-                  <span className="stat-number">{report.unresolvedCount}</span>
-                  <span className="stat-label">couldn't be settled</span>
-                </div>
-              )}
-            </div>
-            {report.ruleIds.length > 0 && (
-              <div className="rule-chips">
-                {report.ruleIds.map((id) => {
-                  const rule = boot.rules.find((r) => r.id === id)!;
-                  return (
-                    <button key={id} className="chip chip-button" onClick={() => onRule(rule)}>
-                      {rule.citation}
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-            {report.properties.length > 0 ? (
-              <>
-                <div className="table-tools">
-                  <h2 className="group-title">Affected addresses</h2>
-                  <input className="small-search" placeholder="Filter" value={query} onChange={(e) => setQuery(e.target.value)} />
-                </div>
-                <ul className="rows">
-                  {rows.slice(0, 200).map((p) => (
-                    <li key={p.id}>
-                      <button className="row row-compact" onClick={() => onAddress(p.id, report.afterDate)}>
-                        <span className="row-main">
-                          <span className="row-title">{p.address}</span>
-                        </span>
-                        <span className="row-meta">
-                          <span className="row-place">
-                            {p.city ?? p.postalCity}, {p.state}
+              {report.properties.length > 0 ? (
+                <>
+                  <div className="table-tools">
+                    <h2 className="group-title">Affected addresses</h2>
+                    <input className="small-search" placeholder="Filter" value={query} onChange={(e) => setQuery(e.target.value)} />
+                  </div>
+                  <ul className="rows">
+                    {rows.slice(0, 200).map((p, i) => (
+                      <motion.li
+                        key={p.id}
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: Math.min(i, 20) * 0.015, duration: 0.3, ease: EASE }}
+                      >
+                        <button className="row row-compact" onClick={() => onAddress(p.id, report.afterDate)}>
+                          <span className="row-main">
+                            <span className="row-title">{p.address}</span>
                           </span>
-                          {report.conflictAddressIds.includes(p.id) && <span className="pill pill-amber">Conflict</span>}
-                        </span>
-                        <ChevronRight size={16} className="row-chevron" />
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-                {rows.length > 200 && <p className="muted small">Showing 200 of {rows.length}. Export for the full list.</p>}
-              </>
-            ) : (
-              <p className="empty">No address is affected.</p>
-            )}
-            <p className="notes">{report.notes}</p>
-          </>
-        )}
+                          <span className="row-meta">
+                            <span className="row-place">
+                              {p.city ?? p.postalCity}, {p.state}
+                            </span>
+                            {report.conflictAddressIds.includes(p.id) && <span className="pill pill-amber">Conflict</span>}
+                          </span>
+                          <ChevronRight size={16} className="row-chevron" />
+                        </button>
+                      </motion.li>
+                    ))}
+                  </ul>
+                  {rows.length > 200 && <p className="muted small">Showing 200 of {rows.length}. Export for the full list.</p>}
+                </>
+              ) : (
+                <p className="empty">No address is affected.</p>
+              )}
+              <p className="notes">{report.notes}</p>
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
       </section>
     </div>
   );
@@ -964,8 +1348,7 @@ function SourcesView({ boot, onSource, onAdded }: { boot: Bootstrap; onSource: (
   const [adding, setAdding] = useState(false);
   const docs = boot.documents.filter(
     (doc) =>
-      (state === "All" || doc.jurisdiction.endsWith(state)) &&
-      `${doc.id} ${doc.title} ${doc.jurisdiction}`.toLowerCase().includes(query.toLowerCase()),
+      (state === "All" || doc.jurisdiction.endsWith(state)) && `${doc.id} ${doc.title} ${doc.jurisdiction}`.toLowerCase().includes(query.toLowerCase()),
   );
   return (
     <div className="sources">
@@ -976,48 +1359,50 @@ function SourcesView({ boot, onSource, onAdded }: { boot: Bootstrap; onSource: (
             {boot.stats.capturedSources} documents with text became {boot.rules.length} rules. Every rule quotes its source word for word.
           </p>
         </div>
-        <button className="button" onClick={() => setAdding(true)}>
+        <motion.button className="button" onClick={() => setAdding(true)} whileTap={{ scale: 0.96 }}>
           <Plus size={16} /> Add a law
-        </button>
+        </motion.button>
       </div>
       <div className="filters">
         {["All", "CA", "NJ", "MA"].map((value) => (
           <button key={value} className={`filter${state === value ? " filter-active" : ""}`} onClick={() => setState(value)}>
+            {state === value && <motion.span layoutId="source-filter" className="filter-bg" transition={SPRING} />}
             {value}
           </button>
         ))}
         <input className="small-search push" placeholder="Search sources" value={query} onChange={(e) => setQuery(e.target.value)} />
       </div>
-      <ul className="rows">
-        {docs.map((doc) => (
-          <li key={doc.id}>
-            <button className="row" onClick={() => onSource(doc.id)} disabled={doc.captureStatus === "link_only"}>
-              <span className="mono source-id">{doc.id}</span>
-              <span className="row-main">
-                <span className="row-title">{doc.title}</span>
-                <span className="row-sub">{doc.jurisdiction}</span>
-              </span>
-              <span className="row-meta">
-                {doc.captureStatus === "link_only" || doc.captureStatus === "capture_missing" ? (
-                  <span className="muted small">Link only</span>
-                ) : (
-                  <span className="row-value">{doc.ruleCount ? `${doc.ruleCount} ${doc.ruleCount === 1 ? "rule" : "rules"}` : "No rules"}</span>
-                )}
-              </span>
-              <ChevronRight size={16} className="row-chevron" />
-            </button>
-          </li>
-        ))}
-      </ul>
-      {adding && (
-        <AddLaw
-          boot={boot}
-          onClose={() => setAdding(false)}
-          onDone={() => {
-            onAdded();
-          }}
-        />
-      )}
+      <motion.ul className="rows" layout>
+        <AnimatePresence initial={true} mode="popLayout">
+          {docs.map((doc, i) => (
+            <motion.li
+              key={doc.id}
+              layout="position"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, transition: { duration: 0.12 } }}
+              transition={{ delay: Math.min(i, 15) * 0.015, duration: 0.3, ease: EASE, layout: SOFT_SPRING }}
+            >
+              <button className="row" onClick={() => onSource(doc.id)} disabled={doc.captureStatus === "link_only"}>
+                <span className="mono source-id">{doc.id}</span>
+                <span className="row-main">
+                  <span className="row-title">{doc.title}</span>
+                  <span className="row-sub">{doc.jurisdiction}</span>
+                </span>
+                <span className="row-meta">
+                  {doc.captureStatus === "link_only" || doc.captureStatus === "capture_missing" ? (
+                    <span className="muted small">Link only</span>
+                  ) : (
+                    <span className="row-value">{doc.ruleCount ? `${doc.ruleCount} ${doc.ruleCount === 1 ? "rule" : "rules"}` : "No rules"}</span>
+                  )}
+                </span>
+                <ChevronRight size={16} className="row-chevron" />
+              </button>
+            </motion.li>
+          ))}
+        </AnimatePresence>
+      </motion.ul>
+      <AnimatePresence>{adding && <AddLaw key="add-law" boot={boot} onClose={() => setAdding(false)} onDone={onAdded} />}</AnimatePresence>
     </div>
   );
 }
@@ -1066,38 +1451,49 @@ function SourceDrawer({
     if (!doc) return;
     const marks = textRef.current?.querySelectorAll("mark") ?? [];
     const target = [...marks].find((mark) => focus && mark.textContent === focus) ?? marks[0];
-    target?.scrollIntoView({ block: "center" });
+    // Wait for the drawer to finish sliding in before scrolling to the quote.
+    const timer = setTimeout(() => target?.scrollIntoView({ block: "center", behavior: reducedMotion() ? "auto" : "smooth" }), 350);
+    return () => clearTimeout(timer);
   }, [doc, focus]);
   const body = doc ? doc.text.replace(/^SOURCE:.*\n(RETRIEVED:.*\n)?/, "") : "";
   return (
     <Drawer onClose={onClose} wide>
       <div className="drawer-body">
-        <p className="eyebrow">
-          {id} · {doc?.jurisdiction}
-        </p>
-        <h2 className="drawer-title">{doc?.title ?? "Loading…"}</h2>
-        {doc && (
-          <p className="source-line">
-            {doc.retrievedAt && <span className="muted">Retrieved {doc.retrievedAt.slice(0, 10)}</span>}
-            {doc.url && (
-              <a className="link" href={doc.url} target="_blank" rel="noreferrer">
-                Original <ExternalLink size={13} />
-              </a>
-            )}
+        <Reveal>
+          <p className="eyebrow">
+            {id} · {doc?.jurisdiction}
           </p>
-        )}
+          <h2 className="drawer-title">{doc?.title ?? "Loading…"}</h2>
+          {doc && (
+            <p className="source-line">
+              {doc.retrievedAt && <span className="muted">Retrieved {doc.retrievedAt.slice(0, 10)}</span>}
+              {doc.url && (
+                <a className="link" href={doc.url} target="_blank" rel="noreferrer">
+                  Original <ExternalLink size={13} />
+                </a>
+              )}
+            </p>
+          )}
+        </Reveal>
         {rules.length > 0 && (
-          <div className="rule-chips">
+          <Reveal i={1} className="rule-chips">
             {rules.map((rule) => (
-              <button key={rule.id} className="chip chip-button" onClick={() => onRule(rule)}>
+              <motion.button key={rule.id} className="chip chip-button" onClick={() => onRule(rule)} whileHover={{ y: -1 }} whileTap={{ scale: 0.96 }}>
                 {categoryLabel(rule.category)} · {rule.citation}
-              </button>
+              </motion.button>
             ))}
-          </div>
+          </Reveal>
         )}
-        <div className="source-text" ref={textRef}>
-          {doc ? highlight(body, rules.filter((r) => r.sourceId === id).map((r) => r.quotedSpan)) : null}
-        </div>
+        <AnimatePresence>
+          {doc && (
+            <motion.div className="source-text" ref={textRef} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
+              {highlight(
+                body,
+                rules.filter((r) => r.sourceId === id).map((r) => r.quotedSpan),
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </Drawer>
   );
@@ -1112,6 +1508,7 @@ function AddLaw({ boot, onClose, onDone }: { boot: Bootstrap; onClose: () => voi
   const [error, setError] = useState("");
   const [result, setResult] = useState<{ rules: Rule[] } | null>(null);
   useEscape(onClose);
+  useScrollLock();
   const submit = async () => {
     setBusy(true);
     setError("");
@@ -1126,68 +1523,103 @@ function AddLaw({ boot, onClose, onDone }: { boot: Bootstrap; onClose: () => voi
     }
   };
   return (
-    <div className="overlay overlay-center" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
-      <div className="modal" role="dialog" aria-modal="true">
-        <button className="icon-button drawer-close" onClick={onClose} aria-label="Close">
+    <motion.div
+      className="overlay overlay-center"
+      onMouseDown={(event) => event.target === event.currentTarget && onClose()}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+    >
+      <motion.div
+        className="modal"
+        role="dialog"
+        aria-modal="true"
+        initial={{ opacity: 0, scale: 0.96, y: 12 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.97, y: 8 }}
+        transition={SOFT_SPRING}
+        layout
+      >
+        <motion.button className="icon-button drawer-close" onClick={onClose} aria-label="Close" whileTap={{ scale: 0.9 }}>
           <X size={18} />
-        </button>
+        </motion.button>
         <h2 className="drawer-title">Add a law</h2>
-        {!result ? (
-          <>
-            <p className="muted">Paste an ordinance or statute. It's read by the same pipeline as the corpus, then every address updates.</p>
-            <label className="field">
-              <span>Title</span>
-              <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Cambridge Ord. 2026-12" />
-            </label>
-            <div className="field-row">
+        <AnimatePresence mode="wait" initial={false}>
+          {!result ? (
+            <motion.div key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+              <p className="muted modal-lede">Paste an ordinance or statute. It's read by the same pipeline as the corpus, then every address updates.</p>
               <label className="field">
-                <span>Jurisdiction</span>
-                <input value={jurisdiction} onChange={(e) => setJurisdiction(e.target.value)} placeholder="CA, NJ, MA or City, ST" />
+                <span>Title</span>
+                <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Cambridge Ord. 2026-12" />
               </label>
+              <div className="field-row">
+                <label className="field">
+                  <span>Jurisdiction</span>
+                  <input value={jurisdiction} onChange={(e) => setJurisdiction(e.target.value)} placeholder="CA, NJ, MA or City, ST" />
+                </label>
+                <label className="field">
+                  <span>Link (optional)</span>
+                  <input value={url} onChange={(e) => setUrl(e.target.value)} placeholder="https://" />
+                </label>
+              </div>
               <label className="field">
-                <span>Link (optional)</span>
-                <input value={url} onChange={(e) => setUrl(e.target.value)} placeholder="https://" />
+                <span>Text</span>
+                <textarea value={text} onChange={(e) => setText(e.target.value)} rows={10} />
               </label>
-            </div>
-            <label className="field">
-              <span>Text</span>
-              <textarea value={text} onChange={(e) => setText(e.target.value)} rows={10} />
-            </label>
-            {error && <p className="error">{error}</p>}
-            <div className="modal-foot">
-              <span className="muted small">
-                {boot.liveModel
-                  ? `Uses Claude Haiku. $${boot.budget.remaining.toFixed(2)} of the $${boot.budget.limit} cap left.`
-                  : "No API key is configured, so extraction is unavailable."}
-              </span>
-              <button className="button" disabled={busy || !boot.liveModel || !title || text.length < 80} onClick={submit}>
-                {busy ? "Reading…" : "Extract rules"}
-              </button>
-            </div>
-          </>
-        ) : (
-          <>
-            <p className="muted">{result.rules.length === 1 ? "1 rule" : `${result.rules.length} rules`} extracted and added.</p>
-            <ul className="plain extracted">
-              {result.rules.map((rule) => (
-                <li key={rule.id}>
-                  <strong>{rule.title}</strong>
-                  <span className="muted small">
-                    {categoryLabel(rule.category)} · {rule.status.replace(/_/g, " ")}
-                    {rule.effectiveDate ? ` · starts ${rule.effectiveDate}` : ""}
-                  </span>
-                </li>
-              ))}
-            </ul>
-            <div className="modal-foot">
-              <span />
-              <button className="button" onClick={onClose}>
-                Done
-              </button>
-            </div>
-          </>
-        )}
-      </div>
-    </div>
+              <AnimatePresence>
+                {error && (
+                  <motion.p className="error" initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+                    {error}
+                  </motion.p>
+                )}
+              </AnimatePresence>
+              <div className="modal-foot">
+                <span className="muted small">
+                  {boot.liveModel
+                    ? `Uses Claude Haiku. $${boot.budget.remaining.toFixed(2)} of the $${boot.budget.limit} cap left.`
+                    : "No API key is configured, so extraction is unavailable."}
+                </span>
+                <motion.button
+                  className="button"
+                  disabled={busy || !boot.liveModel || !title || text.length < 80}
+                  onClick={submit}
+                  whileTap={{ scale: 0.96 }}
+                >
+                  {busy ? (
+                    <>
+                      <Loader2 size={16} className="spin" /> Reading
+                    </>
+                  ) : (
+                    "Extract rules"
+                  )}
+                </motion.button>
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div key="done" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, ease: EASE }}>
+              <p className="muted modal-lede">{result.rules.length === 1 ? "1 rule" : `${result.rules.length} rules`} extracted and added.</p>
+              <ul className="plain extracted">
+                {result.rules.map((rule, i) => (
+                  <motion.li key={rule.id} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 + i * 0.06 }}>
+                    <strong>{headlineOf(rule)}</strong>
+                    <span className="muted small">
+                      {categoryLabel(rule.category)} · {rule.status.replace(/_/g, " ")}
+                      {rule.effectiveDate ? ` · starts ${rule.effectiveDate}` : ""}
+                    </span>
+                  </motion.li>
+                ))}
+              </ul>
+              <div className="modal-foot">
+                <span />
+                <motion.button className="button" onClick={onClose} whileTap={{ scale: 0.96 }}>
+                  Done
+                </motion.button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </motion.div>
   );
 }

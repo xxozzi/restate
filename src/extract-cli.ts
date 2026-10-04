@@ -2,6 +2,7 @@
  * Paid, cached extraction over the corpus.  npm run extract [-- D024 D069 ...]
  * Every response is cached by exact text, so a rerun only pays for documents that changed.
  * --force D079 D027 re-asks those documents with the current prompt.
+ * --headlines pays only for missing plain-language headlines (documents replay from the cache).
  */
 import "dotenv/config";
 import { loadDataset } from "./data";
@@ -18,6 +19,7 @@ const { rules, report } = await extractDocuments(documents, {
   paid: true,
   force: process.argv.includes("--force") ? only : [],
   concurrency: Number(process.env.EXTRACT_CONCURRENCY || 4),
+  headlinesOnly: process.argv.includes("--headlines"),
   onProgress: (message) => console.log(message),
 });
 const after = await getBudgetStatus();
@@ -27,5 +29,5 @@ console.log(
 );
 if (report.pendingDocuments.length)
   console.log(`Not extracted: ${report.pendingDocuments.join(", ")}`);
-const rejected = report.warnings.filter((warning) => /Candidate \d+/.test(warning));
+const rejected = report.warnings.filter((warning) => /Candidate \d+|headline/.test(warning));
 if (rejected.length) console.log(`\n${rejected.length} candidate notes:\n${rejected.slice(0, 40).join("\n")}`);
