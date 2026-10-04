@@ -11,6 +11,8 @@ import { evaluateProperty } from "./evaluate";
 import { computeChange } from "./changes";
 import { exportChanges, exportEvidenceFixtures, exportLookups, exportRules, validateRules } from "./export";
 import { isField } from "./facts";
+import { GeocodeError, geocodeAddress, matchSample } from "./geocode";
+import type { PropertyRecord } from "./contracts";
 
 const app = express();
 const server = createServer(app);
@@ -52,7 +54,29 @@ function scenarioFacts(value: unknown): Facts {
   }
   return facts;
 }
-const property = (id: unknown) => dataset.properties.find((p) => p.id === id);
+// Addresses typed by users live only in memory; they are never part of the graded sample or exports.
+const entered = new Map<string, PropertyRecord>();
+const property = (id: unknown) => dataset.properties.find((p) => p.id === id) ?? entered.get(String(id));
+
+app.post("/api/geocode", async (req, res) => {
+  try {
+    const found = await geocodeAddress(String(req.body?.address ?? ""));
+    const sample = matchSample(found, dataset.properties);
+    if (sample) {
+      res.json(sample);
+      return;
+    }
+    entered.set(found.id, found);
+    res.json(found);
+  } catch (error) {
+    res.status(error instanceof GeocodeError ? error.status : 500).json({ error: (error as Error).message });
+  }
+});
+app.get("/api/properties/:id", (req, res) => {
+  const found = property(req.params.id);
+  if (!found) res.status(404).json({ error: "Unknown address." });
+  else res.json(found);
+});
 
 app.get("/api/bootstrap", async (_req, res) => {
   const counts = new Map<string, number>();

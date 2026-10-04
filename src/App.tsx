@@ -9,6 +9,7 @@ import {
   ExternalLink,
   FileText,
   HelpCircle,
+  MapPin,
   Plus,
   Search,
   X,
@@ -111,6 +112,7 @@ export default function App() {
   const [openRule, setOpenRule] = useState<{ rule: Rule; result?: RuleResult } | null>(null);
   const [openSource, setOpenSource] = useState<{ id: string; highlight?: string } | null>(null);
   const [asOf, setAsOf] = useState("");
+  const [entered, setEntered] = useState<Record<string, PropertyRecord>>({});
 
   const load = () =>
     api<Bootstrap>("/api/bootstrap")
@@ -130,6 +132,15 @@ export default function App() {
     setOpenRule(null);
     setOpenSource(null);
   }, [route]);
+
+  // A typed address survives a page reload while the server still remembers it.
+  useEffect(() => {
+    const id = route.id;
+    if (!boot || route.view !== "address" || !id?.startsWith("ADDR-") || entered[id]) return;
+    api<PropertyRecord>(`/api/properties/${id}`)
+      .then((found) => setEntered((current) => ({ ...current, [found.id]: found })))
+      .catch(() => setRoute({ view: "address" }));
+  }, [boot, route, entered]);
 
   if (error) return <div className="center-message">Couldn't load the data: {error}</div>;
   if (!boot) return <div className="center-message">Loading…</div>;
@@ -161,7 +172,14 @@ export default function App() {
         {route.view === "address" && (
           <AddressView
             boot={boot}
-            addressId={route.id && boot.properties.some((p) => p.id === route.id) ? route.id : boot.defaultAddressId}
+            property={
+              (route.id && (boot.properties.find((p) => p.id === route.id) ?? entered[route.id])) ||
+              boot.properties.find((p) => p.id === boot.defaultAddressId)!
+            }
+            onEntered={(found) => {
+              setEntered((current) => ({ ...current, [found.id]: found }));
+              go({ view: "address", id: found.id });
+            }}
             asOf={asOf || boot.defaultAsOf}
             setAsOf={setAsOf}
             onAddress={(id) => go({ view: "address", id })}
@@ -251,23 +269,52 @@ function ExportMenu({ asOf }: { asOf: string }) {
 
 /* ---------------- lookup ---------------- */
 
-function AddressSearch({ boot, value, onPick }: { boot: Bootstrap; value: PropertyRecord; onPick: (id: string) => void }) {
+function AddressSearch({
+  boot,
+  value,
+  onPick,
+  onEntered,
+}: {
+  boot: Bootstrap;
+  value: PropertyRecord;
+  onPick: (id: string) => void;
+  onEntered: (property: PropertyRecord) => void;
+}) {
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
   const [cursor, setCursor] = useState(0);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
   const matches = useMemo(() => {
-    const words = query.toLowerCase().split(/\s+/).filter(Boolean);
+    const words = query.toLowerCase().replace(/[,.#]/g, " ").split(/\s+/).filter(Boolean);
+    if (!words.length) return [];
     return boot.properties
       .filter((p) => {
         const text = `${p.address} ${p.city ?? p.postalCity} ${p.state} ${p.id}`.toLowerCase();
         return words.every((word) => text.includes(word));
       })
-      .slice(0, 8);
+      .slice(0, 6);
   }, [query, boot.properties]);
+  const canLookup = query.trim().length >= 6;
+  const total = matches.length + (canLookup ? 1 : 0);
   const pick = (id: string) => {
     onPick(id);
     setOpen(false);
     setQuery("");
+  };
+  const lookup = async () => {
+    setBusy(true);
+    setError("");
+    setOpen(false);
+    try {
+      const found = await api<PropertyRecord>("/api/geocode", { address: query });
+      setQuery("");
+      onEntered(found);
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setBusy(false);
+    }
   };
   return (
     <div className="search">
@@ -280,18 +327,23 @@ function AddressSearch({ boot, value, onPick }: { boot: Bootstrap; value: Proper
           setQuery(event.target.value);
           setOpen(true);
           setCursor(0);
+          setError("");
         }}
         onFocus={() => setOpen(true)}
         onBlur={() => setTimeout(() => setOpen(false), 120)}
         onKeyDown={(event) => {
-          if (event.key === "ArrowDown") setCursor(Math.min(cursor + 1, matches.length - 1));
+          if (event.key === "ArrowDown") setCursor(Math.min(cursor + 1, total - 1));
           else if (event.key === "ArrowUp") setCursor(Math.max(cursor - 1, 0));
-          else if (event.key === "Enter" && matches[cursor]) pick(matches[cursor].id);
-          else if (event.key === "Escape") setOpen(false);
+          else if (event.key === "Enter") {
+            if (matches[cursor]) pick(matches[cursor].id);
+            else if (canLookup) lookup();
+          } else if (event.key === "Escape") setOpen(false);
         }}
-        aria-label="Search the 500 sample addresses"
+        aria-label="Search the sample or type any address"
       />
-      {open && matches.length > 0 && (
+      {busy && <span className="search-status">Finding address…</span>}
+      {error && <p className="search-error">{error}</p>}
+      {open && total > 0 && (
         <ul className="search-results">
           {matches.map((p, index) => (
             <li key={p.id}>
@@ -307,6 +359,23 @@ function AddressSearch({ boot, value, onPick }: { boot: Bootstrap; value: Proper
               </button>
             </li>
           ))}
+          {canLookup && (
+            <li>
+              <button
+                className={`search-result search-any${cursor === matches.length ? " search-result-active" : ""}`}
+                onMouseDown={(event) => {
+                  event.preventDefault();
+                  lookup();
+                }}
+                onMouseEnter={() => setCursor(matches.length)}
+              >
+                <span>
+                  <MapPin size={15} /> Look up “{query.trim()}”
+                </span>
+                <small>Any address in CA, NJ or MA</small>
+              </button>
+            </li>
+          )}
         </ul>
       )}
     </div>
@@ -315,20 +384,23 @@ function AddressSearch({ boot, value, onPick }: { boot: Bootstrap; value: Proper
 
 function AddressView({
   boot,
-  addressId,
+  property,
+  onEntered,
   asOf,
   setAsOf,
   onAddress,
   onRule,
 }: {
   boot: Bootstrap;
-  addressId: string;
+  property: PropertyRecord;
+  onEntered: (property: PropertyRecord) => void;
   asOf: string;
   setAsOf: (date: string) => void;
   onAddress: (id: string) => void;
   onRule: (rule: Rule, result: RuleResult) => void;
 }) {
-  const property = boot.properties.find((p) => p.id === addressId)!;
+  const addressId = property.id;
+  const typed = addressId.startsWith("ADDR-");
   const [scenario, setScenario] = useState<Facts>({});
   const [report, setReport] = useState<LookupReport | null>(null);
   const [error, setError] = useState("");
@@ -359,7 +431,7 @@ function AddressView({
   return (
     <div className="lookup">
       <div className="lookup-bar">
-        <AddressSearch boot={boot} value={property} onPick={onAddress} />
+        <AddressSearch boot={boot} value={property} onPick={onAddress} onEntered={onEntered} />
         <label className="date-field">
           <span>As of</span>
           <input type="date" value={asOf} onChange={(event) => event.target.value && setAsOf(event.target.value)} />
@@ -370,7 +442,7 @@ function AddressView({
 
       {Object.keys(scenario).length > 0 && (
         <div className="whatif">
-          <span className="whatif-label">What-if</span>
+          <span className="whatif-label">{typed ? "Your answers" : "What-if"}</span>
           {Object.entries(scenario).map(([field, value]) => (
             <span key={field} className="chip">
               {labelFor(field)}: {formatFact(field, value)}
@@ -386,7 +458,9 @@ function AddressView({
               </button>
             </span>
           ))}
-          <span className="whatif-note">Not from the record. The original data is unchanged.</span>
+          <span className="whatif-note">
+            {typed ? "Entered by you, not from an official record." : "Not from the record. The original data is unchanged."}
+          </span>
           <button className="link" onClick={() => setScenario({})}>
             Reset
           </button>
@@ -499,9 +573,20 @@ function PropertyHeader({ property, asOf, scenario }: { property: PropertyRecord
               <span className="muted">Not confirmed</span>
             )}
           </dd>
-          <small>{city ? "inside city limits" : `mailed as ${property.postalCity}`}</small>
+          <small>
+            {!city
+              ? `mailed as ${property.postalCity}`
+              : /no local laws|outside any/.test(property.jurisdictionMethod)
+                ? "only state law loaded"
+                : "inside city limits"}
+          </small>
         </div>
       </dl>
+      {property.id.startsWith("ADDR-") && (
+        <p className="property-note">
+          No assessor record for this address, so building facts start unknown. Answer the question below and the rules update.
+        </p>
+      )}
     </section>
   );
 }
@@ -516,6 +601,8 @@ function EvidenceCard({
   onAnswer: (field: string, value: FactValue) => void;
 }) {
   const [index, setIndex] = useState(0);
+  const [custom, setCustom] = useState("");
+  const [customError, setCustomError] = useState("");
   useEffect(() => setIndex(0), [report.property.id]);
   const question = report.questions[Math.min(index, report.questions.length - 1)];
   const applies = (changes: { result: Outcome }[]) => changes.filter((c) => c.result === "applies").length;
@@ -558,6 +645,40 @@ function EvidenceCard({
           );
         })}
       </div>
+      {(question.field === "units" || question.field === "year_built") && (
+        <form
+          className="custom"
+          onSubmit={(event) => {
+            event.preventDefault();
+            const value = Number(custom);
+            const year = question.field === "year_built";
+            const ok = Number.isInteger(value) && (year ? value >= 1700 && value <= new Date().getFullYear() : value >= 1 && value <= 5000);
+            if (!ok) {
+              setCustomError(year ? "Enter a year like 1962." : "Enter a whole number of units.");
+              return;
+            }
+            setCustom("");
+            setCustomError("");
+            onAnswer(question.field, value);
+          }}
+        >
+          <label htmlFor="custom-value">{question.field === "units" ? "Know the exact count?" : "Know the exact year?"}</label>
+          <input
+            id="custom-value"
+            inputMode="numeric"
+            placeholder={question.field === "units" ? "e.g. 12" : "e.g. 1962"}
+            value={custom}
+            onChange={(event) => {
+              setCustom(event.target.value);
+              setCustomError("");
+            }}
+          />
+          <button className="button button-small" disabled={!custom.trim()}>
+            Apply
+          </button>
+          {customError && <span className="custom-error">{customError}</span>}
+        </form>
+      )}
       <p className="evidence-foot">
         <strong>Where to check:</strong> {question.suggestedEvidence}{" "}
         <a

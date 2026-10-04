@@ -17,6 +17,7 @@ type Truth = true | false | null;
 type PredicateResult = { value: Truth; missingFacts: string[]; trace: TraceStep[] };
 
 const unique = <T>(values: T[]): T[] => [...new Set(values)];
+const listOf = (items: string[]) => (items.length < 2 ? items.join("") : `${items.slice(0, -1).join(", ")} and ${items.at(-1)}`);
 const step = (label: string, detail: string, value: Truth): TraceStep => ({
   label,
   detail,
@@ -269,7 +270,7 @@ export function evaluateRule(
     return done(
       "unknown",
       coverage.missingFacts.length
-        ? `Depends on ${coverage.missingFacts.map((field) => labelFor(field).toLowerCase()).join(" and ")}.`
+        ? `Depends on ${listOf(coverage.missingFacts.map((field) => (field === "owner_occupied" ? "owner occupancy" : labelFor(field).toLowerCase())))}.`
         : "Coverage needs a human read of the source.",
       coverage.missingFacts,
     );

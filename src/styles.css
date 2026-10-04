@@ -237,3 +237,16 @@ p { margin: 0; }
   .drawer-body { padding: 24px 20px 40px; }
   .field-row { flex-direction: column; gap: 0; }
 }
+
+/* any-address lookup */
+.search-any { border-top: 1px solid var(--border); margin-top: 4px; border-radius: 0 0 8px 8px; }
+.search-any span { display: inline-flex; align-items: center; gap: 6px; color: var(--blue-dark); font-weight: 500; }
+.search-status { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 13px; }
+.search-error { position: absolute; left: 0; top: 54px; color: #b91c1c; font-size: 13.5px; }
+.property-note { flex-basis: 100%; color: var(--muted); font-size: 14px; margin-top: -8px; }
+.custom { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 14px; font-size: 14px; }
+.custom label { color: var(--muted); }
+.custom input { width: 110px; height: 34px; padding: 0 10px; border: 1px solid var(--border-strong); border-radius: 8px; background: white; }
+.custom input:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-soft); }
+.button-small { height: 34px; padding: 0 14px; font-size: 14px; }
+.custom-error { color: #b91c1c; font-size: 13px; }

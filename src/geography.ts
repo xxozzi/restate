@@ -76,7 +76,7 @@ const ORDINALS: Record<string, string> = {
   FIRST: "1ST", SECOND: "2ND", THIRD: "3RD", FOURTH: "4TH", FIFTH: "5TH",
   SIXTH: "6TH", SEVENTH: "7TH", EIGHTH: "8TH", NINTH: "9TH", TENTH: "10TH",
 };
-function streetTokens(address: string): string[] {
+export function streetTokens(address: string): string[] {
   return address
     .split(",")[0]
     .toUpperCase()
@@ -105,6 +105,12 @@ export function sameStreet(input: string, matched: string): boolean {
   const left = streetTokens(input);
   const right = streetTokens(matched);
   return left.length > 0 && left.some((token) => right.some((other) => close(token, other)));
+}
+
+/** The in-scope city whose boundary contains this point, if exactly one does. */
+export function cityAt(point: [number, number], state: string): string | null {
+  const inside = placesAt(point, state);
+  return inside.length === 1 ? inside[0].properties.BASENAME : null;
 }
 
 function placesAt(point: Point, state: string) {

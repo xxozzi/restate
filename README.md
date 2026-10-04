@@ -1,7 +1,7 @@
 # (R)estate
 
 **Which housing rules apply at this address today, and what is about to change?**
-(R)estate reads real state and city housing law, turns it into rules, and answers that question for each of the 500 sample addresses in the RealPage Rental Housing Law Navigator challenge. Every answer comes with its source. When an answer depends on a fact the record doesn't have, the tool says so and asks for it.
+(R)estate reads real state and city housing law, turns it into rules, and answers that question for each of the 500 sample addresses in the RealPage Rental Housing Law Navigator challenge, or for any address you type in California, New Jersey or Massachusetts. Every answer comes with its source. When an answer depends on a fact the record doesn't have, the tool says so and asks for it.
 
 *Not legal advice.*
 
@@ -18,7 +18,7 @@ The app starts without spending anything. Rules are rebuilt from the cached mode
 | Command | What it does |
 |---|---|
 | `npm run dev` | App and API on port 5173 |
-| `npm test` | 30 tests: evaluator logic, extraction checks, and the T1–T5 change tests on the real corpus |
+| `npm test` | 32 tests: evaluator logic, extraction checks, and the T1–T5 change tests on the real corpus |
 | `npm run export` | Writes `submission/rules.json`, `lookups.json`, `changes.json` and `validation.json` |
 | `npm run extract` | Paid. Sends any uncached document to Claude Haiku 4.5, within `ANTHROPIC_BUDGET_USD` (default $2) |
 
@@ -36,7 +36,8 @@ The app starts without spending anything. Rules are rebuilt from the cached mode
    - When the exact unit count is missing, the assessor's own use code still bounds it. For example, NJ class 4C means five or more units, and "APT 7-30 UNITS" means 7 to 30.
    - A certificate-of-occupancy cutoff is tested against the year built. A building built in the cutoff year stays unknown.
    - A state rule that says it yields to a stricter local ordinance is marked superseded where that ordinance applies. A state law that may preempt local bans is flagged for review.
-6. **Ask for the missing fact.** For every unresolved answer, the app finds the one fact that would settle it and shows what each plausible value would change, for example "Built 1979: 3 rules apply; Built 1981: none". These what-if cases can be saved as regression tests.
+6. **Any address.** Type an address that isn't in the sample and the Census geocoder finds it. The same city boundaries decide its legal city: inside one of the loaded cities, city and state rules are checked; anywhere else in the three states, only state law. With no assessor record, every building fact starts unknown, and step 7 asks for the ones that matter. Typing a sample building's address opens its assessor record instead.
+7. **Ask for the missing fact.** For every unresolved answer, the app finds the one fact that would settle it and shows what each plausible value would change, for example "Built 1979: 3 rules apply; Built 1981: none". These what-if cases can be saved as regression tests.
 
 ## Results (team-run checks, not an official score)
 
@@ -59,4 +60,5 @@ From `submission/validation.json`:
 - The extraction has not been reviewed by a lawyer, and some agency pages yield rules whose coverage reads "needs review".
 - 8 addresses can't be placed in a city (6 have no house number), so city rules show as unknown for them.
 - Rent-control coverage for San Francisco and Los Angeles depends on certificate-of-occupancy dates, which the record approximates by year built.
+- Typed addresses need an internet connection to reach the Census geocoder. They stay in memory only and are never part of the exports. Cities without loaded ordinances (Oakland, for example) get state law only, and the page says so.
 - `PROJECT_GUIDE.md` holds the team's working notes and decisions.

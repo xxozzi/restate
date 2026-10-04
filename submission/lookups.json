@@ -13291,7 +13291,7 @@
       {
         "team_rule_id": "NJ-DEP-01",
         "result": "unknown",
-        "explanation": "Depends on owner lives there.",
+        "explanation": "Depends on owner occupancy.",
         "conflict_flag": false
       },
       {
@@ -13309,7 +13309,7 @@
       {
         "team_rule_id": "NJ-SCREEN-02",
         "result": "unknown",
-        "explanation": "Depends on owner lives there.",
+        "explanation": "Depends on owner occupancy.",
         "conflict_flag": false
       },
       {
